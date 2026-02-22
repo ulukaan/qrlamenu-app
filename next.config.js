@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
     reactStrictMode: true,
-    output: 'standalone',
     poweredByHeader: false, // Güvenlik: X-Powered-By başlığını gizler
 
     // Build'de ESLint ve TypeScript hatalarını yoksay (production deploy için)
