@@ -54,3 +54,6 @@ yarn-error.log*
 # Prisma generated
 /app/generated/prisma
 prisma/migrations/*.sql.bak
+
+*.zip
+mesa-hostinger/
