@@ -1,0 +1,19 @@
+{
+    "menu": {
+        "search_placeholder": "Search products...",
+        "categories": "Categories",
+        "add_to_cart": "Add to Cart",
+        "cart_total": "Total",
+        "checkout": "Checkout",
+        "call_waiter": "Call Waiter",
+        "popular": "Popular",
+        "order_received": "Order received!",
+        "error_occurred": "An error occurred."
+    },
+    "admin": {
+        "dashboard": "Dashboard",
+        "orders": "Orders",
+        "analytics": "Analytics",
+        "settings": "Settings"
+    }
+}

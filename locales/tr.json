@@ -1,0 +1,19 @@
+{
+    "menu": {
+        "search_placeholder": "Ürünlerde ara...",
+        "categories": "Kategoriler",
+        "add_to_cart": "Sepete Ekle",
+        "cart_total": "Toplam",
+        "checkout": "Siparişi Tamamla",
+        "call_waiter": "Garson Çağır",
+        "popular": "Popüler",
+        "order_received": "Siparişiniz alındı!",
+        "error_occurred": "Hata oluştu."
+    },
+    "admin": {
+        "dashboard": "Gösterge Paneli",
+        "orders": "Siparişler",
+        "analytics": "Analizler",
+        "settings": "Ayarlar"
+    }
+}

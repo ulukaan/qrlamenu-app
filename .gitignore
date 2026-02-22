@@ -1,0 +1,56 @@
+# Bağımlılıklar
+node_modules/
+.pnp
+.pnp.js
+
+# Build çıktıları
+.next/
+out/
+build/
+dist/
+
+# Ortam değişkenleri (ASLA commit'leme!)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env.production
+
+# Debug & geçici scriptler (güvenlik: kök dizinde bırakmayın)
+debug-*.js
+check-*.js
+verify-*.js
+test-*.js
+create-*.js
+approve-*.js
+reset-*.js
+seed-*.js
+
+# Geçici HTML dosyaları
+*.html
+!public/**/*.html
+
+# OS dosyaları
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Loglar
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Prisma generated
+/app/generated/prisma
+prisma/migrations/*.sql.bak

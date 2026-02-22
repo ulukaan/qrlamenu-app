@@ -1,0 +1,301 @@
+generator client {
+  provider   = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model SuperAdmin {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role                     String    @default("SUPER_ADMIN")
+  emailVerified            DateTime?
+  verificationToken        String?   @unique
+  verificationTokenExpires DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  sessions                 Session[]
+}
+
+model SubscriptionPlan {
+  id          String   @id @default(cuid())
+  name        String   @unique
+  code        String   @unique
+  price       Float    @default(0)
+  branchLimit Int      @default(1)
+  tableLimit  Int      @default(10)
+  features    Json
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tenants     Tenant[]
+}
+
+model Tenant {
+  id             String           @id @default(cuid())
+  name           String
+  slug           String           @unique
+  customDomain   String?          @unique
+  logoUrl        String?
+  ownerEmail     String
+  status         TenantStatus     @default(ACTIVE)
+  theme          String           @default("LITE") // LITE, CLASSIC, MODERN, SIGNATURE
+  trialExpiresAt DateTime?
+  planId         String
+  settings       Json?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  categories     Category[]
+  orders         Order[]
+  products       Product[]
+  plan           SubscriptionPlan @relation(fields: [planId], references: [id])
+  users          User[]
+  waiterCalls    WaiterCall[]
+  transactions   Transaction[]
+  printAgents    PrintAgent[]
+  campaigns      Campaign[]
+
+  @@index([slug])
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String?
+  role                     UserRole  @default(ADMIN)
+  tenantId                 String
+  emailVerified            DateTime?
+  verificationToken        String?   @unique
+  verificationTokenExpires DateTime?
+  createdAt                DateTime  @default(now())
+  updatedAt                DateTime  @updatedAt
+  tenant                   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions                 Session[]
+
+  @@index([tenantId])
+}
+
+model Session {
+  id           String      @id @default(cuid())
+  userId       String?
+  superAdminId String?
+  token        String      @unique
+  expiresAt    DateTime
+  createdAt    DateTime    @default(now())
+  user         User?       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  superAdmin   SuperAdmin? @relation(fields: [superAdminId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([superAdminId])
+}
+
+model Category {
+  id        String    @id @default(cuid())
+  name      String
+  order     Int       @default(0)
+  imageUrl  String?
+  tenantId  String
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  products  Product[]
+
+  @@index([tenantId])
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  price       Float
+  imageUrl    String?
+  isAvailable Boolean  @default(true)
+  isPopular   Boolean  @default(false)
+  order       Int      @default(0)
+  categoryId  String
+  tenantId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+  @@index([categoryId])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  tableId     String?
+  totalAmount Float
+  status      OrderStatus @default(PENDING)
+  tenantId    String
+  items       Json
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  tenant      Tenant      @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+enum TenantStatus {
+  ACTIVE
+  SUSPENDED
+  EXPIRED
+  TRIAL
+}
+
+enum UserRole {
+  ADMIN
+  WAITER
+  KITCHEN
+}
+
+
+enum OrderStatus {
+  PENDING
+  PREPARING
+  SERVED
+  COMPLETED
+  CANCELLED
+}
+
+model Theme {
+  id          String   @id @default(cuid())
+  key         String   @unique // e.g. "MODERN", "CLASSIC"
+  name        String   // Display Name
+  description String?
+  previewUrl  String?
+  isPremium   Boolean  @default(false)
+  isActive    Boolean  @default(true)
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model WaiterCall {
+  id        String     @id @default(cuid())
+  tableId   String
+  status    CallStatus @default(PENDING)
+  tenantId  String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  tenant    Tenant     @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+enum CallStatus {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+model Transaction {
+  id            String            @id @default(cuid())
+  title         String            // e.g. "Premium Plan - 1 Month"
+  amount        Float
+  reward        String?           // e.g. "No Reward"
+  paymentMethod String            // e.g. "Stripe", "Iyzico", "Havale"
+  status        TransactionStatus @default(COMPLETED)
+  tenantId      String
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  tenant        Tenant            @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+enum TransactionStatus {
+  COMPLETED
+  PENDING
+  FAILED
+  CANCELLED
+}
+
+model SystemLog {
+  id        String   @id @default(cuid())
+  level     LogLevel @default(INFO)
+  message   String
+  category  String?  // e.g. "AUTH", "DATABASE", "SYSTEM"
+  createdAt DateTime @default(now())
+}
+
+enum LogLevel {
+  INFO
+  SUCCESS
+  WARNING
+  ERROR
+}
+
+model Lead {
+  id          String     @id @default(cuid())
+  name        String
+  restaurant  String?
+  email       String?
+  phone       String?
+  status      LeadStatus @default(PENDING)
+  notes       String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+enum LeadStatus {
+  PENDING
+  CONTACTED
+  CONVERTED
+  LOST
+}
+
+model SystemConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     Json
+  updatedAt DateTime @updatedAt
+}
+
+model PrintAgent {
+  id        String   @id @default(cuid())
+  tenantId  String
+  name      String
+  agentId   String   @unique
+  status    String   @default("OFFLINE") // ONLINE, OFFLINE
+  version   String?
+  latency   Int?     // ms
+  lastSeen  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  adminId      String?
+  adminEmail   String?
+  action       String   // e.g. "CREATE_TENANT", "DELETE_PRODUCT"
+  details      String?
+  ipAddress    String?
+  createdAt    DateTime @default(now())
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  title       String
+  content     String?
+  imageUrl    String?
+  isActive    Boolean  @default(true)
+  tenantId    String
+  startDate   DateTime?
+  endDate     DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@index([tenantId])
+}
