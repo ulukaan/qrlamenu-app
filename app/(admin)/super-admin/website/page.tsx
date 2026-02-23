@@ -42,21 +42,27 @@ const INITIAL_CONTENT = {
     ],
     pricing: [
         {
-            name: "Başlangıç", price: "₺490", period: "/ay",
-            desc: "Butik işletmeler ve tek şubeler için.",
-            features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+            name: "Başlangıç", price: "₺590", period: "/ay",
+            desc: "Butik kafe & tek şube için dijital menüye geçiş paketi.",
+            features: ["QR Menü (Mobil Optimize)", "Sınırsız Ürün Ekleme", "Masa Bazlı Sipariş Takibi", "Günlük Ciro Özeti", "Basit Satış Raporu", "1 Kullanıcı", "Standart Tema (1 adet)"],
             cta: "Ücretsiz Dene", highlight: false
         },
         {
-            name: "Profesyonel", price: "₺990", period: "/ay",
-            desc: "Büyüyen restoranlar için ideal çözüm.",
-            features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+            name: "Profesyonel", price: "₺1.290", period: "/ay",
+            desc: "Büyüyen restoranlar için operasyonel kontrol seti.",
+            features: ["Tüm Başlangıç Özellikleri", "Garson Çağrı Sistemi", "Ürün Bazlı Satış Analizi", "Saatlik Satış Grafiği", "Masa Doluluk Raporu", "Kampanya Banner Alanı", "WhatsApp Sipariş Yönlendirme", "6+ Premium Tema", "5 Kullanıcı", "Logo & Renk Özelleştirme"],
             cta: "Hemen Başla", highlight: true
         },
         {
-            name: "Kurumsal", price: "Özel", period: "",
-            desc: "Çok şubeli ve zincir restoranlar için.",
-            features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+            name: "Growth+", price: "₺1.990", period: "/ay",
+            desc: "Yoğun çalışan işletmeler için mini Restaurant OS.",
+            features: ["Tüm Profesyonel Özellikleri", "Stok Takibi (Ürün Düşümü)", "Rol Bazlı Yetkilendirme", "Çoklu Kasa Raporu", "Şube Açmaya Hazır Altyapı", "API Erişimi", "POS Entegrasyon Altyapısı", "Özel Kampanya Kurguları", "Öncelikli Destek"],
+            cta: "Bize Ulaşın", highlight: false
+        },
+        {
+            name: "Kurumsal", price: "₺3.990", period: "/ay",
+            desc: "Zincir & franchise yapılar için.",
+            features: ["Tüm Growth+ Özellikleri", "Sınırsız Şube", "Merkezi Dashboard (Tüm Şubeler)", "Şube Performans Karşılaştırma", "Özel Domain", "ERP / Muhasebe Entegrasyonu", "SLA Destek", "Özel Onboarding"],
             cta: "İletişime Geç", highlight: false
         },
     ],

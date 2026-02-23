@@ -28,21 +28,27 @@ const FEATURES = [
 
 const PRICING = [
     {
-        name: "Başlangıç", price: "₺490", period: "/ay",
-        desc: "Butik işletmeler ve tek şubeler için.",
-        features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+        name: "Başlangıç", price: "₺590", period: "/ay",
+        desc: "Butik kafe & tek şube için dijital menüye geçiş.",
+        features: ["QR Menü (Mobil Optimize)", "Sınırsız Ürün Ekleme", "Masa Bazlı Sipariş Takibi", "Günlük Ciro Özeti", "1 Kullanıcı"],
         cta: "Ücretsiz Dene", highlight: false
     },
     {
-        name: "Profesyonel", price: "₺990", period: "/ay",
-        desc: "Büyüyen restoranlar için ideal çözüm.",
-        features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+        name: "Profesyonel", price: "₺1.290", period: "/ay",
+        desc: "Büyüyen restoranlar için operasyonel kontrol seti.",
+        features: ["Tüm Başlangıç Özellikleri", "Garson Çağrı Sistemi", "Analizler & Kampanyalar", "6+ Premium Tema", "5 Kullanıcı"],
         cta: "Hemen Başla", highlight: true
     },
     {
+        name: "Growth+", price: "₺1.990", period: "/ay",
+        desc: "Yoğun çalışan işletmeler için.",
+        features: ["Stok Takibi", "Çoklu Kasa Raporu", "POS Entegrasyon Altyapısı", "Rol Bazlı Yetkilendirme", "Öncelikli Destek"],
+        cta: "Bize Ulaşın", highlight: false
+    },
+    {
         name: "Kurumsal", price: "Özel", period: "",
-        desc: "Çok şubeli ve zincir restoranlar için.",
-        features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+        desc: "Zincir & franchise yapılar için.",
+        features: ["Sınırsız Şube", "Merkezi Dashboard", "Şube Performans", "ERP / Muhasebe", "Özel Onboarding"],
         cta: "İletişime Geç", highlight: false
     },
 ];
@@ -486,21 +492,27 @@ export default function LandingPage() {
                         ],
                         pricing: [
                             {
-                                name: "Başlangıç", price: "₺490", period: "/ay",
-                                desc: "Butik işletmeler ve tek şubeler için.",
-                                features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+                                name: "Başlangıç", price: "₺590", period: "/ay",
+                                desc: "Butik kafe & tek şube için dijital menüye geçiş.",
+                                features: ["QR Menü (Mobil Optimize)", "Sınırsız Ürün Ekleme", "Masa Bazlı Sipariş Takibi", "Günlük Ciro Özeti", "1 Kullanıcı"],
                                 cta: "Ücretsiz Dene", highlight: false
                             },
                             {
-                                name: "Profesyonel", price: "₺990", period: "/ay",
-                                desc: "Büyüyen restoranlar için ideal çözüm.",
-                                features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+                                name: "Profesyonel", price: "₺1.290", period: "/ay",
+                                desc: "Büyüyen restoranlar için operasyonel kontrol seti.",
+                                features: ["Tüm Başlangıç Özellikleri", "Garson Çağrı Sistemi", "Analizler & Kampanyalar", "6+ Premium Tema", "5 Kullanıcı"],
                                 cta: "Hemen Başla", highlight: true
                             },
                             {
+                                name: "Growth+", price: "₺1.990", period: "/ay",
+                                desc: "Yoğun çalışan işletmeler için.",
+                                features: ["Stok Takibi", "Çoklu Kasa Raporu", "POS Entegrasyon Altyapısı", "Rol Bazlı Yetkilendirme", "Öncelikli Destek"],
+                                cta: "Bize Ulaşın", highlight: false
+                            },
+                            {
                                 name: "Kurumsal", price: "Özel", period: "",
-                                desc: "Çok şubeli ve zincir restoranlar için.",
-                                features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+                                desc: "Zincir & franchise yapılar için.",
+                                features: ["Sınırsız Şube", "Merkezi Dashboard", "Şube Performans", "ERP / Muhasebe", "Özel Onboarding"],
                                 cta: "İletişime Geç", highlight: false
                             }
                         ],
@@ -535,21 +547,27 @@ export default function LandingPage() {
                     ],
                     pricing: [
                         {
-                            name: "Başlangıç", price: "₺490", period: "/ay",
-                            desc: "Butik işletmeler ve tek şubeler için.",
-                            features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+                            name: "Başlangıç", price: "₺590", period: "/ay",
+                            desc: "Butik kafe & tek şube için dijital menüye geçiş.",
+                            features: ["QR Menü (Mobil Optimize)", "Sınırsız Ürün Ekleme", "Masa Bazlı Sipariş Takibi", "Günlük Ciro Özeti", "1 Kullanıcı"],
                             cta: "Ücretsiz Dene", highlight: false
                         },
                         {
-                            name: "Profesyonel", price: "₺990", period: "/ay",
-                            desc: "Büyüyen restoranlar için ideal çözüm.",
-                            features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+                            name: "Profesyonel", price: "₺1.290", period: "/ay",
+                            desc: "Büyüyen restoranlar için operasyonel kontrol seti.",
+                            features: ["Tüm Başlangıç Özellikleri", "Garson Çağrı Sistemi", "Analizler & Kampanyalar", "6+ Premium Tema", "5 Kullanıcı"],
                             cta: "Hemen Başla", highlight: true
                         },
                         {
+                            name: "Growth+", price: "₺1.990", period: "/ay",
+                            desc: "Yoğun çalışan işletmeler için.",
+                            features: ["Stok Takibi", "Çoklu Kasa Raporu", "POS Entegrasyon Altyapısı", "Rol Bazlı Yetkilendirme", "Öncelikli Destek"],
+                            cta: "Bize Ulaşın", highlight: false
+                        },
+                        {
                             name: "Kurumsal", price: "Özel", period: "",
-                            desc: "Çok şubeli ve zincir restoranlar için.",
-                            features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+                            desc: "Zincir & franchise yapılar için.",
+                            features: ["Sınırsız Şube", "Merkezi Dashboard", "Şube Performans", "ERP / Muhasebe", "Özel Onboarding"],
                             cta: "İletişime Geç", highlight: false
                         }
                     ],

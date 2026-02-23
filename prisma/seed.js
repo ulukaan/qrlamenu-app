@@ -25,15 +25,26 @@ async function main() {
     console.log('✅ Veritabanı tamamen sıfırlandı.')
 
     // 2. Abonelik Planı
-    console.log('📦 Premium Plan oluşturuluyor...')
-    const premiumPlan = await prisma.subscriptionPlan.create({
+    console.log('📦 Profesyonel Plan oluşturuluyor...')
+    const proPlan = await prisma.subscriptionPlan.create({
         data: {
-            name: 'Premium',
-            code: 'premium',
-            price: 999,
-            branchLimit: 10,
-            tableLimit: 100,
-            features: ['Her Şey Dahil']
+            name: 'Profesyonel',
+            code: 'pro',
+            price: 1290,
+            branchLimit: 1,
+            tableLimit: 999,
+            features: [
+                'Tüm Başlangıç Özellikleri',
+                'Garson Çağrı Sistemi',
+                'Ürün Bazlı Satış Analizi',
+                'Saatlik Satış Grafiği',
+                'Masa Doluluk Raporu',
+                'Kampanya Banner Alanı',
+                'WhatsApp Sipariş Yönlendirme',
+                '6+ Premium Tema',
+                '5 Kullanıcı',
+                'Logo & Renk Özelleştirme'
+            ]
         }
     })
 
@@ -56,7 +67,7 @@ async function main() {
             slug: 'qrlamenu-premium', // Yeni slug
             ownerEmail: 'restoran@qrlamenu.com',
             logoUrl: 'https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?w=200&h=200&fit=crop',
-            planId: premiumPlan.id,
+            planId: proPlan.id,
             theme: 'MODERN',
             status: 'ACTIVE',
             users: {

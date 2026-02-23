@@ -6,45 +6,73 @@ async function main() {
 
     const plans = [
         {
-            name: 'Ücretsiz (Deneme)',
-            code: 'free',
-            price: 0,
-            branchLimit: 1,
-            tableLimit: 5,
-            features: [
-                'Temel QR Menü',
-                '1 Adet Şube',
-                '5 Masa Limiti',
-                'Standart Destek'
-            ]
-        },
-        {
-            name: 'Başlangıç (Starter)',
+            name: 'Başlangıç',
             code: 'starter',
-            price: 299,
+            price: 590,
             branchLimit: 1,
-            tableLimit: 20,
+            tableLimit: 999, // Sınırsız
             features: [
-                'Gelişmiş QR Menü',
-                '1 Adet Şube',
-                '20 Masa Limiti',
-                'Öncelikli Destek',
-                'Özel Tema Seçimi'
+                'QR Menü (Mobil Optimize)',
+                'Sınırsız Ürün Ekleme',
+                'Masa Bazlı Sipariş Takibi',
+                'Günlük Ciro Özeti',
+                'Basit Satış Raporu',
+                '1 Kullanıcı',
+                'Standart Tema (1 adet)'
             ]
         },
         {
-            name: 'Profesyonel (Pro)',
+            name: 'Profesyonel',
             code: 'pro',
-            price: 599,
-            branchLimit: 3,
-            tableLimit: 100,
+            price: 1290,
+            branchLimit: 1,
+            tableLimit: 999,
             features: [
-                'Sınırsız QR Menü',
-                '3 Adet Şube Yönetimi',
-                '100 Masa Limiti',
-                '7/24 Teknik Destek',
-                'Garson Çağırma Sistemi',
-                'Gelişmiş İstatistikler'
+                'Tüm Başlangıç Özellikleri',
+                'Garson Çağrı Sistemi',
+                'Ürün Bazlı Satış Analizi',
+                'Saatlik Satış Grafiği',
+                'Masa Doluluk Raporu',
+                'Kampanya Banner Alanı',
+                'WhatsApp Sipariş Yönlendirme',
+                '6+ Premium Tema',
+                '5 Kullanıcı',
+                'Logo & Renk Özelleştirme'
+            ]
+        },
+        {
+            name: 'Growth+',
+            code: 'growth',
+            price: 1990,
+            branchLimit: 1, // Şube açmaya hazır altyapı
+            tableLimit: 999,
+            features: [
+                'Tüm Profesyonel Özellikleri',
+                'Stok Takibi (Ürün Düşümü)',
+                'Rol Bazlı Yetkilendirme',
+                'Çoklu Kasa Raporu',
+                'Şube Açmaya Hazır Altyapı',
+                'API Erişimi',
+                'POS Entegrasyon Altyapısı',
+                'Özel Kampanya Kurguları',
+                'Öncelikli Destek'
+            ]
+        },
+        {
+            name: 'Kurumsal',
+            code: 'enterprise',
+            price: 3990,
+            branchLimit: 999, // Sınırsız Şube
+            tableLimit: 999,
+            features: [
+                'Tüm Growth+ Özellikleri',
+                'Sınırsız Şube',
+                'Merkezi Dashboard (Tüm Şubeler)',
+                'Şube Performans Karşılaştırma',
+                'Özel Domain',
+                'ERP / Muhasebe Entegrasyonu',
+                'SLA Destek',
+                'Özel Onboarding'
             ]
         }
     ];
