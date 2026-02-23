@@ -182,9 +182,10 @@ export default function SuperAdminRestoranlar() {
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Abonelik Paketi</label>
                                 <select style={{ width: '100%', padding: '14px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#f9fafb', fontSize: '0.9rem', fontWeight: '800', color: '#111827', outline: 'none', cursor: 'pointer' }} className="focus:border-orange-400">
                                     <option>Tüm Paketler</option>
-                                    <option>Starter Plan</option>
-                                    <option>Business Pro</option>
-                                    <option>Enterprise Premium</option>
+                                    <option>Başlangıç (Starter)</option>
+                                    <option>Profesyonel (Pro)</option>
+                                    <option>Growth+</option>
+                                    <option>Kurumsal (Enterprise)</option>
                                 </select>
                             </div>
                             <button style={{ width: '100%', padding: '16px', background: '#0f172a', color: '#fff', border: 'none', borderRadius: '14px', fontSize: '0.9rem', fontWeight: '900', cursor: 'pointer', marginTop: '10px', boxShadow: '0 10px 15px -3px rgba(15, 23, 42, 0.2)', transition: 'all 0.2s' }} className="hover:bg-slate-800">
