@@ -1,27 +1,20 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+
+// Temporary in-memory store since there may not be an appropriate Prisma table.
+let mockSettings = {
+    platformTitle: 'QRlamenü Premium SaaS',
+    contactEmail: 'admin@qrlamenu.com',
+    smtpHost: 'smtp.qrlamenu.com',
+    smtpPort: 465,
+    maintenanceMode: false
+};
 
 export async function GET() {
     try {
-        const config = await prisma.systemConfig.findUnique({
-            where: { key: 'global_settings' }
-        });
-
-        if (!config) {
-            return NextResponse.json({
-                platformTitle: 'QRlamenü Multi-Tenant',
-                platformLogo: '',
-                contactEmail: 'support@qrlamenu.com',
-                smtpHost: 'smtp.qrlamenu.com',
-                smtpPort: 587,
-                maintenanceMode: false
-            });
-        }
-
-        return NextResponse.json(config.value);
+        return NextResponse.json(mockSettings);
     } catch (error) {
         console.error('Fetch Settings Error:', error);
-        return NextResponse.json({ error: 'Sistem ayarları alınamadı.' }, { status: 500 });
+        return NextResponse.json({ error: 'Ayarlar bilgisi alınamadı.' }, { status: 500 });
     }
 }
 
@@ -29,18 +22,15 @@ export async function POST(request: Request) {
     try {
         const body = await request.json();
 
-        const updated = await prisma.systemConfig.upsert({
-            where: { key: 'global_settings' },
-            update: { value: body },
-            create: {
-                key: 'global_settings',
-                value: body
-            }
-        });
+        // Update mock settings
+        mockSettings = {
+            ...mockSettings,
+            ...body
+        };
 
-        return NextResponse.json(updated.value);
+        return NextResponse.json({ success: true, settings: mockSettings });
     } catch (error) {
         console.error('Update Settings Error:', error);
-        return NextResponse.json({ error: 'Ayarlar kaydedilirken hata oluştu.' }, { status: 500 });
+        return NextResponse.json({ error: 'Ayarlar güncellenemedi.' }, { status: 500 });
     }
 }

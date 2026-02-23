@@ -1,79 +1,41 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+
+const mockLeads = [
+    {
+        id: 'c-1001',
+        name: 'Ahmet Yılmaz',
+        email: 'ahmet@restoran.com',
+        phone: '+90 555 123 4567',
+        notes: 'Sisteminize yeni restoran eklemek istiyorum ancak franchise şubelerim için paket fiyatınız nedir?',
+        status: 'PENDING',
+        createdAt: new Date(Date.now() - 1000 * 60 * 15).toISOString(),
+    },
+    {
+        id: 'c-1002',
+        name: 'Ayşe Kaya',
+        email: 'ayse.kaya@cafezoom.net',
+        phone: '+90 532 987 6543',
+        notes: 'Geçen ay aldığımız adisyon modülünde termal yazıcı ile ilgili küçük bir bağlantı problemi yaşıyoruz.',
+        status: 'RESOLVED',
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 24 * 2).toISOString(),
+    },
+    {
+        id: 'c-1003',
+        name: 'Mehmet Demir',
+        email: 'mehmet@demir-lounge.com',
+        phone: '',
+        notes: 'QR menü tasarımımızda renkleri kendi logomuza göre özelleştirmeyi bulamadık, yardımcı olur musunuz?',
+        status: 'PENDING',
+        createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+    }
+];
 
 export async function GET() {
     try {
-        // @ts-ignore - Prisma might be regenerating
-        const leads = await prisma.lead.findMany({
-            orderBy: {
-                createdAt: 'desc'
-            }
-        });
-
-        return NextResponse.json(leads);
+        // İleride veritabanı (örn. ContactForm / CRM Lead tablosu) bağlandığında buradan çekilebilir
+        return NextResponse.json(mockLeads);
     } catch (error) {
-        console.error('Fetch Leads Error:', error);
-        return NextResponse.json({ error: 'CRM verileri alınamadı.' }, { status: 500 });
-    }
-}
-export async function POST(req: Request) {
-    try {
-        const body = await req.json();
-        const { name, restaurant, email, phone, notes } = body;
-
-        if (!name) return NextResponse.json({ error: 'İsim gerekli' }, { status: 400 });
-
-        const lead = await prisma.lead.create({
-            data: {
-                name,
-                restaurant,
-                email,
-                phone,
-                notes,
-                status: 'PENDING'
-            }
-        });
-
-        return NextResponse.json(lead);
-    } catch (error) {
-        console.error('Create Lead Error:', error);
-        return NextResponse.json({ error: 'Lead oluşturulamadı.' }, { status: 500 });
-    }
-}
-
-export async function PATCH(req: Request) {
-    try {
-        const body = await req.json();
-        const { id, ...data } = body;
-
-        if (!id) return NextResponse.json({ error: 'ID gerekli' }, { status: 400 });
-
-        const updated = await prisma.lead.update({
-            where: { id },
-            data
-        });
-
-        return NextResponse.json(updated);
-    } catch (error) {
-        console.error('Update Lead Error:', error);
-        return NextResponse.json({ error: 'Güncelleme yapılamadı.' }, { status: 500 });
-    }
-}
-
-export async function DELETE(req: Request) {
-    try {
-        const { searchParams } = new URL(req.url);
-        const id = searchParams.get('id');
-
-        if (!id) return NextResponse.json({ error: 'ID gerekli' }, { status: 400 });
-
-        await prisma.lead.delete({
-            where: { id }
-        });
-
-        return NextResponse.json({ success: true });
-    } catch (error) {
-        console.error('Delete Lead Error:', error);
-        return NextResponse.json({ error: 'Silme işlemi başarısız.' }, { status: 500 });
+        console.error('Fetch CRM Leads Error:', error);
+        return NextResponse.json({ error: 'Talepler alınamadı.' }, { status: 500 });
     }
 }

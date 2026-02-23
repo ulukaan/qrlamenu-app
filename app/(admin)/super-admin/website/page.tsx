@@ -225,16 +225,16 @@ export default function WebsiteManagementPage() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handleReset}
-                            className="bg-white text-slate-600 px-5 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-slate-50 transition-all border border-slate-200"
+                            className="bg-white text-slate-600 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-slate-50 transition-all border border-slate-200"
                         >
-                            <RefreshCcw size={18} /> Varsayılana Dön
+                            <RefreshCcw size={16} /> Varsayılana Dön
                         </button>
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="bg-orange-600 text-white px-8 py-3 rounded-2xl font-bold flex items-center gap-2 hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/20 disabled:opacity-50"
+                            className="bg-orange-600 text-white px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/20 disabled:opacity-50"
                         >
-                            {saving ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
+                            {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
                             {saving ? 'Güncelleniyor...' : 'Yayına Al'}
                         </button>
                     </div>
@@ -244,22 +244,22 @@ export default function WebsiteManagementPage() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className={`p-5 rounded-3xl mb-8 flex items-center gap-4 border shadow-sm ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}
+                        className={`p-4 rounded-2xl mb-6 flex items-center gap-3 border shadow-sm ${message.type === 'success' ? 'bg-emerald-50 text-emerald-700 border-emerald-100' : 'bg-red-50 text-red-700 border-red-100'}`}
                     >
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${message.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
-                            {message.type === 'success' ? <Check size={20} /> : <AlertCircle size={20} />}
+                        <div className={`w-8 h-8 rounded-full flex items-center justify-center ${message.type === 'success' ? 'bg-emerald-500 text-white' : 'bg-red-500 text-white'}`}>
+                            {message.type === 'success' ? <Check size={16} /> : <AlertCircle size={16} />}
                         </div>
-                        <span className="font-bold">{message.text}</span>
+                        <span className="font-bold text-sm">{message.text}</span>
                     </motion.div>
                 )}
 
-                <div className="grid lg:grid-cols-[1fr_400px] gap-8 items-start">
+                <div className="grid lg:grid-cols-[1fr_400px] gap-6 items-start">
 
                     {/* Left Side: Editor */}
-                    <div className="bg-white border border-slate-100 rounded-[32px] overflow-hidden shadow-sm flex flex-col">
+                    <div className="bg-white border border-slate-100 rounded-3xl overflow-hidden shadow-sm flex flex-col">
 
                         {/* Tabs Navigation */}
-                        <div className="flex border-b border-slate-50 bg-slate-50/50 p-2 gap-1">
+                        <div className="flex border-b border-slate-50 bg-slate-50/50 p-1.5 gap-1 overflow-x-auto hide-scrollbar">
                             {[
                                 { id: "branding", label: "Branding", icon: Layout },
                                 { id: "hero", label: "Hero Alanı", icon: Globe },
@@ -272,16 +272,16 @@ export default function WebsiteManagementPage() {
                                 <button
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id)}
-                                    className={`flex-1 py-3 px-4 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition-all ${activeTab === tab.id ? 'bg-white text-orange-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
+                                    className={`flex-1 min-w-max py-2.5 px-3 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 transition-all ${activeTab === tab.id ? 'bg-white text-orange-600 shadow-sm' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'}`}
                                 >
-                                    <tab.icon size={16} />
+                                    <tab.icon size={14} />
                                     {tab.label}
                                 </button>
                             ))}
                         </div>
 
                         {/* Editor Content */}
-                        <div className="p-8">
+                        <div className="p-6">
                             <AnimatePresence mode="wait">
                                 <motion.div
                                     key={activeTab}
@@ -342,8 +342,8 @@ export default function WebsiteManagementPage() {
                                         <div className="space-y-6">
                                             <div className="grid md:grid-cols-2 gap-4">
                                                 {(content.stats || []).map((stat, idx) => (
-                                                    <div key={idx} className="bg-slate-50/50 p-6 rounded-[24px] border border-slate-100 flex flex-col gap-4">
-                                                        <div className="flex flex-col gap-2">
+                                                    <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-3">
+                                                        <div className="flex flex-col gap-1.5">
                                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DEĞER (Value)</label>
                                                             <input
                                                                 value={stat.value}
@@ -352,11 +352,11 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].value = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="p-3 rounded-xl border border-slate-100 bg-white font-black text-slate-800 text-xl"
+                                                                className="p-2.5 rounded-lg border border-slate-100 bg-white font-black text-slate-800 text-lg"
                                                                 placeholder="5.000+"
                                                             />
                                                         </div>
-                                                        <div className="flex flex-col gap-2">
+                                                        <div className="flex flex-col gap-1.5">
                                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ETİKET (Label)</label>
                                                             <input
                                                                 value={stat.label}
@@ -365,7 +365,7 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].label = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="p-3 rounded-xl border border-slate-100 bg-white font-bold text-slate-600"
+                                                                className="p-2.5 rounded-lg border border-slate-100 bg-white font-bold text-slate-600 text-sm"
                                                                 placeholder="Aktif Restoran"
                                                             />
                                                         </div>
@@ -379,28 +379,28 @@ export default function WebsiteManagementPage() {
                                         <div className="space-y-6">
                                             <div className="grid md:grid-cols-2 gap-4">
                                                 {content.features.map((feature, idx) => (
-                                                    <div key={idx} className="bg-slate-50/50 p-6 rounded-[24px] border border-slate-100 relative group">
+                                                    <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 relative group">
                                                         <button
                                                             onClick={() => {
                                                                 const newF = [...content.features];
                                                                 newF.splice(idx, 1);
                                                                 setContent({ ...content, features: newF });
                                                             }}
-                                                            className="absolute -top-2 -right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                                                            className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10"
                                                         >
-                                                            <Trash2 size={14} />
+                                                            <Trash2 size={12} />
                                                         </button>
-                                                        <div className="flex flex-col gap-4">
+                                                        <div className="flex flex-col gap-3">
                                                             <div className="flex items-center gap-3">
                                                                 {/* Icon Selector Button */}
                                                                 <div className="relative group/icon">
-                                                                    <div className="w-12 h-12 bg-white rounded-xl border border-slate-100 flex items-center justify-center text-orange-600 cursor-pointer shadow-sm">
+                                                                    <div className="w-10 h-10 bg-white rounded-lg border border-slate-100 flex items-center justify-center text-orange-600 cursor-pointer shadow-sm">
                                                                         {(() => {
                                                                             const IconComp = ICON_LIST.find(i => i.name === feature.icon)?.icon || QrCode;
-                                                                            return <IconComp size={22} />;
+                                                                            return <IconComp size={18} />;
                                                                         })()}
                                                                     </div>
-                                                                    <div className="absolute top-full left-0 mt-2 bg-white border border-slate-100 rounded-2xl shadow-2xl p-3 grid grid-cols-4 gap-2 z-20 opacity-0 pointer-events-none group-focus-within/icon:opacity-100 group-focus-within/icon:pointer-events-auto transition-all w-[200px]">
+                                                                    <div className="absolute top-full left-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl p-2 grid grid-cols-4 gap-1.5 z-20 opacity-0 pointer-events-none group-focus-within/icon:opacity-100 group-focus-within/icon:pointer-events-auto transition-all w-[180px]">
                                                                         {ICON_LIST.map(ic => (
                                                                             <button
                                                                                 key={ic.name}
@@ -409,9 +409,9 @@ export default function WebsiteManagementPage() {
                                                                                     newF[idx].icon = ic.name;
                                                                                     setContent({ ...content, features: newF });
                                                                                 }}
-                                                                                className={`p-2 rounded-lg hover:bg-orange-50 hover:text-orange-600 transition-colors ${feature.icon === ic.name ? 'bg-orange-600 text-white' : 'text-slate-400'}`}
+                                                                                className={`p-1.5 rounded-md hover:bg-orange-50 hover:text-orange-600 transition-colors flex justify-center items-center ${feature.icon === ic.name ? 'bg-orange-600 text-white' : 'text-slate-400'}`}
                                                                             >
-                                                                                <ic.icon size={18} />
+                                                                                <ic.icon size={16} />
                                                                             </button>
                                                                         ))}
                                                                     </div>
@@ -423,7 +423,7 @@ export default function WebsiteManagementPage() {
                                                                         newF[idx].title = e.target.value;
                                                                         setContent({ ...content, features: newF });
                                                                     }}
-                                                                    className="flex-1 bg-transparent border-b border-transparent focus:border-orange-600 outline-none text-base font-black text-slate-800"
+                                                                    className="flex-1 bg-transparent border-b border-transparent focus:border-orange-600 outline-none text-sm font-black text-slate-800"
                                                                     placeholder="Özellik Başlığı"
                                                                 />
                                                             </div>
@@ -434,7 +434,7 @@ export default function WebsiteManagementPage() {
                                                                     newF[idx].desc = e.target.value;
                                                                     setContent({ ...content, features: newF });
                                                                 }}
-                                                                className="bg-white/50 p-3 rounded-xl border border-slate-100 text-xs text-slate-500 font-medium min-h-[70px] outline-none focus:border-orange-600"
+                                                                className="bg-white/50 p-2.5 rounded-lg border border-slate-100 text-xs text-slate-500 font-medium min-h-[60px] outline-none focus:border-orange-600"
                                                                 placeholder="Özellik açıklaması..."
                                                             />
                                                         </div>
@@ -637,37 +637,37 @@ export default function WebsiteManagementPage() {
 
                                     {/* Branding Section */}
                                     {activeTab === "branding" && (
-                                        <div className="space-y-8">
-                                            <div className="grid gap-6">
-                                                <div className="flex flex-col gap-3">
-                                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Site Adı</label>
+                                        <div className="space-y-6">
+                                            <div className="grid gap-4">
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Site Adı</label>
                                                     <input
                                                         value={content.branding?.siteName || ""}
                                                         onChange={(e) => updateContent("branding.siteName", e.target.value)}
-                                                        className="p-4 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-800"
+                                                        className="p-3 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-800 text-sm"
                                                         placeholder="QRlamenü"
                                                     />
                                                 </div>
-                                                <div className="flex flex-col gap-3">
-                                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Logo İkonu Seçin</label>
-                                                    <div className="grid grid-cols-6 md:grid-cols-10 gap-2 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Logo İkonu Seçin</label>
+                                                    <div className="grid grid-cols-6 md:grid-cols-10 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
                                                         {ICON_LIST.map(ic => (
                                                             <button
                                                                 key={ic.name}
                                                                 onClick={() => updateContent("branding.logoIcon", ic.name)}
-                                                                className={`p-3 rounded-xl flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-orange-600 text-white shadow-lg' : 'bg-white text-slate-400 hover:text-slate-600'}`}
+                                                                className={`p-2 rounded-lg flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-orange-600 text-white shadow-lg' : 'bg-white text-slate-400 hover:text-slate-600'}`}
                                                             >
-                                                                <ic.icon size={20} />
+                                                                <ic.icon size={16} />
                                                             </button>
                                                         ))}
                                                     </div>
                                                 </div>
-                                                <div className="flex flex-col gap-3">
-                                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Özel Logo URL (Opsiyonel)</label>
+                                                <div className="flex flex-col gap-2">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Özel Logo URL (Opsiyonel)</label>
                                                     <input
                                                         value={content.branding?.logoUrl || ""}
                                                         onChange={(e) => updateContent("branding.logoUrl", e.target.value)}
-                                                        className="p-4 rounded-xl border border-slate-100 bg-slate-50 font-medium text-slate-600"
+                                                        className="p-3 rounded-xl border border-slate-100 bg-slate-50 font-medium text-slate-600 text-sm"
                                                         placeholder="https://example.com/logo.png"
                                                     />
                                                 </div>
@@ -675,38 +675,39 @@ export default function WebsiteManagementPage() {
                                         </div>
                                     )}
 
-                                    {/* Corporate Section */}
                                     {activeTab === "corporate" && (
-                                        <div className="space-y-8">
-                                            <div className="p-6 bg-slate-50/50 rounded-[32px] border border-slate-100 space-y-4">
-                                                <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">HAKKIMIZDA SAYFASI</h3>
+                                        <div className="space-y-6">
+                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
+                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">HAKKIMIZDA SAYFASI</h3>
                                                 <input
                                                     value={content.corporate?.about?.title || ""}
                                                     onChange={(e) => updateContent("corporate.about.title", e.target.value)}
-                                                    className="w-full p-3 rounded-xl border border-slate-100 font-bold"
+                                                    className="w-full p-2.5 rounded-lg border border-slate-100 font-bold text-sm"
                                                     placeholder="Başlık"
                                                 />
                                                 <textarea
                                                     value={content.corporate?.about?.content || ""}
                                                     onChange={(e) => updateContent("corporate.about.content", e.target.value)}
-                                                    className="w-full p-3 rounded-xl border border-slate-100 font-medium min-h-[120px]"
+                                                    className="w-full p-2.5 rounded-lg border border-slate-100 font-medium min-h-[100px] text-sm"
                                                     placeholder="Hakkımızda içeriği..."
                                                 />
                                             </div>
-                                            <div className="p-6 bg-slate-50/50 rounded-[32px] border border-slate-100 space-y-4">
-                                                <div className="grid md:grid-cols-2 gap-4">
-                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full p-3 rounded-xl border border-slate-100" placeholder="E-posta" />
-                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full p-3 rounded-xl border border-slate-100" placeholder="Telefon" />
+                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
+                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">İLETİŞİM BİLGİLERİ</h3>
+                                                <div className="grid md:grid-cols-2 gap-3">
+                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="E-posta" />
+                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="Telefon" />
                                                 </div>
-                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full p-3 rounded-xl border border-slate-100" placeholder="Adres" />
+                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="Adres" />
                                             </div>
-                                            <div className="p-6 bg-slate-50/50 rounded-[32px] border border-slate-100 space-y-4">
-                                                <h3 className="text-sm font-black text-slate-400 uppercase tracking-widest">YASAL METİNLER</h3>
-                                                <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full p-3 rounded-xl border border-slate-100 h-[80px]" placeholder="Gizlilik Politikası Giriş" />
-                                                <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full p-3 rounded-xl border border-slate-100 h-[80px]" placeholder="Kullanım Koşulları Giriş" />
+                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
+                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">YASAL METİNLER</h3>
+                                                <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 h-[70px] text-sm" placeholder="Gizlilik Politikası Giriş" />
+                                                <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 h-[70px] text-sm" placeholder="Kullanım Koşulları Giriş" />
                                             </div>
                                         </div>
                                     )}
+
                                 </motion.div>
                             </AnimatePresence>
                         </div>

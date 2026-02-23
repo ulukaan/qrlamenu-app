@@ -67,12 +67,12 @@ export default function SystemSettingsPage() {
     );
 
     return (
-        <div style={{ padding: '2.5rem 3.5rem', width: '100%', maxWidth: '100%' }}>
+        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3.5rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
                 <div>
-                    <h2 style={{ fontSize: '2rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Global Sistem Ayarları</h2>
-                    <p style={{ color: '#64748b', marginTop: '8px', fontSize: '1rem', fontWeight: '500' }}>Platform genelini ilgilendiren teknik, iletişim ve güvenlik yapılandırmalarını merkezi olarak yönetin.</p>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Global Sistem Ayarları</h2>
+                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Platform genelini ilgilendiren teknik, iletişim ve güvenlik yapılandırmalarını merkezi olarak yönetin.</p>
                 </div>
                 <button
                     onClick={handleSave}
@@ -81,20 +81,20 @@ export default function SystemSettingsPage() {
                     style={{
                         background: '#ff7a21',
                         color: '#fff',
-                        padding: '14px 32px',
-                        borderRadius: '16px',
+                        padding: '12px 24px',
+                        borderRadius: '14px',
                         border: 'none',
-                        fontSize: '0.95rem',
+                        fontSize: '0.9rem',
                         fontWeight: '900',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '12px',
+                        gap: '8px',
                         boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)',
                         cursor: 'pointer',
                         opacity: saving ? 0.8 : 1
                     }}
                 >
-                    {saving ? <Loader2 size={20} className="animate-spin" strokeWidth={2.5} /> : <Save size={20} strokeWidth={2.5} />}
+                    {saving ? <Loader2 size={18} className="animate-spin" strokeWidth={2.5} /> : <Save size={18} strokeWidth={2.5} />}
                     {saving ? 'Ayarlar Güncelleniyor...' : 'Konfigürasyonu Kaydet'}
                 </button>
             </div>
@@ -120,152 +120,194 @@ export default function SystemSettingsPage() {
                 </div>
             )}
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 400px', gap: '3rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-                    {/* General Settings */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', borderRadius: '32px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-                            <div style={{ background: '#fff7f2', color: '#ff7a21', padding: '14px', borderRadius: '18px', border: '1px solid #ffedd5' }}>
-                                <Globe size={24} strokeWidth={2.5} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '2rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }}>
+                    {/* Platform Kimliği & İletişim */}
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                            <div style={{ background: '#fff7f2', color: '#ff7a21', padding: '10px', borderRadius: '14px', border: '1px solid #ffedd5' }}>
+                                <Globe size={20} strokeWidth={2.5} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Platform Kimliği & İletişim</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>Marka başlığı ve kritik iletişim kanalları.</p>
+                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Platform Kimliği & İletişim</h3>
+                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Marka başlığı ve kritik iletişim kanalları.</p>
                             </div>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
-                            <div style={{ gridColumn: 'span 2' }}>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Platform Marka Başlığı</label>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Platform Başlığı</label>
                                 <input
                                     type="text"
                                     value={settings.platformTitle}
                                     onChange={(e) => setSettings({ ...settings, platformTitle: e.target.value })}
-                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1rem', color: '#111827', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-md"
+                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
+                                    className="focus:border-orange-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,122,33,0.1)]"
+                                    placeholder="Örn: QRLA Menü SaaS"
                                 />
                             </div>
-                            <div style={{ gridColumn: 'span 2' }}>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Sistem Kritik İletişim E-postası</label>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                    <Mail size={14} color="#64748b" /> Destek E-Posta Adresi
+                                </label>
                                 <input
                                     type="email"
                                     value={settings.contactEmail}
                                     onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1rem', color: '#111827', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-md"
+                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
+                                    className="focus:border-orange-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,122,33,0.1)]"
+                                    placeholder="support@domain.com"
                                 />
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '12px' }}>
-                                    <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ff7a21' }}></div>
-                                    <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8', fontWeight: '600' }}>Bu adres sistem bildirimleri ve kurtarma süreçleri için kullanılır.</p>
-                                </div>
                             </div>
                         </div>
                     </div>
 
-                    {/* SMTP Settings */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', borderRadius: '32px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '40px' }}>
-                            <div style={{ background: '#f0f9ff', color: '#0ea5e9', padding: '14px', borderRadius: '18px', border: '1px solid #e0f2fe' }}>
-                                <Mail size={24} strokeWidth={2.5} />
+                    {/* Dil & Bölge Ayarları */}
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                            <div style={{ background: '#f0fdfa', color: '#14b8a6', padding: '10px', borderRadius: '14px', border: '1px solid #ccfbf1' }}>
+                                <Globe size={20} strokeWidth={2.5} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>E-posta (SMTP) Servisi</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>Giden e-posta sunucusu yapılandırması.</p>
+                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Yerelleştirme</h3>
+                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Varsayılan lokasyon verileri.</p>
                             </div>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
-                            <div style={{ gridColumn: 'span 2' }}>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>SMTP Relay Host</label>
-                                <input
-                                    type="text"
-                                    value={settings.smtpHost}
-                                    onChange={(e) => setSettings({ ...settings, smtpHost: e.target.value })}
-                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1rem', color: '#111827', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-blue-500 focus:bg-white focus:shadow-md"
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Servis Portu</label>
-                                <input
-                                    type="number"
-                                    value={settings.smtpPort}
-                                    onChange={(e) => setSettings({ ...settings, smtpPort: parseInt(e.target.value) })}
-                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1rem', color: '#111827', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-blue-500 focus:bg-white focus:shadow-md"
-                                />
-                            </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Protokol Güvenliği</label>
-                                <select style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1rem', color: '#111827', fontWeight: '800', cursor: 'pointer', transition: 'all 0.2s' }} className="focus:border-blue-500 focus:bg-white focus:shadow-md">
-                                    <option>TLS / STARTTLS</option>
-                                    <option>SSL</option>
-                                    <option>Yok (Güvensiz)</option>
-                                </select>
+
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sistem Para Birimi</label>
+                                <div style={{ position: 'relative' }}>
+                                    <select
+                                        value={settings.currency}
+                                        onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
+                                        style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s', appearance: 'none', cursor: 'pointer' }}
+                                        className="focus:border-teal-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(20,184,166,0.1)]"
+                                    >
+                                        <option value="USD">USD - Amerikan Doları</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="TRY">TRY - Türk Lirası</option>
+                                    </select>
+                                    <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2.5rem', height: 'fit-content' }}>
-                    {/* Maintenance Mode */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: settings.maintenanceMode ? 'linear-gradient(135deg, #7f1d1d 0%, #450a0a 100%)' : '#fff', color: settings.maintenanceMode ? '#fff' : 'inherit', borderRadius: '32px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', transition: 'all 0.3s' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '28px' }}>
-                            <div style={{ background: settings.maintenanceMode ? 'rgba(255,255,255,0.1)' : '#fef2f2', padding: '10px', borderRadius: '14px', border: settings.maintenanceMode ? '1px solid rgba(255,255,255,0.1)' : '1px solid #fee2e2' }}>
-                                <Shield size={24} color={settings.maintenanceMode ? '#fff' : '#f43f5e'} strokeWidth={2.5} />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '2rem' }}>
+                    {/* SMTP Settings */}
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                            <div style={{ background: '#f0f9ff', color: '#0ea5e9', padding: '10px', borderRadius: '14px', border: '1px solid #e0f2fe' }}>
+                                <Mail size={20} strokeWidth={2.5} />
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', letterSpacing: '-0.02em' }}>Bakım Modu</h3>
-                        </div>
-                        <p style={{ fontSize: '0.95rem', color: settings.maintenanceMode ? 'rgba(255,255,255,0.7)' : '#64748b', marginBottom: '32px', lineHeight: '1.7', fontWeight: '500' }}>
-                            Aktifleştirildiğinde platform genel erişime kapatılır. Sadece yetkili yöneticiler giriş yapabilir.
-                        </p>
-                        <button
-                            type="button"
-                            onClick={() => setSettings({ ...settings, maintenanceMode: !settings.maintenanceMode })}
-                            className="hover:scale-105 active:scale-95 transition-all"
-                            style={{
-                                width: '100%',
-                                padding: '16px',
-                                borderRadius: '16px',
-                                border: 'none',
-                                background: settings.maintenanceMode ? '#fff' : '#f1f5f9',
-                                color: settings.maintenanceMode ? '#7f1d1d' : '#475569',
-                                fontWeight: '900',
-                                fontSize: '0.95rem',
-                                cursor: 'pointer',
-                                textTransform: 'uppercase',
-                                letterSpacing: '0.05em',
-                                boxShadow: settings.maintenanceMode ? '0 10px 20px -5px rgba(0,0,0,0.2)' : 'none'
-                            }}
-                        >
-                            {settings.maintenanceMode ? 'Sistemi Çevrimiçi Yap' : 'Bakımı Başlat'}
-                        </button>
-                    </div>
-
-                    {/* Notifications */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', borderRadius: '32px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
-                            <div style={{ background: '#fff7f2', padding: '10px', borderRadius: '14px', border: '1px solid #ffedd5' }}>
-                                <Bell size={24} color="#ff7a21" strokeWidth={2.5} />
+                            <div>
+                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>E-posta (SMTP) Servisi</h3>
+                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Giden e-posta sunucusu yapılandırması.</p>
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', letterSpacing: '-0.02em' }}>Sistem Bildirimleri</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
-                            {[
-                                { id: 'reg', label: 'Yeni Kayıt Bildirimi', checked: true },
-                                { id: 'fail', label: 'Hatalı Giriş Uyarısı', checked: true },
-                                { id: 'backup', label: 'Auto-Backup Logları', checked: false }
-                            ].map((item) => (
-                                <label key={item.id} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', fontSize: '0.95rem', fontWeight: '800', color: '#1e293b', cursor: 'pointer' }} className="group">
-                                    {item.label}
-                                    <div style={{ position: 'relative', width: '48px', height: '26px', background: item.checked ? '#ff7a21' : '#e2e8f0', borderRadius: '13px', transition: 'all 0.3s' }}>
-                                        <div style={{ position: 'absolute', left: item.checked ? '24px' : '4px', top: '4px', width: '18px', height: '18px', background: '#fff', borderRadius: '50%', transition: 'all 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>SMTP Relay Host</label>
+                                <input
+                                    type="text"
+                                    value={settings.smtpHost}
+                                    onChange={(e) => setSettings({ ...settings, smtpHost: e.target.value })}
+                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
+                                    className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                />
+                            </div>
+                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Servis Portu</label>
+                                    <input
+                                        type="number"
+                                        value={settings.smtpPort}
+                                        onChange={(e) => setSettings({ ...settings, smtpPort: parseInt(e.target.value) })}
+                                        style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
+                                        className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                    />
+                                </div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                    <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Protokol Güvenliği</label>
+                                    <div style={{ position: 'relative' }}>
+                                        <select
+                                            value={settings.smtpSecurity}
+                                            onChange={(e) => setSettings({ ...settings, smtpSecurity: e.target.value })}
+                                            style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s', appearance: 'none', cursor: 'pointer' }}
+                                            className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                        >
+                                            <option value="TLS">TLS / STARTTLS</option>
+                                            <option value="SSL">SSL</option>
+                                            <option value="NONE">Yok (Güvensiz)</option>
+                                        </select>
+                                        <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}>
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
+                                        </div>
                                     </div>
-                                    <input type="checkbox" style={{ display: 'none' }} defaultChecked={item.checked} />
-                                </label>
-                            ))}
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    {/* Backup Widget */}
+                    {/* System Toggles */}
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
+                            <div style={{ background: '#fef2f2', color: '#f43f5e', padding: '10px', borderRadius: '14px', border: '1px solid #fee2e2' }}>
+                                <Shield size={20} strokeWidth={2.5} />
+                            </div>
+                            <div>
+                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Sistem Kontrolleri</h3>
+                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Kritik sistem özelliklerini yönetin.</p>
+                            </div>
+                        </div>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                            <button
+                                onClick={() => setSettings({ ...settings, maintenanceMode: !settings.maintenanceMode })}
+                                style={{
+                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderRadius: '16px',
+                                    border: settings.maintenanceMode ? '2px solid #fda4af' : '2px solid #f1f5f9',
+                                    background: settings.maintenanceMode ? '#fff1f2' : '#f8fafc',
+                                    cursor: 'pointer', transition: 'all 0.2s', width: '100%'
+                                }}
+                                className="hover:scale-[1.02]"
+                            >
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
+                                    <span style={{ fontSize: '0.9rem', fontWeight: '900', color: settings.maintenanceMode ? '#e11d48' : '#111827' }}>Bakım Modu (Erişim Kes)</span>
+                                    <span style={{ fontSize: '0.8rem', color: settings.maintenanceMode ? '#f43f5e' : '#64748b', fontWeight: '500' }}>Aktif edildiğinde sadece Super Admin'ler sisteme girebilir.</span>
+                                </div>
+                                <div style={{ width: '48px', height: '26px', borderRadius: '13px', background: settings.maintenanceMode ? '#e11d48' : '#cbd5e1', position: 'relative', transition: 'all 0.3s' }}>
+                                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: settings.maintenanceMode ? '24px' : '2px', transition: 'all 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+                                </div>
+                            </button>
+
+                            <button
+                                onClick={() => setSettings({ ...settings, RegistrationOpen: !settings.RegistrationOpen })}
+                                style={{
+                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderRadius: '16px',
+                                    border: settings.RegistrationOpen ? '2px solid #86efac' : '2px solid #f1f5f9',
+                                    background: settings.RegistrationOpen ? '#f0fdf4' : '#f8fafc',
+                                    cursor: 'pointer', transition: 'all 0.2s', width: '100%'
+                                }}
+                                className="hover:scale-[1.02]"
+                            >
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
+                                    <span style={{ fontSize: '0.9rem', fontWeight: '900', color: settings.RegistrationOpen ? '#16a34a' : '#111827' }}>Yeni Restoran Kaydı</span>
+                                    <span style={{ fontSize: '0.8rem', color: settings.RegistrationOpen ? '#22c55e' : '#64748b', fontWeight: '500' }}>Yeni abonelik satışına platformu aç/kapat.</span>
+                                </div>
+                                <div style={{ width: '48px', height: '26px', borderRadius: '13px', background: settings.RegistrationOpen ? '#16a34a' : '#cbd5e1', position: 'relative', transition: 'all 0.3s' }}>
+                                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: settings.RegistrationOpen ? '24px' : '2px', transition: 'all 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Backup Widget */}
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2.5rem', height: 'fit-content' }}>
                     <div className="card" style={{ padding: '32px', background: '#f8fafc', borderRadius: '32px', border: '1px solid #f1f5f9' }}>
                         <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
                             <div style={{ background: '#fff', padding: '10px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>

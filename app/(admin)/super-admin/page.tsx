@@ -70,64 +70,64 @@ export default function SuperAdminDashboard() {
     ];
 
     return (
-        <div style={{ padding: '2rem 3rem', width: '100%', maxWidth: '100%' }}>
-            <div style={{ marginBottom: '3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+            <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <div>
-                    <h2 style={{ fontSize: '1.75rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>Sistem Kontrol Merkezi</h2>
-                    <p style={{ color: '#6b7280', marginTop: '6px', fontSize: '0.95rem', fontWeight: '500' }}>Platform veri akışı, büyüme performansı ve sistem sağlığı analitiği.</p>
+                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>Sistem Kontrol Merkezi</h2>
+                    <p style={{ color: '#6b7280', marginTop: '4px', fontSize: '0.85rem', fontWeight: '500' }}>Platform veri akışı, büyüme performansı ve sistem sağlığı analitiği.</p>
                 </div>
                 <div style={{ display: 'flex', gap: '14px' }}>
                     <div style={{ position: 'relative' }}>
                         <Clock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-                        <select style={{ padding: '12px 18px 12px 40px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem', fontWeight: '800', color: '#374151', outline: 'none', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                        <select style={{ padding: '10px 16px 10px 36px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.8rem', fontWeight: '800', color: '#374151', outline: 'none', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
                             <option>Son 30 Günlük Veri</option>
                             <option>Son 7 Günlük Veri</option>
                             <option>Bugünün Özeti</option>
                         </select>
                     </div>
-                    <button onClick={() => router.push('/super-admin/restoranlar/yeni')} className="btn-primary" style={{ padding: '12px 24px', borderRadius: '14px', fontSize: '0.9rem', fontWeight: '900', boxShadow: '0 4px 12px rgba(255,122,33,0.2)' }}>
+                    <button onClick={() => router.push('/super-admin/restoranlar/yeni')} className="btn-primary" style={{ padding: '10px 20px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '900', boxShadow: '0 4px 12px rgba(255,122,33,0.2)' }}>
                         Yeni Restoran Kaydı
                     </button>
                 </div>
             </div>
 
             {/* İstatistik Kartları */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '2rem', marginBottom: '3rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
                 {stats.map((stat, idx) => (
-                    <div className="card" key={idx} style={{ border: 'none', padding: '32px', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
-                        <div style={{ position: 'absolute', top: '-20px', right: '-20px', width: '120px', height: '120px', borderRadius: '50%', background: `${stat.color}08` }}></div>
+                    <div className="card" key={idx} style={{ border: 'none', padding: '24px', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
+                        <div style={{ position: 'absolute', top: '-15px', right: '-15px', width: '100px', height: '100px', borderRadius: '50%', background: `${stat.color}08` }}></div>
                         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative' }}>
                             <div>
-                                <p style={{ color: '#64748b', fontSize: '0.75rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '12px' }}>{stat.title}</p>
-                                <h3 style={{ margin: 0, fontSize: '2.25rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.03em' }}>{stat.value}</h3>
+                                <p style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>{stat.title}</p>
+                                <h3 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.03em' }}>{stat.value}</h3>
                                 <div style={{
-                                    marginTop: '16px',
-                                    fontSize: '0.8rem',
+                                    marginTop: '12px',
+                                    fontSize: '0.75rem',
                                     color: stat.trend.startsWith('+') ? '#10b981' : '#f43f5e',
                                     fontWeight: '900',
                                     display: 'flex',
                                     alignItems: 'center',
                                     gap: '6px'
                                 }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', background: stat.trend.startsWith('+') ? '#ecfdf5' : '#fff1f2', padding: '2px 8px', borderRadius: '6px' }}>
-                                        {stat.trend.startsWith('+') ? <ArrowUpRight size={14} strokeWidth={3} /> : <ArrowDownRight size={14} strokeWidth={3} />}
+                                    <div style={{ display: 'flex', alignItems: 'center', background: stat.trend.startsWith('+') ? '#ecfdf5' : '#fff1f2', padding: '2px 6px', borderRadius: '6px' }}>
+                                        {stat.trend.startsWith('+') ? <ArrowUpRight size={12} strokeWidth={3} /> : <ArrowDownRight size={12} strokeWidth={3} />}
                                         <span style={{ marginLeft: '2px' }}>{stat.trend}</span>
                                     </div>
-                                    <span style={{ color: '#94a3b8', fontWeight: '600' }}>büyüme</span>
+                                    <span style={{ color: '#94a3b8', fontWeight: '600', fontSize: '0.7rem' }}>büyüme</span>
                                 </div>
                             </div>
                             <div style={{
                                 background: `${stat.color}15`,
                                 color: stat.color,
-                                width: '56px',
-                                height: '56px',
-                                borderRadius: '18px',
+                                width: '48px',
+                                height: '48px',
+                                borderRadius: '14px',
                                 display: 'flex',
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 boxShadow: `inset 0 0 10px ${stat.color}10`
                             }}>
-                                {stat.icon}
+                                {React.cloneElement(stat.icon as any, { size: 20 })}
                             </div>
                         </div>
                     </div>
@@ -135,22 +135,22 @@ export default function SuperAdminDashboard() {
             </div>
 
             {/* Orta Bölüm: Grafikler ve Sağ Panel */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '2.5rem', marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '40px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                <div style={{ background: '#fff7ed', padding: '10px', borderRadius: '12px' }}>
-                                    <TrendingUp size={24} style={{ color: '#ff7a21' }} />
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', marginBottom: '2rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                <div style={{ background: '#fff7ed', padding: '8px', borderRadius: '10px' }}>
+                                    <TrendingUp size={20} style={{ color: '#ff7a21' }} />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: '1.25rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Finansal Gelir Analizi</h3>
-                                    <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#94a3b8', fontWeight: '600' }}>Platform genelinde aylık brüt kazanç akışı.</p>
+                                    <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Finansal Gelir Analizi</h3>
+                                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Platform genelinde aylık brüt kazanç akışı.</p>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '8px 16px', background: '#f8fafc', borderRadius: '10px', border: '1px solid #f1f5f9' }}>
-                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#ff7a21', boxShadow: '0 0 8px rgba(255,122,33,0.5)' }}></div>
-                                <span style={{ fontSize: '0.75rem', color: '#475569', fontWeight: '800' }}>Canlı Senkronizasyon</span>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
+                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ff7a21', boxShadow: '0 0 8px rgba(255,122,33,0.5)' }}></div>
+                                <span style={{ fontSize: '0.7rem', color: '#475569', fontWeight: '800' }}>Canlı Senkronizasyon</span>
                             </div>
                         </div>
                         <div style={{ width: '100%', height: '400px' }}>
@@ -178,44 +178,44 @@ export default function SuperAdminDashboard() {
 
                     {/* Son Kayıtlar */}
                     <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ padding: '28px 32px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <h3 style={{ fontSize: '1.1rem', fontWeight: '900', color: '#111827', display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <Activity size={22} color="#ff7a21" /> Son Sistem Aktiviteleri
+                        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <h3 style={{ fontSize: '1rem', fontWeight: '900', color: '#111827', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                <Activity size={18} color="#ff7a21" /> Son Sistem Aktiviteleri
                             </h3>
-                            <button onClick={() => router.push('/super-admin/restoranlar')} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#475569', fontWeight: '900', fontSize: '0.8rem', padding: '8px 16px', borderRadius: '10px', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50">Tümünü Yönet</button>
+                            <button onClick={() => router.push('/super-admin/restoranlar')} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#475569', fontWeight: '900', fontSize: '0.75rem', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50">Tümünü Yönet</button>
                         </div>
                         <div style={{ overflowX: 'auto' }}>
                             <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                                 <thead style={{ background: '#f9fafb' }}>
                                     <tr>
-                                        <th style={{ padding: '18px 32px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>İşletme Detayı</th>
-                                        <th style={{ padding: '18px 32px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Üyelik Paketi</th>
-                                        <th style={{ padding: '18px 32px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Durum</th>
-                                        <th style={{ padding: '18px 32px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kayıt Zamanı</th>
+                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>İşletme Detayı</th>
+                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Üyelik Paketi</th>
+                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Durum</th>
+                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kayıt Zamanı</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {data.recentRestaurants.map((res: any, idx: number) => (
                                         <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }} className="table-row-hover">
-                                            <td style={{ padding: '24px 32px' }}>
-                                                <div style={{ fontSize: '1rem', fontWeight: '900', color: '#111827' }}>{res.name}</div>
-                                                <div style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600', marginTop: '4px' }}>{res.city || 'İstanbul'} • Türkiye</div>
+                                            <td style={{ padding: '16px 24px' }}>
+                                                <div style={{ fontSize: '0.9rem', fontWeight: '900', color: '#111827' }}>{res.name}</div>
+                                                <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600', marginTop: '2px' }}>{res.city || 'İstanbul'} • Türkiye</div>
                                             </td>
-                                            <td style={{ padding: '24px 32px' }}>
-                                                <div style={{ fontSize: '0.75rem', fontWeight: '900', padding: '6px 14px', borderRadius: '10px', background: '#f1f5f9', display: 'inline-block', color: '#334155', border: '1px solid #e2e8f0' }}>{res.plan}</div>
+                                            <td style={{ padding: '16px 24px' }}>
+                                                <div style={{ fontSize: '0.7rem', fontWeight: '900', padding: '4px 10px', borderRadius: '8px', background: '#f1f5f9', display: 'inline-block', color: '#334155', border: '1px solid #e2e8f0' }}>{res.plan}</div>
                                             </td>
-                                            <td style={{ padding: '24px 32px' }}>
+                                            <td style={{ padding: '16px 24px' }}>
                                                 <span style={{
-                                                    fontSize: '0.75rem',
+                                                    fontSize: '0.7rem',
                                                     fontWeight: '900',
                                                     color: res.status === 'Aktif' ? '#10b981' : '#64748b',
                                                     background: res.status === 'Aktif' ? '#ecfdf5' : '#f9fafb',
-                                                    padding: '6px 14px',
-                                                    borderRadius: '10px',
+                                                    padding: '4px 10px',
+                                                    borderRadius: '8px',
                                                     border: '1px solid currentColor'
                                                 }}>{res.status.toUpperCase()}</span>
                                             </td>
-                                            <td style={{ padding: '24px 32px', fontSize: '0.85rem', color: '#475569', fontWeight: '700' }}>
+                                            <td style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#475569', fontWeight: '700' }}>
                                                 {new Date(res.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
                                             </td>
                                         </tr>
@@ -228,14 +228,14 @@ export default function SuperAdminDashboard() {
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {/* Platform Sağlığı */}
-                    <div className="card" style={{ border: 'none', padding: '36px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
-                            <Activity size={24} style={{ color: '#4ade80' }} />
-                            <h3 style={{ fontSize: '0.9rem', fontWeight: '900', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Platform Sağlığı</h3>
+                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+                            <Activity size={20} style={{ color: '#4ade80' }} />
+                            <h3 style={{ fontSize: '0.85rem', fontWeight: '900', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Platform Sağlığı</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                             <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '12px', fontWeight: '700' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '10px', fontWeight: '700' }}>
                                     <span style={{ color: '#94a3b8' }}>API Ortalama Yanıt</span>
                                     <span style={{ color: '#4ade80' }}>42ms</span>
                                 </div>
@@ -244,7 +244,7 @@ export default function SuperAdminDashboard() {
                                 </div>
                             </div>
                             <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.85rem', marginBottom: '12px', fontWeight: '700' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '10px', fontWeight: '700' }}>
                                     <span style={{ color: '#94a3b8' }}>Kullanılan Kapasite</span>
                                     <span style={{ color: '#fbbf24' }}>%4.2</span>
                                 </div>
@@ -252,36 +252,36 @@ export default function SuperAdminDashboard() {
                                     <div style={{ width: '12%', height: '100%', background: '#fbbf24', boxShadow: '0 0 10px rgba(251,191,36,0.3)' }}></div>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginTop: '12px', padding: '16px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <Database size={20} style={{ color: '#3b82f6' }} />
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px', padding: '14px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                <Database size={18} style={{ color: '#3b82f6' }} />
                                 <div>
-                                    <p style={{ margin: 0, fontSize: '0.8rem', fontWeight: '900', color: '#fff' }}>Cluster Durumu</p>
-                                    <p style={{ margin: '2px 0 0', fontSize: '0.7rem', color: '#4ade80', fontWeight: '800' }}>BAĞLI & OPTİMİZE</p>
+                                    <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: '900', color: '#fff' }}>Cluster Durumu</p>
+                                    <p style={{ margin: '2px 0 0', fontSize: '0.65rem', color: '#4ade80', fontWeight: '800' }}>BAĞLI & OPTİMİZE</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
-                            <div style={{ background: '#f5f3ff', padding: '10px', borderRadius: '12px' }}>
-                                <BarChart3 size={24} style={{ color: '#6366f1' }} />
+                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+                            <div style={{ background: '#f5f3ff', padding: '8px', borderRadius: '10px' }}>
+                                <BarChart3 size={20} style={{ color: '#6366f1' }} />
                             </div>
                             <div>
-                                <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Büyüme Eğrisi</h3>
+                                <h3 style={{ fontSize: '1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Büyüme Eğrisi</h3>
                             </div>
                         </div>
-                        <div style={{ width: '100%', height: '240px' }}>
+                        <div style={{ width: '100%', height: '200px' }}>
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={data.signupHistory}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
                                     <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#94a3b8', fontWeight: 700 }} dy={10} />
-                                    <Tooltip cursor={{ fill: '#f8fafc' }} contentStyle={{ borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontSize: '0.8rem' }} />
-                                    <Bar dataKey="value" fill="#1e293b" radius={[6, 6, 0, 0]} barSize={16} />
+                                    <Tooltip cursor={{ fill: '#f8fafc' }} contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.1)', fontSize: '0.75rem' }} />
+                                    <Bar dataKey="value" fill="#1e293b" radius={[6, 6, 0, 0]} barSize={12} />
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
-                        <p style={{ marginTop: '24px', fontSize: '0.8rem', color: '#94a3b8', textAlign: 'center', fontWeight: '600', fontStyle: 'italic' }}>Son 7 gündeki yeni işletme kayıtları.</p>
+                        <p style={{ marginTop: '20px', fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center', fontWeight: '600', fontStyle: 'italic' }}>Son 7 gündeki yeni işletme kayıtları.</p>
                     </div>
                 </div>
             </div>
