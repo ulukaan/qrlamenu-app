@@ -1,31 +1,103 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { CreditCard, Search, Download, TrendingUp, DollarSign, Calendar, ArrowUpRight, Loader2, CheckCircle2, Clock, AlertCircle } from 'lucide-react';
+import { CreditCard, Search, Download, TrendingUp, DollarSign, Calendar, ArrowUpRight, Loader2, CheckCircle2, Clock, AlertCircle, Plus, Trash2, X, Save, PlusCircle } from 'lucide-react';
 
 export default function PaymentsPage() {
     const [payments, setPayments] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
+    const [modalOpen, setModalOpen] = useState(false);
+    const [isSaving, setIsSaving] = useState(false);
+    const [tenants, setTenants] = useState<any[]>([]);
+
+    const [formData, setFormData] = useState({
+        title: '',
+        amount: '',
+        paymentMethod: 'CREDIT_CARD',
+        status: 'COMPLETED',
+        tenantId: ''
+    });
 
     useEffect(() => {
-        const fetchPayments = async () => {
-            try {
-                setLoading(true);
-                const res = await fetch('/api/admin/payments');
-                if (!res.ok) throw new Error('Ödemeler yüklenemedi');
-                const data = await res.json();
-                setPayments(data);
-            } catch (err: any) {
-                setError(err.message);
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchPayments();
+        fetchTenants();
     }, []);
 
+    const fetchPayments = async () => {
+        try {
+            setLoading(true);
+            const res = await fetch('/api/admin/payments');
+            if (!res.ok) throw new Error('Ödemeler yüklenemedi');
+            const data = await res.json();
+            setPayments(data);
+        } catch (err: any) {
+            setError(err.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const fetchTenants = async () => {
+        try {
+            const res = await fetch('/api/admin/tenants');
+            const data = await res.json();
+            if (Array.isArray(data)) {
+                setTenants(data);
+            }
+        } catch (err) {
+            console.error('Tenants fetch error:', err);
+        }
+    };
+
+    const handleSave = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            setIsSaving(true);
+            const res = await fetch('/api/admin/payments', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData)
+            });
+
+            if (res.ok) {
+                setModalOpen(false);
+                setFormData({ title: '', amount: '', paymentMethod: 'CREDIT_CARD', status: 'COMPLETED', tenantId: '' });
+                fetchPayments();
+            } else {
+                alert('Kaydedilirken bir hata oluştu.');
+            }
+        } catch (err) {
+            console.error(err);
+        } finally {
+            setIsSaving(false);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm('Bu ödeme kaydını silmek istediğinize emin misiniz?')) return;
+        try {
+            const res = await fetch(`/api/admin/payments?id=${id}`, { method: 'DELETE' });
+            if (res.ok) {
+                fetchPayments();
+            } else {
+                alert('Silme işlemi başarısız.');
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    };
+
     const totalRevenue = payments.reduce((acc, curr) => acc + curr.amount, 0);
-    const monthlyRevenue = totalRevenue / 12; // Simplified for demo stats
+    const monthlyRevenue = payments
+        .filter(p => {
+            const date = new Date(p.createdAt);
+            const now = new Date();
+            return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+        })
+        .reduce((acc, curr) => acc + curr.amount, 0);
+
+    const activeSubscribers = Array.from(new Set(payments.map(p => p.tenantId))).length;
+    const failureRate = payments.length > 0 ? (payments.filter(p => p.status === 'FAILED').length / payments.length) * 100 : 0;
 
     return (
         <div style={{ padding: '2.5rem 3.5rem', width: '100%', maxWidth: '100%' }}>
@@ -39,7 +111,11 @@ export default function PaymentsPage() {
                     <button style={{ padding: '14px 28px', borderRadius: '16px', background: '#fff', border: '1px solid #e2e8f0', color: '#374151', fontSize: '0.95rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }} className="hover:bg-slate-50 hover:border-slate-300">
                         <Download size={20} /> Veri İndir (.csv)
                     </button>
-                    <button className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '14px 32px', borderRadius: '16px', border: 'none', fontSize: '0.95rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
+                    <button
+                        onClick={() => setModalOpen(true)}
+                        className="hover:scale-105 active:scale-95 transition-all"
+                        style={{ background: '#ff7a21', color: '#fff', padding: '14px 32px', borderRadius: '16px', border: 'none', fontSize: '0.95rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}
+                    >
                         <DollarSign size={20} strokeWidth={3} /> Manuel Veri Ekle
                     </button>
                 </div>
@@ -55,7 +131,7 @@ export default function PaymentsPage() {
                                 <p style={{ margin: '0 0 12px 0', fontSize: '0.8rem', fontWeight: '900', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Toplam İşlem Hacmi</p>
                                 <h3 style={{ margin: 0, fontSize: '2.75rem', fontWeight: '900', letterSpacing: '-0.05em', lineHeight: '1' }}>₺{totalRevenue.toLocaleString('tr-TR', { minimumFractionDigits: 0 })}</h3>
                                 <div style={{ marginTop: '24px', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '800', color: '#10b981', background: 'rgba(16, 185, 129, 0.1)', padding: '6px 14px', borderRadius: '10px', width: 'fit-content' }}>
-                                    <TrendingUp size={16} /> <span>Yıllık +12.5% artış</span>
+                                    <TrendingUp size={16} /> <span>Anlık Veri</span>
                                 </div>
                             </div>
                             <div style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.1)' }}>
@@ -68,7 +144,7 @@ export default function PaymentsPage() {
                 <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '32px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
-                            <p style={{ margin: '0 0 12px 0', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Aylık Tahsilat (MRR)</p>
+                            <p style={{ margin: '0 0 12px 0', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Bu Ay Tahsilat (MRR)</p>
                             <h3 style={{ margin: 0, fontSize: '2.75rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.05em', lineHeight: '1' }}>₺{monthlyRevenue.toLocaleString('tr-TR', { maximumFractionDigits: 0 })}</h3>
                             <p style={{ margin: '12px 0 0 0', color: '#94a3b8', fontSize: '0.9rem', fontWeight: '700' }}>İşlem başı ort. <span style={{ color: '#111827' }}>₺{(totalRevenue / (payments.length || 1)).toFixed(0)}</span></p>
                         </div>
@@ -82,8 +158,8 @@ export default function PaymentsPage() {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
                             <p style={{ margin: '0 0 12px 0', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Hata / İade Oranı</p>
-                            <h3 style={{ margin: 0, fontSize: '2.75rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.05em', lineHeight: '1' }}>%1.6</h3>
-                            <p style={{ margin: '12px 0 0 0', color: '#94a3b8', fontSize: '0.9rem', fontWeight: '700' }}><span style={{ color: '#10b981' }}>{Math.ceil(payments.length * 0.8)}</span> aktif abone</p>
+                            <h3 style={{ margin: 0, fontSize: '2.75rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.05em', lineHeight: '1' }}>%{failureRate.toFixed(1)}</h3>
+                            <p style={{ margin: '12px 0 0 0', color: '#94a3b8', fontSize: '0.9rem', fontWeight: '700' }}><span style={{ color: '#10b981' }}>{activeSubscribers}</span> tekil abone</p>
                         </div>
                         <div style={{ background: '#ecfdf5', padding: '16px', borderRadius: '20px', color: '#10b981', border: '1px solid #d1fae5' }}>
                             <CheckCircle2 size={28} strokeWidth={2.5} />
@@ -116,7 +192,7 @@ export default function PaymentsPage() {
                                         <th style={{ padding: '24px 40px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>İşletme Kimliği</th>
                                         <th style={{ padding: '24px 40px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Referans / Kanal</th>
                                         <th style={{ padding: '24px 40px', textAlign: 'left', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Net Tutar</th>
-                                        <th style={{ padding: '24px 40px', textAlign: 'right', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Durum</th>
+                                        <th style={{ padding: '24px 40px', textAlign: 'right', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Yönetim</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -158,10 +234,10 @@ export default function PaymentsPage() {
                                                 <div style={{ fontSize: '0.9rem', fontWeight: '800', color: '#374151' }}>{p.title}</div>
                                                 <div style={{
                                                     fontSize: '0.75rem',
-                                                    color: p.paymentMethod === 'CREDIT_CARD' ? '#3b82f6' : '#8b5cf6',
+                                                    color: p.paymentMethod.includes('Kart') ? '#3b82f6' : '#8b5cf6',
                                                     fontWeight: '900',
                                                     marginTop: '8px',
-                                                    background: p.paymentMethod === 'CREDIT_CARD' ? '#eff6ff' : '#f5f3ff',
+                                                    background: p.paymentMethod.includes('Kart') ? '#eff6ff' : '#f5f3ff',
                                                     padding: '4px 8px',
                                                     borderRadius: '6px',
                                                     width: 'fit-content'
@@ -171,22 +247,31 @@ export default function PaymentsPage() {
                                                 <div style={{ fontSize: '1.3rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>₺{p.amount.toLocaleString('tr-TR', { minimumFractionDigits: 2 })}</div>
                                             </td>
                                             <td style={{ padding: '32px 40px', textAlign: 'right' }}>
-                                                <div style={{
-                                                    display: 'inline-flex',
-                                                    alignItems: 'center',
-                                                    gap: '10px',
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: '900',
-                                                    padding: '8px 18px',
-                                                    borderRadius: '12px',
-                                                    textTransform: 'uppercase',
-                                                    letterSpacing: '0.05em',
-                                                    background: p.status === 'COMPLETED' ? 'rgba(16, 185, 129, 0.1)' : p.status === 'PENDING' ? 'rgba(255, 122, 33, 0.1)' : 'rgba(244, 63, 94, 0.1)',
-                                                    color: p.status === 'COMPLETED' ? '#10b981' : p.status === 'PENDING' ? '#ff7a21' : '#f43f5e',
-                                                    border: '1px solid currentColor'
-                                                }}>
-                                                    {p.status === 'COMPLETED' ? <CheckCircle2 size={14} strokeWidth={3} /> : p.status === 'PENDING' ? <Clock size={14} strokeWidth={3} /> : <AlertCircle size={14} strokeWidth={3} />}
-                                                    {p.status === 'COMPLETED' ? 'ONAYLANDI' : p.status === 'PENDING' ? 'BEKLEMEDE' : 'BAŞARISIZ'}
+                                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: '16px' }}>
+                                                    <div style={{
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        gap: '10px',
+                                                        fontSize: '0.75rem',
+                                                        fontWeight: '900',
+                                                        padding: '8px 18px',
+                                                        borderRadius: '12px',
+                                                        textTransform: 'uppercase',
+                                                        letterSpacing: '0.05em',
+                                                        background: p.status === 'COMPLETED' ? 'rgba(16, 185, 129, 0.1)' : p.status === 'PENDING' ? 'rgba(255, 122, 33, 0.1)' : 'rgba(244, 63, 94, 0.1)',
+                                                        color: p.status === 'COMPLETED' ? '#10b981' : p.status === 'PENDING' ? '#ff7a21' : '#f43f5e',
+                                                        border: '1px solid currentColor'
+                                                    }}>
+                                                        {p.status === 'COMPLETED' ? <CheckCircle2 size={14} strokeWidth={3} /> : p.status === 'PENDING' ? <Clock size={14} strokeWidth={3} /> : <AlertCircle size={14} strokeWidth={3} />}
+                                                        {p.status === 'COMPLETED' ? 'ONAYLANDI' : p.status === 'PENDING' ? 'BEKLEMEDE' : 'BAŞARISIZ'}
+                                                    </div>
+                                                    <button
+                                                        onClick={() => handleDelete(p.id)}
+                                                        style={{ color: '#f43f5e', padding: '8px', borderRadius: '10px', transition: 'all 0.2s', background: 'transparent', border: 'none', cursor: 'pointer' }}
+                                                        className="hover:bg-rose-50"
+                                                    >
+                                                        <Trash2 size={18} />
+                                                    </button>
                                                 </div>
                                             </td>
                                         </tr>
@@ -259,6 +344,100 @@ export default function PaymentsPage() {
                     </div>
                 </div>
             </div>
+
+            {/* Manuel Payment Modal */}
+            {modalOpen && (
+                <div style={{
+                    position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+                    background: 'rgba(15, 23, 42, 0.4)', display: 'flex', alignItems: 'center',
+                    justifyContent: 'center', zIndex: 1000, backdropFilter: 'blur(12px)'
+                }}>
+                    <div className="animate-in fade-in zoom-in duration-300 card" style={{
+                        padding: '56px', borderRadius: '32px',
+                        width: '100%', maxWidth: '640px', position: 'relative',
+                        boxShadow: '0 30px 60px -12px rgba(0,0,0,0.4)', border: 'none', background: '#fff'
+                    }}>
+                        <button
+                            onClick={() => setModalOpen(false)}
+                            style={{ position: 'absolute', top: '40px', right: '40px', background: '#f8fafc', border: 'none', cursor: 'pointer', color: '#64748b', width: '48px', height: '48px', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s' }}
+                            className="hover:bg-rose-500 hover:text-white"
+                        >
+                            <X size={24} />
+                        </button>
+
+                        <div style={{ marginBottom: '40px' }}>
+                            <div style={{ width: '64px', height: '64px', background: '#fff7ed', color: '#ff7a21', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
+                                <PlusCircle size={32} />
+                            </div>
+                            <h3 style={{ fontSize: '2rem', fontWeight: '900', color: '#111827', margin: '0 0 8px 0', letterSpacing: '-0.04em' }}>Yeni Ödeme Kaydı</h3>
+                            <p style={{ color: '#64748b', fontSize: '1rem', fontWeight: '500' }}>Dış kaynaklı veya manuel tahsilatları sisteme işleyin.</p>
+                        </div>
+
+                        <form onSubmit={handleSave} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                            <div style={{ gridColumn: 'span 2' }}>
+                                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>İlgili Restoran</label>
+                                <select
+                                    required
+                                    value={formData.tenantId}
+                                    onChange={(e) => setFormData({ ...formData, tenantId: e.target.value })}
+                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#fcfcfc', outline: 'none', fontWeight: '800', fontSize: '1rem', color: '#111827', cursor: 'pointer' }}
+                                    className="focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all"
+                                >
+                                    <option value="">Seçiniz...</option>
+                                    {tenants.map(t => (
+                                        <option key={t.id} value={t.id}>{t.name}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div style={{ gridColumn: 'span 2' }}>
+                                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>İşlem Başlığı</label>
+                                <input
+                                    type="text" required
+                                    value={formData.title}
+                                    placeholder="Örn: Profesyonel Plan - 3 Aylık Peşin"
+                                    onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#fcfcfc', outline: 'none', fontWeight: '800', fontSize: '1rem', color: '#111827' }}
+                                    className="focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all"
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>Tutar (₺)</label>
+                                <input
+                                    type="number" required
+                                    value={formData.amount}
+                                    placeholder="0.00"
+                                    onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#fcfcfc', outline: 'none', fontWeight: '900', fontSize: '1rem', color: '#111827' }}
+                                    className="focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all"
+                                />
+                            </div>
+                            <div>
+                                <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>Kanal</label>
+                                <select
+                                    value={formData.paymentMethod}
+                                    onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value })}
+                                    style={{ width: '100%', padding: '16px 20px', borderRadius: '16px', border: '1px solid #e2e8f0', background: '#fcfcfc', outline: 'none', fontWeight: '800', fontSize: '1rem', color: '#111827', cursor: 'pointer' }}
+                                    className="focus:border-orange-500 transition-all"
+                                >
+                                    <option value="CREDIT_CARD">Iyzico / Kredi Kartı</option>
+                                    <option value="HAVALE">Havale / EFT</option>
+                                    <option value="CASH">Nakit Tahsilat</option>
+                                </select>
+                            </div>
+                            <div style={{ gridColumn: 'span 2', marginTop: '16px' }}>
+                                <button
+                                    type="submit" disabled={isSaving}
+                                    style={{ width: '100%', padding: '18px', borderRadius: '20px', background: '#ff7a21', color: '#fff', fontWeight: '900', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', cursor: 'pointer', boxShadow: '0 20px 25px -5px rgba(255, 122, 33, 0.3)', border: 'none', fontSize: '1.1rem', transition: 'all 0.3s' }}
+                                    className="hover:scale-[1.02] active:scale-95 disabled:opacity-70"
+                                >
+                                    {isSaving ? <Loader2 size={24} className="animate-spin" /> : <Save size={24} />}
+                                    {isSaving ? 'Kaydediliyor...' : 'İşlemi Onayla ve Kaydet'}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
