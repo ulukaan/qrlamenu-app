@@ -1,0 +1,49 @@
+Vercel CLI 50.22.1
+(node:10488) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Fetching deployments in ulukaan-4816s-projects
+> Deployments [264ms]
+
+  Age     Project                                 Deployment                                                       Status      Environment     Duration     Username         
+  1m      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-3czzs3j83-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      25s          ulukaan-4816     
+  5m      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-28rp2wsdh-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      14s          ulukaan-4816     
+  7m      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-1oe0fth7y-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      21s          ulukaan-4816     
+  16m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-ivryrw08h-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      23s          ulukaan-4816     
+https://qrlamenu-3czzs3j83-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-28rp2wsdh-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-1oe0fth7y-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-ivryrw08h-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-klnisq4c1-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-4o35z0f64-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-no50nl88l-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-38ujm8f2i-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-dfsgfjm9c-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-1fr4phu8f-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-kkf5gwbwp-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-76syxwoql-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-8vkfwo2zr-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-fell55n8k-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-1jsbwj9hh-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-7hjfrehpe-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-q7f5bmeo0-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-hl36jhnw5-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-oxfrz30fn-ulukaan-4816s-projects.vercel.app
+https://qrlamenu-la8k4s783-ulukaan-4816s-projects.vercel.app
+  20m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-klnisq4c1-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      10s          ulukaan-4816     
+  27m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-4o35z0f64-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      10s          ulukaan-4816     
+  32m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-no50nl88l-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      16s          ulukaan-4816     
+  38m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-38ujm8f2i-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      22s          ulukaan-4816     
+  49m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-dfsgfjm9c-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      21s          ulukaan-4816     
+  51m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-1fr4phu8f-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      14s          ulukaan-4816     
+  53m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-kkf5gwbwp-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      16s          ulukaan-4816     
+  55m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-76syxwoql-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      22s          ulukaan-4816     
+  57m     ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-8vkfwo2zr-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      25s          ulukaan-4816     
+  1h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-fell55n8k-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      21s          ulukaan-4816     
+  1h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-1jsbwj9hh-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      20s          ulukaan-4816     
+  1h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-7hjfrehpe-ulukaan-4816s-projects.vercel.app     ÔùÅ Error     Production      8s           ulukaan-4816     
+  2h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-q7f5bmeo0-ulukaan-4816s-projects.vercel.app     ÔùÅ Ready     Production      46s          ulukaan-4816     
+  2h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-hl36jhnw5-ulukaan-4816s-projects.vercel.app     ÔùÅ Ready     Production      44s          ulukaan-4816     
+  2h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-oxfrz30fn-ulukaan-4816s-projects.vercel.app     ÔùÅ Ready     Production      45s          ulukaan-4816     
+  2h      ulukaan-4816s-projects/qrlamenu-app     https://qrlamenu-la8k4s783-ulukaan-4816s-projects.vercel.app     ÔùÅ Ready     Production      37s          ulukaan-4816     
+
+> To display the next page, run `vercel ls --next 1771800141775`
