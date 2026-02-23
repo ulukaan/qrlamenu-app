@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/auth';
 
 export async function GET() {
     try {
@@ -37,10 +38,12 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Bu e-posta adresi zaten kullanımda.' }, { status: 400 });
         }
 
+        const hashedPassword = await hashPassword(password);
+
         const newAdmin = await prisma.superAdmin.create({
             data: {
                 email,
-                password, // Will be hashed via auth logic on first login
+                password: hashedPassword, // Hashed via pbkdf2
                 name: name || '',
                 role: role || 'SUPER_ADMIN'
             }

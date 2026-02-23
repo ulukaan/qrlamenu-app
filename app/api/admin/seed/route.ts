@@ -1,6 +1,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { NextResponse } from 'next/server';
+import { hashPassword } from '@/lib/auth';
 
 export async function GET() {
     try {
@@ -27,16 +28,18 @@ export async function GET() {
         });
 
         // 3. Create Super Admin
+        const adminHash = await hashPassword('betda7-tohfer-tefVaj');
         await prisma.superAdmin.create({
             data: {
                 email: 'sametdursun@yaani.com',
-                password: 'betda7-tohfer-tefVaj', // Hostinger şifrenizle aynı (güçlü ve bildiğiniz bir şifre)
+                password: adminHash, // Hostinger şifrenizle aynı (güçlü ve bildiğiniz bir şifre)
                 name: 'Samet Dursun',
                 role: 'SUPER_ADMIN'
             }
         });
 
         // 4. Create Restaurant (QRlamenü Premium)
+        const tenantHash = await hashPassword('123');
         const tenant = await prisma.tenant.create({
             data: {
                 name: 'QRlamenü Premium',
@@ -49,7 +52,7 @@ export async function GET() {
                 users: {
                     create: {
                         email: 'restoran@qrlamenu.com',
-                        password: '123',
+                        password: tenantHash,
                         name: 'Restoran Müdürü',
                         role: 'ADMIN'
                     }

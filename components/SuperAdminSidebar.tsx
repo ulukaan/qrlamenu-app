@@ -59,6 +59,7 @@ const SuperAdminSidebar = () => {
             title: 'GÜVENLİK & DESTEK',
             items: [
                 { name: 'Admin Kullanıcıları', icon: <Shield size={18} />, href: '/super-admin/adminler' },
+                { name: 'Website Yönetimi', icon: <Globe size={18} />, href: '/super-admin/website' },
                 { name: 'Audit Log (Denetim)', icon: <Database size={18} />, href: '/super-admin/audit' },
                 { name: 'Erişim Ayarları', icon: <Shield size={18} />, href: '/super-admin/guvenlik' },
                 { name: 'Destek Merkezi', icon: <FileText size={18} />, href: '/super-admin/destek' },

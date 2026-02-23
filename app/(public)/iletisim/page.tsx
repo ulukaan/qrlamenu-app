@@ -1,101 +1,161 @@
+"use client";
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import {
+    Mail, Phone, MapPin,
+    Send, CheckCircle2,
+    UtensilsCrossed,
+    ArrowLeft,
+    QrCode, BarChart3, Truck, Users, ShieldCheck, TrendingUp, Smartphone, Menu, Star, Zap
+} from "lucide-react";
 import Link from "next/link";
-import { ArrowLeft, Mail, MapPin, Phone } from "lucide-react";
+
+const ICON_LIST = [
+    { name: "QrCode", icon: QrCode },
+    { name: "Bell", icon: Zap },
+    { name: "BarChart3", icon: BarChart3 },
+    { name: "Truck", icon: Truck },
+    { name: "Users", icon: Users },
+    { name: "ShieldCheck", icon: ShieldCheck },
+    { name: "TrendingUp", icon: TrendingUp },
+    { name: "Smartphone", icon: Smartphone },
+    { name: "Menu", icon: Menu },
+    { name: "Star", icon: Star },
+    { name: "UtensilsCrossed", icon: UtensilsCrossed }
+];
 
 export default function ContactPage() {
+    const [sent, setSent] = useState(false);
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        fetch("/api/super-admin/website-config")
+            .then(res => res.json())
+            .then(data => {
+                if (data && !data.error) setContent(data);
+            })
+            .catch(err => console.error("Contact Page Fetch Error:", err));
+    }, []);
+
+    const branding = content?.branding || { logoIcon: "UtensilsCrossed", siteName: "QRlamenü" };
+    const contact = content?.corporate?.contact || {
+        email: "destek@qrlamenu.com",
+        phone: "+90 212 XXX XX XX",
+        address: "Teknokent, İstanbul"
+    };
+
+    const LogoIcon = ICON_LIST.find(i => i.name === branding.logoIcon)?.icon || UtensilsCrossed;
+
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        setSent(true);
+    };
+
     return (
-        <div className="min-h-screen bg-slate-50">
+        <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-black selection:text-white pb-20">
             {/* Header */}
-            <header className="bg-white border-b border-slate-200">
-                <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 group">
-                        <div className="p-1 rounded-md bg-slate-100 group-hover:bg-slate-200 transition-colors">
-                            <ArrowLeft className="h-5 w-5 text-slate-600" />
+            <nav className="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-gray-100 py-4">
+                <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
+                    <Link href="/" className="flex items-center gap-2.5">
+                        <div className="w-8 h-8 bg-black text-white rounded-xl flex items-center justify-center">
+                            {branding.logoUrl ? (
+                                <img src={branding.logoUrl} alt={branding.siteName} className="w-5 h-5 object-contain" />
+                            ) : (
+                                <LogoIcon size={16} strokeWidth={2.5} />
+                            )}
                         </div>
-                        <span className="font-bold text-xl text-slate-900">QRlamenü</span>
+                        <span className="font-extrabold text-xl tracking-tight">{branding.siteName}</span>
                     </Link>
-                    <nav className="hidden md:flex gap-6 text-sm font-medium text-slate-600">
-                        <Link href="/" className="hover:text-blue-600 transition-colors">Ana Sayfa</Link>
-                        <Link href="/hakkimizda" className="hover:text-blue-600 transition-colors">Hakkımızda</Link>
-                        <Link href="/iletisim" className="text-blue-600">İletişim</Link>
-                    </nav>
+                    <Link href="/" className="text-sm font-bold text-gray-500 hover:text-black transition-colors flex items-center gap-2">
+                        <ArrowLeft size={16} /> Ana Sayfa
+                    </Link>
                 </div>
-            </header>
+            </nav>
 
-            <main className="container mx-auto px-4 py-16">
+            <main className="pt-32 px-6">
                 <div className="max-w-5xl mx-auto">
-                    <div className="text-center mb-12">
-                        <h1 className="text-4xl font-bold text-slate-900 mb-4">İletişime Geçin</h1>
-                        <p className="text-slate-600 text-lg">Sorularınız, önerileriniz veya demo talepleriniz için bize ulaşın.</p>
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-center mb-16"
+                    >
+                        <h1 className="text-4xl md:text-6xl font-black tracking-tight text-gray-900 mb-6">Bize Ulaşın</h1>
+                        <p className="text-lg text-gray-500 max-w-2xl mx-auto">
+                            Sorularınız, iş birliği talepleriniz veya teknik destek için ekibimiz her zaman yanınızda.
+                        </p>
+                    </motion.div>
 
-                    <div className="grid md:grid-cols-2 gap-12">
-                        {/* Contact Info */}
-                        <div className="space-y-8">
-                            <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                                <h3 className="text-xl font-bold text-slate-900 mb-6">İletişim Bilgileri</h3>
-                                <div className="space-y-6">
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-blue-100 rounded-lg text-blue-600 shrink-0">
-                                            <MapPin className="h-6 w-6" />
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-slate-900">Adres</p>
-                                            <p className="text-slate-600 mt-1">Teknoloji Vadisi, Girişim Plaza No:42<br />İstanbul, Türkiye</p>
-                                        </div>
+                    <div className="grid md:grid-cols-[1fr_1.5fr] gap-12">
+                        {/* Info Cards */}
+                        <div className="space-y-6">
+                            {[
+                                { icon: Mail, title: "E-Posta", value: contact.email, sub: "7/24 Teknik Destek" },
+                                { icon: Phone, title: "Telefon", value: contact.phone, sub: "Hafta içi 09:00 - 18:00" },
+                                { icon: MapPin, title: "Ofis", value: contact.address, sub: "Gelecek Burada Tasarlanıyor" },
+                            ].map((info, i) => (
+                                <motion.div
+                                    key={i}
+                                    initial={{ opacity: 0, x: -20 }}
+                                    animate={{ opacity: 1, x: 0 }}
+                                    transition={{ delay: i * 0.1 }}
+                                    className="p-6 bg-gray-50 border border-gray-100 rounded-[2rem]"
+                                >
+                                    <div className="w-10 h-10 bg-white shadow-sm border border-gray-200/50 rounded-xl flex items-center justify-center text-black mb-4">
+                                        <info.icon size={20} />
                                     </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-blue-100 rounded-lg text-blue-600 shrink-0">
-                                            <Phone className="h-6 w-6" />
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-slate-900">Telefon</p>
-                                            <p className="text-slate-600 mt-1">+90 (212) 555 00 00</p>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex items-start gap-4">
-                                        <div className="p-3 bg-blue-100 rounded-lg text-blue-600 shrink-0">
-                                            <Mail className="h-6 w-6" />
-                                        </div>
-                                        <div>
-                                            <p className="font-medium text-slate-900">E-posta</p>
-                                            <p className="text-slate-600 mt-1">info@qrlamenu.com</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                    <h3 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">{info.title}</h3>
+                                    <div className="text-lg font-bold text-gray-900 mb-1">{info.value}</div>
+                                    <div className="text-sm font-medium text-gray-400">{info.sub}</div>
+                                </motion.div>
+                            ))}
                         </div>
 
                         {/* Contact Form */}
-                        <div className="bg-white p-8 rounded-2xl shadow-sm border border-slate-200">
-                            <form className="space-y-6">
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div>
-                                        <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-1">Adınız</label>
-                                        <input type="text" id="name" className="w-full rounded-lg border-slate-300 border p-2.5 text-slate-900 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Adınız" />
+                        <motion.div
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            className="bg-white border border-gray-100 shadow-2xl shadow-gray-200/50 rounded-[2.5rem] p-8 md:p-12"
+                        >
+                            {sent ? (
+                                <div className="h-full flex flex-col items-center justify-center text-center py-12">
+                                    <div className="w-20 h-20 bg-green-50 text-green-500 rounded-full flex items-center justify-center mb-6">
+                                        <CheckCircle2 size={40} />
                                     </div>
-                                    <div>
-                                        <label htmlFor="surname" className="block text-sm font-medium text-slate-700 mb-1">Soyadınız</label>
-                                        <input type="text" id="surname" className="w-full rounded-lg border-slate-300 border p-2.5 text-slate-900 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Soyadınız" />
+                                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Mesajınız Alındı!</h2>
+                                    <p className="text-gray-500 font-medium">En kısa sürede size dönüş yapacağız.</p>
+                                    <button
+                                        onClick={() => setSent(false)}
+                                        className="mt-8 text-sm font-bold text-gray-400 hover:text-black transition-colors"
+                                    >
+                                        Yeni bir mesaj gönder
+                                    </button>
+                                </div>
+                            ) : (
+                                <form onSubmit={handleSubmit} className="space-y-6">
+                                    <div className="grid sm:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">İSİM SOYİSİM</label>
+                                            <input required type="text" className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-black transition-all outline-none font-medium" placeholder="Ahmet Yılmaz" />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">E-POSTA</label>
+                                            <input required type="email" className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-black transition-all outline-none font-medium" placeholder="ahmet@example.com" />
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div>
-                                    <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">E-posta</label>
-                                    <input type="email" id="email" className="w-full rounded-lg border-slate-300 border p-2.5 text-slate-900 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="ornek@mail.com" />
-                                </div>
-
-                                <div>
-                                    <label htmlFor="message" className="block text-sm font-medium text-slate-700 mb-1">Mesajınız</label>
-                                    <textarea id="message" rows={4} className="w-full rounded-lg border-slate-300 border p-2.5 text-slate-900 text-sm focus:ring-blue-500 focus:border-blue-500" placeholder="Bize iletmek istediğiniz mesaj..."></textarea>
-                                </div>
-
-                                <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-bold rounded-lg text-sm px-5 py-3 text-center transition-all hover:scale-[1.01]">
-                                    Gönder
-                                </button>
-                            </form>
-                        </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">KONU</label>
+                                        <input required type="text" className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-black transition-all outline-none font-medium" placeholder="Bilgilendirme talebi" />
+                                    </div>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">MESAJINIZ</label>
+                                        <textarea required className="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl focus:bg-white focus:border-black transition-all outline-none font-medium min-h-[150px]" placeholder="Size nasıl yardımcı olabiliriz?"></textarea>
+                                    </div>
+                                    <button type="submit" className="w-full py-5 bg-black text-white rounded-2xl font-bold flex items-center justify-center gap-2 hover:bg-gray-800 transition-all shadow-xl shadow-black/10">
+                                        Mesajı Gönder <Send size={18} />
+                                    </button>
+                                </form>
+                            )}
+                        </motion.div>
                     </div>
                 </div>
             </main>

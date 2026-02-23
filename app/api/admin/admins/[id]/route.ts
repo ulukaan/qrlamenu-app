@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/auth';
 
 export async function PATCH(
     request: Request,
@@ -14,7 +15,7 @@ export async function PATCH(
         if (name !== undefined) updateData.name = name;
         if (role !== undefined) updateData.role = role;
         if (emailVerified !== undefined) updateData.emailVerified = emailVerified ? new Date() : null;
-        if (password) updateData.password = password; // Will be auto-hashed on next login
+        if (password) updateData.password = await hashPassword(password); // Hashed via PBKDF2
 
         const updated = await prisma.superAdmin.update({
             where: { id },

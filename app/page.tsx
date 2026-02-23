@@ -63,7 +63,7 @@ const fadeInUp = {
 
 /* ── Components ───────────────────────────────── */
 
-function Navbar() {
+function Navbar({ branding }: { branding?: any }) {
     const [scrolled, setScrolled] = useState(false);
     const [menuOpen, setMenuOpen] = useState(false);
 
@@ -73,14 +73,21 @@ function Navbar() {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
+    const brand = branding || { siteName: "QRlamenü", logoIcon: "UtensilsCrossed", logoUrl: "" };
+    const LogoIcon = ICON_MAP[brand.logoIcon] || UtensilsCrossed;
+
     return (
         <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/80 backdrop-blur-md border-b border-gray-100 py-3" : "bg-transparent py-5"}`}>
             <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2.5 group">
-                    <div className="w-9 h-9 bg-black text-white rounded-xl flex items-center justify-center transition-transform group-hover:scale-105">
-                        <UtensilsCrossed size={18} strokeWidth={2.5} />
+                    <div className="w-9 h-9 bg-black text-white rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 overflow-hidden">
+                        {brand.logoUrl ? (
+                            <img src={brand.logoUrl} alt={brand.siteName} className="w-6 h-6 object-contain" />
+                        ) : (
+                            <LogoIcon size={18} strokeWidth={2.5} />
+                        )}
                     </div>
-                    <span className="font-extrabold text-xl tracking-tight text-gray-900">QRlamenü</span>
+                    <span className="font-extrabold text-xl tracking-tight text-gray-900">{brand.siteName}</span>
                 </Link>
 
                 {/* Desktop Nav */}
@@ -133,7 +140,15 @@ function Navbar() {
     );
 }
 
-function Hero() {
+/* ── Components ───────────────────────────────── */
+
+const ICON_MAP: Record<string, any> = {
+    QrCode, UtensilsCrossed, BarChart3, ShieldCheck,
+    Bell, TrendingUp, Star, CheckCircle2,
+    Globe, Smartphone, Users, Truck, Menu, X, ChevronRight
+};
+
+function Hero({ data, onCtaClick }: { data: any, onCtaClick?: () => void }) {
     return (
         <section className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden">
             {/* Minimal pattern background */}
@@ -145,21 +160,21 @@ function Hero() {
                     Restoran Yönetiminde Yeni Dönem
                 </motion.div>
 
-                <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-6">
-                    Mükemmel restoran,<br className="hidden md:block" /> pürüzsüz işletme.
+                <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-6 whitespace-pre-line">
+                    {data.title}
                 </motion.h1>
 
                 <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-                    Siparişleri hızlandırın, maliyetleri düşürün. Zarif, güçlü ve kullanımı kolay altyapımızla restoranınızı geleceğe taşıyın.
+                    {data.subtitle}
                 </motion.p>
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                    <Link href="/login" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-full font-medium text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-black/10">
-                        Ücretsiz Deneyin
+                    <Link href="/kayit-ol" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-full font-medium text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-black/10">
+                        {data.cta_primary}
                         <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
                     </Link>
                     <a href="#ozellikler" className="w-full sm:w-auto px-8 py-4 bg-white text-gray-900 border border-gray-200 rounded-full font-medium text-base hover:bg-gray-50 transition-all flex items-center justify-center">
-                        Özellikleri Keşfet
+                        {data.cta_secondary}
                     </a>
                 </motion.div>
 
@@ -185,16 +200,18 @@ function Hero() {
     );
 }
 
-function Stats() {
+function Stats({ data }: { data?: any[] }) {
+    const stats = data && data.length > 0 ? data : [
+        { label: "Aktif Restoran", value: "5.000+" },
+        { label: "Sistem Uptime", value: "%99.9" },
+        { label: "Aylık Sipariş", value: "2M+" },
+        { label: "Müşteri Değerlendirmesi", value: "4.9/5" }
+    ];
+
     return (
         <section className="py-12 border-y border-gray-100 bg-gray-50/50">
             <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 lg:divide-x divide-gray-200 text-center">
-                {[
-                    { label: "Aktif Restoran", value: "5.000+" },
-                    { label: "Sistem Uptime", value: "%99.9" },
-                    { label: "Aylık Sipariş", value: "2M+" },
-                    { label: "Müşteri Değerlendirmesi", value: "4.9/5" }
-                ].map((stat, i) => (
+                {stats.map((stat, i) => (
                     <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="px-4">
                         <div className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
                         <div className="text-xs font-semibold text-gray-500 uppercase tracking-widest">{stat.label}</div>
@@ -205,7 +222,7 @@ function Stats() {
     );
 }
 
-function Features() {
+function Features({ data }: { data: any[] }) {
     return (
         <section id="ozellikler" className="py-24 md:py-32 px-6 max-w-7xl mx-auto">
             <motion.div {...fadeInUp} className="text-center max-w-2xl mx-auto mb-20">
@@ -215,8 +232,8 @@ function Features() {
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-                {FEATURES.map((f, i) => {
-                    const Icon = f.icon;
+                {data.map((f, i) => {
+                    const Icon = ICON_MAP[f.icon] || CheckCircle2;
                     return (
                         <motion.div
                             key={i}
@@ -285,7 +302,7 @@ function HowItWorks() {
     );
 }
 
-function Pricing() {
+function Pricing({ data }: { data: any[] }) {
     return (
         <section id="fiyatlar" className="py-24 md:py-32 px-6 max-w-7xl mx-auto">
             <motion.div {...fadeInUp} className="text-center max-w-2xl mx-auto mb-16">
@@ -294,7 +311,7 @@ function Pricing() {
             </motion.div>
 
             <div className="grid md:grid-cols-3 gap-8 items-center">
-                {PRICING.map((p, i) => (
+                {data.map((p, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 20 }}
@@ -313,7 +330,7 @@ function Pricing() {
                         </div>
 
                         <ul className="mb-10 space-y-4">
-                            {p.features.map((f, j) => (
+                            {p.features.map((f: string, j: number) => (
                                 <li key={j} className="flex items-start gap-3 text-sm font-medium">
                                     <CheckCircle2 size={18} className={`shrink-0 ${p.highlight ? 'text-white' : 'text-black'}`} />
                                     <span className={p.highlight ? 'text-gray-300' : 'text-gray-600'}>{f}</span>
@@ -321,7 +338,7 @@ function Pricing() {
                             ))}
                         </ul>
 
-                        <Link href={p.name === 'Kurumsal' ? '/iletisim' : '/login'} className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-sm transition-all ${p.highlight ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-50 text-black hover:bg-gray-100 border border-gray-200'}`}>
+                        <Link href={p.name === 'Kurumsal' ? '/iletisim' : '/kayit-ol'} className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-sm transition-all ${p.highlight ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-50 text-black hover:bg-gray-100 border border-gray-200'}`}>
                             {p.cta}
                         </Link>
                     </motion.div>
@@ -331,7 +348,7 @@ function Pricing() {
     );
 }
 
-function Testimonials() {
+function Testimonials({ data }: { data: any[] }) {
     return (
         <section id="yorumlar" className="py-24 px-6 bg-black text-white">
             <div className="max-w-7xl mx-auto">
@@ -341,7 +358,7 @@ function Testimonials() {
                 </motion.div>
 
                 <div className="grid md:grid-cols-3 gap-6">
-                    {TESTIMONIALS.map((t, i) => (
+                    {data.map((t, i) => (
                         <motion.div
                             key={i}
                             initial={{ opacity: 0, y: 20 }}
@@ -356,7 +373,7 @@ function Testimonials() {
                             <p className="text-gray-300 text-sm leading-relaxed mb-6">"{t.text}"</p>
                             <div className="flex items-center gap-3 mt-auto">
                                 <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold shrink-0">
-                                    {t.name.split(' ').map(n => n[0]).join('')}
+                                    {t.name.split(' ').map((n: string) => n[0]).join('')}
                                 </div>
                                 <div>
                                     <div className="font-bold text-sm">{t.name}</div>
@@ -379,7 +396,7 @@ function CTA() {
                 <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">Gelecek bugünden itibaren masanızda.</h2>
                 <p className="text-lg text-gray-500 mb-10 max-w-xl mx-auto">Kredi kartı gerekmeden 14 gün ücretsiz deneyin. Farkı ilk günden hissedeceksiniz.</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Link href="/login" className="px-8 py-4 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2">
+                    <Link href="/kayit-ol" className="px-8 py-4 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2">
                         Ücretsiz Başlayın <ArrowRight size={18} />
                     </Link>
                     <Link href="/iletisim" className="px-8 py-4 bg-white border border-gray-200 text-gray-900 rounded-full font-bold text-base hover:bg-gray-50 hover:border-gray-300 transition-all">
@@ -391,16 +408,23 @@ function CTA() {
     );
 }
 
-function Footer() {
+function Footer({ branding }: { branding?: any }) {
+    const brand = branding || { siteName: "QRlamenü", logoIcon: "UtensilsCrossed", logoUrl: "" };
+    const LogoIcon = ICON_MAP[brand.logoIcon] || UtensilsCrossed;
+
     return (
         <footer className="border-t border-gray-100 py-16 px-6 bg-white">
             <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16">
                 <div>
                     <Link href="/" className="flex items-center gap-2 mb-4">
-                        <div className="w-8 h-8 bg-black text-white rounded-xl flex items-center justify-center">
-                            <UtensilsCrossed size={16} strokeWidth={2.5} />
+                        <div className="w-8 h-8 bg-black text-white rounded-xl flex items-center justify-center overflow-hidden">
+                            {brand.logoUrl ? (
+                                <img src={brand.logoUrl} alt={brand.siteName} className="w-5 h-5 object-contain" />
+                            ) : (
+                                <LogoIcon size={16} strokeWidth={2.5} />
+                            )}
                         </div>
-                        <span className="font-extrabold text-xl text-gray-900 tracking-tight">QRlamenü</span>
+                        <span className="font-extrabold text-xl text-gray-900 tracking-tight">{brand.siteName}</span>
                     </Link>
                     <p className="text-gray-500 text-sm max-w-xs">Restoranların yeni nesil dijital dönüşüm ortağı. Daha az efor, daha yüksek kazanç.</p>
                 </div>
@@ -424,7 +448,7 @@ function Footer() {
                 </div>
             </div>
             <div className="max-w-7xl mx-auto pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 text-sm font-medium text-gray-400">
-                <p>&copy; {new Date().getFullYear()} QRlamenü Yazılım. Tüm hakları saklıdır.</p>
+                <p>&copy; {new Date().getFullYear()} {brand.siteName} Yazılım. Tüm hakları saklıdır.</p>
                 <div className="flex gap-4">
                     <span>Türkiye'de sevgiyle geliştirildi.</span>
                 </div>
@@ -434,19 +458,131 @@ function Footer() {
 }
 
 export default function LandingPage() {
+    const [content, setContent] = useState<any>(null);
+
+    useEffect(() => {
+        fetch("/api/super-admin/website-config")
+            .then(res => res.json())
+            .then(data => {
+                // Eğer veri varsa ve beklediğimiz 'hero' yapısına sahipse kullan
+                if (data && data.hero && !data.error) {
+                    setContent(data);
+                } else {
+                    // Veri yoksa veya beklediğimiz yapıda değilse (örn: error varsa veya boşsa) varsayılanı kullan
+                    setContent({
+                        hero: {
+                            title: "Mükemmel restoran,\npürüzsüz işletme.",
+                            subtitle: "Siparişleri hızlandırın, maliyetleri düşürün. Zarif, güçlü ve kullanımı kolay altyapımızla restoranınızı geleceğe taşıyın.",
+                            cta_primary: "Ücretsiz Deneyin",
+                            cta_secondary: "Özellikleri Keşfet"
+                        },
+                        features: [
+                            { icon: "QrCode", title: "QR Dijital Menü", desc: "Sıfır baskı maliyeti. Müşteriler saniyeler içinde menüye erişir ve sipariş verir." },
+                            { icon: "Bell", title: "Anında Bildirim", desc: "Siparişler eşzamanlı olarak mutfak ve garson ekranlarına düşer. Gecikme yok." },
+                            { icon: "BarChart3", title: "Detaylı Analitik", desc: "Zirve saatler, restoran performansı ve en çok satan ürünler gerçek zamanlı raporlanır." },
+                            { icon: "Truck", title: "Çoklu Sipariş Tipi", desc: "Masada, pakette, odada veya gel-al servis modellerinin tümü tek bir ekranda." },
+                            { icon: "Users", title: "Ekip Yönetimi", desc: "Detaylı yetkilendirme ve vardiya takibi ile restoran personelinizi kolayca yönetin." },
+                            { icon: "ShieldCheck", title: "Yüksek Güvenlik", desc: "Tamamen KVKK uyumlu altyapı, düzenli yedeklemeler ve kurum seviyesinde şifreleme." },
+                        ],
+                        pricing: [
+                            {
+                                name: "Başlangıç", price: "₺490", period: "/ay",
+                                desc: "Butik işletmeler ve tek şubeler için.",
+                                features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+                                cta: "Ücretsiz Dene", highlight: false
+                            },
+                            {
+                                name: "Profesyonel", price: "₺990", period: "/ay",
+                                desc: "Büyüyen restoranlar için ideal çözüm.",
+                                features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+                                cta: "Hemen Başla", highlight: true
+                            },
+                            {
+                                name: "Kurumsal", price: "Özel", period: "",
+                                desc: "Çok şubeli ve zincir restoranlar için.",
+                                features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+                                cta: "İletişime Geç", highlight: false
+                            }
+                        ],
+                        testimonials: [
+                            { name: "Emre Kaya", role: "Deniz Restaurant", text: "Raporlama ekranları işletmemizin rotasını belirlememize büyük katkı sağlıyor. Her veriye anında ulaşıyoruz." },
+                        ],
+                        stats: [
+                            { label: "Aktif Restoran", value: "5.000+" },
+                            { label: "Sistem Uptime", value: "%99.9" },
+                            { label: "Aylık Sipariş", value: "2M+" },
+                            { label: "Müşteri Değerlendirmesi", value: "4.9/5" }
+                        ]
+                    });
+                }
+            })
+            .catch(() => {
+                // İletişim hatası durumunda da varsayılanı kullan
+                setContent({
+                    hero: {
+                        title: "Mükemmel restoran,\npürüzsüz işletme.",
+                        subtitle: "Siparişleri hızlandırın, maliyetleri düşürün. Zarif, güçlü ve kullanımı kolay altyapımızla restoranınızı geleceğe taşıyın.",
+                        cta_primary: "Ücretsiz Deneyin",
+                        cta_secondary: "Özellikleri Keşfet"
+                    },
+                    features: [
+                        { icon: "QrCode", title: "QR Dijital Menü", desc: "Sıfır baskı maliyeti. Müşteriler saniyeler içinde menüye erişir ve sipariş verir." },
+                        { icon: "Bell", title: "Anında Bildirim", desc: "Siparişler eşzamanlı olarak mutfak ve garson ekranlarına düşer. Gecikme yok." },
+                        { icon: "BarChart3", title: "Detaylı Analitik", desc: "Zirve saatler, restoran performansı ve en çok satan ürünler gerçek zamanlı raporlanır." },
+                        { icon: "Truck", title: "Çoklu Sipariş Tipi", desc: "Masada, pakette, odada veya gel-al servis modellerinin tümü tek bir ekranda." },
+                        { icon: "Users", title: "Ekip Yönetimi", desc: "Detaylı yetkilendirme ve vardiya takibi ile restoran personelinizi kolayca yönetin." },
+                        { icon: "ShieldCheck", title: "Yüksek Güvenlik", desc: "Tamamen KVKK uyumlu altyapı, düzenli yedeklemeler ve kurum seviyesinde şifreleme." },
+                    ],
+                    pricing: [
+                        {
+                            name: "Başlangıç", price: "₺490", period: "/ay",
+                            desc: "Butik işletmeler ve tek şubeler için.",
+                            features: ["QR Menü", "Sipariş Takibi", "Temel Analitik", "1 Kullanıcı"],
+                            cta: "Ücretsiz Dene", highlight: false
+                        },
+                        {
+                            name: "Profesyonel", price: "₺990", period: "/ay",
+                            desc: "Büyüyen restoranlar için ideal çözüm.",
+                            features: ["Tüm Başlangıç özellikleri", "Garson Çağrı Sistemi", "Gelişmiş Analitik", "Seçilebilir Temalar (6+)", "5 Kullanıcı"],
+                            cta: "Hemen Başla", highlight: true
+                        },
+                        {
+                            name: "Kurumsal", price: "Özel", period: "",
+                            desc: "Çok şubeli ve zincir restoranlar için.",
+                            features: ["Sınırsız Şube Yönetimi", "Özel Entegrasyonlar", "Sınırsız Kullanıcı", "7/24 Öncelikli Destek", "Özel Domain Altyapısı"],
+                            cta: "İletişime Geç", highlight: false
+                        }
+                    ],
+                    testimonials: [
+                        { name: "Ahmet Yılmaz", role: "Kapadokya Steakhouse", text: "Kurulumu saniyeler sürdü. Müşterilerimizin sipariş verme hızı %40 arttı, garson hataları tamamen bitti." },
+                        { name: "Selin Arslan", role: "Café Aroma", text: "Menü güncellemek artık bir zevk. Gelişmiş arayüzü sayesinde her şey çok kolay ve estetik görünüyor." },
+                        { name: "Emre Kaya", role: "Deniz Restaurant", text: "Raporlama ekranları işletmemizin rotasını belirlememize büyük katkı sağlıyor. Her veriye anında ulaşıyoruz." },
+                    ],
+                    stats: [
+                        { label: "Aktif Restoran", value: "5.000+" },
+                        { label: "Sistem Uptime", value: "%99.9" },
+                        { label: "Aylık Sipariş", value: "2M+" },
+                        { label: "Müşteri Değerlendirmesi", value: "4.9/5" }
+                    ]
+                });
+            });
+    }, []);
+
+    if (!content) return <div className="min-h-screen bg-white" />;
+
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-black selection:text-white">
-            <Navbar />
+            <Navbar branding={content.branding} />
             <main>
-                <Hero />
-                <Stats />
-                <Features />
+                <Hero data={content.hero} />
+                <Stats data={content.stats} />
+                <Features data={content.features} />
                 <HowItWorks />
-                <Pricing />
-                <Testimonials />
+                <Pricing data={content.pricing} />
+                <Testimonials data={content.testimonials} />
                 <CTA />
             </main>
-            <Footer />
+            <Footer branding={content.branding} />
         </div>
     );
 }

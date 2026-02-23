@@ -57,3 +57,5 @@ prisma/migrations/*.sql.bak
 
 *.zip
 mesa-hostinger/
+.vercel
+.env*.local

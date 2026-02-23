@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/auth';
+import { sendPasswordResetEmail } from '@/lib/mail';
 
 export async function POST(
     request: Request,
@@ -33,12 +35,17 @@ export async function POST(
             return NextResponse.json({ error: 'Restoran sahibi kullanıcı hesabı bulunamadı.' }, { status: 404 });
         }
 
+        const hashedPassword = await hashPassword(password);
+
         await prisma.user.update({
             where: { id: owner.id },
             data: {
-                password // Will be auto-hashed on first login via auth logic
+                password: hashedPassword // Updated to use PBKDF2 hash securely
             }
         });
+
+        // Şifre sıfırlama e-postasını gönder (Arka planda çalışır)
+        sendPasswordResetEmail(owner.email, password, tenant.name).catch(e => console.error('Password Reset Email Error:', e));
 
         return NextResponse.json({ success: true });
     } catch (error) {

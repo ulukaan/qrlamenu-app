@@ -16,11 +16,11 @@ const nextConfig = {
 
         const ContentSecurityPolicy = `
           default-src 'self';
-          script-src 'self' 'unsafe-eval' 'unsafe-inline';
+          script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://ff.kis.v2.scr.kaspersky-labs.com;
           style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-          img-src 'self' blob: data: https://images.unsplash.com https://res.cloudinary.com;
+          img-src 'self' blob: data: https://images.unsplash.com https://res.cloudinary.com https://www.googletagmanager.com https://www.google-analytics.com;
           font-src 'self' https://fonts.gstatic.com;
-          connect-src 'self';
+          connect-src 'self' https://www.google-analytics.com https://stats.g.doubleclick.net https://ff.kis.v2.scr.kaspersky-labs.com wss://ff.kis.v2.scr.kaspersky-labs.com;
           object-src 'none';
           base-uri 'self';
           form-action 'self';

@@ -1,6 +1,13 @@
 
 const { PrismaClient } = require('@prisma/client')
+const { pbkdf2Sync, randomBytes } = require('crypto')
 const prisma = new PrismaClient()
+
+function generateHash(password) {
+    const salt = randomBytes(32).toString('hex');
+    const hash = pbkdf2Sync(password, salt, 310000, 64, 'sha512').toString('hex');
+    return `pbkdf2:sha512:310000:${salt}:${hash}`;
+}
 
 async function main() {
     console.log('🔥 HER ŞEY SİLİNİYOR (FULL RESET)...')
@@ -35,7 +42,7 @@ async function main() {
     await prisma.superAdmin.create({
         data: {
             email: 'admin@qrlamenu.com', // Yeni mail
-            password: 'admin', // Yeni şifre
+            password: generateHash('admin'), // Yeni şifre
             name: 'Sistem Yöneticisi',
             role: 'SUPER_ADMIN'
         }
@@ -55,7 +62,7 @@ async function main() {
             users: {
                 create: {
                     email: 'restoran@qrlamenu.com',
-                    password: '123', // Basit şifre
+                    password: generateHash('123'), // Basit şifre
                     name: 'Restoran Müdürü',
                     role: 'ADMIN'
                 }

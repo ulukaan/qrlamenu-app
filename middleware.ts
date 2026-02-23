@@ -74,8 +74,11 @@ function isSuperAdminPath(pathname: string): boolean {
 
 /** Token'ı cookie'den çek ve temel doğrulama yap */
 function getToken(req: NextRequest, cookieName: string): string | null {
-    const value = req.cookies.get(cookieName)?.value ?? null;
-    // Minimum güvenlik: boş veya çok kısa token'ları reddet
+    // Hem tireli hem alt tireli çerezi kontrol et (geriye dönük uyumluluk ve XHR stabilitesi için)
+    const tireToken = req.cookies.get('auth-token')?.value;
+    const underscoreToken = req.cookies.get('auth_token')?.value;
+    const value = tireToken || underscoreToken || null;
+
     if (!value || value.length < 32) return null;
     return value;
 }
@@ -135,6 +138,10 @@ export function middleware(req: NextRequest) {
     // ── Super Admin özel koruma ──────────────────────────────────────────────
     if (isSuperAdminPath(pathname)) {
         if (!authToken) {
+            // API isteği ise yönlendirme yerine JSON hatası dön
+            if (pathname.startsWith('/api/')) {
+                return NextResponse.json({ error: 'Unauthorized - Oturum gerekli' }, { status: 401 });
+            }
             const loginUrl = new URL('/login', req.url);
             loginUrl.searchParams.set('redirect', pathname);
             loginUrl.searchParams.set('reason', 'unauthorized');
@@ -155,6 +162,10 @@ export function middleware(req: NextRequest) {
 
     // ── Genel Authenticated alan koruması ─────────────────────────────────────
     if (!authToken) {
+        // API isteği ise yönlendirme yerine JSON hatası dön
+        if (pathname.startsWith('/api/')) {
+            return NextResponse.json({ error: 'Unauthorized - Oturum gerekli' }, { status: 401 });
+        }
         // Login/giris sayfasındaysa yönlendirme döngüsü olmasın
         if (pathname === '/login' || pathname === '/giris') {
             return NextResponse.next();

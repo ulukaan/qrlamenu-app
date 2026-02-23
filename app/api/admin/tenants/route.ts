@@ -1,5 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/auth';
+import { sendWelcomeEmail } from '@/lib/mail';
 
 export async function GET() {
     try {
@@ -21,6 +23,9 @@ export async function GET() {
 export async function POST(request: Request) {
     try {
         const data = await request.json();
+        const unhashedPassword = data.password || '123456';
+        const hashedPassword = await hashPassword(unhashedPassword);
+
         const newTenant = await prisma.tenant.create({
             data: {
                 name: data.name,
@@ -28,9 +33,21 @@ export async function POST(request: Request) {
                 ownerEmail: data.ownerEmail || 'info@qrlamenu.com',
                 planId: data.planId,
                 status: 'ACTIVE',
-                trialExpiresAt: data.isTrial ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null
+                trialExpiresAt: data.isTrial ? new Date(Date.now() + 14 * 24 * 60 * 60 * 1000) : null,
+                users: {
+                    create: {
+                        email: data.ownerEmail || 'info@qrlamenu.com',
+                        password: hashedPassword,
+                        name: 'Restoran Yöneticisi',
+                        role: 'ADMIN'
+                    }
+                }
             }
         });
+
+        // Hoş geldiniz e-postasını gönder (Arka planda çalışır, isteği bekletmez)
+        sendWelcomeEmail(data.ownerEmail || 'info@qrlamenu.com', unhashedPassword, data.name).catch(e => console.error('Welcome Email Error:', e));
+
         return NextResponse.json(newTenant);
     } catch (error) {
         console.error('API Error:', error);
