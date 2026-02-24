@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/lib/auth';
+import { cookies } from 'next/headers';
+import { validateSession } from '@/lib/auth';
 
 const INITIAL_CONTENT = {
     hero: {
@@ -101,8 +101,16 @@ export async function GET() {
 
 export async function POST(request: Request) {
     try {
-        const session = await getServerSession(authOptions);
-        if (!session?.user || session.user.role !== 'SUPER_ADMIN') {
+        const cookieStore = cookies();
+        const token = cookieStore.get('auth-token')?.value || cookieStore.get('auth_token')?.value;
+
+        if (!token) {
+            return NextResponse.json({ error: 'Yetkisiz erişim. Oturum bulunamadı.' }, { status: 401 });
+        }
+
+        const session = await validateSession(token);
+
+        if (!session || session.role !== 'SUPER_ADMIN') {
             return NextResponse.json({ error: 'Yetkisiz erişim. Bu işlem için Super Admin yetkisi gereklidir.' }, { status: 403 });
         }
 
