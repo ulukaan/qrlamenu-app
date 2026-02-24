@@ -18,12 +18,14 @@ import {
     Eye,
     ExternalLink,
     Palette,
+    Lock,
 } from 'lucide-react';
 import Link from 'next/link';
 
 export default function RestoranBilgileri() {
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
+    const [availableFeatures, setAvailableFeatures] = useState<string[]>([]);
     const [selectedTemplate, setSelectedTemplate] = useState('LITE');
 
     const AVAILABLE_THEMES = [
@@ -69,6 +71,7 @@ export default function RestoranBilgileri() {
                 if (res.ok) {
                     const data = await res.json();
                     const s = data.settings || {};
+                    setAvailableFeatures(data.availableFeatures || []);
                     setSelectedTemplate(data.theme || 'LITE');
                     if (s.restaurantColor) setRestaurantColor(s.restaurantColor);
                     if (data.logoUrl) setLogoPreview(data.logoUrl);
@@ -487,50 +490,74 @@ export default function RestoranBilgileri() {
                                 <label style={labelStyle}>Menü Şablonu Seçin</label>
                                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
                                     {AVAILABLE_THEMES.map((theme) => {
+                                        const isPremiumTheme = theme.key !== 'LITE' && theme.key !== 'CLASSIC';
+                                        const isLocked = isPremiumTheme && !availableFeatures.includes('Premium Tema') && !availableFeatures.includes('Pro Tema');
                                         const isActive = selectedTemplate === theme.key;
+
                                         return (
-                                            <label key={theme.key} style={{
-                                                padding: '10px', borderRadius: '14px', cursor: 'pointer',
-                                                border: isActive ? `2px solid ${theme.color}` : '2px solid #e8ecf1',
-                                                background: isActive ? `${theme.color}08` : '#fff',
-                                                transition: 'all 0.25s ease', textAlign: 'center' as any,
-                                            }}>
-                                                <input
-                                                    type="radio" name="restaurant_template" value={theme.key}
-                                                    checked={isActive}
-                                                    onChange={(e) => setSelectedTemplate(e.target.value)}
-                                                    style={{ display: 'none' }}
-                                                />
-                                                <div style={{
-                                                    aspectRatio: '3/4', borderRadius: '10px', marginBottom: '10px',
-                                                    background: `linear-gradient(135deg, ${theme.color}18, ${theme.color}35)`,
-                                                    display: 'flex', flexDirection: 'column' as any,
-                                                    alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                                    border: `1px solid ${theme.color}20`,
-                                                }}>
-                                                    <span style={{ fontSize: '2.5rem' }}>{theme.icon}</span>
-                                                    <span style={{
-                                                        fontSize: '0.65rem', color: theme.color, fontWeight: 700,
-                                                        background: '#fff', padding: '3px 10px', borderRadius: '20px',
-                                                        boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                                                    }}>
-                                                        {theme.key}
-                                                    </span>
-                                                </div>
-                                                <div style={{ fontSize: '0.82rem', fontWeight: 700, color: isActive ? theme.color : '#333', marginBottom: '2px' }}>
-                                                    {theme.name}
-                                                </div>
-                                                <div style={{ fontSize: '0.68rem', color: '#999', lineHeight: 1.3 }}>
-                                                    {theme.desc}
-                                                </div>
-                                                {isActive && (
+                                            <div key={theme.key} style={{ position: 'relative' }}>
+                                                {isLocked && (
                                                     <div style={{
-                                                        marginTop: '6px', fontSize: '0.65rem', fontWeight: 700,
-                                                        color: '#fff', background: theme.color, borderRadius: '20px',
-                                                        padding: '3px 10px', display: 'inline-block',
-                                                    }}>✓ Seçili</div>
+                                                        position: 'absolute', top: -8, right: -8, zIndex: 10,
+                                                        background: '#1a1a2e', color: '#fff', fontSize: '0.65rem',
+                                                        fontWeight: 700, padding: '4px 8px', borderRadius: '12px',
+                                                        display: 'flex', alignItems: 'center', gap: '4px',
+                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+                                                    }}>
+                                                        <Lock size={10} color="#fbbf24" /> PRO
+                                                    </div>
                                                 )}
-                                            </label>
+                                                <label style={{
+                                                    padding: '10px', borderRadius: '14px',
+                                                    cursor: isLocked ? 'not-allowed' : 'pointer',
+                                                    border: isActive ? `2px solid ${theme.color}` : '2px solid #e8ecf1',
+                                                    background: isActive ? `${theme.color}08` : '#fff',
+                                                    transition: 'all 0.25s ease', textAlign: 'center' as any,
+                                                    display: 'block',
+                                                    opacity: isLocked ? 0.6 : 1,
+                                                    filter: isLocked ? 'grayscale(80%)' : 'none'
+                                                }}>
+                                                    <input
+                                                        type="radio" name="restaurant_template" value={theme.key}
+                                                        checked={isActive}
+                                                        onChange={(e) => {
+                                                            if (!isLocked) setSelectedTemplate(e.target.value);
+                                                            else setNotification({ type: 'error', message: 'Bu tema mevcut paketinizde bulunmamaktadır.' });
+                                                        }}
+                                                        disabled={isLocked}
+                                                        style={{ display: 'none' }}
+                                                    />
+                                                    <div style={{
+                                                        aspectRatio: '3/4', borderRadius: '10px', marginBottom: '10px',
+                                                        background: `linear-gradient(135deg, ${theme.color}18, ${theme.color}35)`,
+                                                        display: 'flex', flexDirection: 'column' as any,
+                                                        alignItems: 'center', justifyContent: 'center', gap: '8px',
+                                                        border: `1px solid ${theme.color}20`,
+                                                    }}>
+                                                        <span style={{ fontSize: '2.5rem' }}>{theme.icon}</span>
+                                                        <span style={{
+                                                            fontSize: '0.65rem', color: theme.color, fontWeight: 700,
+                                                            background: '#fff', padding: '3px 10px', borderRadius: '20px',
+                                                            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
+                                                        }}>
+                                                            {theme.key}
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: isActive ? theme.color : '#333', marginBottom: '2px' }}>
+                                                        {theme.name}
+                                                    </div>
+                                                    <div style={{ fontSize: '0.68rem', color: '#999', lineHeight: 1.3 }}>
+                                                        {theme.desc}
+                                                    </div>
+                                                    {isActive && (
+                                                        <div style={{
+                                                            marginTop: '6px', fontSize: '0.65rem', fontWeight: 700,
+                                                            color: '#fff', background: theme.color, borderRadius: '20px',
+                                                            padding: '3px 10px', display: 'inline-block',
+                                                        }}>✓ Seçili</div>
+                                                    )}
+                                                </label>
+                                            </div>
                                         );
                                     })}
                                 </div>
@@ -539,27 +566,38 @@ export default function RestoranBilgileri() {
                             {/* Ayarlar */}
                             <div style={{ borderTop: '1px solid #f0f1f3', paddingTop: '20px' }}>
                                 {[
-                                    { label: 'Garsonu Aramaya İzin Ver', name: 'allowCallWaiter' },
-                                    { label: 'Masada siparişe izin ver', name: 'allowOnTableOrder' },
-                                    { label: 'Gel-Al siparişine izin ver', name: 'allowTakeawayOrder' },
-                                    { label: 'Odaya Siparişe İzin Ver', name: 'allowHotelOrder' },
-                                    { label: 'Adrese Teslimat siparişine izin ver', name: 'allowDeliveryOrder' },
-                                    { label: 'Yeni Sipariş Bildirimi Gönder', name: 'sendOrderNotification' },
-                                ].map((s) => (
-                                    <div key={s.name} style={settingRowStyle}>
-                                        <label style={labelStyle}>{s.label}</label>
-                                        <select
-                                            name={s.name}
-                                            // @ts-ignore
-                                            value={formData[s.name]}
-                                            onChange={handleChange}
-                                            style={selectStyle}
-                                        >
-                                            <option value="1">Evet</option>
-                                            <option value="0">Hayır</option>
-                                        </select>
-                                    </div>
-                                ))}
+                                    { label: 'Garsonu Aramaya İzin Ver', name: 'allowCallWaiter', req: 'Garson Çağrı Sistemi' },
+                                    { label: 'Masada siparişe izin ver', name: 'allowOnTableOrder', req: 'Gelişmiş Sipariş Yönetimi' },
+                                    { label: 'Gel-Al siparişine izin ver', name: 'allowTakeawayOrder', req: 'Gelişmiş Sipariş Yönetimi' },
+                                    { label: 'Odaya Siparişe İzin Ver', name: 'allowHotelOrder', req: 'Gelişmiş Sipariş Yönetimi' },
+                                    { label: 'Adrese Teslimat siparişine izin ver', name: 'allowDeliveryOrder', req: 'Gelişmiş Sipariş Yönetimi' },
+                                    { label: 'Yeni Sipariş Bildirimi Gönder', name: 'sendOrderNotification', req: null },
+                                ].map((s) => {
+                                    // Sipariş Alma veya Gelişmiş Sipariş Yönetimi feature kontrolü
+                                    const isLocked = s.req && !availableFeatures.includes(s.req) && !(s.req === 'Gelişmiş Sipariş Yönetimi' && availableFeatures.includes('Sipariş Alma'));
+
+                                    return (
+                                        <div key={s.name} style={{ ...settingRowStyle, opacity: isLocked ? 0.6 : 1 }}>
+                                            <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                {s.label}
+                                                {isLocked && <span style={{ fontSize: '0.65rem', background: '#fef3c7', color: '#d97706', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '3px' }}><Lock size={9} /> PRO Özellik</span>}
+                                            </label>
+                                            <select
+                                                name={s.name}
+                                                // @ts-ignore
+                                                value={isLocked ? "0" : formData[s.name]}
+                                                onChange={(e) => {
+                                                    if (!isLocked) handleChange(e);
+                                                }}
+                                                style={{ ...selectStyle, cursor: isLocked ? 'not-allowed' : 'pointer' }}
+                                                disabled={!!isLocked}
+                                            >
+                                                <option value="1">Evet</option>
+                                                <option value="0">Hayır</option>
+                                            </select>
+                                        </div>
+                                    );
+                                })}
 
                                 <div style={settingRowStyle}>
                                     <label style={labelStyle}>Teslimat Ücreti</label>

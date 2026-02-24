@@ -55,3 +55,41 @@ export async function POST(request: Request) {
         return NextResponse.json({ error: 'Admin oluşturulurken bir hata oluştu.' }, { status: 500 });
     }
 }
+
+export async function DELETE(request: Request) {
+    try {
+        const { searchParams } = new URL(request.url);
+        const id = searchParams.get('id');
+
+        if (!id) return NextResponse.json({ error: 'ID gereklidir.' }, { status: 400 });
+
+        await prisma.superAdmin.delete({ where: { id } });
+        return NextResponse.json({ success: true });
+    } catch (error) {
+        return NextResponse.json({ error: 'Silinirken hata oluştu.' }, { status: 500 });
+    }
+}
+
+export async function PATCH(request: Request) {
+    try {
+        const body = await request.json();
+        const { id, name, email, password, role } = body;
+
+        if (!id) return NextResponse.json({ error: 'ID gereklidir.' }, { status: 400 });
+
+        const updateData: any = { name, email, role };
+
+        if (password) {
+            updateData.password = await hashPassword(password);
+        }
+
+        const updated = await prisma.superAdmin.update({
+            where: { id },
+            data: updateData
+        });
+
+        return NextResponse.json(updated);
+    } catch (error) {
+        return NextResponse.json({ error: 'Güncellenirken hata oluştu.' }, { status: 500 });
+    }
+}

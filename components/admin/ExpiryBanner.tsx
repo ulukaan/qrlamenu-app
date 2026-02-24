@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function ExpiryBanner() {
     const [isVisible, setIsVisible] = useState(false);
     const [daysLeft, setDaysLeft] = useState<number | null>(null);
+    const [isExpired, setIsExpired] = useState(false);
 
     useEffect(() => {
         const fetchTrialStatus = async () => {
@@ -15,22 +16,22 @@ export default function ExpiryBanner() {
                 if (res.ok) {
                     const data = await res.json();
 
-                    // Note: In a real app, trialExpiresAt would be a date field.
-                    // For this boilerplate, let's assume it's in the data.
-                    if (data.trialExpiresAt) {
+                    if (data.status === 'TRIAL' && data.trialExpiresAt) {
                         const expiry = new Date(data.trialExpiresAt);
                         const today = new Date();
                         const diffTime = expiry.getTime() - today.getTime();
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-                        if (diffDays <= 7 && diffDays > 0) {
+                        if (diffDays <= 14 && diffDays > 0) {
                             setDaysLeft(diffDays);
                             setIsVisible(true);
+                        } else if (diffDays <= 0) {
+                            setIsExpired(true);
+                            setIsVisible(true);
                         }
-                    } else {
-                        // Mock data for demonstration if no expiry is set
-                        // setDaysLeft(3);
-                        // setIsVisible(true);
+                    } else if (data.status === 'EXPIRED') {
+                        setIsExpired(true);
+                        setIsVisible(true);
                     }
                 }
             } catch (err) {
@@ -48,15 +49,17 @@ export default function ExpiryBanner() {
                 initial={{ height: 0, opacity: 0 }}
                 animate={{ height: 'auto', opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
-                className="bg-amber-50 border-b border-amber-200 overflow-hidden"
+                className={`${isExpired ? 'bg-red-50 border-red-200' : 'bg-amber-50 border-amber-200'} border-b overflow-hidden`}
             >
                 <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-3">
-                        <div className="p-2 bg-amber-100 rounded-lg text-amber-600">
-                            <Clock size={18} />
+                        <div className={`p-2 rounded-lg ${isExpired ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600'}`}>
+                            {isExpired ? <AlertTriangle size={18} /> : <Clock size={18} />}
                         </div>
-                        <p className="text-sm font-medium text-amber-800">
-                            Deneme sürenizin bitmesine <span className="font-bold">{daysLeft} gün</span> kaldı. Kesintisiz hizmet için planınızı yükseltin.
+                        <p className={`text-sm font-medium ${isExpired ? 'text-red-800' : 'text-amber-800'}`}>
+                            {isExpired
+                                ? "Deneme süreniz dolmuştur! Kullanmaya devam etmek için abonelik planınızı seçin."
+                                : <>Deneme sürenizin bitmesine <span className="font-bold">{daysLeft} gün</span> kaldı. Kesintisiz hizmet için planınızı yükseltin.</>}
                         </p>
                     </div>
                     <div className="flex items-center gap-3">

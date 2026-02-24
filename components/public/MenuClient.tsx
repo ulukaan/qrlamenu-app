@@ -235,33 +235,33 @@ function MenuContent({ restaurant, defaultTheme }: MenuClientProps) {
                         <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                             onClick={e => e.stopPropagation()}
-                            style={{ background: 'white', width: '100%', maxWidth: '520px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', overflow: 'hidden', maxHeight: '90vh' }}>
-                            <div style={{ height: '250px', background: `url(${selectedProduct.imageUrl || selectedProduct.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60'}) center/cover`, position: 'relative' }}>
+                            style={{ background: 'white', width: '100%', maxWidth: '520px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', overflow: 'hidden', maxHeight: '90vh', boxSizing: 'border-box' }}>
+                            <div style={{ height: '220px', background: `url(${selectedProduct.imageUrl || selectedProduct.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=60'}) center/cover`, position: 'relative' }}>
                                 <button onClick={() => setSelectedProduct(null)}
                                     style={{ position: 'absolute', top: '16px', right: '16px', background: 'rgba(255,255,255,0.85)', border: 'none', borderRadius: '50%', width: '36px', height: '36px', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                                     <X size={18} />
                                 </button>
                             </div>
-                            <div style={{ padding: '20px' }}>
+                            <div style={{ padding: '16px 20px', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
-                                    <h2 style={{ fontSize: '1.3rem', fontWeight: '900', margin: 0, flex: 1, paddingRight: '12px' }}>{selectedProduct.name}</h2>
+                                    <h2 style={{ fontSize: '1.25rem', fontWeight: '900', margin: 0, flex: 1, paddingRight: '12px' }}>{selectedProduct.name}</h2>
                                     <span style={{ fontSize: '1.2rem', fontWeight: '900', color: pColor, whiteSpace: 'nowrap' }}>{selectedProduct.price?.toFixed(2)}₺</span>
                                 </div>
-                                <p style={{ color: '#6b7280', fontSize: '0.875rem', lineHeight: 1.5, marginBottom: '20px' }}>{selectedProduct.description || 'Bu ürün için açıklama belirtilmemiş.'}</p>
+                                <p style={{ color: '#6b7280', fontSize: '0.85rem', lineHeight: 1.5, marginBottom: '20px', overflowY: 'auto', maxHeight: '15vh' }}>{selectedProduct.description || 'Bu ürün için açıklama belirtilmemiş.'}</p>
 
                                 {hasOrdering ? (
-                                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', background: '#f3f4f6', borderRadius: '14px', padding: '4px', gap: '2px' }}>
-                                            <button onClick={() => setModalQty(q => Math.max(1, q - 1))} style={{ width: '40px', height: '40px', background: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '1.3rem', fontWeight: '700' }}>−</button>
-                                            <span style={{ width: '36px', textAlign: 'center', fontWeight: '800' }}>{modalQty}</span>
-                                            <button onClick={() => setModalQty(q => q + 1)} style={{ width: '40px', height: '40px', background: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '1.3rem', fontWeight: '700', color: pColor }}>+</button>
+                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center', flexWrap: 'wrap' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', background: '#f3f4f6', borderRadius: '12px', padding: '4px', gap: '2px' }}>
+                                            <button onClick={() => setModalQty(q => Math.max(1, q - 1))} style={{ width: '36px', height: '36px', background: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '1.3rem', fontWeight: '700' }}>−</button>
+                                            <span style={{ width: '32px', textAlign: 'center', fontWeight: '800' }}>{modalQty}</span>
+                                            <button onClick={() => setModalQty(q => q + 1)} style={{ width: '36px', height: '36px', background: 'white', border: 'none', borderRadius: '10px', cursor: 'pointer', fontSize: '1.3rem', fontWeight: '700', color: pColor }}>+</button>
                                         </div>
                                         <button onClick={() => addToCart(selectedProduct, modalQty)} style={{
-                                            flex: 1, padding: '14px', background: pColor, color: 'white', border: 'none',
-                                            borderRadius: '14px', fontWeight: '800', cursor: 'pointer',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px'
+                                            flex: 1, padding: '12px', background: pColor, color: 'white', border: 'none',
+                                            borderRadius: '12px', fontWeight: '800', cursor: 'pointer',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', fontSize: '0.95rem'
                                         }}>
-                                            <ShoppingCart size={18} /> Sepete Ekle — {(selectedProduct.price * modalQty).toFixed(2)}₺
+                                            <ShoppingCart size={18} /> Ekle — {(selectedProduct.price * modalQty).toFixed(2)}₺
                                         </button>
                                     </div>
                                 ) : (
@@ -283,22 +283,22 @@ function MenuContent({ restaurant, defaultTheme }: MenuClientProps) {
                         <motion.div initial={{ y: '100%' }} animate={{ y: 0 }} exit={{ y: '100%' }}
                             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                             onClick={e => e.stopPropagation()}
-                            style={{ background: 'white', width: '100%', maxWidth: '520px', borderTopLeftRadius: '28px', borderTopRightRadius: '28px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                            <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            style={{ background: 'white', width: '100%', maxWidth: '520px', borderTopLeftRadius: '24px', borderTopRightRadius: '24px', maxHeight: '85vh', display: 'flex', flexDirection: 'column', overflow: 'hidden', boxSizing: 'border-box' }}>
+                            <div style={{ padding: '16px 20px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                                 <h2 style={{ margin: 0, fontWeight: '900', fontSize: '1.1rem' }}>🛒 Sepetim</h2>
-                                <button onClick={() => setOrderStep('idle')} style={{ border: 'none', background: '#f1f5f9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontWeight: '700', fontSize: '1rem' }}>×</button>
+                                <button onClick={() => setOrderStep('idle')} style={{ border: 'none', background: '#f1f5f9', borderRadius: '50%', width: '32px', height: '32px', cursor: 'pointer', fontWeight: '700', fontSize: '1rem', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><X size={18} /></button>
                             </div>
-                            <div style={{ flex: 1, overflowY: 'auto', padding: '16px 20px', display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <div style={{ flex: 1, overflowY: 'auto', padding: '12px 16px', display: 'flex', flexDirection: 'column', gap: '10px', boxSizing: 'border-box' }}>
                                 {cart.map(item => (
-                                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: '14px', background: '#f9fafb' }}>
-                                        {item.imageUrl && <img src={item.imageUrl} alt={item.name} style={{ width: '48px', height: '48px', borderRadius: '10px', objectFit: 'cover' }} />}
-                                        <div style={{ flex: 1 }}>
-                                            <p style={{ margin: 0, fontWeight: '800', fontSize: '0.9rem' }}>{item.name}</p>
+                                    <div key={item.id} style={{ display: 'flex', alignItems: 'center', gap: '10px', padding: '10px', borderRadius: '12px', background: '#f9fafb', flexWrap: 'wrap' }}>
+                                        {item.imageUrl && <img src={item.imageUrl} alt={item.name} style={{ width: '40px', height: '40px', borderRadius: '8px', objectFit: 'cover' }} />}
+                                        <div style={{ flex: 1, minWidth: '120px' }}>
+                                            <p style={{ margin: 0, fontWeight: '800', fontSize: '0.85rem' }}>{item.name}</p>
                                             <p style={{ margin: 0, color: pColor, fontWeight: '700', fontSize: '0.85rem' }}>{(item.price * item.quantity).toFixed(2)}₺</p>
                                         </div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'white', borderRadius: '10px', padding: '4px 6px', border: '1px solid #e5e7eb' }}>
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '2px', background: 'white', borderRadius: '10px', padding: '4px', border: '1px solid #e5e7eb' }}>
                                             <button onClick={() => updateQty(item.id, -1)} style={{ border: 'none', background: 'none', cursor: 'pointer', fontWeight: '800', width: '24px' }}>−</button>
-                                            <span style={{ fontWeight: '800', minWidth: '18px', textAlign: 'center', fontSize: '0.9rem' }}>{item.quantity}</span>
+                                            <span style={{ fontWeight: '800', minWidth: '16px', textAlign: 'center', fontSize: '0.9rem' }}>{item.quantity}</span>
                                             <button onClick={() => updateQty(item.id, 1)} style={{ border: 'none', background: 'none', cursor: 'pointer', fontWeight: '800', width: '24px', color: pColor }}>+</button>
                                         </div>
                                         <button onClick={() => removeFromCart(item.id)} style={{ border: 'none', background: 'none', cursor: 'pointer', color: '#ef4444', padding: '4px' }}><Trash2 size={16} /></button>
@@ -306,26 +306,23 @@ function MenuContent({ restaurant, defaultTheme }: MenuClientProps) {
                                 ))}
                             </div>
                             <div style={{ padding: '16px 20px', borderTop: '1px solid #f1f5f9' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '14px', fontWeight: '900' }}>
+                                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px', fontWeight: '900', fontSize: '1.05rem' }}>
                                     <span>Toplam</span>
                                     <span style={{ color: pColor }}>{cartTotal.toFixed(2)}₺</span>
                                 </div>
                                 <button onClick={() => {
                                     if (tableId && allowTableOrder) {
-                                        // QR'dan geldi — otomatik masa siparişi
                                         setOrderType('TABLE');
                                         setOrderStep('confirm');
                                     } else if (nonTableTypes.length === 1) {
-                                        // Tek seçenek varsa direkt seç
                                         setOrderType(nonTableTypes[0]);
                                         setOrderStep('confirm');
                                     } else {
-                                        // Birden fazla seçenek: seçim ekranı
                                         setOrderStep('type');
                                     }
                                 }}
-                                    style={{ width: '100%', padding: '15px', background: pColor, color: 'white', border: 'none', borderRadius: '16px', fontWeight: '900', fontSize: '1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                    Devam Et <ArrowRight size={20} />
+                                    style={{ width: '100%', padding: '14px', background: pColor, color: 'white', border: 'none', borderRadius: '14px', fontWeight: '900', fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                                    Devam Et <ArrowRight size={18} />
                                 </button>
                             </div>
                         </motion.div>

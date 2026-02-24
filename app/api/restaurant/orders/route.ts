@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/auth';
 import { triggerRestaurantEvent } from '@/lib/pusher';
+import { checkTenantLimits, hasFeature } from '@/lib/limits';
 
 export async function POST(request: Request) {
     try {
@@ -13,9 +14,15 @@ export async function POST(request: Request) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
         }
 
-        // Validate tenant exists (optional but good practice)
-        // const tenant = await prisma.tenant.findUnique({ where: { id: tenantId } });
-        // if (!tenant) return NextResponse.json({ error: 'Tenant not found' }, { status: 404 });
+        // Limit ve Tema/Özellik kontrolü
+        const limitCheck = await checkTenantLimits(tenantId);
+        if (!limitCheck.allowed) {
+            return NextResponse.json({ error: limitCheck.reason }, { status: 403 });
+        }
+
+        if (!hasFeature(limitCheck.limits, 'Gelişmiş Sipariş Yönetimi') && !hasFeature(limitCheck.limits, 'Sipariş Alma')) {
+            return NextResponse.json({ error: 'Bu restoranın abonelik planı online sipariş alımını desteklemiyor.' }, { status: 403 });
+        }
 
         const order = await prisma.order.create({
             data: {

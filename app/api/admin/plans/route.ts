@@ -1,39 +1,14 @@
 import { NextResponse } from 'next/server';
-
-const mockPlans = [
-    {
-        id: 'p-1',
-        name: 'Starter Plan',
-        code: 'starter',
-        price: 499,
-        branchLimit: 1,
-        tableLimit: 50,
-        features: ['QR Menü', 'Temel Raporlama', 'Gelişmiş Sipariş Yönetimi']
-    },
-    {
-        id: 'p-2',
-        name: 'Business Pro',
-        code: 'pro',
-        price: 999,
-        branchLimit: 3,
-        tableLimit: 150,
-        features: ['QR Menü', 'Gelişmiş Raporlama', 'Stok Yönetimi', 'Müşteri Sadakat Programı']
-    },
-    {
-        id: 'p-3',
-        name: 'Enterprise Premium',
-        code: 'enterprise',
-        price: 2499,
-        branchLimit: 10,
-        tableLimit: 500,
-        features: ['Tüm Pro Özellikler', 'Özel API Erişimi', '7/24 Öncelikli Telefon Desteği', 'Özel Entegrasyonlar']
-    }
-];
+import { prisma } from '@/lib/prisma';
 
 export async function GET() {
     try {
-        return NextResponse.json(mockPlans);
+        const plans = await prisma.subscriptionPlan.findMany({
+            orderBy: { price: 'asc' }
+        });
+        return NextResponse.json(plans);
     } catch (error) {
+        console.error('Planları çekerken hata:', error);
         return NextResponse.json({ error: 'Planlar alınamadı.' }, { status: 500 });
     }
 }
@@ -41,10 +16,29 @@ export async function GET() {
 export async function POST(req: Request) {
     try {
         const body = await req.json();
-        const newPlan = { ...body, id: `p-${Date.now()}` };
-        mockPlans.push(newPlan);
+
+        // Yeni plan oluştururken özelliklerin (features) array gelmesini bekle, 
+        // string gelirse ya da yoksa [] olarak ayarla.
+        let featuresArr = body.features;
+        if (typeof featuresArr === 'string') {
+            featuresArr = featuresArr.split('\n').filter((f: string) => f.trim() !== '');
+        } else if (!Array.isArray(featuresArr)) {
+            featuresArr = [];
+        }
+
+        const newPlan = await prisma.subscriptionPlan.create({
+            data: {
+                name: body.name || 'Yeni Plan',
+                code: body.code || `plan_${Date.now()} `,
+                price: parseFloat(body.price) || 0,
+                branchLimit: parseInt(body.branchLimit) || 1,
+                tableLimit: parseInt(body.tableLimit) || 10,
+                features: featuresArr,
+            }
+        });
         return NextResponse.json(newPlan);
     } catch (error) {
+        console.error('Plan oluşturulurken hata:', error);
         return NextResponse.json({ error: 'Plan oluşturulamadı.' }, { status: 500 });
     }
 }

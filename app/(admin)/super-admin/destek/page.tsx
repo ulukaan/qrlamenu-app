@@ -24,6 +24,24 @@ export default function SupportPage() {
         fetchLeads();
     }, []);
 
+    const updateLeadStatus = async (id: string, newStatus: string) => {
+        try {
+            const res = await fetch('/api/admin/crm', {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id, status: newStatus })
+            });
+
+            if (res.ok) {
+                // Refresh list
+                const refreshed = await fetch('/api/admin/crm').then(r => r.json());
+                setLeads(refreshed);
+            }
+        } catch (err) {
+            console.error('Update status error:', err);
+        }
+    };
+
     return (
         <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
             {/* Page Header Area */}
@@ -49,7 +67,7 @@ export default function SupportPage() {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {/* Premium Categories Filter Bar */}
                     <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
-                        {['Tüm Talepler', 'Yanıt Bekleyenler', 'Çözümlenenler', 'Arşivlenenler', 'Şikayet / İtiraz'].map((cat, i) => (
+                        {['Tüm Talepler'].map((cat, i) => (
                             <button key={i} style={{
                                 padding: '10px 20px',
                                 borderRadius: '14px',
@@ -119,7 +137,7 @@ export default function SupportPage() {
                                                     </div>
                                                     <div style={{ marginTop: '8px' }}>
                                                         <span style={{ fontSize: '0.7rem', fontWeight: '900', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '8px', background: msg.status === 'PENDING' ? 'rgba(16, 185, 129, 0.1)' : '#f8fafc', color: msg.status === 'PENDING' ? '#10b981' : '#64748b', border: '1px solid currentColor', letterSpacing: '0.05em' }}>
-                                                            {msg.status === 'PENDING' ? 'YENİ TALEP' : 'İŞLENDİ'}
+                                                            {msg.status === 'PENDING' ? 'YENİ TALEP' : (msg.status === 'LOST' ? 'ARŞİVLENDİ' : 'ÇÖZÜLDÜ')}
                                                         </span>
                                                     </div>
                                                 </div>
@@ -133,8 +151,12 @@ export default function SupportPage() {
                                             </div>
 
                                             <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
-                                                <button style={{ padding: '10px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50 hover:border-slate-300">Arşive Kaldır</button>
-                                                <button style={{ padding: '10px 24px', borderRadius: '12px', border: 'none', background: '#ff7a21', color: '#fff', fontSize: '0.85rem', fontWeight: '900', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.25)', transition: 'all 0.2s' }} className="hover:scale-105 active:scale-95">Hemen Yanıtla</button>
+                                                {msg.status !== 'LOST' && (
+                                                    <button onClick={() => updateLeadStatus(msg.id, 'LOST')} style={{ padding: '10px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50 hover:border-slate-300">Arşive Kaldır</button>
+                                                )}
+                                                {msg.status === 'PENDING' && (
+                                                    <button onClick={() => updateLeadStatus(msg.id, 'CONTACTED')} style={{ padding: '10px 24px', borderRadius: '12px', border: 'none', background: '#ff7a21', color: '#fff', fontSize: '0.85rem', fontWeight: '900', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.25)', transition: 'all 0.2s' }} className="hover:scale-105 active:scale-95">Çözüldü İşaretle</button>
+                                                )}
                                             </div>
                                         </div>
                                     </div>

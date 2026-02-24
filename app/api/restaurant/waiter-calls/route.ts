@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import { validateSession } from '@/lib/auth';
 import { cookies } from 'next/headers';
 import { triggerRestaurantEvent } from '@/lib/pusher';
+import { checkTenantLimits, hasFeature } from '@/lib/limits';
 
 export async function POST(req: NextRequest) {
     try {
@@ -11,6 +12,16 @@ export async function POST(req: NextRequest) {
 
         if (!tenantId || !tableId) {
             return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+        }
+
+        // Limit ve Tema/Özellik kontrolü
+        const limitCheck = await checkTenantLimits(tenantId);
+        if (!limitCheck.allowed) {
+            return NextResponse.json({ error: limitCheck.reason }, { status: 403 });
+        }
+
+        if (!hasFeature(limitCheck.limits, 'Garson Çağrı Sistemi')) {
+            return NextResponse.json({ error: 'Bu restoranın abonelik planı Garson Çağrısı özelliğini desteklemiyor.' }, { status: 403 });
         }
 
         const call = await prisma.waiterCall.create({

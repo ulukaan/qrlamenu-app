@@ -61,7 +61,7 @@ export default function AdminlerPage() {
         e.preventDefault();
         try {
             setActionLoading(true);
-            const url = editingAdmin ? `/api/admin/admins/${editingAdmin.id}` : '/api/admin/admins';
+            const url = '/api/admin/admins';
             const method = editingAdmin ? 'PATCH' : 'POST';
 
             const payload: any = {
@@ -69,6 +69,10 @@ export default function AdminlerPage() {
                 email: formData.email,
                 role: formData.role
             };
+
+            if (editingAdmin) {
+                payload.id = editingAdmin.id;
+            }
 
             if (!editingAdmin || formData.password) {
                 payload.password = formData.password;
@@ -100,7 +104,7 @@ export default function AdminlerPage() {
 
         try {
             setLoading(true);
-            const res = await fetch(`/api/admin/admins/${id}`, { method: 'DELETE' });
+            const res = await fetch(`/api/admin/admins?id=${id}`, { method: 'DELETE' });
             if (res.ok) {
                 fetchAdmins();
             } else {
@@ -116,10 +120,10 @@ export default function AdminlerPage() {
 
     const handleStatusToggle = async (admin: any) => {
         try {
-            const res = await fetch(`/api/admin/admins/${admin.id}`, {
+            const res = await fetch(`/api/admin/admins`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ emailVerified: !admin.emailVerified })
+                body: JSON.stringify({ id: admin.id, emailVerified: !admin.emailVerified })
             });
             if (res.ok) fetchAdmins();
         } catch (err) {
@@ -132,10 +136,10 @@ export default function AdminlerPage() {
         if (!newPassword) return;
 
         try {
-            const res = await fetch(`/api/admin/admins/${admin.id}`, {
+            const res = await fetch(`/api/admin/admins`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ password: newPassword })
+                body: JSON.stringify({ id: admin.id, password: newPassword })
             });
             if (res.ok) alert('Şifre başarıyla güncellendi.');
         } catch (err) {
@@ -160,7 +164,7 @@ export default function AdminlerPage() {
                 </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {/* Admin List Card */}
                     <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>

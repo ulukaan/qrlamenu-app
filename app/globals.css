@@ -203,6 +203,14 @@ body {
     padding: 1.5rem 2rem;
 }
 
+@media (max-width: 768px) {
+    .grid-dashboard {
+        grid-template-columns: 1fr;
+        padding: 1rem 1rem;
+        gap: 1rem;
+    }
+}
+
 .stat-card {
     background: white;
     border-radius: 8px;

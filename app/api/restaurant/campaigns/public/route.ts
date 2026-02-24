@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { checkTenantLimits, hasFeature } from '@/lib/limits';
 
 export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
@@ -10,6 +11,11 @@ export async function GET(request: Request) {
     }
 
     try {
+        const limitCheck = await checkTenantLimits(tenantId);
+        if (!limitCheck.allowed || !hasFeature(limitCheck.limits, 'Analizler & Kampanyalar')) {
+            return NextResponse.json([]); // Özellik yoksa veya süre bittiyse kampanya yok
+        }
+
         const campaigns = await (prisma as any).campaign.findMany({
             where: {
                 tenantId,

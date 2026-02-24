@@ -1,8 +1,8 @@
-
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/auth';
+import { checkTenantLimits, hasFeature } from '@/lib/limits';
 
 // GET: Fetch restaurant settings
 export async function GET() {
@@ -32,11 +32,16 @@ export async function GET() {
             return NextResponse.json({ error: 'Tenant not found' }, { status: 404 });
         }
 
+        const limitCheck = await checkTenantLimits(tenantId);
+
         return NextResponse.json({
             name: tenant.name,
             slug: tenant.slug,
             theme: tenant.theme,
             logoUrl: tenant.logoUrl,
+            status: tenant.status,
+            trialExpiresAt: tenant.trialExpiresAt,
+            availableFeatures: limitCheck.limits?.features || [], // UI'da özellikleri kilitli/açık göstermek için
             settings: (tenant.settings as any) || {},
         });
     } catch (error: any) {
@@ -133,6 +138,36 @@ export async function POST(request: Request) {
             sendOrderNotification: sendOrderNotification === '1' || sendOrderNotification === true,
             deliveryCharge: deliveryCharge ? parseFloat(deliveryCharge) : 0,
         };
+
+        // Paket (Plan ve Trial) limit kontrolü
+        const limitCheck = await checkTenantLimits(tenantId);
+        if (!limitCheck.allowed) {
+            return NextResponse.json({ error: limitCheck.reason }, { status: 403 });
+        }
+
+        const limits = limitCheck.limits;
+        const requestedTheme = restaurant_template || theme;
+
+        // Premium Tema kontrolü
+        if (requestedTheme && requestedTheme !== 'LITE' && requestedTheme !== 'CLASSIC') {
+            if (!hasFeature(limits, 'Premium Tema') && !hasFeature(limits, 'Pro Tema')) {
+                return NextResponse.json({ error: 'Premium temalar mevcut abonelik planınıza dahil değildir.' }, { status: 403 });
+            }
+        }
+
+        // Garson Çağrısı Kontrolü
+        if (settings.allowCallWaiter) {
+            if (!hasFeature(limits, 'Garson Çağrı Sistemi')) {
+                return NextResponse.json({ error: 'Garson Çağrı Sistemi mevcut abonelik planınıza dahil değildir.' }, { status: 403 });
+            }
+        }
+
+        // Gelişmiş Sipariş Yönetimi Kontrolü (Masada Sipariş, Paket Servis vb.)
+        if (settings.allowOnTableOrder || settings.allowTakeawayOrder || settings.allowHotelOrder || settings.allowDeliveryOrder) {
+            if (!hasFeature(limits, 'Gelişmiş Sipariş Yönetimi') && !hasFeature(limits, 'Sipariş Alma')) {
+                return NextResponse.json({ error: 'Gelişmiş Sipariş Yönetimi (Masada Yemek, Paket Servis) mevcut abonelik planınıza dahil değildir.' }, { status: 403 });
+            }
+        }
 
         const updateData: any = {
             name,

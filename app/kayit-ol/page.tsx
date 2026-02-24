@@ -1,15 +1,19 @@
 "use client";
 import { useState } from "react";
-import { Loader2, Check, MessageCircle, Mail } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Loader2, Check, MessageCircle, Mail, Eye, EyeOff } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function SignUpPage() {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         restaurantName: "",
         fullName: "",
         email: "",
-        phone: ""
+        phone: "",
+        password: ""
     });
+    const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
@@ -27,11 +31,38 @@ export default function SignUpPage() {
             return;
         }
 
+        if (formData.password.length < 6) {
+            setError("Şifreniz en az 6 karakter olmalıdır.");
+            return;
+        }
+
         setLoading(true);
-        setTimeout(() => {
+        try {
+            const res = await fetch("/api/auth/register", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData)
+            });
+
+            const contentType = res.headers.get("content-type");
+            if (contentType && contentType.includes("application/json")) {
+                const data = await res.json();
+                if (res.ok) {
+                    setSuccess(true);
+                    setTimeout(() => {
+                        router.push("/dashboard");
+                    }, 1500);
+                } else {
+                    setError(data.error || "Kayıt işlemi başarısız.");
+                }
+            } else {
+                setError(`Sunucu hatası. Lütfen daha sonra tekrar deneyin.`);
+            }
+        } catch (err: any) {
+            setError(`Bağlantı hatası: Sunucuya ulaşılamıyor.`);
+        } finally {
             setLoading(false);
-            setSuccess(true);
-        }, 1500);
+        }
     };
 
     return (
@@ -102,6 +133,22 @@ export default function SignUpPage() {
                                     </div>
                                 </div>
 
+                                <div className="relative">
+                                    <input
+                                        type={showPass ? "text" : "password"}
+                                        required name="password" value={formData.password} onChange={handleChange}
+                                        className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 pr-12 text-slate-900 placeholder-slate-400 focus:border-[#ff7a21] focus:ring-1 focus:ring-[#ff7a21] transition-all text-[17px] font-normal outline-none"
+                                        placeholder="Güvenli Parolanız"
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={() => setShowPass(!showPass)}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                                    >
+                                        {showPass ? <EyeOff size={20} /> : <Eye size={20} />}
+                                    </button>
+                                </div>
+
                                 <div className="pt-2">
                                     <button
                                         type="submit" disabled={loading}
@@ -141,7 +188,7 @@ export default function SignUpPage() {
                 {/* Destek / İletişim Bilgileri */}
                 <div className="flex flex-col items-center space-y-4">
                     <div className="flex items-center justify-center gap-6 text-[14px] text-slate-500 font-medium">
-                        <a href="https://wa.me/905300000000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#25D366] transition-colors group">
+                        <a href="https://wa.me/905314660550" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#25D366] transition-colors group">
                             <MessageCircle size={18} className="text-slate-400 group-hover:text-[#25D366] transition-colors" /> Destek Hattı
                         </a>
                         <a href="mailto:info@qrlamenu.com" className="flex items-center gap-1.5 hover:text-[#ff7a21] transition-colors group">

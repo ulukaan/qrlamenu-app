@@ -25,6 +25,25 @@ export default function LogsPage() {
         fetchLogs();
     }, []);
 
+    const clearLogs = async () => {
+        if (!confirm('Tüm sistem loglarını silmek istediğinize emin misiniz? Bu işlem geri alınamaz.')) return;
+
+        try {
+            setLoading(true);
+            const res = await fetch('/api/admin/logs', { method: 'DELETE' });
+            if (res.ok) {
+                const refreshed = await fetch('/api/admin/logs').then(r => r.json());
+                setLogs(refreshed);
+            } else {
+                alert('Loglar temizlenemedi.');
+            }
+        } catch (err) {
+            console.error('Clear logs error:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const getLogColor = (level: string) => {
         switch (level) {
             case 'SUCCESS': return '#4caf50';
@@ -46,13 +65,13 @@ export default function LogsPage() {
                     <button className="hover:scale-105 active:scale-95 transition-all" style={{ padding: '12px 24px', borderRadius: '14px', background: '#fff', border: '1px solid #e2e8f0', color: '#475569', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
                         <Info size={18} strokeWidth={2.5} /> Rehber
                     </button>
-                    <button className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
+                    <button onClick={clearLogs} className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
                         <Terminal size={18} strokeWidth={2.5} /> Terminali Temizle
                     </button>
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {/* Sophisticated Dark Terminal Viewer */}
                     <div className="card" style={{ border: 'none', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#cbd5e1', padding: '28px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', minHeight: '650px', maxHeight: '75vh', overflowY: 'auto', position: 'relative' }}>
