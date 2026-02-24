@@ -5,22 +5,36 @@ import {
     Instagram,
     Facebook,
     Globe,
-    Youtube,
     MessageCircle,
     Image as ImageIcon,
-    ArrowRight,
     MapPin,
     AlertCircle,
     CheckCircle2,
     Loader2,
     Save,
     Upload,
-    Eye,
     ExternalLink,
     Palette,
     Lock,
+    Store,
+    Activity,
+    Smartphone,
+    Briefcase,
+    Settings2,
+    ShoppingBag,
+    DollarSign,
+    LayoutGrid,
+    Target,
+    ChevronRight,
+    ChevronDown,
+    Plus,
+    Trash2,
+    Edit,
+    Package,
+    GripVertical
 } from 'lucide-react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function RestoranBilgileri() {
     const [loading, setLoading] = useState(false);
@@ -159,481 +173,485 @@ export default function RestoranBilgileri() {
         }
     };
 
-    // ===== STYLES =====
-    const pageStyle: React.CSSProperties = { padding: '0' };
-    const headerStyle: React.CSSProperties = {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'
-    };
-    const cardStyle: React.CSSProperties = {
-        background: '#fff', borderRadius: '14px', border: '1px solid #e8ecf1',
-        overflow: 'hidden', marginBottom: '20px',
-    };
-    const cardHeaderStyle: React.CSSProperties = {
-        padding: '16px 20px', borderBottom: '1px solid #f0f1f3',
-        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        flexWrap: 'wrap', gap: '12px', background: '#fafbfc',
-    };
-    const cardBodyStyle: React.CSSProperties = { padding: '24px' };
-    const rowStyle: string = "grid grid-cols-1 md:grid-cols-2 gap-5";
-    const fullRowStyle: React.CSSProperties = { gridColumn: '1 / -1' };
-    const labelStyle: React.CSSProperties = {
-        display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#444', marginBottom: '8px',
-    };
-    const inputStyle: React.CSSProperties = {
-        width: '100%', padding: '10px 14px', border: '1px solid #dfe3e8',
-        borderRadius: '8px', fontSize: '0.85rem', outline: 'none',
-        background: '#fafafa', boxSizing: 'border-box', transition: 'border 0.2s',
-    };
-    const selectStyle: React.CSSProperties = { ...inputStyle, cursor: 'pointer', appearance: 'auto' as any };
-    const textareaStyle: React.CSSProperties = {
-        ...inputStyle, minHeight: '120px', resize: 'vertical' as any, fontFamily: 'inherit',
-    };
-    const smallStyle: React.CSSProperties = { fontSize: '0.72rem', color: '#999', marginTop: '4px', display: 'block' };
-    const requiredStar: React.CSSProperties = { color: '#ef4444', marginRight: '4px' };
-    const btnPrimary: React.CSSProperties = {
-        display: 'inline-flex', alignItems: 'center', gap: '8px',
-        padding: '12px 28px', borderRadius: '8px', border: 'none',
-        background: '#333', color: '#fff', fontWeight: 700,
-        fontSize: '0.88rem', cursor: 'pointer', transition: 'all 0.2s',
-    };
-    const previewBtnStyle: React.CSSProperties = {
-        display: 'inline-flex', alignItems: 'center', gap: '6px',
-        padding: '9px 18px', borderRadius: '8px', border: 'none',
-        background: '#1a1a2e', color: '#fff', fontSize: '0.82rem',
-        fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s',
-        textDecoration: 'none',
-    };
-    const notifStyle = (t: string): React.CSSProperties => ({
-        position: 'fixed', top: '20px', right: '20px', padding: '14px 20px',
-        borderRadius: '10px', zIndex: 9999, display: 'flex', alignItems: 'center',
-        gap: '10px', fontSize: '0.85rem', fontWeight: 600,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-        background: t === 'success' ? '#f0fdf4' : '#fef2f2',
-        color: t === 'success' ? '#16a34a' : '#dc2626',
-        border: `1px solid ${t === 'success' ? '#bbf7d0' : '#fecaca'}`,
-        animation: 'slideIn 0.3s ease-out',
-    });
-    const uploadBoxStyle: React.CSSProperties = {
-        border: '2px dashed #dfe3e8', borderRadius: '12px', padding: '24px',
-        textAlign: 'center' as any, cursor: 'pointer', transition: 'all 0.2s',
-        background: '#fafbfc',
-    };
-    const templateCardStyle = (active: boolean): React.CSSProperties => ({
-        padding: '10px', borderRadius: '12px', cursor: 'pointer',
-        border: active ? '2px solid #ff6e01' : '2px solid #e8ecf1',
-        background: active ? 'rgba(255,110,1,0.04)' : '#fff',
-        transition: 'all 0.2s', textAlign: 'center' as any,
-    });
-    const templateImgStyle: React.CSSProperties = {
-        width: '100%', aspectRatio: '3/4', objectFit: 'cover' as any,
-        borderRadius: '8px', marginBottom: '8px', background: '#f0f0f0',
-    };
-    const settingRowStyle: React.CSSProperties = {
-        marginBottom: '16px',
-    };
-    const iconLabelStyle: React.CSSProperties = {
-        display: 'flex', alignItems: 'center', gap: '8px',
-        fontSize: '0.82rem', fontWeight: 700, color: '#444', marginBottom: '8px',
-    };
-    const colorBtnStyle: React.CSSProperties = {
-        width: '36px', height: '36px', borderRadius: '8px',
-        border: '2px solid #ddd', cursor: 'pointer', flexShrink: 0,
-        background: restaurantColor,
-    };
-    const slugStatusStyle: React.CSSProperties = {
-        marginTop: '6px', fontSize: '0.78rem', fontWeight: 600,
-        display: 'flex', alignItems: 'center', gap: '4px',
-    };
-
     if (pageLoading) {
         return (
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', background: '#f8f9fb' }}>
-                <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#ff6e01' }} />
-                <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
+            <div className="flex items-center justify-center h-screen bg-[#f8fafc]">
+                <div className="flex flex-col items-center gap-6">
+                    <div className="w-16 h-16 border-4 border-gray-100 border-t-orange-500 rounded-full animate-spin" />
+                    <p className="text-xs font-black text-gray-400 uppercase tracking-[0.3em]">YÜKLENİYOR...</p>
+                </div>
             </div>
         );
     }
 
     return (
-        <div style={pageStyle}>
+        <div className="min-h-screen bg-[#f8fafc]">
             {/* Notification */}
-            {notification && (
-                <div style={notifStyle(notification.type)}>
-                    {notification.type === 'success' ? <CheckCircle2 size={18} /> : <AlertCircle size={18} />}
-                    {notification.message}
-                </div>
-            )}
+            <AnimatePresence>
+                {notification && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, x: '-50%' }}
+                        animate={{ opacity: 1, y: 20 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className={`fixed top-0 left-1/2 z-[9999] flex items-center gap-3 px-8 py-4 rounded-[24px] shadow-2xl backdrop-blur-md border ${notification.type === 'success' ? 'bg-emerald-500/90 text-white border-emerald-400/50' : 'bg-rose-500/90 text-white border-rose-400/50'}`}
+                    >
+                        {notification.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
+                        <span className="text-xs font-black tracking-widest uppercase leading-none">{notification.message}</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Header */}
-            <div style={headerStyle}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: '500', color: '#333', margin: 0 }}>Restoran Bilgileri</h1>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#666', fontSize: '0.9rem' }}>
-                    <Link href="/dashboard" style={{ color: '#666', textDecoration: 'none' }}>Geri</Link>
-                    <span>›</span>
-                    <span>Restoran Bilgileri</span>
+            {/* Header Area */}
+            <div className="bg-white border-b-2 border-gray-50 pt-16 pb-12 px-8 md:px-12 relative z-30">
+                <div className="max-w-7xl mx-auto">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+                        <div className="space-y-4">
+                            {/* Breadcrumbs */}
+                            <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
+                                <Link href="/dashboard" className="hover:text-orange-500 transition-colors">PANEL</Link>
+                                <ChevronRight size={10} className="text-gray-300" />
+                                <span className="text-orange-500">RESTORAN BİLGİLERİ</span>
+                            </div>
+
+                            <div className="flex items-center gap-6">
+                                <div className="w-20 h-20 bg-gray-900 rounded-[32px] flex items-center justify-center shadow-2xl shadow-gray-900/20 transform-gpu hover:scale-110 transition-transform duration-500">
+                                    <Store size={36} className="text-orange-500" strokeWidth={1.5} />
+                                </div>
+                                <div className="space-y-1">
+                                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter uppercase leading-none">RESTORAN PROFİLİ</h1>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">PROFİL YÖNETİMİ</span>
+                                        <div className="h-1 w-1 bg-gray-300 rounded-full" />
+                                        <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.2em] bg-orange-50 px-3 py-1 rounded-full border border-orange-100">{formData.name.toUpperCase() || 'YENİ İŞLETME'}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="flex flex-wrap items-center gap-4">
+                            <button
+                                onClick={openLivePreview}
+                                className="flex items-center justify-center gap-3 bg-white border-2 border-gray-100 text-gray-900 px-8 py-5 rounded-[24px] text-[10px] font-black tracking-widest hover:border-gray-900 transition-all active:scale-95 group"
+                            >
+                                <ExternalLink size={16} className="group-hover:scale-110 transition-transform" />
+                                CANLI ÖNİZLEME
+                            </button>
+                            <button
+                                onClick={handleSubmit}
+                                disabled={loading}
+                                className="bg-gray-900 text-white px-8 py-5 rounded-[24px] flex items-center gap-3 text-[10px] font-black tracking-widest shadow-xl shadow-gray-900/10 hover:bg-orange-500 transition-all active:scale-95 border-b-4 border-black/20"
+                            >
+                                {loading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
+                                {loading ? 'KAYDEDİLİYOR...' : 'DEĞİŞİKLİKLERİ KAYDET'}
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
-            <div style={{ padding: '0 2rem', paddingBottom: '3rem' }}>
-                <form onSubmit={handleSubmit}>
-                    <div style={cardStyle}>
-                        {/* Card Header */}
-                        <div style={cardHeaderStyle}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <FolderPlus size={20} color="#ff6e01" />
-                                <div>
-                                    <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: '#1a1a2e' }}>
-                                        Restoran, Kafe veya Otel Bilgileriniz
-                                    </h3>
-                                    <p style={{ margin: '4px 0 0', fontSize: '0.72rem', color: '#999' }}>
-                                        Not: Restoran bilgilerinizi doldurduktan ve kayıt ettikten sonra canlı önizlemede görünecektir.
-                                    </p>
+            <div className="p-8 md:p-12 lg:p-16">
+                <form onSubmit={handleSubmit} className="max-w-7xl mx-auto space-y-12">
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        {/* Left Column: Core Info */}
+                        <div className="lg:col-span-8 space-y-10">
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="bg-white rounded-[40px] shadow-2xl shadow-gray-900/5 border-2 border-slate-50 overflow-hidden group"
+                            >
+                                <div className="p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/20">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-gray-900 text-white p-3 rounded-[18px] shadow-lg group-hover:scale-110 transition-transform duration-500">
+                                            <Store size={20} strokeWidth={2.5} />
+                                        </div>
+                                        <h3 className="text-[11px] font-black text-gray-900 uppercase tracking-[0.2em]">TEMEL İŞLETME BİLGİLERİ</h3>
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 italic font-black text-orange-500 text-xs">
+                                        01
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="button" onClick={openLivePreview} style={previewBtnStyle}>
-                                Canlı önizleme <ArrowRight size={14} />
-                            </button>
+                                <div className="p-10 space-y-8">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
+                                                RESTORAN ADI <span className="text-orange-500">*</span>
+                                            </label>
+                                            <div className="flex gap-4">
+                                                <div
+                                                    className="w-16 h-16 rounded-[22px] border-4 border-gray-50 flex-shrink-0 cursor-pointer hover:scale-105 transition-all flex items-center justify-center shadow-lg relative overflow-hidden group/color"
+                                                    style={{ backgroundColor: restaurantColor }}
+                                                    onClick={() => colorInputRef.current?.click()}
+                                                >
+                                                    <div className="absolute inset-0 bg-black/0 group-hover/color:bg-black/10 transition-colors flex items-center justify-center">
+                                                        <Palette size={20} className="text-white opacity-0 group-hover/color:opacity-100 transition-opacity" />
+                                                    </div>
+                                                </div>
+                                                <input
+                                                    ref={colorInputRef}
+                                                    type="color"
+                                                    value={restaurantColor}
+                                                    onChange={e => setRestaurantColor(e.target.value)}
+                                                    className="sr-only"
+                                                />
+                                                <input
+                                                    type="text" name="name" value={formData.name}
+                                                    onChange={handleChange}
+                                                    className="flex-1 px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-orange-500 focus:bg-white transition-all outline-none uppercase placeholder:text-gray-300 shadow-inner"
+                                                    placeholder="İŞLETME ADINI GİRİNİZ"
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
+                                                BAĞLANTI ADRESİ (SLUG) <span className="text-orange-500">*</span>
+                                            </label>
+                                            <div className="relative">
+                                                <input
+                                                    type="text" name="slug" value={formData.slug}
+                                                    onChange={handleChange}
+                                                    onBlur={checkSlugAvailability}
+                                                    className={`w-full px-8 py-5 bg-gray-50 border-2 rounded-[24px] text-xs font-black tracking-widest focus:border-orange-500 focus:bg-white transition-all outline-none lowercase shadow-inner ${slugStatus === 'available' ? 'border-emerald-100 text-emerald-600' :
+                                                        slugStatus === 'taken' ? 'border-rose-100 text-rose-600' : 'border-gray-100 text-gray-900'
+                                                        }`}
+                                                    placeholder="restoran-adiniz"
+                                                    required
+                                                />
+                                                <div className="absolute right-6 top-1/2 -translate-y-1/2">
+                                                    {slugStatus === 'checking' && <Loader2 size={16} className="animate-spin text-gray-400" />}
+                                                    {slugStatus === 'available' && <CheckCircle2 size={16} className="text-emerald-500" />}
+                                                    {slugStatus === 'taken' && <AlertCircle size={16} className="text-rose-500" />}
+                                                </div>
+                                            </div>
+                                            <div className="flex items-center gap-2 px-6">
+                                                <Globe size={12} className="text-gray-300" />
+                                                <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest">URL: MESADİJİTAL.COM/R/</span>
+                                                <span className="text-[9px] font-black text-orange-500 uppercase tracking-widest underline decoration-2 underline-offset-4 decoration-orange-100">{formData.slug || '...'}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">SLOGAN / ALT BAŞLIK</label>
+                                            <input
+                                                type="text" name="subtitle" value={formData.subtitle}
+                                                onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-orange-500 focus:bg-white transition-all outline-none uppercase placeholder:text-gray-300 shadow-inner"
+                                                placeholder="LEZZETİN YENİ ADRESİ..."
+                                            />
+                                        </div>
+                                        <div className="space-y-4">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">ÇALIŞMA SAATLERİ</label>
+                                            <input
+                                                type="text" name="timing" value={formData.timing}
+                                                onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-orange-500 focus:bg-white transition-all outline-none uppercase placeholder:text-gray-300 shadow-inner"
+                                                placeholder="08:00 - 23:00"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">İŞLETME AÇIKLAMASI</label>
+                                        <textarea
+                                            name="description" value={formData.description}
+                                            onChange={handleChange}
+                                            className="w-full px-8 py-8 bg-gray-50 border-2 border-gray-100 rounded-[32px] text-xs font-black text-gray-900 focus:border-orange-500 focus:bg-white transition-all outline-none uppercase placeholder:text-gray-300 min-h-[160px] shadow-inner resize-none leading-relaxed"
+                                            placeholder="İŞLETMENİZ HAKKINDA BİLGİ VERİN..."
+                                        />
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
+                                            <MapPin size={12} className="text-orange-500 font-bold" /> ADRES BİLGİSİ
+                                        </label>
+                                        <input
+                                            type="text" name="address" value={formData.address}
+                                            onChange={handleChange}
+                                            className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-orange-500 focus:bg-white transition-all outline-none uppercase placeholder:text-gray-300 shadow-inner"
+                                            placeholder="TAM ADRESİNİZİ GİRİNİZ"
+                                        />
+                                    </div>
+                                </div>
+                            </motion.div>
+
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="bg-white rounded-[40px] shadow-2xl shadow-gray-900/5 border-2 border-slate-50 overflow-hidden group"
+                            >
+                                <div className="p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/20">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-gray-900 text-white p-3 rounded-[18px] shadow-lg group-hover:scale-110 transition-transform duration-500">
+                                            <Smartphone size={20} strokeWidth={2.5} />
+                                        </div>
+                                        <h3 className="text-[11px] font-black text-gray-900 uppercase tracking-[0.2em]">SOSYAL MEDYA & İLETİŞİM</h3>
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 italic font-black text-orange-500 text-xs">
+                                        02
+                                    </div>
+                                </div>
+                                <div className="p-10 space-y-8">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div className="space-y-4 group/social">
+                                            <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-pink-500">
+                                                <Instagram size={14} className="text-pink-100 group-focus-within/social:text-pink-500 transition-colors" /> INSTAGRAM
+                                            </div>
+                                            <input type="text" name="instagram" value={formData.instagram} onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-pink-500 focus:bg-white outline-none transition-all shadow-inner uppercase"
+                                                placeholder="https://instagram.com/..." />
+                                        </div>
+                                        <div className="space-y-4 group/social">
+                                            <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-blue-600">
+                                                <Facebook size={14} className="text-blue-100 group-focus-within/social:text-blue-600 transition-colors" /> FACEBOOK
+                                            </div>
+                                            <input type="text" name="facebook" value={formData.facebook} onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-blue-600 focus:bg-white outline-none transition-all shadow-inner uppercase"
+                                                placeholder="https://facebook.com/..." />
+                                        </div>
+                                        <div className="space-y-4 group/social">
+                                            <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-emerald-500">
+                                                <MessageCircle size={14} className="text-emerald-100 group-focus-within/social:text-emerald-500 transition-colors" /> WHATSAPP
+                                            </div>
+                                            <input type="text" name="whatsapp" value={formData.whatsapp} onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-emerald-500 focus:bg-white outline-none transition-all shadow-inner uppercase"
+                                                placeholder="+90 5XX XXX XX XX" />
+                                        </div>
+                                        <div className="space-y-4 group/social">
+                                            <div className="flex items-center gap-2 text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-gray-900">
+                                                <Globe size={14} className="text-gray-100 group-focus-within/social:text-gray-900 transition-colors" /> WEB SİTESİ
+                                            </div>
+                                            <input type="text" name="website" value={formData.website} onChange={handleChange}
+                                                className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-900 focus:border-gray-900 focus:bg-white outline-none transition-all shadow-inner uppercase"
+                                                placeholder="www.isletmeniz.com" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </motion.div>
                         </div>
 
-                        <div style={cardBodyStyle}>
-                            {/* Firma Adı + Renk */}
-                            <div style={{ marginBottom: '20px' }}>
-                                <label style={labelStyle}>
-                                    <span style={requiredStar}>*</span>Firma Adı ve Rengi Seçin
-                                </label>
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        <div
-                                            style={colorBtnStyle}
-                                            onClick={() => colorInputRef.current?.click()}
-                                            title="Renk seçin"
-                                        />
-                                        <input
-                                            ref={colorInputRef}
-                                            type="color"
-                                            value={restaurantColor}
-                                            onChange={e => setRestaurantColor(e.target.value)}
-                                            style={{ position: 'absolute', opacity: 0, width: 0, height: 0 }}
-                                        />
-                                    </div>
-                                    <input
-                                        type="text" name="name" value={formData.name}
-                                        onChange={handleChange} style={{ ...inputStyle, flex: 1 }}
-                                        placeholder="Firma adını giriniz" required
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Slug */}
-                            <div style={{ marginBottom: '20px' }}>
-                                <label style={labelStyle}>
-                                    <span style={requiredStar}>*</span>Firma Bağlantısı (Örnek; restoran-adiniz)
-                                    <a href="#" onClick={(e) => { e.preventDefault(); }} style={{ color: '#ff6e01', fontSize: '0.72rem', marginLeft: '8px', textDecoration: 'none' }}>
-                                        Örnek Gör
-                                    </a>
-                                </label>
-                                <input
-                                    type="text" name="slug" value={formData.slug}
-                                    onChange={handleChange}
-                                    onBlur={checkSlugAvailability}
-                                    style={inputStyle} required
-                                    placeholder="restoran-adiniz"
-                                />
-                                {slugStatus === 'checking' && (
-                                    <div style={{ ...slugStatusStyle, color: '#999' }}>
-                                        <Loader2 size={13} style={{ animation: 'spin 1s linear infinite' }} /> Kontrol ediliyor...
-                                    </div>
-                                )}
-                                {slugStatus === 'available' && (
-                                    <div style={{ ...slugStatusStyle, color: '#16a34a' }}>
-                                        <CheckCircle2 size={13} /> Bu bağlantı kullanılabilir
-                                    </div>
-                                )}
-                                {slugStatus === 'taken' && (
-                                    <div style={{ ...slugStatusStyle, color: '#ef4444' }}>
-                                        <AlertCircle size={13} /> Bu bağlantı zaten kullanımda
-                                    </div>
-                                )}
-                                <small style={smallStyle}>Bu alana firma adını girin. Türkçe Karakter Kullanmayın (Aralara çizgi (-) izin verilir)</small>
-                            </div>
-
-                            {/* Alt Başlık + Çalışma Zamanı */}
-                            <div className={rowStyle} style={{ marginBottom: '20px' }}>
-                                <div>
-                                    <label style={labelStyle}>Firma Alt Başlığı</label>
-                                    <input type="text" name="subtitle" value={formData.subtitle}
-                                        onChange={handleChange} style={inputStyle} />
-                                </div>
-                                <div>
-                                    <label style={labelStyle}>Çalışma Zaman Aralığı (Örnek; 08:00 - 00:00)</label>
-                                    <input type="text" name="timing" value={formData.timing}
-                                        onChange={handleChange} style={inputStyle} placeholder="08:00 - 00:00" />
-                                </div>
-                            </div>
-
-                            {/* Açıklama */}
-                            <div style={{ marginBottom: '20px' }}>
-                                <label style={labelStyle}>
-                                    <span style={requiredStar}>*</span>Firma Açıklaması
-                                </label>
-                                <textarea
-                                    name="description" value={formData.description}
-                                    onChange={handleChange} style={textareaStyle}
-                                    placeholder="Firma hakkında açıklama yazın..."
-                                />
-                            </div>
-
-                            {/* Adres */}
-                            <div style={{ marginBottom: '20px' }}>
-                                <label style={labelStyle}>
-                                    <span style={requiredStar}>*</span>Adresiniz
-                                </label>
-                                <div style={{ position: 'relative' }}>
-                                    <MapPin size={15} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#bbb', pointerEvents: 'none' }} />
-                                    <input type="text" name="address" value={formData.address}
-                                        onChange={handleChange}
-                                        style={{ ...inputStyle, paddingLeft: '38px' }}
-                                        placeholder="Adres giriniz..."
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Sosyal Medya */}
-                            <div className={rowStyle} style={{ marginBottom: '20px' }}>
-                                <div>
-                                    <div style={iconLabelStyle}><Instagram size={15} /> Instagram (Örnek: https://instagram.com/...)</div>
-                                    <input type="text" name="instagram" value={formData.instagram}
-                                        onChange={handleChange} style={inputStyle} placeholder="https://www.instagram.com/..." />
-                                </div>
-                                <div>
-                                    <div style={iconLabelStyle}><Facebook size={15} /> Facebook (Örnek: https://facebook.com/...)</div>
-                                    <input type="text" name="facebook" value={formData.facebook}
-                                        onChange={handleChange} style={inputStyle} placeholder="https://www.facebook.com/..." />
-                                </div>
-                                <div>
-                                    <div style={iconLabelStyle}><MessageCircle size={15} /> WhatsApp Numarası (Örnek: +90...)</div>
-                                    <input type="text" name="whatsapp" value={formData.whatsapp}
-                                        onChange={handleChange} style={inputStyle} placeholder="+90 5XX XXX XX XX" />
-                                </div>
-                                <div>
-                                    <div style={iconLabelStyle}><Globe size={15} /> İnternet Sitesi</div>
-                                    <input type="text" name="website" value={formData.website}
-                                        onChange={handleChange} style={inputStyle} />
-                                </div>
-                                <div>
-                                    <div style={iconLabelStyle}><Youtube size={15} /> Youtube Sayfa Linkiniz</div>
-                                    <input type="text" name="youtube" value={formData.youtube}
-                                        onChange={handleChange} style={inputStyle} />
-                                </div>
-                            </div>
-
-                            {/* Logo & Kapak Resmi */}
-                            <div className={rowStyle} style={{ marginBottom: '20px', borderTop: '1px solid #f0f1f3', paddingTop: '20px' }}>
-                                <div>
-                                    <label style={labelStyle}>Logonuz</label>
-                                    <div style={uploadBoxStyle}>
-                                        <div style={{
-                                            width: '80px', height: '80px', borderRadius: '50%',
-                                            background: '#f0f0f0', margin: '0 auto 12px',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            overflow: 'hidden',
-                                        }}>
-                                            {logoPreview ? (
-                                                // eslint-disable-next-line @next/next/no-img-element
-                                                <img src={logoPreview} alt="Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            ) : (
-                                                <ImageIcon size={28} color="#ccc" />
-                                            )}
+                        {/* Right Column: Visuals & Templates */}
+                        <div className="lg:col-span-4 space-y-10">
+                            {/* Images Section */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                className="bg-white rounded-[40px] shadow-2xl shadow-gray-900/5 border-2 border-slate-50 overflow-hidden group"
+                            >
+                                <div className="p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/20">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-gray-900 text-white p-3 rounded-[18px] shadow-lg group-hover:rotate-12 transition-transform duration-500">
+                                            <ImageIcon size={20} strokeWidth={2.5} />
                                         </div>
-                                        <label style={{
-                                            display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                            padding: '8px 18px', borderRadius: '8px', background: '#f0f0f0',
-                                            fontSize: '0.8rem', fontWeight: 600, color: '#555', cursor: 'pointer',
-                                        }}>
-                                            <Upload size={14} /> Logo Yükle
-                                            <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'logo')}
-                                                style={{ display: 'none' }} />
-                                        </label>
+                                        <h3 className="text-[11px] font-black text-gray-900 uppercase tracking-[0.2em]">MATERYALLER</h3>
                                     </div>
+                                    <Target size={18} className="text-gray-200" />
                                 </div>
-                                <div>
-                                    <label style={labelStyle}>Firma Kapak Resmi</label>
-                                    <div style={uploadBoxStyle}>
-                                        <div style={{
-                                            width: '100%', height: '80px', borderRadius: '8px',
-                                            background: '#f0f0f0', marginBottom: '12px',
-                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                            overflow: 'hidden',
-                                        }}>
-                                            {coverPreview ? (
-                                                // eslint-disable-next-line @next/next/no-img-element
-                                                <img src={coverPreview} alt="Cover" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                                            ) : (
-                                                <ImageIcon size={28} color="#ccc" />
-                                            )}
+                                <div className="p-10 space-y-10">
+                                    {/* Logo Upload */}
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">KURUMSAL LOGO</label>
+                                        <div className="relative group/upload overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 rounded-[32px] p-8 text-center cursor-pointer hover:border-orange-500 hover:bg-orange-50/30 transition-all duration-500">
+                                            <div className="w-32 h-32 rounded-[24px] bg-white mx-auto shadow-2xl border-4 border-gray-50 flex items-center justify-center overflow-hidden mb-6 group-hover/upload:scale-110 transition-transform duration-500 relative">
+                                                {logoPreview ? (
+                                                    <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <ImageIcon size={40} className="text-gray-100" />
+                                                )}
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <Plus size={24} className="text-white" />
+                                                </div>
+                                            </div>
+                                            <label className="inline-flex items-center gap-3 px-6 py-3 bg-gray-900 text-white rounded-2xl text-[9px] font-black tracking-widest cursor-pointer hover:bg-orange-500 transition-all shadow-lg shadow-gray-900/10">
+                                                <Upload size={14} /> GÜNCELLE
+                                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
+                                            </label>
                                         </div>
-                                        <label style={{
-                                            display: 'inline-flex', alignItems: 'center', gap: '6px',
-                                            padding: '8px 18px', borderRadius: '8px', background: '#f0f0f0',
-                                            fontSize: '0.8rem', fontWeight: 600, color: '#555', cursor: 'pointer',
-                                        }}>
-                                            <Upload size={14} /> Kapak Resmi Yükle
-                                            <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'cover')}
-                                                style={{ display: 'none' }} />
-                                        </label>
+                                    </div>
+
+                                    {/* Cover Upload */}
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1">KAPAK GÖRSELİ</label>
+                                        <div className="relative group/upload overflow-hidden bg-gray-50 border-2 border-dashed border-gray-200 rounded-[32px] p-6 text-center cursor-pointer hover:border-orange-500 hover:bg-orange-50/30 transition-all duration-500">
+                                            <div className="w-full h-32 rounded-[24px] bg-white mx-auto shadow-xl border-4 border-gray-50 flex items-center justify-center overflow-hidden mb-6 group-hover/upload:scale-[1.02] transition-transform duration-500 relative">
+                                                {coverPreview ? (
+                                                    <img src={coverPreview} alt="Cover" className="w-full h-full object-cover" />
+                                                ) : (
+                                                    <div className="flex flex-col items-center gap-2">
+                                                        <ImageIcon size={32} className="text-gray-100" />
+                                                        <span className="text-[8px] font-black text-gray-200">1200x400 ÖNERİLİR</span>
+                                                    </div>
+                                                )}
+                                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/upload:opacity-100 transition-opacity flex items-center justify-center">
+                                                    <Plus size={24} className="text-white" />
+                                                </div>
+                                            </div>
+                                            <label className="inline-flex items-center gap-3 px-6 py-3 bg-gray-900 text-white rounded-2xl text-[9px] font-black tracking-widest cursor-pointer hover:bg-orange-500 transition-all shadow-lg shadow-gray-900/10">
+                                                <Upload size={14} /> DEĞİŞTİR
+                                                <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'cover')} />
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
 
-                            {/* Menü Şablonu */}
-                            <div style={{ borderTop: '1px solid #f0f1f3', paddingTop: '20px', marginBottom: '20px' }}>
-                                <label style={labelStyle}>Menü Şablonu Seçin</label>
-                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            {/* Theme Selection */}
+                            <motion.div
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.1 }}
+                                className="bg-white rounded-[40px] shadow-2xl shadow-gray-900/5 border-2 border-slate-50 overflow-hidden group"
+                            >
+                                <div className="p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/20">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-gray-900 text-white p-3 rounded-[18px] shadow-lg group-hover:scale-110 transition-transform duration-500">
+                                            <Palette size={20} strokeWidth={2.5} />
+                                        </div>
+                                        <h3 className="text-[11px] font-black text-gray-900 uppercase tracking-[0.2em]">GÖRÜNÜM TEMASI</h3>
+                                    </div>
+                                    <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 italic font-black text-orange-500 text-xs">
+                                        03
+                                    </div>
+                                </div>
+                                <div className="p-10 space-y-4">
                                     {AVAILABLE_THEMES.map((theme) => {
                                         const isPremiumTheme = theme.key !== 'LITE' && theme.key !== 'CLASSIC';
                                         const isLocked = isPremiumTheme && !availableFeatures.includes('Premium Tema') && !availableFeatures.includes('Pro Tema');
                                         const isActive = selectedTemplate === theme.key;
 
                                         return (
-                                            <div key={theme.key} style={{ position: 'relative' }}>
-                                                {isLocked && (
-                                                    <div style={{
-                                                        position: 'absolute', top: -8, right: -8, zIndex: 10,
-                                                        background: '#1a1a2e', color: '#fff', fontSize: '0.65rem',
-                                                        fontWeight: 700, padding: '4px 8px', borderRadius: '12px',
-                                                        display: 'flex', alignItems: 'center', gap: '4px',
-                                                        boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-                                                    }}>
-                                                        <Lock size={10} color="#fbbf24" /> PRO
+                                            <motion.div
+                                                key={theme.key}
+                                                whileHover={!isLocked ? { scale: 1.02, x: 4 } : {}}
+                                                whileTap={!isLocked ? { scale: 0.98 } : {}}
+                                                className={`relative p-6 rounded-[28px] border-2 transition-all cursor-pointer flex items-center gap-5 ${isActive ? 'border-orange-500 bg-orange-50/30' :
+                                                    isLocked ? 'border-gray-100 bg-gray-50 opacity-60 grayscale cursor-not-allowed' :
+                                                        'border-gray-50 hover:border-gray-900 hover:bg-gray-50/50'
+                                                    }`}
+                                                onClick={() => {
+                                                    if (!isLocked) setSelectedTemplate(theme.key);
+                                                    else setNotification({ type: 'error', message: 'BU TEMA İÇİN PAKETİNİZİ YÜKSELTMELİSİNİZ' });
+                                                }}
+                                            >
+                                                <div className="w-16 h-16 rounded-[20px] bg-white shadow-xl border-2 border-gray-100 flex items-center justify-center text-3xl transform group-hover:rotate-12 transition-transform">
+                                                    {theme.icon}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <h4 className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-orange-600' : 'text-gray-900'}`}>{theme.name}</h4>
+                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tighter leading-tight mt-1">{theme.desc}</p>
+                                                </div>
+                                                {isLocked ? (
+                                                    <div className="bg-gray-900 text-white p-2 rounded-xl shadow-lg">
+                                                        <Lock size={12} strokeWidth={3} />
+                                                    </div>
+                                                ) : isActive && (
+                                                    <div className="bg-orange-500 text-white p-2 rounded-xl shadow-lg animate-bounce-subtle">
+                                                        <CheckCircle2 size={12} strokeWidth={3} />
                                                     </div>
                                                 )}
-                                                <label style={{
-                                                    padding: '10px', borderRadius: '14px',
-                                                    cursor: isLocked ? 'not-allowed' : 'pointer',
-                                                    border: isActive ? `2px solid ${theme.color}` : '2px solid #e8ecf1',
-                                                    background: isActive ? `${theme.color}08` : '#fff',
-                                                    transition: 'all 0.25s ease', textAlign: 'center' as any,
-                                                    display: 'block',
-                                                    opacity: isLocked ? 0.6 : 1,
-                                                    filter: isLocked ? 'grayscale(80%)' : 'none'
-                                                }}>
-                                                    <input
-                                                        type="radio" name="restaurant_template" value={theme.key}
-                                                        checked={isActive}
-                                                        onChange={(e) => {
-                                                            if (!isLocked) setSelectedTemplate(e.target.value);
-                                                            else setNotification({ type: 'error', message: 'Bu tema mevcut paketinizde bulunmamaktadır.' });
-                                                        }}
-                                                        disabled={isLocked}
-                                                        style={{ display: 'none' }}
-                                                    />
-                                                    <div style={{
-                                                        aspectRatio: '3/4', borderRadius: '10px', marginBottom: '10px',
-                                                        background: `linear-gradient(135deg, ${theme.color}18, ${theme.color}35)`,
-                                                        display: 'flex', flexDirection: 'column' as any,
-                                                        alignItems: 'center', justifyContent: 'center', gap: '8px',
-                                                        border: `1px solid ${theme.color}20`,
-                                                    }}>
-                                                        <span style={{ fontSize: '2.5rem' }}>{theme.icon}</span>
-                                                        <span style={{
-                                                            fontSize: '0.65rem', color: theme.color, fontWeight: 700,
-                                                            background: '#fff', padding: '3px 10px', borderRadius: '20px',
-                                                            boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
-                                                        }}>
-                                                            {theme.key}
-                                                        </span>
-                                                    </div>
-                                                    <div style={{ fontSize: '0.82rem', fontWeight: 700, color: isActive ? theme.color : '#333', marginBottom: '2px' }}>
-                                                        {theme.name}
-                                                    </div>
-                                                    <div style={{ fontSize: '0.68rem', color: '#999', lineHeight: 1.3 }}>
-                                                        {theme.desc}
-                                                    </div>
-                                                    {isActive && (
-                                                        <div style={{
-                                                            marginTop: '6px', fontSize: '0.65rem', fontWeight: 700,
-                                                            color: '#fff', background: theme.color, borderRadius: '20px',
-                                                            padding: '3px 10px', display: 'inline-block',
-                                                        }}>✓ Seçili</div>
-                                                    )}
-                                                </label>
-                                            </div>
+                                            </motion.div>
                                         );
                                     })}
                                 </div>
+                            </motion.div>
+                        </div>
+                    </div>
+
+                    {/* Permissions Section */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="bg-white rounded-[40px] shadow-2xl shadow-gray-900/5 border-2 border-slate-50 overflow-hidden group"
+                    >
+                        <div className="p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/20">
+                            <div className="flex items-center gap-4">
+                                <div className="bg-gray-900 text-white p-3 rounded-[18px] shadow-lg group-hover:scale-110 transition-transform duration-500">
+                                    <Settings2 size={20} strokeWidth={2.5} />
+                                </div>
+                                <h3 className="text-[11px] font-black text-gray-900 uppercase tracking-[0.2em]">SİSTEM VE İZİN AYARLARI</h3>
                             </div>
-
-                            {/* Ayarlar */}
-                            <div style={{ borderTop: '1px solid #f0f1f3', paddingTop: '20px' }}>
+                            <div className="w-10 h-10 rounded-full bg-orange-50 flex items-center justify-center border border-orange-100 italic font-black text-orange-500 text-xs">
+                                04
+                            </div>
+                        </div>
+                        <div className="p-10">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                                 {[
-                                    { label: 'Garsonu Aramaya İzin Ver', name: 'allowCallWaiter', req: 'Garson Çağrı Sistemi' },
-                                    { label: 'Masada siparişe izin ver', name: 'allowOnTableOrder', req: 'Gelişmiş Sipariş Yönetimi' },
-                                    { label: 'Gel-Al siparişine izin ver', name: 'allowTakeawayOrder', req: 'Gelişmiş Sipariş Yönetimi' },
-                                    { label: 'Odaya Siparişe İzin Ver', name: 'allowHotelOrder', req: 'Gelişmiş Sipariş Yönetimi' },
-                                    { label: 'Adrese Teslimat siparişine izin ver', name: 'allowDeliveryOrder', req: 'Gelişmiş Sipariş Yönetimi' },
-                                    { label: 'Yeni Sipariş Bildirimi Gönder', name: 'sendOrderNotification', req: null },
+                                    { label: 'GARSON ÇAĞIRMA', name: 'allowCallWaiter', req: 'Garson Çağrı Sistemi', icon: <Activity size={16} /> },
+                                    { label: 'MASADA SİPARİŞ', name: 'allowOnTableOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Smartphone size={16} /> },
+                                    { label: 'GEL-AL SİPARİŞ', name: 'allowTakeawayOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <ShoppingBag size={16} /> },
+                                    { label: 'ODAYA SİPARİŞ', name: 'allowHotelOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Briefcase size={16} /> },
+                                    { label: 'ADRESE TESLİMAT', name: 'allowDeliveryOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <MapPin size={16} /> },
+                                    { label: 'ANLIK BİLDİRİM', name: 'sendOrderNotification', req: null, icon: <Activity size={16} /> },
                                 ].map((s) => {
-                                    // Sipariş Alma veya Gelişmiş Sipariş Yönetimi feature kontrolü
                                     const isLocked = s.req && !availableFeatures.includes(s.req) && !(s.req === 'Gelişmiş Sipariş Yönetimi' && availableFeatures.includes('Sipariş Alma'));
-
                                     return (
-                                        <div key={s.name} style={{ ...settingRowStyle, opacity: isLocked ? 0.6 : 1 }}>
-                                            <label style={{ ...labelStyle, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                {s.label}
-                                                {isLocked && <span style={{ fontSize: '0.65rem', background: '#fef3c7', color: '#d97706', padding: '2px 6px', borderRadius: '4px', fontWeight: 700, display: 'flex', alignItems: 'center', gap: '3px' }}><Lock size={9} /> PRO Özellik</span>}
-                                            </label>
-                                            <select
-                                                name={s.name}
-                                                // @ts-ignore
-                                                value={isLocked ? "0" : formData[s.name]}
-                                                onChange={(e) => {
-                                                    if (!isLocked) handleChange(e);
-                                                }}
-                                                style={{ ...selectStyle, cursor: isLocked ? 'not-allowed' : 'pointer' }}
-                                                disabled={!!isLocked}
-                                            >
-                                                <option value="1">Evet</option>
-                                                <option value="0">Hayır</option>
-                                            </select>
+                                        <div key={s.name} className={`space-y-4 p-8 rounded-[32px] border-2 transition-all ${isLocked ? 'bg-gray-50 border-gray-100 opacity-60' : 'bg-white border-gray-50 hover:border-gray-900 hover:shadow-xl hover:shadow-gray-200/50'}`}>
+                                            <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-4">
+                                                    <div className={`p-3 rounded-[16px] ${isLocked ? 'bg-gray-200 text-gray-400' : 'bg-orange-50 text-orange-500 shadow-sm'}`}>
+                                                        {s.icon}
+                                                    </div>
+                                                    <span className="text-[10px] font-black tracking-widest text-gray-900 uppercase">{s.label}</span>
+                                                </div>
+                                                {isLocked && <Lock size={14} className="text-gray-400" />}
+                                            </div>
+                                            <div className="relative">
+                                                <select
+                                                    name={s.name}
+                                                    // @ts-ignore
+                                                    value={isLocked ? "0" : formData[s.name]}
+                                                    onChange={(e) => { if (!isLocked) handleChange(e); }}
+                                                    className={`w-full px-6 py-4 border-2 rounded-2xl text-[10px] font-black uppercase tracking-widest outline-none transition-all appearance-none cursor-pointer ${isLocked ? 'bg-gray-100 border-gray-100 cursor-not-allowed text-gray-400' : 'bg-gray-50 border-gray-100 focus:border-gray-900 focus:bg-white'}`}
+                                                    disabled={!!isLocked}
+                                                >
+                                                    <option value="1">✓ AKTİF</option>
+                                                    <option value="0">✕ PASİF</option>
+                                                </select>
+                                                {!isLocked && <ChevronDown size={14} className="absolute right-6 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none" />}
+                                            </div>
                                         </div>
                                     );
                                 })}
 
-                                <div style={settingRowStyle}>
-                                    <label style={labelStyle}>Teslimat Ücreti</label>
-                                    <input
-                                        type="number" name="deliveryCharge"
-                                        value={formData.deliveryCharge} onChange={handleChange}
-                                        style={inputStyle}
-                                    />
-                                    <small style={smallStyle}>Teslimat siparişi için ek ücret. (Gönderim Ücreti Yoksa 0 Yazılı Olması Gerekiyor)</small>
+                                <div className="space-y-4 p-8 rounded-[32px] border-2 border-gray-50 bg-white hover:border-gray-900 hover:shadow-xl hover:shadow-gray-200/50 transition-all group/charge">
+                                    <div className="flex items-center gap-4">
+                                        <div className="p-3 rounded-[16px] bg-blue-50 text-blue-500 shadow-sm group-hover/charge:scale-110 transition-transform">
+                                            <DollarSign size={16} />
+                                        </div>
+                                        <span className="text-[10px] font-black tracking-widest text-gray-900 uppercase">TESLİMAT ÜCRETİ</span>
+                                    </div>
+                                    <div className="relative">
+                                        <input
+                                            type="number" name="deliveryCharge"
+                                            value={formData.deliveryCharge} onChange={handleChange}
+                                            className="w-full px-8 py-4 border-2 border-gray-100 bg-gray-50 rounded-2xl text-xs font-black text-gray-900 focus:border-gray-900 focus:bg-white outline-none transition-all shadow-inner"
+                                        />
+                                        <span className="absolute right-8 top-1/2 -translate-y-1/2 text-xs font-black text-gray-300">₺</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-
-                    {/* Submit */}
-                    <div style={{ marginBottom: '20px' }}>
-                        <button type="submit" disabled={loading} style={{
-                            ...btnPrimary,
-                            opacity: loading ? 0.6 : 1,
-                        }}>
-                            {loading ? <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={16} />}
-                            {loading ? 'Kaydediliyor...' : 'Kayıt Et'}
-                        </button>
-                    </div>
+                    </motion.div>
                 </form>
 
-                {/* Footer */}
-                <div style={{ textAlign: 'center', padding: '12px 0', color: '#ccc', fontSize: '0.72rem', borderTop: '1px solid #eee' }}>
-                    {new Date().getFullYear()} QRlamenü — Tüm Hakları Saklıdır.
+                {/* Footer Section */}
+                <div className="max-w-7xl mx-auto mt-24 text-center space-y-6">
+                    <div className="flex items-center justify-center gap-4">
+                        <div className="h-px w-12 bg-gray-100" />
+                        <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.4em]">© {new Date().getFullYear()} QRlamenü — TÜM HAKLARI SAKLIDIR</p>
+                        <div className="h-px w-12 bg-gray-100" />
+                    </div>
+                    <div className="flex items-center justify-center gap-8 grayscale opacity-20 hover:opacity-100 hover:grayscale-0 transition-all duration-500">
+                        <Instagram size={20} className="cursor-pointer hover:text-pink-500 transition-colors" />
+                        <Facebook size={20} className="cursor-pointer hover:text-blue-600 transition-colors" />
+                        <Globe size={20} className="cursor-pointer hover:text-gray-900 transition-colors" />
+                    </div>
                 </div>
             </div>
-
-            <style>{`
-                @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
-                @keyframes slideIn { from { transform: translateX(100%); opacity:0 } to { transform: translateX(0); opacity:1 } }
-            `}</style>
         </div>
     );
 }

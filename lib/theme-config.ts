@@ -154,6 +154,32 @@ export const THEMES: Record<string, ThemeConfig> = {
             showImages: true,
             enableAnimations: true,
         },
+    },
+    MOBILE_APP: {
+        name: 'MOBILE_APP',
+        colors: {
+            primary: '#ff7a21',
+            secondary: '#f8fafc',
+            background: '#ffffff',
+            text: '#0f172a',
+            accent: '#ff7a21'
+        },
+        fonts: {
+            heading: '"Plus Jakarta Sans", sans-serif',
+            body: '"Inter", sans-serif',
+        },
+        layout: {
+            type: 'card',
+            columns: 1,
+            gap: '16px',
+        },
+        features: {
+            showHero: true,
+            showSearch: true,
+            showFilters: true,
+            showImages: true,
+            enableAnimations: true,
+        },
     }
 };
 

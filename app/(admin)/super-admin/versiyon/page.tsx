@@ -26,94 +26,108 @@ export default function VersionManagementPage() {
     }, []);
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Versiyon Yönetimi & Dağıtım</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Platform güncellemelerini, modül çekirdek versiyonlarını ve roll-out stratejilerini kontrol edin.</p>
+            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+                <div className="max-w-4xl">
+                    <div className="flex items-center gap-4 mb-4">
+                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ff7a21] shadow-sm">
+                            <GitBranch size={28} strokeWidth={2.5} />
+                        </div>
+                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-none uppercase">
+                            Versiyon & Dağıtım
+                        </h1>
+                    </div>
+                    <p className="text-slate-500 text-sm md:text-base font-bold leading-relaxed">Platform güncellemelerini, modül çekirdek versiyonlarını ve roll-out stratejilerini kontrol edin.</p>
                 </div>
-                <button className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
-                    <UploadCloud size={18} strokeWidth={2.5} /> Yeni Sürüm Yayınla
+                <button className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-5 rounded-[24px] font-black text-sm flex items-center justify-center gap-3 shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all group">
+                    <UploadCloud size={22} strokeWidth={3} className="group-hover:-translate-y-1 transition-transform" />
+                    YENİ SÜRÜM YAYINLA
                 </button>
-            </div>
+            </header>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_400px] gap-12 items-start">
+                <div className="flex flex-col gap-10">
                     {/* Core Version Dashboard */}
-                    <div className="card" style={{ border: 'none', padding: '40px 48px', display: 'flex', gap: '40px', alignItems: 'center', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', borderRadius: '32px', position: 'relative', overflow: 'hidden', boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.45)' }}>
-                        <div style={{ position: 'absolute', right: '-60px', bottom: '-60px', opacity: 0.1, transform: 'rotate(-15deg)', color: '#ff7a21' }}>
-                            <Package size={260} />
+                    <div className="bg-slate-900 rounded-[48px] p-12 md:p-16 flex flex-col md:flex-row gap-12 items-center relative overflow-hidden shadow-2xl shadow-slate-900/40 group">
+                        <div className="absolute -right-20 -bottom-20 opacity-[0.05] transform -rotate-12 transition-transform duration-1000 group-hover:scale-110">
+                            <Package size={400} />
                         </div>
 
                         {/* Glassmorphism Accents */}
-                        <div style={{ position: 'absolute', top: '-10%', left: '20%', width: '200px', height: '200px', background: 'rgba(255,122,33,0.1)', filter: 'blur(80px)', borderRadius: '50%' }}></div>
+                        <div className="absolute top-[-10%] left-[20%] w-[300px] h-[300px] bg-[#ff7a21]/10 blur-[100px] rounded-full"></div>
 
-                        <div style={{ width: '100px', height: '100px', borderRadius: '28px', background: 'rgba(255,122,33,0.1)', color: '#ff7a21', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid rgba(255,122,33,0.25)', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.3)', position: 'relative', zIndex: 1 }}>
-                            <GitBranch size={48} strokeWidth={2.5} />
+                        <div className="w-28 h-28 rounded-[36px] bg-white/5 text-[#ff7a21] flex items-center justify-center shrink-0 border border-white/10 shadow-2xl shadow-black/50 relative z-10 backdrop-blur-xl">
+                            <GitBranch size={56} strokeWidth={2.5} />
                         </div>
 
-                        <div style={{ flex: 1, position: 'relative', zIndex: 1 }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                                <span style={{ padding: '6px 14px', background: '#10b981', color: '#fff', borderRadius: '10px', fontSize: '0.75rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>PARETO STABLE</span>
-                                <span style={{ color: '#94a3b8', fontSize: '0.9rem', fontWeight: '800', letterSpacing: '0.02em' }}>Build M-892.42</span>
+                        <div className="flex-1 relative z-10 text-center md:text-left">
+                            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3 mb-6">
+                                <span className="px-5 py-2 bg-emerald-500 text-white rounded-xl text-[10px] font-black tracking-[0.2em] uppercase shadow-lg shadow-emerald-500/20">PARETO STABLE</span>
+                                <span className="text-slate-500 text-[11px] font-black tracking-widest uppercase">Build M-892.42</span>
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '2.25rem', fontWeight: '900', letterSpacing: '-0.04em', lineHeight: '1.1' }}>
+                            <h3 className="text-4xl md:text-5xl font-black text-white tracking-tighter leading-none mb-6">
                                 {loading ? 'Sistem taranıyor...' : `QRlamenü Core ${config?.version || 'v2.4.1'}`}
                             </h3>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '16px' }}>
-                                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#10b981' }} className="animate-pulse"></div>
-                                <p style={{ margin: 0, color: '#94a3b8', fontSize: '0.95rem', fontWeight: '700' }}>
+                            <div className="flex items-center justify-center md:justify-start gap-3">
+                                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.8)]"></div>
+                                <p className="text-slate-400 text-sm font-bold uppercase tracking-widest">
                                     Son kararlı sürüm • {loading ? '...' : new Date(config?.lastUpdate || Date.now()).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
                                 </p>
                             </div>
                         </div>
 
-                        <button className="hover:scale-105 active:scale-95 transition-all" style={{ padding: '12px 24px', borderRadius: '16px', background: 'rgba(255,255,255,0.05)', color: '#fff', border: '1px solid rgba(255,255,255,0.12)', fontWeight: '900', fontSize: '0.85rem', cursor: 'pointer', zIndex: 1, backdropFilter: 'blur(10px)' }}>Sürüm Detayları</button>
+                        <button className="px-8 py-4 rounded-2xl bg-white/5 text-white border border-white/10 font-black text-[10px] tracking-widest uppercase hover:bg-white hover:text-slate-900 transition-all z-10 backdrop-blur-md">
+                            SÜRÜM DETAYLARI
+                        </button>
                     </div>
 
                     {/* Module Library */}
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ padding: '20px 28px', borderBottom: '1px solid #f1f5f9', background: '#fff' }}>
-                            <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Modül Kütüphanesi & Bağımlılıklar</h3>
+                    <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden flex flex-col group">
+                        <div className="p-10 border-b border-slate-50 bg-white flex items-center justify-between">
+                            <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase flex items-center gap-3">
+                                <Package size={24} strokeWidth={2.5} className="text-[#ff7a21]" />
+                                Modül Kütüphanesi & Bağımlılıklar
+                            </h3>
+                            <div className="px-4 py-1.5 bg-slate-50 rounded-xl border border-slate-100">
+                                <span className="text-[9px] font-black text-slate-400 tracking-widest uppercase">{config?.modules?.length || 0} AKTİF MODÜL</span>
+                            </div>
                         </div>
-                        <div style={{ padding: '0 28px', background: '#fff' }}>
+                        <div className="p-10 bg-white space-y-2">
                             {loading ? (
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', padding: '80px' }}>
-                                    <Loader2 className="animate-spin text-orange-500" size={48} />
-                                    <span style={{ fontWeight: '800', color: '#94a3b8', fontSize: '1rem' }}>MODÜLLER ANALİZ EDİLİYOR...</span>
+                                <div className="flex flex-col items-center gap-8 py-24">
+                                    <div className="relative">
+                                        <div className="w-20 h-20 rounded-full border-4 border-slate-50 border-t-[#ff7a21] animate-spin"></div>
+                                        <Package size={32} className="absolute inset-0 m-auto text-slate-200 animate-pulse" />
+                                    </div>
+                                    <span className="font-black text-slate-400 text-xs tracking-[0.2em] uppercase">MODÜLLER ANALİZ EDİLİYOR...</span>
                                 </div>
                             ) : error ? (
-                                <div style={{ color: '#f43f5e', padding: '40px', textAlign: 'center', fontWeight: '900', fontSize: '1rem' }}>{error}</div>
+                                <div className="text-rose-500 p-10 text-center font-black uppercase text-sm">{error}</div>
                             ) : config?.modules?.map((row: any, i: number) => (
-                                <div key={i} className="group" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '24px 0', borderBottom: i < config.modules.length - 1 ? '1px solid #f1f5f9' : 'none', transition: 'all 0.3s' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
-                                        <div style={{ background: '#f8fafc', color: '#64748b', padding: '12px', borderRadius: '16px', border: '1px solid #f1f5f9', transition: 'all 0.3s' }} className="group-hover:scale-110 group-hover:bg-white group-hover:shadow-md">
-                                            <Package size={22} strokeWidth={2.5} />
+                                <div key={i} className="group/row flex flex-col sm:flex-row justify-between items-start sm:items-center py-8 border-b last:border-0 border-slate-50 hover:bg-slate-50/50 rounded-2xl px-6 transition-all duration-300">
+                                    <div className="flex items-center gap-6 mb-4 sm:mb-0">
+                                        <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl border border-slate-200 flex items-center justify-center transition-all duration-300 group-hover/row:scale-110 group-hover/row:bg-white group-hover/row:text-[#ff7a21] group-hover/row:shadow-lg">
+                                            <Package size={24} strokeWidth={2.5} />
                                         </div>
                                         <div>
-                                            <p style={{ margin: 0, fontWeight: '900', color: '#111827', fontSize: '1.05rem', letterSpacing: '-0.02em' }}>{row.name}</p>
-                                            <p style={{ margin: '6px 0 0 0', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '800', letterSpacing: '0.05em' }}>SİSTEM ETİKETİ: <span style={{ color: '#444' }}>MOD-CORE-{row.ver.replace(/\./g, '')}</span></p>
+                                            <p className="font-black text-slate-900 text-lg tracking-tight mb-1">{row.name}</p>
+                                            <p className="text-[10px] text-slate-400 font-black tracking-widest">SİSTEM ETİKETİ: <span className="text-slate-600">MOD-CORE-{row.ver.replace(/\./g, '')}</span></p>
                                         </div>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '32px' }}>
-                                        <div style={{ textAlign: 'right' }}>
-                                            <p style={{ margin: 0, fontSize: '1.05rem', color: '#111827', fontWeight: '900', letterSpacing: '-0.02em' }}>v{row.ver}</p>
-                                            <p style={{ margin: '4px 0 0 0', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '800' }}>API V2.4+</p>
+                                    <div className="flex items-center gap-10 w-full sm:w-auto justify-between sm:justify-end">
+                                        <div className="text-right">
+                                            <p className="font-black text-slate-900 text-lg tracking-tighter mb-1">v{row.ver}</p>
+                                            <p className="text-[9px] text-slate-400 font-black tracking-widest uppercase italic">API V2.4 Compatible</p>
                                         </div>
-                                        <span style={{
-                                            fontSize: '0.75rem',
-                                            fontWeight: '900',
-                                            padding: '8px 16px',
-                                            borderRadius: '10px',
-                                            textTransform: 'uppercase',
-                                            letterSpacing: '0.1em',
-                                            background: row.status === 'Stable' ? '#ecfdf5' : '#fff7f2',
-                                            color: row.status === 'Stable' ? '#10b981' : '#ff7a21',
-                                            border: '1px solid currentColor',
-                                            transition: 'all 0.2s',
-                                            boxShadow: row.status === 'Stable' ? '0 4px 6px -1px rgba(16, 185, 129, 0.1)' : '0 4px 6px -1px rgba(255, 122, 33, 0.1)'
-                                        }}>{row.status === 'Stable' ? 'KARARLI' : 'TESTTE'}</span>
+                                        <span className={`
+                                            text-[9px] font-black px-5 py-2.5 rounded-xl border tracking-widest uppercase transition-all shadow-sm
+                                            ${row.status === 'Stable'
+                                                ? 'bg-emerald-50 border-emerald-100 text-emerald-600 shadow-emerald-500/5'
+                                                : 'bg-orange-50 border-orange-100 text-orange-600 shadow-orange-500/5'}
+                                        `}>
+                                            {row.status === 'Stable' ? 'KARARLI' : 'TEST STAGE'}
+                                        </span>
                                     </div>
                                 </div>
                             ))}
@@ -122,46 +136,53 @@ export default function VersionManagementPage() {
                 </div>
 
                 {/* Right Sidebar Patch Tracking */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '1.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <h3 style={{ fontSize: '0.85rem', fontWeight: '900', marginBottom: '24px', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#64748b' }}>Patch Kayıtları</h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                <aside className="flex flex-col gap-10 sticky top-12 h-fit">
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border border-slate-100 group">
+                        <h3 className="text-[10px] font-black text-slate-400 tracking-[0.2em] uppercase mb-10 border-b border-slate-50 pb-6 flex items-center justify-between">
+                            Patch Kayıtları
+                            <span className="w-2 h-2 rounded-full bg-slate-200"></span>
+                        </h3>
+                        <div className="space-y-10">
                             {[1, 2, 3].map((i) => (
-                                <div key={i} style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                                    <div style={{ width: '28px', height: '28px', borderRadius: '10px', background: '#ecfdf5', color: '#10b981', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, border: '1px solid #d1fae5', boxShadow: '0 4px 6px -1px rgba(16, 185, 129, 0.1)' }}>
-                                        <CheckCircle size={16} strokeWidth={2.5} />
+                                <div key={i} className="flex gap-6 group/patch">
+                                    <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center shrink-0 border border-emerald-100 shadow-lg shadow-emerald-500/5 transition-transform group-hover/patch:scale-110">
+                                        <CheckCircle size={20} strokeWidth={3} />
                                     </div>
                                     <div>
-                                        <p style={{ margin: 0, fontWeight: '900', color: '#111827', fontSize: '0.9rem' }}>Patch 2.4.1-{i * 42}</p>
-                                        <p style={{ margin: '6px 0 0', color: '#64748b', fontSize: '0.85rem', lineHeight: '1.6', fontWeight: '500' }}>
+                                        <p className="font-black text-slate-900 text-sm mb-2 uppercase tracking-tight italic">Patch 2.4.1-{i * 42}</p>
+                                        <p className="text-slate-500 text-xs leading-relaxed font-bold">
                                             Tenant resolution katmanında slug çakışması ve session timeout hataları giderildi.
                                         </p>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <button className="hover:scale-105 active:scale-95 transition-all" style={{ width: '100%', padding: '12px', marginTop: '32px', border: '1px solid #e2e8f0', background: '#fff', borderRadius: '14px', fontSize: '0.85rem', fontWeight: '900', color: '#374151', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>Tüm Günlükleri İndir</button>
+                        <button className="w-full py-4 mt-12 bg-slate-50 hover:bg-slate-100 border border-slate-100 text-slate-600 rounded-2xl text-[10px] font-black tracking-widest uppercase transition-all active:scale-95">
+                            Tüm Günlükleri İndir (JSON/CSV)
+                        </button>
                     </div>
 
                     {/* Future Version Highlights */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #4f46e5 0%, #1e1b4b 100%)', color: '#fff', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(79, 70, 229, 0.25)', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '120px', height: '120px', background: 'rgba(255,255,255,0.05)', filter: 'blur(50px)', borderRadius: '50%' }}></div>
-                        <div style={{ position: 'relative' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                                <div style={{ background: 'rgba(255,255,255,0.1)', padding: '8px', borderRadius: '10px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                    <GitBranch size={18} color="#fff" strokeWidth={2.5} />
+                    <div className="bg-gradient-to-br from-[#4f46e5] to-[#2e2a8c] rounded-[40px] p-10 text-white shadow-2xl shadow-indigo-500/20 relative overflow-hidden group">
+                        <div className="absolute -right-10 -top-10 w-40 h-40 bg-white/10 blur-3xl rounded-full transition-transform duration-1000 group-hover:scale-150"></div>
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="p-3 bg-white/10 rounded-2xl border border-white/10 backdrop-blur-md">
+                                    <GitBranch size={22} className="text-white" strokeWidth={3} />
                                 </div>
-                                <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: '900', letterSpacing: '-0.02em' }}>Gelecek Sürüm: v2.5.0</h4>
+                                <h4 className="text-lg font-black tracking-tight leading-none">Gelecek Sürüm: v2.5.0</h4>
                             </div>
-                            <p style={{ margin: 0, fontSize: '0.85rem', color: 'rgba(255,255,255,0.8)', lineHeight: '1.7', fontWeight: '500' }}>
-                                Yeni sürüm şu anda <span style={{ color: '#fff', fontWeight: '900' }}>Beta Stage</span> aşamasında. Çoklu dil desteği ve gelişmiş yetkilendirme modülleri eklendi.
+                            <p className="text-indigo-100/80 text-sm leading-relaxed font-bold mb-8">
+                                Yeni sürüm şu anda <span className="text-white font-black">Beta Stage</span> aşamasında. Çoklu dil desteği ve gelişmiş yetkilendirme modülleri eklendi.
                             </p>
-                            <div style={{ marginTop: '20px', display: 'flex', gap: '8px' }}>
-                                {[1, 2, 3, 4].map(dot => <div key={dot} style={{ width: dot === 1 ? '24px' : '8px', height: '8px', borderRadius: '4px', background: dot === 1 ? '#fff' : 'rgba(255,255,255,0.2)' }}></div>)}
+                            <div className="flex gap-2">
+                                {[1, 2, 3, 4].map(dot => (
+                                    <div key={dot} className={`h-2 rounded-full transition-all duration-500 ${dot === 1 ? 'w-10 bg-white' : 'w-2 bg-white/20 group-hover:bg-white/40'}`}></div>
+                                ))}
                             </div>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
         </div>
     );

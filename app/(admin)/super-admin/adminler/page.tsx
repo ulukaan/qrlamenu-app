@@ -148,138 +148,131 @@ export default function AdminlerPage() {
     };
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Sistem Yetkili Yönetimi</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Platform kontrol panelini yöneten, yüksek yetkili yönetici ve denetçi hesapları.</p>
+            <div className="mb-8 md:mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+                <div className="max-w-3xl">
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Sistem Yetkili Yönetimi</h2>
+                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium">Platform kontrol panelini yöneten, yüksek yetkili yönetici ve denetçi hesapları.</p>
                 </div>
                 <button
                     onClick={handleOpenAdd}
-                    className="hover:scale-105 active:scale-95 transition-all"
-                    style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}
+                    className="w-full lg:w-auto bg-slate-900 hover:bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95"
                 >
-                    <UserPlus size={18} strokeWidth={2.5} /> Yeni Yönetici Yetkilendir
+                    <UserPlus size={18} strokeWidth={2.5} /> Yeni Yetkili Tanımla
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 items-start">
+                <div className="space-y-6">
                     {/* Admin List Card */}
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Yetkili Personel Listesi</h3>
-                            <div style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '900', background: '#f8fafc', padding: '6px 14px', borderRadius: '10px', border: '1px solid #f1f5f9' }}>TOPLAM {admins.length} KAYIT</div>
+                    <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
+                        <div className="p-8 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/50 backdrop-blur-sm">
+                            <div className="flex items-center gap-4">
+                                <h3 className="text-lg font-black text-gray-900 tracking-tight">Yetkili Personel Listesi</h3>
+                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-xl border border-slate-100">
+                                    TOPLAM {admins.length} KAYIT
+                                </span>
+                            </div>
                         </div>
 
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                <thead style={{ background: '#f9fafb' }}>
+                        <div className="overflow-x-auto custom-scrollbar">
+                            <table className="w-full border-collapse">
+                                <thead className="bg-slate-50/50">
                                     <tr>
-                                        <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kimlik & İletişim</th>
-                                        <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Rol / Erişim</th>
-                                        <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Yetki Durumu</th>
-                                        <th style={{ padding: '16px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kayıt Tarihi</th>
-                                        <th style={{ padding: '16px 24px', textAlign: 'right', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Yönetim</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Kimlik & İletişim</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hidden md:table-cell">Rol / Erişim</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Durum</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hidden lg:table-cell">Kayıt</th>
+                                        <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">İşlem</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-slate-50">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={5} style={{ padding: '80px', textAlign: 'center' }}>
-                                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', color: '#64748b' }}>
-                                                    <Loader2 size={48} className="animate-spin text-orange-500" />
-                                                    <span style={{ fontWeight: '900', fontSize: '1rem', letterSpacing: '-0.02em' }}>ADMIN VERİTABANI TARANIYOR...</span>
+                                            <td colSpan={5} className="py-32 text-center">
+                                                <div className="flex flex-col items-center gap-4">
+                                                    <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Sistem Veritabanı Taranıyor...</p>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : error ? (
                                         <tr>
-                                            <td colSpan={5} style={{ padding: '60px', textAlign: 'center', color: '#f43f5e', fontWeight: '900', fontSize: '1.1rem' }}>{error}</td>
+                                            <td colSpan={5} className="p-12 text-center">
+                                                <div className="bg-rose-50 p-6 rounded-3xl border border-rose-100 text-rose-500 font-black text-sm">{error}</div>
+                                            </td>
                                         </tr>
                                     ) : admins.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} style={{ padding: '80px', textAlign: 'center' }}>
-                                                <div style={{ fontSize: '1.1rem', color: '#94a3b8', fontWeight: '900', letterSpacing: '-0.02em' }}>Henüz yetkilendirilmiş bir hesap bulunamadı.</div>
+                                            <td colSpan={5} className="py-32 text-center">
+                                                <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-slate-200">
+                                                    <Shield size={40} />
+                                                </div>
+                                                <h4 className="text-lg font-black text-gray-900 mb-2">Henüz Personel Bulunmuyor</h4>
+                                                <p className="text-sm font-bold text-slate-400 max-w-[280px] mx-auto leading-relaxed italic">Platform yönetimini paylaştıracak ekip üyelerini tanımlayın.</p>
                                             </td>
                                         </tr>
                                     ) : admins.map((admin) => (
-                                        <tr key={admin.id} style={{ borderBottom: '1px solid #f8fafc', transition: 'all 0.3s' }} className="group hover:bg-slate-50/50">
-                                            <td style={{ padding: '20px 24px' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
-                                                    <div style={{ width: '44px', height: '44px', borderRadius: '14px', background: 'linear-gradient(135deg, #0f172a 0%, #334155 100%)', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '1.1rem', fontWeight: '900', border: '2px solid #e2e8f0', boxShadow: '0 8px 16px -4px rgba(0,0,0,0.15)', textShadow: '0 2px 4px rgba(0,0,0,0.3)' }}>
+                                        <tr key={admin.id} className="group hover:bg-slate-50/50 transition-all border-b border-slate-50 last:border-0">
+                                            <td className="px-8 py-7">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-14 h-14 rounded-2xl bg-slate-900 border-2 border-white flex items-center justify-center text-white text-lg font-black shrink-0 shadow-xl shadow-slate-900/10 group-hover:scale-110 group-hover:bg-[#ff7a21] transition-all duration-500">
                                                         {admin.name?.charAt(0) || admin.email.charAt(0).toUpperCase()}
                                                     </div>
-                                                    <div>
-                                                        <p style={{ margin: 0, fontWeight: '900', fontSize: '1rem', color: '#111827', letterSpacing: '-0.02em' }}>{admin.name || 'İsimsiz Yönetici'}</p>
-                                                        <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '700', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                            <Mail size={12} strokeWidth={2.5} /> {admin.email}
-                                                        </p>
+                                                    <div className="min-w-0">
+                                                        <p className="font-black text-gray-900 truncate tracking-tight text-base group-hover:text-[#ff7a21] transition-colors">{admin.name || 'İsimsiz Yönetici'}</p>
+                                                        <div className="flex items-center gap-2 mt-1">
+                                                            <div className="bg-orange-100/50 p-1 rounded-md">
+                                                                <Mail size={12} className="text-[#ff7a21]" />
+                                                            </div>
+                                                            <p className="text-xs font-bold text-slate-400 truncate">{admin.email}</p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td style={{ padding: '20px 24px' }}>
-                                                <span style={{
-                                                    fontSize: '0.75rem',
-                                                    fontWeight: '900',
-                                                    color: admin.role === 'SUPER_ADMIN' ? '#ff7a21' : '#1e293b',
-                                                    background: admin.role === 'SUPER_ADMIN' ? '#fff7ed' : '#f1f5f9',
-                                                    padding: '6px 12px',
-                                                    borderRadius: '10px',
-                                                    border: '1px solid currentColor',
-                                                    textTransform: 'uppercase',
-                                                    letterSpacing: '0.05em'
-                                                }}>{admin.role}</span>
+                                            <td className="px-8 py-7 hidden md:table-cell">
+                                                <span className={`text-[10px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest border shadow-sm ${admin.role === 'SUPER_ADMIN' ? 'bg-orange-50 text-orange-500 border-orange-100' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                                                    {admin.role}
+                                                </span>
                                             </td>
-                                            <td style={{ padding: '20px 24px' }}>
-                                                <div
+                                            <td className="px-8 py-7">
+                                                <button
                                                     onClick={() => handleStatusToggle(admin)}
-                                                    style={{
-                                                        display: 'inline-flex',
-                                                        alignItems: 'center',
-                                                        gap: '10px',
-                                                        color: admin.emailVerified ? '#10b981' : '#f59e0b',
-                                                        cursor: 'pointer',
-                                                        padding: '6px 12px',
-                                                        background: admin.emailVerified ? '#ecfdf5' : '#fffbeb',
-                                                        borderRadius: '10px',
-                                                        border: '1px solid currentColor',
-                                                        transition: 'all 0.2s'
-                                                    }}
-                                                    className="hover:scale-105"
+                                                    className={`group/status flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-95 ${admin.emailVerified ? 'bg-emerald-50 text-emerald-500 border-emerald-50' : 'bg-amber-50 text-amber-500 border-amber-50'}`}
                                                 >
-                                                    <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: admin.emailVerified ? '#10b981' : '#f59e0b', boxShadow: admin.emailVerified ? '0 0 12px rgba(16, 185, 129, 0.4)' : 'none' }} className={admin.emailVerified ? "animate-pulse" : ""} />
-                                                    <span style={{ fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.02em' }}>{admin.emailVerified ? 'TAM YETKİLİ' : 'DOĞRULAMA BEKLİYOR'}</span>
+                                                    <div className={`w-2 h-2 rounded-full ${admin.emailVerified ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-amber-500'}`}></div>
+                                                    <span className="text-[10px] font-black uppercase tracking-widest">{admin.emailVerified ? 'AKTİF' : 'BEKLEMEDE'}</span>
+                                                </button>
+                                            </td>
+                                            <td className="px-8 py-7 hidden lg:table-cell">
+                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                                                    {new Date(admin.createdAt).toLocaleDateString('tr-TR')}
                                                 </div>
                                             </td>
-                                            <td style={{ padding: '20px 24px', fontSize: '0.85rem', color: '#64748b', fontWeight: '800', letterSpacing: '-0.01em' }}>
-                                                {new Date(admin.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
-                                            </td>
-                                            <td style={{ padding: '20px 24px' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px' }}>
+                                            <td className="px-8 py-7 text-right">
+                                                <div className="flex justify-end gap-2.5 opacity-0 group-hover:opacity-100 transition-all">
                                                     <button
                                                         onClick={() => handleOpenEdit(admin)}
-                                                        style={{ width: '38px', height: '38px', borderRadius: '12px', background: '#fff', border: '1px solid #e2e8f0', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}
-                                                        className="hover:border-orange-500 hover:text-orange-500 hover:shadow-md active:scale-95"
+                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-[#ff7a21] hover:border-orange-100 hover:shadow-lg hover:shadow-orange-500/10 transition-all active:scale-90"
                                                         title="Hesap Ayarları"
                                                     >
                                                         <Key size={16} strokeWidth={2.5} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleResetPassword(admin)}
-                                                        style={{ width: '38px', height: '38px', borderRadius: '12px', background: '#fff', border: '1px solid #e2e8f0', color: '#64748b', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}
-                                                        className="hover:border-indigo-500 hover:text-indigo-500 hover:shadow-md active:scale-95"
+                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-indigo-500 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-500/10 transition-all active:scale-90"
                                                         title="Şifre Sıfırla"
                                                     >
                                                         <Lock size={16} strokeWidth={2.5} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(admin.id, admin.name)}
-                                                        style={{ height: '38px', padding: '0 16px', borderRadius: '12px', background: '#fef2f2', border: '1px solid #fee2e2', color: '#f43f5e', fontWeight: '900', fontSize: '0.8rem', cursor: 'pointer', transition: 'all 0.2s' }}
-                                                        className="hover:bg-red-500 hover:text-white hover:border-red-500 hover:shadow-md active:scale-95"
+                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-rose-50 border border-rose-100 text-rose-300 hover:text-white hover:bg-rose-500 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/20 transition-all active:scale-90"
+                                                        title="Sil"
                                                     >
-                                                        SİL
+                                                        <X size={16} strokeWidth={3} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -291,33 +284,38 @@ export default function AdminlerPage() {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '2rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', borderRadius: '24px', boxShadow: '0 30px 40px -15px rgba(0, 0, 0, 0.4)', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '120px', height: '120px', background: 'rgba(255,122,33,0.1)', filter: 'blur(50px)', borderRadius: '50%' }}></div>
+                {/* Right Sidebar */}
+                <div className="xl:sticky xl:top-8 flex flex-col gap-6">
+                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px', position: 'relative', zIndex: 1 }}>
-                            <div style={{ background: 'rgba(255,255,255,0.05)', padding: '10px', borderRadius: '14px', border: '1px solid rgba(255,255,255,0.1)' }}>
-                                <Shield size={24} color="#ff7a21" strokeWidth={2.5} />
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="bg-orange-500/10 p-3 rounded-2xl border border-orange-500/10">
+                                    <Shield size={24} className="text-[#ff7a21]" strokeWidth={3} />
+                                </div>
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Güvenlik Merkezi</h3>
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Güvenlik Protokolü</h3>
+
+                            <p className="text-sm font-medium text-slate-400 leading-relaxed mb-8">
+                                Sistemdeki yöneticilerin tamamı <span className="text-white font-black italic">2FA Politikası</span> ve <span className="text-white font-black italic">Denetim Günlüğü</span> doğrulamasına tabidir. Platform üzerindeki her işlem izlenmektedir.
+                            </p>
+
+                            <button className="w-full bg-white/5 hover:bg-white/10 border border-white/5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all backdrop-blur-sm">
+                                Güvenlik Loglarını İncele
+                            </button>
                         </div>
-                        <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8', lineHeight: '1.7', fontWeight: '500', position: 'relative', zIndex: 1 }}>
-                            Sistemdeki yöneticilerin tamamı <span style={{ color: '#fff', fontWeight: '900' }}>2FA Politikası</span> ve <span style={{ color: '#fff', fontWeight: '900' }}>Donanımsal Kimlik</span> doğrulamasına tabidir. Platform üzerinde yapılan her admin işlemi audit log'una kaydedilir.
-                        </p>
-                        <button className="hover:scale-105 active:scale-95 transition-all" style={{ width: '100%', marginTop: '28px', padding: '14px', borderRadius: '14px', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.12)', color: '#fff', fontSize: '0.9rem', fontWeight: '900', cursor: 'pointer', position: 'relative', zIndex: 1, backdropFilter: 'blur(10px)' }}>
-                            Güvenlik Loglarını İncele
-                        </button>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                            <div style={{ background: '#f5f3ff', padding: '12px', borderRadius: '14px', border: '1px solid #ede9fe' }}>
-                                <Lock size={24} color="#6366f1" strokeWidth={2.5} />
+                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                        <div className="flex items-start gap-4">
+                            <div className="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
+                                <Lock size={20} className="text-indigo-500" strokeWidth={2.5} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 8px 0', fontSize: '1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Erişim Koruması</h4>
-                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', lineHeight: '1.6', fontWeight: '500' }}>
-                                    Tanımlanan yöneticiler e-posta onayını tamamlamadan sisteme erişim sağlayamazlar.
+                                <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest mb-2">Erişim Koruması</h4>
+                                <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic">
+                                    Tanımlanan yöneticiler e-posta onayını tamamlamadan ve merkezi veritabanı eşleşmesi gerçekleşmeden panele erişim sağlayamazlar.
                                 </p>
                             </div>
                         </div>
@@ -327,112 +325,99 @@ export default function AdminlerPage() {
 
             {/* Admin Modal */}
             {isModalOpen && (
-                <div style={{
-                    position: 'fixed',
-                    top: 0, left: 0, right: 0, bottom: 0,
-                    background: 'rgba(15, 23, 42, 0.5)',
-                    backdropFilter: 'blur(16px)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 1000,
-                    padding: '24px'
-                }}>
-                    <div className="card" style={{ width: '100%', maxWidth: '500px', padding: '40px', border: 'none', borderRadius: '32px', boxShadow: '0 40px 80px -20px rgba(0,0,0,0.4)', background: '#fff', position: 'relative', animation: 'modalFadeIn 0.3s ease-out' }}>
+                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-2xl flex items-center justify-center z-[1000] p-4 md:p-8">
+                    <div className="bg-white w-full max-w-lg rounded-[48px] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in duration-300 overflow-hidden">
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff7a21]/5 rounded-bl-full -z-0"></div>
+
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            style={{ position: 'absolute', top: '24px', right: '24px', background: '#f1f5f9', border: 'none', padding: '8px', borderRadius: '12px', cursor: 'pointer', color: '#64748b' }}
-                            className="hover:scale-110 active:scale-90 transition-all"
+                            className="absolute top-8 right-8 p-3 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all active:scale-95"
                         >
-                            <X size={18} strokeWidth={3} />
+                            <X size={20} strokeWidth={3} />
                         </button>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
-                            <div style={{ background: '#fff7ed', padding: '14px', borderRadius: '16px', border: '1px solid #ffedd5' }}>
-                                <UserPlus size={24} color="#ff7a21" strokeWidth={2.5} />
+                        <div className="relative z-10 mb-10">
+                            <div className="bg-orange-50 w-16 h-16 rounded-[24px] flex items-center justify-center mb-6 border-2 border-orange-100">
+                                <UserPlus size={32} className="text-[#ff7a21]" strokeWidth={2.5} />
                             </div>
-                            <div>
-                                <h3 style={{ margin: 0, fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>
-                                    {editingAdmin ? 'Yetkilendirme Güncelle' : 'Personel Yetkilendir'}
-                                </h3>
-                                <p style={{ margin: '4px 0 0', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>Yönetici kimlik ve erişim bilgilerini yapılandırın.</p>
-                            </div>
+                            <h3 className="text-3xl font-black text-gray-900 tracking-tight">
+                                {editingAdmin ? 'Yetki Güncelle' : 'Personel Tanımla'}
+                            </h3>
+                            <p className="text-gray-400 mt-2 font-bold italic">Yönetici kimlik ve erişim düzeyini yapılandırın.</p>
                         </div>
 
-                        <form onSubmit={handleAction} style={{ display: 'flex', flexDirection: 'column', gap: '32px' }}>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Tam Personel İsmi</label>
+                        <form onSubmit={handleAction} className="space-y-8 relative z-10">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tam Personel İsmi</label>
                                 <input
                                     type="text"
                                     required
                                     placeholder="Örn: Ahmet Yılmaz"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    style={{ width: '100%', padding: '18px 24px', borderRadius: '18px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1.1rem', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-lg"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                 />
                             </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Kurumsal E-posta</label>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Kurumsal E-posta</label>
                                 <input
                                     type="email"
                                     required
                                     placeholder="eposta@qrlamenu.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    style={{ width: '100%', padding: '18px 24px', borderRadius: '18px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1.1rem', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-lg"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                 />
                             </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
                                     {editingAdmin ? 'Şifre Revizyonu (Opsiyonel)' : 'Panel Giriş Şifresi'}
                                 </label>
                                 <input
                                     type="password"
                                     required={!editingAdmin}
-                                    placeholder={editingAdmin ? "Değiştirmek istemiyorsanız boş bırakın" : "En az 10 karakter önerilir"}
+                                    placeholder={editingAdmin ? "Değiştirmek istemiyorsanız boş bırakın" : "En az 10 karakter..."}
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    style={{ width: '100%', padding: '18px 24px', borderRadius: '18px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '1.1rem', fontWeight: '800', transition: 'all 0.2s', background: '#f8fafc' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-lg"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                 />
                             </div>
-                            <div>
-                                <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Yetki Seviyesi (Role)</label>
-                                <div style={{ position: 'relative' }}>
+
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Yetki Seviyesi</label>
+                                <div className="relative group">
                                     <select
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        style={{ width: '100%', padding: '18px 24px', borderRadius: '18px', border: '1px solid #e2e8f0', outline: 'none', background: '#f8fafc', fontSize: '1.1rem', fontWeight: '900', cursor: 'pointer', appearance: 'none', transition: 'all 0.2s' }}
-                                        className="focus:border-orange-500 focus:bg-white focus:shadow-lg"
+                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all appearance-none cursor-pointer"
                                     >
-                                        <option value="SUPER_ADMIN">SUPER_ADMIN (Tam Erişim / Root)</option>
-                                        <option value="ADMIN">ADMIN (Standart Yönetici)</option>
-                                        <option value="VIEWER">VIEWER (Sadece İzleme Modu)</option>
+                                        <option value="SUPER_ADMIN">SUPER_ADMIN (Tam Erişim)</option>
+                                        <option value="ADMIN">ADMIN (Standart Panel)</option>
+                                        <option value="VIEWER">VIEWER (Sadece İzleme)</option>
                                     </select>
-                                    <div style={{ position: 'absolute', right: '20px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#64748b' }}>
-                                        <MoreVertical size={20} strokeWidth={2.5} />
+                                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#ff7a21]">
+                                        <Shield size={20} />
                                     </div>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', gap: '24px', marginTop: '40px' }}>
+
+                            <div className="pt-6 flex flex-col sm:flex-row gap-4">
                                 <button
                                     type="button"
                                     disabled={actionLoading}
                                     onClick={() => setIsModalOpen(false)}
-                                    className="hover:bg-slate-50 transition-all active:scale-95"
-                                    style={{ flex: 1, padding: '18px', borderRadius: '18px', border: '1px solid #e2e8f0', background: '#fff', fontWeight: '900', color: '#64748b', cursor: 'pointer', fontSize: '1.05rem', letterSpacing: '0.05em' }}
+                                    className="flex-1 px-8 py-4 rounded-2xl bg-slate-50 text-slate-400 text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95"
                                 >
-                                    VAZGEÇ
+                                    Vazgeç
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={actionLoading}
-                                    className="hover:scale-105 active:scale-95 transition-all"
-                                    style={{ flex: 1, padding: '18px', borderRadius: '18px', border: 'none', background: '#ff7a21', fontWeight: '900', color: '#fff', cursor: 'pointer', fontSize: '1.05rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)' }}
+                                    className="flex-[1.5] px-8 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ff7a21] hover:shadow-orange-500/20 transition-all active:scale-90 flex items-center justify-center gap-3"
                                 >
-                                    {actionLoading ? <Loader2 size={24} className="animate-spin" /> : (editingAdmin ? 'GÜNCELLE' : 'HESABI TANIMLA')}
+                                    {actionLoading ? <Loader2 className="animate-spin" size={20} /> : (editingAdmin ? 'Güncelle' : 'Tanımla')}
                                 </button>
                             </div>
                         </form>

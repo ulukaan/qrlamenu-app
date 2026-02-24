@@ -54,123 +54,143 @@ export default function LogsPage() {
     };
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Sistem Logları & Monitor</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Platform genelinde gerçekleşen kritik olayları, API trafiklerini ve sistem hatalarını gerçek zamanlı izleyin.</p>
+            <div className="mb-8 md:mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+                <div className="max-w-3xl">
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Sistem Logları & Monitor</h2>
+                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium">Platform genelinde gerçekleşen kritik olayları, API trafiklerini ve sistem hatalarını gerçek zamanlı izleyin.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '16px' }}>
-                    <button className="hover:scale-105 active:scale-95 transition-all" style={{ padding: '12px 24px', borderRadius: '14px', background: '#fff', border: '1px solid #e2e8f0', color: '#475569', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>
+                <div className="flex flex-wrap gap-4 w-full lg:w-auto">
+                    <button className="flex-1 lg:flex-none flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-white border-2 border-slate-100 text-slate-600 text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95 shadow-sm">
                         <Info size={18} strokeWidth={2.5} /> Rehber
                     </button>
-                    <button onClick={clearLogs} className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
+                    <button onClick={clearLogs} className="flex-1 lg:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl bg-[#ff7a21] text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 border border-orange-400/20 hover:bg-orange-600 transition-all active:scale-95">
                         <Terminal size={18} strokeWidth={2.5} /> Terminali Temizle
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 items-start">
+                <div className="space-y-6">
                     {/* Sophisticated Dark Terminal Viewer */}
-                    <div className="card" style={{ border: 'none', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#cbd5e1', padding: '28px', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.5)', minHeight: '650px', maxHeight: '75vh', overflowY: 'auto', position: 'relative' }}>
-                        {/* Glassmorphism Terminal Header */}
-                        <div style={{ position: 'sticky', top: '-28px', left: 0, right: 0, background: 'rgba(15, 23, 42, 0.8)', backdropFilter: 'blur(12px)', zIndex: 10, padding: '0 0 20px 0', borderBottom: '1px solid rgba(255,255,255,0.08)', marginBottom: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <div style={{ display: 'flex', gap: '24px', fontSize: '0.75rem', fontWeight: '900', letterSpacing: '0.1em' }}>
-                                <span style={{ color: '#10b981', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <div className="animate-pulse" style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 12px #10b981' }} /> SUCCESS
-                                </span>
-                                <span style={{ color: '#f43f5e', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f43f5e', boxShadow: '0 0 12px #f43f5e' }} /> ERROR
-                                </span>
-                                <span style={{ color: '#f59e0b', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                    <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#f59e0b', boxShadow: '0 0 12px #f59e0b' }} /> WARNING
-                                </span>
+                    <div className="bg-slate-900 rounded-[40px] p-6 md:p-10 shadow-2xl shadow-slate-900/40 border border-white/5 relative min-h-[600px] lg:min-h-[700px] max-h-[80vh] overflow-hidden flex flex-col">
+                        {/* Terminal Header */}
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 pb-8 mb-8 border-b border-white/5">
+                            <div className="flex flex-wrap gap-6 text-[10px] font-black tracking-widest">
+                                <div className="flex items-center gap-3 text-emerald-500">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_12px_#10b981] animate-pulse"></div>
+                                    SUCCESS
+                                </div>
+                                <div className="flex items-center gap-3 text-rose-500">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_12px_#f43f5e]"></div>
+                                    ERROR
+                                </div>
+                                <div className="flex items-center gap-3 text-amber-500">
+                                    <div className="w-2.5 h-2.5 rounded-full bg-amber-500 shadow-[0_0_12px_#f59e0b]"></div>
+                                    WARNING
+                                </div>
                             </div>
-                            <div style={{ fontSize: '0.7rem', color: '#64748b', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.2em', opacity: 0.8 }}>
-                                LIVE MONITORING • QRlamenü OS V2.5
+                            <div className="text-[10px] font-black text-slate-600 uppercase tracking-[0.2em]">
+                                LIVE MONITORING • MESA OS V2.5
                             </div>
                         </div>
 
                         {/* Log Stream Area */}
-                        <div style={{ fontFamily: '"JetBrains Mono", "Fira Code", "Courier New", monospace', fontSize: '0.9rem', lineHeight: '1.8' }}>
+                        <div className="flex-1 overflow-y-auto custom-scrollbar font-mono text-xs md:text-sm leading-relaxed space-y-1.5 pr-4">
                             {loading ? (
-                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '20px', color: '#64748b', padding: '100px 0' }}>
-                                    <Loader2 size={48} className="animate-spin text-orange-500" />
-                                    <span style={{ fontWeight: '800', fontSize: '1rem', letterSpacing: '0.05em' }}>SİSTEM KAYITLARI ANALİZ EDİLİYOR...</span>
+                                <div className="flex flex-col items-center justify-center h-full gap-8 py-20 text-slate-500">
+                                    <Loader2 size={56} className="animate-spin text-[#ff7a21]" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest italic">Sistem Kayıtları Analiz Ediliyor...</span>
                                 </div>
                             ) : error ? (
-                                <div style={{ color: '#f43f5e', background: 'rgba(244, 63, 94, 0.1)', padding: '24px', borderRadius: '16px', border: '1px solid rgba(244, 63, 94, 0.2)', fontWeight: '800' }}>
-                                    <span style={{ color: '#fff' }}>[SYSTEM_CRITICAL_FAILURE]</span> {error}
+                                <div className="p-8 rounded-3xl bg-rose-500/10 border-2 border-rose-500/20">
+                                    <span className="text-rose-500 font-black mr-4">[SYSTEM_CRITICAL_FAILURE]</span>
+                                    <span className="text-white font-medium">{error}</span>
                                 </div>
                             ) : logs.length === 0 ? (
-                                <div style={{ color: '#64748b', textAlign: 'center', padding: '100px 0' }}>
-                                    <Terminal size={56} style={{ marginBottom: '24px', opacity: 0.2 }} />
-                                    <p style={{ fontWeight: '800', fontSize: '1rem' }}>Aktif bir sistem kaydı bulunamadı. Platform şu anda stabil.</p>
+                                <div className="flex flex-col items-center justify-center h-full gap-8 py-20 text-slate-700">
+                                    <div className="p-6 rounded-3xl bg-white/5">
+                                        <Terminal size={48} strokeWidth={1} />
+                                    </div>
+                                    <p className="text-sm font-bold italic">Aktif bir sistem kaydı bulunamadı. Platform şu anda stabil.</p>
                                 </div>
-                            ) : logs.map((log) => (
-                                <div key={log.id} style={{ marginBottom: '10px', display: 'flex', gap: '16px', padding: '10px 16px', borderRadius: '10px', transition: 'background 0.2s' }} className="hover:bg-white/5 group">
-                                    <span style={{ color: '#475569', fontWeight: '700', flexShrink: 0, fontSize: '0.8rem' }}>[{new Date(log.createdAt).toLocaleTimeString('tr-TR')}]</span>
-                                    <span style={{ color: getLogColor(log.level), fontWeight: '900', minWidth: '94px', flexShrink: 0, textTransform: 'uppercase', fontSize: '0.75rem', letterSpacing: '0.05em' }}>{log.level}</span>
-                                    <span style={{ color: log.level === 'ERROR' ? '#fecaca' : '#f1f5f9', fontWeight: '500' }}>{log.message}</span>
-                                    {log.category && <span style={{ color: '#334155', fontSize: '0.75rem', fontWeight: '900', marginLeft: 'auto', background: 'rgba(255,255,255,0.03)', padding: '4px 10px', borderRadius: '6px' }}>#{log.category}</span>}
-                                </div>
-                            ))}
-
-                            <div className="animate-pulse" style={{ color: '#ff7a21', display: 'flex', alignItems: 'center', gap: '10px', marginTop: '24px', paddingLeft: '16px' }}>
-                                <span style={{ color: '#ff7a21', fontSize: '1.2rem' }}>█</span>
-                                <span style={{ fontSize: '0.85rem', fontWeight: '900', letterSpacing: '0.1em' }}>GERÇEK ZAMANLI VERİ AKIŞI BEKLENİYOR...</span>
-                            </div>
+                            ) : (
+                                <>
+                                    {logs.map((log) => (
+                                        <div key={log.id} className="flex gap-4 p-3 rounded-xl hover:bg-white/5 transition-colors group">
+                                            <span className="text-slate-600 font-bold shrink-0">[{new Date(log.createdAt).toLocaleTimeString('tr-TR')}]</span>
+                                            <span className="w-24 shrink-0 font-black uppercase tracking-widest text-[10px] pt-0.5" style={{ color: getLogColor(log.level) }}>{log.level}</span>
+                                            <span className={`font-medium ${log.level === 'ERROR' ? 'text-rose-200' : 'text-slate-300'}`}>{log.message}</span>
+                                            {log.category && <span className="ml-auto text-slate-700 font-black text-[10px] bg-white/5 px-2 py-0.5 rounded-md self-start">#{log.category}</span>}
+                                        </div>
+                                    ))}
+                                    <div className="flex items-center gap-4 p-4 mt-6 animate-pulse">
+                                        <div className="w-2 h-5 bg-[#ff7a21]"></div>
+                                        <span className="text-[10px] font-black text-[#ff7a21] uppercase tracking-[0.2em]">Gerçek zamanlı veri akışı bekleniyor...</span>
+                                    </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
 
                 {/* Right Sidebar Health Monitor */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '1.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.05)', background: '#fff' }}>
-                        <h3 style={{ fontSize: '0.85rem', fontWeight: '900', marginBottom: '20px', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#64748b' }}>Sistem Sağlığı</h3>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', transition: 'all 0.3s' }} className="hover:scale-[1.02] hover:shadow-lg">
-                                <div style={{ background: '#ecfdf5', color: '#10b981', padding: '10px', borderRadius: '14px', border: '1px solid #d1fae5' }}><CheckCircle size={20} strokeWidth={2.5} /></div>
-                                <div>
-                                    <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>DATABASE</p>
-                                    <p style={{ margin: '4px 0 0 0', fontSize: '0.95rem', fontWeight: '900', color: '#111827' }}>Bağlı / Stabil</p>
+                <div className="xl:sticky xl:top-8 flex flex-col gap-6">
+                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                        <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8">Sistem Sağlığı</h3>
+                        <div className="space-y-4">
+                            <div className="group flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border-2 border-slate-50 hover:bg-white hover:border-[#ff7a21]/20 transition-all duration-500">
+                                <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-500 border border-emerald-100">
+                                    <CheckCircle size={22} strokeWidth={2.5} />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Veritabanı</p>
+                                    <p className="text-sm font-black text-gray-900 mt-0.5">Bağlı / Stabil</p>
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', transition: 'all 0.3s' }} className="hover:scale-[1.02] hover:shadow-lg">
-                                <div style={{ background: '#fef2f2', color: '#f43f5e', padding: '10px', borderRadius: '14px', border: '1px solid #fee2e2' }}><AlertTriangle size={20} strokeWidth={2.5} /></div>
-                                <div>
-                                    <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>HATALAR</p>
-                                    <p style={{ margin: '4px 0 0 0', fontSize: '0.95rem', fontWeight: '900', color: '#111827' }}>{logs.filter(l => l.level === 'ERROR').length} Bekleyen</p>
+                            <div className="group flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border-2 border-slate-50 hover:bg-white hover:border-rose-200 transition-all duration-500">
+                                <div className="p-3 rounded-2xl bg-rose-50 text-rose-500 border border-rose-100">
+                                    <AlertTriangle size={22} strokeWidth={2.5} />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Hatalar</p>
+                                    <p className="text-sm font-black text-gray-900 mt-0.5">{logs.filter(l => l.level === 'ERROR').length} Bekleyen</p>
                                 </div>
                             </div>
 
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#f8fafc', padding: '16px', borderRadius: '16px', border: '1px solid #f1f5f9', transition: 'all 0.3s' }} className="hover:scale-[1.02] hover:shadow-lg">
-                                <div style={{ background: '#f1f5f9', color: '#475569', padding: '10px', borderRadius: '14px', border: '1px solid #e2e8f0' }}><Terminal size={20} strokeWidth={2.5} /></div>
-                                <div>
-                                    <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>API GECİKME</p>
-                                    <p style={{ margin: '4px 0 0 0', fontSize: '0.95rem', fontWeight: '900', color: '#111827' }}>42ms <span style={{ color: '#10b981', fontSize: '0.8rem' }}>(Mükemmel)</span></p>
+                            <div className="group flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border-2 border-slate-50 hover:bg-white hover:border-sky-200 transition-all duration-500">
+                                <div className="p-3 rounded-2xl bg-slate-100 text-slate-500 border border-slate-200">
+                                    <Terminal size={22} strokeWidth={2.5} />
+                                </div>
+                                <div className="flex-1">
+                                    <p className="text-[9px] font-black text-slate-400 uppercase tracking-[0.2em]">Gecikme (Latency)</p>
+                                    <div className="flex items-center gap-2 mt-0.5">
+                                        <p className="text-sm font-black text-gray-900">42ms</p>
+                                        <span className="text-[10px] font-black text-emerald-500 bg-emerald-50 px-2 py-0.5 rounded-md">MÜKEMMEL</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.25)', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '120px', height: '120px', background: 'rgba(255,122,33,0.1)', filter: 'blur(50px)', borderRadius: '50%' }}></div>
+                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/40 relative overflow-hidden group">
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
 
-                        <div style={{ position: 'relative' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                                <div style={{ background: 'rgba(255,122,33,0.1)', padding: '8px', borderRadius: '12px' }}>
-                                    <Shield size={20} color="#ff7a21" strokeWidth={2.5} />
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="bg-orange-500/10 p-3 rounded-2xl border border-orange-500/10">
+                                    <Shield size={24} className="text-[#ff7a21]" strokeWidth={3} />
                                 </div>
-                                <h3 style={{ margin: 0, fontSize: '0.95rem', fontWeight: '900', letterSpacing: '-0.02em' }}>Güvenlik Durumu</h3>
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 font-black">Güvenlik Durumu</h3>
                             </div>
-                            <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8', lineHeight: '1.7', fontWeight: '500' }}>
-                                Son 24 saat içinde <span style={{ color: '#fff', fontWeight: '900' }}>0</span> yetkisiz erişim girişimi tespit edildi. Sistem koruması aktif.
+
+                            <p className="text-sm font-medium text-slate-400 leading-relaxed italic mb-8">
+                                Son 24 saat içinde <span className="text-white font-black">0</span> yetkisiz erişim girişimi tespit edildi. Sistem koruması aktif.
                             </p>
-                            <button className="hover:scale-105 active:scale-95 transition-all" style={{ width: '100%', marginTop: '24px', padding: '12px', borderRadius: '14px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', color: '#fff', fontSize: '0.85rem', fontWeight: '900', cursor: 'pointer' }}>
+
+                            <button className="w-full bg-white/5 hover:bg-white/10 border border-white/5 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
                                 Denetim Geçmişini Görüntüle
                             </button>
                         </div>

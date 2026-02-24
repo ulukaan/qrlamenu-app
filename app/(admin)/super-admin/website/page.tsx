@@ -231,17 +231,17 @@ export default function WebsiteManagementPage() {
                     <div className="flex items-center gap-3">
                         <button
                             onClick={handleReset}
-                            className="bg-white text-slate-600 px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-slate-50 transition-all border border-slate-200"
+                            className="bg-white text-slate-500 px-5 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-2 hover:bg-slate-50 hover:text-slate-900 transition-all border border-slate-100 shadow-sm active:scale-95"
                         >
-                            <RefreshCcw size={16} /> Varsayılana Dön
+                            <RefreshCcw size={16} /> Varsayılan
                         </button>
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="bg-orange-600 text-white px-6 py-2 rounded-xl text-sm font-bold flex items-center gap-2 hover:bg-orange-700 transition-all shadow-xl shadow-orange-600/20 disabled:opacity-50"
+                            className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-[#ff7a21] transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95 disabled:opacity-50"
                         >
                             {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
-                            {saving ? 'Güncelleniyor...' : 'Yayına Al'}
+                            {saving ? 'İşleniyor...' : 'Yayına Al'}
                         </button>
                     </div>
                 </div>
@@ -302,40 +302,40 @@ export default function WebsiteManagementPage() {
                                             <div className="grid gap-6">
                                                 <div className="flex flex-col gap-3">
                                                     <div className="flex items-center justify-between">
-                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Ana Başlık (H1)</label>
-                                                        <span className="text-[10px] text-slate-300 font-bold">Harf sonu \n ile alt satıra geçebilirsiniz</span>
+                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Ana Başlık (H1)</label>
+                                                        <span className="text-[10px] text-slate-300 font-bold italic">"\n" ile alt satıra geçebilirsiniz</span>
                                                     </div>
                                                     <textarea
                                                         value={content.hero.title}
                                                         onChange={(e) => updateContent("hero.title", e.target.value)}
-                                                        className="p-5 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-orange-600 transition-all outline-none font-bold text-slate-800 text-xl min-h-[120px]"
+                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-xl font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
                                                         placeholder="Mükemmel restoran..."
                                                     />
                                                 </div>
                                                 <div className="flex flex-col gap-3">
-                                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Alt Açıklama (Subtitle)</label>
+                                                    <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Alt Açıklama (Subtitle)</label>
                                                     <textarea
                                                         value={content.hero.subtitle}
                                                         onChange={(e) => updateContent("hero.subtitle", e.target.value)}
-                                                        className="p-5 rounded-2xl border border-slate-100 bg-slate-50 focus:bg-white focus:border-orange-600 transition-all outline-none font-medium text-slate-600 leading-relaxed min-h-[120px]"
+                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 leading-relaxed focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
                                                         placeholder="Siparişleri hızlandırın..."
                                                     />
                                                 </div>
-                                                <div className="grid grid-cols-2 gap-6 pt-4">
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4">
                                                     <div className="flex flex-col gap-3">
-                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Giris Yap / Dene Butonu</label>
+                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Giriş Yap / Dene Butonu</label>
                                                         <input
                                                             value={content.hero.cta_primary}
                                                             onChange={(e) => updateContent("hero.cta_primary", e.target.value)}
-                                                            className="p-4 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-800"
+                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                                         />
                                                     </div>
                                                     <div className="flex flex-col gap-3">
-                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest">Özellikler Butonu</label>
+                                                        <label className="text-[11px] font-black text-slate-400 uppercase tracking-widest ml-1">Özellikler Butonu</label>
                                                         <input
                                                             value={content.hero.cta_secondary}
                                                             onChange={(e) => updateContent("hero.cta_secondary", e.target.value)}
-                                                            className="p-4 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-800"
+                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                                         />
                                                     </div>
                                                 </div>
@@ -346,11 +346,11 @@ export default function WebsiteManagementPage() {
                                     {/* Stats Section */}
                                     {activeTab === "stats" && (
                                         <div className="space-y-6">
-                                            <div className="grid md:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                                                 {(content.stats || []).map((stat, idx) => (
-                                                    <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 flex flex-col gap-3">
+                                                    <div key={idx} className="bg-white p-6 rounded-[32px] border border-slate-100 shadow-sm flex flex-col gap-4 group hover:shadow-xl hover:shadow-slate-200/40 transition-all">
                                                         <div className="flex flex-col gap-1.5">
-                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">DEĞER (Value)</label>
+                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">DEĞER (Value)</label>
                                                             <input
                                                                 value={stat.value}
                                                                 onChange={(e) => {
@@ -358,12 +358,12 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].value = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="p-2.5 rounded-lg border border-slate-100 bg-white font-black text-slate-800 text-lg"
+                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-black text-[#ff7a21] text-lg focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
                                                                 placeholder="5.000+"
                                                             />
                                                         </div>
                                                         <div className="flex flex-col gap-1.5">
-                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ETİKET (Label)</label>
+                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ETİKET (Label)</label>
                                                             <input
                                                                 value={stat.label}
                                                                 onChange={(e) => {
@@ -371,7 +371,7 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].label = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="p-2.5 rounded-lg border border-slate-100 bg-white font-bold text-slate-600 text-sm"
+                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-bold text-slate-500 text-xs focus:bg-white focus:border-[#ff7a21] outline-none transition-all uppercase tracking-tighter"
                                                                 placeholder="Aktif Restoran"
                                                             />
                                                         </div>
@@ -383,30 +383,30 @@ export default function WebsiteManagementPage() {
                                     {/* Features Section */}
                                     {activeTab === "features" && (
                                         <div className="space-y-6">
-                                            <div className="grid md:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                 {content.features.map((feature, idx) => (
-                                                    <div key={idx} className="bg-slate-50/50 p-5 rounded-2xl border border-slate-100 relative group">
+                                                    <div key={idx} className="bg-white p-6 rounded-[32px] border border-slate-100 relative group shadow-sm hover:shadow-xl hover:shadow-slate-200/40 transition-all">
                                                         <button
                                                             onClick={() => {
                                                                 const newF = [...content.features];
                                                                 newF.splice(idx, 1);
                                                                 setContent({ ...content, features: newF });
                                                             }}
-                                                            className="absolute -top-2 -right-2 w-7 h-7 bg-red-500 text-white rounded-full flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10"
+                                                            className="absolute -top-3 -right-3 w-8 h-8 bg-rose-500 text-white rounded-xl flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10 hover:scale-110 active:scale-90"
                                                         >
-                                                            <Trash2 size={12} />
+                                                            <Trash2 size={14} />
                                                         </button>
-                                                        <div className="flex flex-col gap-3">
-                                                            <div className="flex items-center gap-3">
+                                                        <div className="flex flex-col gap-4">
+                                                            <div className="flex items-center gap-4">
                                                                 {/* Icon Selector Button */}
                                                                 <div className="relative group/icon">
-                                                                    <div className="w-10 h-10 bg-white rounded-lg border border-slate-100 flex items-center justify-center text-orange-600 cursor-pointer shadow-sm">
+                                                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-[#ff7a21] cursor-pointer shadow-sm group-hover/icon:bg-white group-hover/icon:border-[#ff7a21] transition-all">
                                                                         {(() => {
                                                                             const IconComp = ICON_LIST.find(i => i.name === feature.icon)?.icon || QrCode;
-                                                                            return <IconComp size={18} />;
+                                                                            return <IconComp size={24} />;
                                                                         })()}
                                                                     </div>
-                                                                    <div className="absolute top-full left-0 mt-2 bg-white border border-slate-100 rounded-xl shadow-xl p-2 grid grid-cols-4 gap-1.5 z-20 opacity-0 pointer-events-none group-focus-within/icon:opacity-100 group-focus-within/icon:pointer-events-auto transition-all w-[180px]">
+                                                                    <div className="absolute top-full left-0 mt-3 bg-white border border-slate-100 rounded-[24px] shadow-2xl p-3 grid grid-cols-4 gap-2 z-20 opacity-0 pointer-events-none group-focus-within/icon:opacity-100 group-focus-within/icon:pointer-events-auto transition-all w-[200px]">
                                                                         {ICON_LIST.map(ic => (
                                                                             <button
                                                                                 key={ic.name}
@@ -415,45 +415,51 @@ export default function WebsiteManagementPage() {
                                                                                     newF[idx].icon = ic.name;
                                                                                     setContent({ ...content, features: newF });
                                                                                 }}
-                                                                                className={`p-1.5 rounded-md hover:bg-orange-50 hover:text-orange-600 transition-colors flex justify-center items-center ${feature.icon === ic.name ? 'bg-orange-600 text-white' : 'text-slate-400'}`}
+                                                                                className={`p-2.5 rounded-xl hover:bg-orange-50 hover:text-[#ff7a21] transition-all flex justify-center items-center ${feature.icon === ic.name ? 'bg-[#ff7a21] text-white shadow-lg shadow-orange-500/20' : 'text-slate-400'}`}
                                                                             >
-                                                                                <ic.icon size={16} />
+                                                                                <ic.icon size={18} />
                                                                             </button>
                                                                         ))}
                                                                     </div>
                                                                 </div>
-                                                                <input
-                                                                    value={feature.title}
+                                                                <div className="flex-1">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">BAŞLIK</label>
+                                                                    <input
+                                                                        value={feature.title}
+                                                                        onChange={(e) => {
+                                                                            const newF = [...content.features];
+                                                                            newF[idx].title = e.target.value;
+                                                                            setContent({ ...content, features: newF });
+                                                                        }}
+                                                                        className="w-full bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none text-sm font-black text-gray-900 transition-all placeholder:text-slate-300"
+                                                                        placeholder="Özellik Başlığı"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="space-y-1.5">
+                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">AÇIKLAMA</label>
+                                                                <textarea
+                                                                    value={feature.desc}
                                                                     onChange={(e) => {
                                                                         const newF = [...content.features];
-                                                                        newF[idx].title = e.target.value;
+                                                                        newF[idx].desc = e.target.value;
                                                                         setContent({ ...content, features: newF });
                                                                     }}
-                                                                    className="flex-1 bg-transparent border-b border-transparent focus:border-orange-600 outline-none text-sm font-black text-slate-800"
-                                                                    placeholder="Özellik Başlığı"
+                                                                    className="w-full bg-slate-50 p-4 rounded-2xl border-2 border-slate-50 text-xs text-slate-500 font-bold leading-relaxed min-h-[80px] outline-none focus:bg-white focus:border-[#ff7a21] transition-all resize-none"
+                                                                    placeholder="Özellik açıklaması..."
                                                                 />
                                                             </div>
-                                                            <textarea
-                                                                value={feature.desc}
-                                                                onChange={(e) => {
-                                                                    const newF = [...content.features];
-                                                                    newF[idx].desc = e.target.value;
-                                                                    setContent({ ...content, features: newF });
-                                                                }}
-                                                                className="bg-white/50 p-2.5 rounded-lg border border-slate-100 text-xs text-slate-500 font-medium min-h-[60px] outline-none focus:border-orange-600"
-                                                                placeholder="Özellik açıklaması..."
-                                                            />
                                                         </div>
                                                     </div>
                                                 ))}
                                                 <button
                                                     onClick={() => setContent({ ...content, features: [...content.features, { icon: "CheckCircle2", title: "Yeni Özellik", desc: "Açıklama giriniz" }] })}
-                                                    className="border-2 border-dashed border-slate-200 rounded-[24px] flex flex-col items-center justify-center gap-3 p-8 text-slate-400 hover:border-orange-600 hover:text-orange-600 transition-all font-bold group"
+                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center gap-4 p-10 text-slate-300 hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all font-black group active:scale-95"
                                                 >
-                                                    <div className="w-10 h-10 rounded-full border border-slate-200 group-hover:border-orange-600 flex items-center justify-center transition-colors">
-                                                        <Plus size={20} />
+                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110">
+                                                        <Plus size={28} strokeWidth={3} />
                                                     </div>
-                                                    Yeni Ekle
+                                                    YENİ ÖZELLİK EKLE
                                                 </button>
                                             </div>
                                         </div>
@@ -461,87 +467,108 @@ export default function WebsiteManagementPage() {
 
                                     {/* Pricing Section */}
                                     {activeTab === "pricing" && (
-                                        <div className="space-y-6">
+                                        <div className="space-y-8">
                                             {content.pricing.map((plan, idx) => (
-                                                <div key={idx} className={`p-6 rounded-[28px] border-2 transition-all ${plan.highlight ? 'border-orange-600/20 bg-orange-50/10' : 'border-slate-50 bg-slate-50/30'}`}>
-                                                    <div className="flex flex-col md:flex-row gap-8">
-                                                        <div className="w-full md:w-1/3 flex flex-col gap-4">
-                                                            <div className="flex items-center justify-between">
-                                                                <input
-                                                                    value={plan.name}
-                                                                    onChange={(e) => {
-                                                                        const newP = [...content.pricing];
-                                                                        newP[idx].name = e.target.value;
-                                                                        setContent({ ...content, pricing: newP });
-                                                                    }}
-                                                                    className="bg-transparent text-lg font-black text-slate-800 outline-none w-full"
-                                                                    placeholder="Plan Adı"
-                                                                />
-                                                                <div className="flex items-center gap-2">
-                                                                    <span className="text-[10px] font-bold text-slate-400">ÖNE ÇIKAR</span>
+                                                <div key={idx} className={`p-8 rounded-[40px] border-2 transition-all relative overflow-hidden group hover:shadow-2xl hover:shadow-slate-200/40 ${plan.highlight ? 'border-[#ff7a21] bg-orange-50/10 shadow-xl shadow-orange-500/5' : 'border-slate-50 bg-slate-50/30'}`}>
+                                                    {plan.highlight && (
+                                                        <div className="absolute top-6 -right-12 rotate-45 bg-[#ff7a21] text-white text-[10px] font-black px-12 py-1.5 shadow-lg tracking-widest z-10">
+                                                            POPÜLER
+                                                        </div>
+                                                    )}
+
+                                                    <div className="flex flex-col md:flex-row gap-10">
+                                                        <div className="w-full md:w-1/3 flex flex-col gap-6">
+                                                            <div className="space-y-2">
+                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">PLAN ADI</label>
+                                                                <div className="flex items-center gap-4">
                                                                     <input
-                                                                        type="checkbox"
-                                                                        checked={plan.highlight}
+                                                                        value={plan.name}
                                                                         onChange={(e) => {
                                                                             const newP = [...content.pricing];
-                                                                            newP[idx].highlight = e.target.checked;
+                                                                            newP[idx].name = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-4 h-4 accent-orange-600"
+                                                                        className="flex-1 bg-white border-2 border-slate-50 p-4 rounded-2xl text-lg font-black text-gray-900 outline-none focus:border-[#ff7a21] transition-all"
+                                                                        placeholder="Plan Adı"
+                                                                    />
+                                                                    <div className="flex flex-col items-center gap-1 group/toggle">
+                                                                        <label className="text-[9px] font-black text-slate-300 uppercase">ÖNE ÇIKAR</label>
+                                                                        <button
+                                                                            onClick={() => {
+                                                                                const newP = [...content.pricing];
+                                                                                newP[idx].highlight = !newP[idx].highlight;
+                                                                                setContent({ ...content, pricing: newP });
+                                                                            }}
+                                                                            className={`w-12 h-6 rounded-full transition-all relative ${plan.highlight ? 'bg-[#ff7a21]' : 'bg-slate-200'}`}
+                                                                        >
+                                                                            <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-all ${plan.highlight ? 'left-7' : 'left-1'}`} />
+                                                                        </button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                            <div className="space-y-2">
+                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">FİYATLANDIRMA</label>
+                                                                <div className="flex gap-3">
+                                                                    <div className="relative flex-1">
+                                                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ff7a21] font-black text-lg">₺</span>
+                                                                        <input
+                                                                            value={plan.price.replace('₺', '')}
+                                                                            onChange={(e) => {
+                                                                                const newP = [...content.pricing];
+                                                                                newP[idx].price = '₺' + e.target.value;
+                                                                                setContent({ ...content, pricing: newP });
+                                                                            }}
+                                                                            className="w-full pl-9 p-4 bg-white border-2 border-slate-50 rounded-2xl font-black text-2xl text-gray-900 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                            placeholder="490"
+                                                                        />
+                                                                    </div>
+                                                                    <input
+                                                                        value={plan.period}
+                                                                        onChange={(e) => {
+                                                                            const newP = [...content.pricing];
+                                                                            newP[idx].period = e.target.value;
+                                                                            setContent({ ...content, pricing: newP });
+                                                                        }}
+                                                                        className="w-24 p-4 bg-slate-100/50 border-2 border-slate-50 rounded-2xl text-[10px] font-black text-slate-400 text-center uppercase tracking-widest focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                                                        placeholder="/AY"
                                                                     />
                                                                 </div>
                                                             </div>
-                                                            <div className="flex gap-2">
-                                                                <div className="relative flex-1">
-                                                                    <span className="absolute left-3 top-3.5 text-slate-400 font-bold">₺</span>
-                                                                    <input
-                                                                        value={plan.price.replace('₺', '')}
-                                                                        onChange={(e) => {
-                                                                            const newP = [...content.pricing];
-                                                                            newP[idx].price = '₺' + e.target.value;
-                                                                            setContent({ ...content, pricing: newP });
-                                                                        }}
-                                                                        className="w-full pl-7 p-3 bg-white border border-slate-200 rounded-xl font-black text-xl text-slate-800"
-                                                                        placeholder="490"
-                                                                    />
-                                                                </div>
-                                                                <input
-                                                                    value={plan.period}
-                                                                    onChange={(e) => {
-                                                                        const newP = [...content.pricing];
-                                                                        newP[idx].period = e.target.value;
-                                                                        setContent({ ...content, pricing: newP });
-                                                                    }}
-                                                                    className="w-20 p-3 bg-slate-100/50 border border-slate-200 rounded-xl text-xs font-bold text-slate-500 text-center uppercase"
-                                                                    placeholder="/AY"
-                                                                />
-                                                            </div>
+
                                                             <button
                                                                 onClick={() => {
                                                                     const newP = [...content.pricing];
                                                                     newP.splice(idx, 1);
                                                                     setContent({ ...content, pricing: newP });
                                                                 }}
-                                                                className="mt-4 text-red-500 text-[11px] font-bold hover:bg-red-50 py-2 rounded-lg flex items-center justify-center gap-2"
+                                                                className="mt-6 flex items-center justify-center gap-2 py-3 rounded-xl border border-rose-100 bg-rose-50 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white transition-all active:scale-95"
                                                             >
-                                                                <Trash2 size={12} /> Bu Planı Sil
+                                                                <Trash2 size={14} strokeWidth={3} /> Bu Paketi Arşivle
                                                             </button>
                                                         </div>
-                                                        <div className="flex-1 flex flex-col gap-4">
-                                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest px-1">Özellikler (Her satır bir madde)</label>
-                                                            <textarea
-                                                                value={plan.features.join("\n")}
-                                                                onChange={(e) => {
-                                                                    const newP = [...content.pricing];
-                                                                    newP[idx].features = e.target.value.split("\n");
-                                                                    setContent({ ...content, pricing: newP });
-                                                                }}
-                                                                className="p-4 bg-white border border-slate-200 rounded-2xl text-sm font-medium text-slate-600 min-h-[120px] outline-none focus:border-orange-600"
-                                                                placeholder="QR Menü\nSipariş Takibi..."
-                                                            />
-                                                            <div className="flex gap-4">
-                                                                <div className="flex-1">
-                                                                    <label className="text-[10px] font-black text-slate-400 mb-1 block">BUTON YAZISI</label>
+
+                                                        <div className="flex-1 flex flex-col gap-6">
+                                                            <div className="space-y-2">
+                                                                <div className="flex justify-between items-center ml-1">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">ÖZELLİK LİSTESİ</label>
+                                                                    <span className="text-[9px] text-slate-300 font-bold italic">Her satır bir madde</span>
+                                                                </div>
+                                                                <textarea
+                                                                    value={plan.features.join("\n")}
+                                                                    onChange={(e) => {
+                                                                        const newP = [...content.pricing];
+                                                                        newP[idx].features = e.target.value.split("\n");
+                                                                        setContent({ ...content, pricing: newP });
+                                                                    }}
+                                                                    className="w-full p-6 bg-white border-2 border-slate-50 rounded-[32px] text-sm font-bold text-slate-600 min-h-[160px] outline-none focus:border-[#ff7a21] transition-all resize-none placeholder:text-slate-200"
+                                                                    placeholder="Örn: QR Menü&#10;Sipariş Takibi&#10;7/24 Destek"
+                                                                />
+                                                            </div>
+
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                                <div className="space-y-2">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">BUTON METNİ</label>
                                                                     <input
                                                                         value={plan.cta}
                                                                         onChange={(e) => {
@@ -549,11 +576,12 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].cta = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold"
+                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] transition-all"
+                                                                        placeholder="Hemen Başla"
                                                                     />
                                                                 </div>
-                                                                <div className="flex-1">
-                                                                    <label className="text-[10px] font-black text-slate-400 mb-1 block">AÇIKLAMA</label>
+                                                                <div className="space-y-2">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">ALT AÇIKLAMA</label>
                                                                     <input
                                                                         value={plan.desc}
                                                                         onChange={(e) => {
@@ -561,7 +589,8 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].desc = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-full p-2 bg-slate-50 border border-slate-100 rounded-lg text-xs font-bold"
+                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-bold text-slate-400 focus:bg-white focus:border-[#ff7a21] transition-all"
+                                                                        placeholder="Büyük işletmeler için..."
                                                                     />
                                                                 </div>
                                                             </div>
@@ -571,9 +600,12 @@ export default function WebsiteManagementPage() {
                                             ))}
                                             <button
                                                 onClick={() => setContent({ ...content, pricing: [...content.pricing, { name: "Yeni Plan", price: "₺0", period: "/ay", desc: "", features: [], cta: "Seç", highlight: false }] })}
-                                                className="w-full py-4 border-2 border-dashed border-slate-200 rounded-[28px] text-slate-400 font-bold hover:border-orange-600 hover:text-orange-600 transition-all flex items-center justify-center gap-2"
+                                                className="w-full py-10 border-4 border-dashed border-slate-100 rounded-[40px] text-slate-300 font-black text-sm uppercase tracking-[0.2em] hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all flex flex-col items-center justify-center gap-4 group active:scale-[0.98]"
                                             >
-                                                <Plus size={18} /> Yeni Plan Ekle
+                                                <div className="w-16 h-16 rounded-3xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110 shadow-sm">
+                                                    <Plus size={32} strokeWidth={3} />
+                                                </div>
+                                                YENİ FİYAT PAKETİ EKLE
                                             </button>
                                         </div>
                                     )}
@@ -581,61 +613,72 @@ export default function WebsiteManagementPage() {
                                     {/* Testimonials Section */}
                                     {activeTab === "testimonials" && (
                                         <div className="space-y-6">
-                                            <div className="grid md:grid-cols-2 gap-4">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                                                 {content.testimonials.map((t, idx) => (
-                                                    <div key={idx} className="bg-white p-6 rounded-[24px] border border-slate-100 shadow-sm relative group">
+                                                    <div key={idx} className="bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm relative group hover:shadow-2xl hover:shadow-slate-200/40 transition-all">
                                                         <button
                                                             onClick={() => {
                                                                 const newT = [...content.testimonials];
                                                                 newT.splice(idx, 1);
                                                                 setContent({ ...content, testimonials: newT });
                                                             }}
-                                                            className="absolute top-4 right-4 text-red-400 opacity-0 group-hover:opacity-100 transition-all hover:text-red-600"
+                                                            className="absolute -top-3 -right-3 w-8 h-8 bg-rose-500 text-white rounded-xl flex items-center justify-center shadow-lg opacity-0 group-hover:opacity-100 transition-all z-10 hover:scale-110 active:scale-90"
                                                         >
-                                                            <Trash2 size={16} />
+                                                            <Trash2 size={14} />
                                                         </button>
-                                                        <div className="flex flex-col gap-4">
-                                                            <div className="flex gap-4">
-                                                                <input
-                                                                    value={t.name}
+                                                        <div className="flex flex-col gap-6">
+                                                            <div className="flex flex-col gap-4">
+                                                                <div className="space-y-1">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">AD SOYAD</label>
+                                                                    <input
+                                                                        value={t.name}
+                                                                        onChange={(e) => {
+                                                                            const newT = [...content.testimonials];
+                                                                            newT[idx].name = e.target.value;
+                                                                            setContent({ ...content, testimonials: newT });
+                                                                        }}
+                                                                        className="w-full text-base font-black text-gray-900 bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                        placeholder="İsim Soyisim"
+                                                                    />
+                                                                </div>
+                                                                <div className="space-y-1">
+                                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">İŞLETME / ROL</label>
+                                                                    <input
+                                                                        value={t.role}
+                                                                        onChange={(e) => {
+                                                                            const newT = [...content.testimonials];
+                                                                            newT[idx].role = e.target.value;
+                                                                            setContent({ ...content, testimonials: newT });
+                                                                        }}
+                                                                        className="w-full text-xs font-bold text-[#ff7a21] bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                        placeholder="Örn: Gurme Burger"
+                                                                    />
+                                                                </div>
+                                                            </div>
+                                                            <div className="space-y-1.5">
+                                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">DENEYİM METNİ</label>
+                                                                <textarea
+                                                                    value={t.text}
                                                                     onChange={(e) => {
                                                                         const newT = [...content.testimonials];
-                                                                        newT[idx].name = e.target.value;
+                                                                        newT[idx].text = e.target.value;
                                                                         setContent({ ...content, testimonials: newT });
                                                                     }}
-                                                                    className="flex-1 text-sm font-black text-slate-800 outline-none border-b border-transparent focus:border-orange-600"
-                                                                    placeholder="İsim Soyisim"
-                                                                />
-                                                                <input
-                                                                    value={t.role}
-                                                                    onChange={(e) => {
-                                                                        const newT = [...content.testimonials];
-                                                                        newT[idx].role = e.target.value;
-                                                                        setContent({ ...content, testimonials: newT });
-                                                                    }}
-                                                                    className="flex-1 text-xs font-bold text-slate-400 outline-none border-b border-transparent focus:border-orange-600"
-                                                                    placeholder="İşletme / Rol"
+                                                                    className="w-full text-sm text-slate-500 font-bold italic leading-relaxed min-h-[100px] outline-none border-2 border-slate-50 p-4 rounded-2xl bg-slate-50/50 focus:bg-white focus:border-[#ff7a21] transition-all resize-none"
+                                                                    placeholder="Yorum metni..."
                                                                 />
                                                             </div>
-                                                            <textarea
-                                                                value={t.text}
-                                                                onChange={(e) => {
-                                                                    const newT = [...content.testimonials];
-                                                                    newT[idx].text = e.target.value;
-                                                                    setContent({ ...content, testimonials: newT });
-                                                                }}
-                                                                className="text-sm text-slate-600 font-medium italic min-h-[90px] outline-none border border-slate-50 p-3 rounded-xl bg-slate-50/50"
-                                                                placeholder="Yorum metni..."
-                                                            />
                                                         </div>
                                                     </div>
                                                 ))}
                                                 <button
                                                     onClick={() => setContent({ ...content, testimonials: [...content.testimonials, { name: "Ad Soyad", role: "Restoran Adı", text: "Yorumunuz buraya..." }] })}
-                                                    className="border-2 border-dashed border-slate-200 rounded-[24px] flex flex-col items-center justify-center p-12 text-slate-400 hover:border-orange-600 hover:text-orange-600 transition-all font-bold"
+                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center p-12 text-slate-300 hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all font-black uppercase tracking-widest active:scale-95 group"
                                                 >
-                                                    <Plus size={24} className="mb-2" />
-                                                    Yeni Yorum
+                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110 mb-3">
+                                                        <Plus size={28} strokeWidth={3} />
+                                                    </div>
+                                                    YENİ YORUM EKLE
                                                 </button>
                                             </div>
                                         </div>
@@ -643,73 +686,95 @@ export default function WebsiteManagementPage() {
 
                                     {/* Branding Section */}
                                     {activeTab === "branding" && (
-                                        <div className="space-y-6">
-                                            <div className="grid gap-4">
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Site Adı</label>
+                                        <div className="space-y-10">
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
+                                                <div className="space-y-3">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">PLATFORM İSMİ</label>
                                                     <input
                                                         value={content.branding?.siteName || ""}
                                                         onChange={(e) => updateContent("branding.siteName", e.target.value)}
-                                                        className="p-3 rounded-xl border border-slate-100 bg-slate-50 font-bold text-slate-800 text-sm"
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
                                                         placeholder="QRlamenü"
                                                     />
                                                 </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Logo İkonu Seçin</label>
-                                                    <div className="grid grid-cols-6 md:grid-cols-10 gap-2 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                                                        {ICON_LIST.map(ic => (
-                                                            <button
-                                                                key={ic.name}
-                                                                onClick={() => updateContent("branding.logoIcon", ic.name)}
-                                                                className={`p-2 rounded-lg flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-orange-600 text-white shadow-lg' : 'bg-white text-slate-400 hover:text-slate-600'}`}
-                                                            >
-                                                                <ic.icon size={16} />
-                                                            </button>
-                                                        ))}
-                                                    </div>
-                                                </div>
-                                                <div className="flex flex-col gap-2">
-                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Özel Logo URL (Opsiyonel)</label>
+                                                <div className="space-y-3">
+                                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">LOGO URL (OPSİYONEL)</label>
                                                     <input
                                                         value={content.branding?.logoUrl || ""}
                                                         onChange={(e) => updateContent("branding.logoUrl", e.target.value)}
-                                                        className="p-3 rounded-xl border border-slate-100 bg-slate-50 font-medium text-slate-600 text-sm"
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
                                                         placeholder="https://example.com/logo.png"
                                                     />
+                                                </div>
+                                            </div>
+
+                                            <div className="space-y-4">
+                                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">PLATFORM İKONU SEÇİN</label>
+                                                <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-11 gap-3 p-6 bg-slate-50 rounded-[32px] border-2 border-slate-50 shadow-inner">
+                                                    {ICON_LIST.map(ic => (
+                                                        <button
+                                                            key={ic.name}
+                                                            onClick={() => updateContent("branding.logoIcon", ic.name)}
+                                                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-[#ff7a21] text-white shadow-xl shadow-orange-500/30 scale-110' : 'bg-white text-slate-400 hover:text-slate-900 hover:shadow-lg'}`}
+                                                        >
+                                                            <ic.icon size={20} />
+                                                        </button>
+                                                    ))}
                                                 </div>
                                             </div>
                                         </div>
                                     )}
 
                                     {activeTab === "corporate" && (
-                                        <div className="space-y-6">
-                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
-                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">HAKKIMIZDA SAYFASI</h3>
-                                                <input
-                                                    value={content.corporate?.about?.title || ""}
-                                                    onChange={(e) => updateContent("corporate.about.title", e.target.value)}
-                                                    className="w-full p-2.5 rounded-lg border border-slate-100 font-bold text-sm"
-                                                    placeholder="Başlık"
-                                                />
-                                                <textarea
-                                                    value={content.corporate?.about?.content || ""}
-                                                    onChange={(e) => updateContent("corporate.about.content", e.target.value)}
-                                                    className="w-full p-2.5 rounded-lg border border-slate-100 font-medium min-h-[100px] text-sm"
-                                                    placeholder="Hakkımızda içeriği..."
-                                                />
-                                            </div>
-                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
-                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">İLETİŞİM BİLGİLERİ</h3>
-                                                <div className="grid md:grid-cols-2 gap-3">
-                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="E-posta" />
-                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="Telefon" />
+                                        <div className="space-y-8">
+                                            <div className="p-8 bg-white rounded-[40px] border border-slate-100 shadow-sm space-y-6">
+                                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21]"></div>
+                                                    HAKKIMIZDA BÖLÜMÜ
+                                                </h3>
+                                                <div className="space-y-4">
+                                                    <input
+                                                        value={content.corporate?.about?.title || ""}
+                                                        onChange={(e) => updateContent("corporate.about.title", e.target.value)}
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
+                                                        placeholder="Başlık (Örn: Restoranların dijital ortağıyız)"
+                                                    />
+                                                    <textarea
+                                                        value={content.corporate?.about?.content || ""}
+                                                        onChange={(e) => updateContent("corporate.about.content", e.target.value)}
+                                                        className="w-full px-6 py-5 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 leading-relaxed min-h-[140px] focus:bg-white focus:border-[#ff7a21] transition-all resize-none outline-none"
+                                                        placeholder="Vizyon ve misyonunuzdan bahsedin..."
+                                                    />
                                                 </div>
-                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 text-sm" placeholder="Adres" />
                                             </div>
-                                            <div className="p-5 bg-slate-50/50 rounded-[24px] border border-slate-100 space-y-3">
-                                                <h3 className="text-xs font-black text-slate-400 uppercase tracking-widest">YASAL METİNLER</h3>
-                                                <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 h-[70px] text-sm" placeholder="Gizlilik Politikası Giriş" />
-                                                <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full p-2.5 rounded-lg border border-slate-100 h-[70px] text-sm" placeholder="Kullanım Koşulları Giriş" />
+
+                                            <div className="p-8 bg-white rounded-[40px] border border-slate-100 shadow-sm space-y-6">
+                                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                                    İLETİŞİM KANALLARI
+                                                </h3>
+                                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="Kurumsal E-posta" />
+                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="İletişim Telefonu" />
+                                                </div>
+                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="Fiziksel Ofis Adresi" />
+                                            </div>
+
+                                            <div className="p-8 bg-white rounded-[40px] border border-slate-100 shadow-sm space-y-6">
+                                                <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                                    HUKUKİ DAYANAKLAR
+                                                </h3>
+                                                <div className="grid grid-cols-1 gap-6">
+                                                    <div className="space-y-2">
+                                                        <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">GİZLİLİK POLİTİKASI GİRİŞ</label>
+                                                        <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ff7a21] transition-all outline-none resize-none" />
+                                                    </div>
+                                                    <div className="space-y-2">
+                                                        <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">KULLANIM KOŞULLARI GİRİŞ</label>
+                                                        <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ff7a21] transition-all outline-none resize-none" />
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     )}

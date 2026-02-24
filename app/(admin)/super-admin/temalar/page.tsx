@@ -56,115 +56,120 @@ export default function ThemesPage() {
     };
 
     return (
-        <div style={{ padding: '2.5rem 3.5rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
             {/* Header Area */}
-            <div style={{ marginBottom: '3.5rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+            <div className="mb-8 md:mb-12 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6">
                 <div>
-                    <h2 style={{ fontSize: '2rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Tema & Tasarım Kütüphanesi</h2>
-                    <p style={{ color: '#64748b', marginTop: '8px', fontSize: '1rem', fontWeight: '500' }}>Platformun görsel kimliğini belirleyen mizanpaj seçeneklerini ve premium stilleri yönetin.</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Tema & Tasarım Kütüphanesi</h2>
+                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium max-w-2xl">Platformun görsel kimliğini belirleyen mizanpaj seçeneklerini ve premium stilleri yönetin.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '16px' }}>
-                    <button
-                        onClick={() => router.push('/super-admin/temalar/yeni')}
-                        className="hover:scale-105 active:scale-95 transition-all"
-                        style={{ background: '#ff7a21', color: '#fff', padding: '14px 32px', borderRadius: '16px', border: 'none', fontSize: '0.95rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}
-                    >
-                        <Plus size={22} strokeWidth={3} /> Yeni Tasarım Oluştur
-                    </button>
-                </div>
+                <button
+                    onClick={() => router.push('/super-admin/temalar/yeni')}
+                    className="w-full sm:w-auto bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                >
+                    <Plus size={22} strokeWidth={3} /> Yeni Tasarım Oluştur
+                </button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_380px] gap-8 items-start">
+                <div className="flex flex-col gap-8">
                     {loading ? (
-                        <div style={{ textAlign: 'center', padding: '120px', background: '#fff', borderRadius: '32px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
-                            <Loader2 className="animate-spin text-orange-500" size={48} style={{ margin: '0 auto' }} />
-                            <p style={{ marginTop: '24px', color: '#64748b', fontWeight: '800', fontSize: '1.1rem' }}>Sistem Senkronize Ediliyor...</p>
+                        <div className="bg-white rounded-[32px] p-24 text-center shadow-sm border border-slate-100">
+                            <Loader2 className="animate-spin text-[#ff7a21] mx-auto" size={48} />
+                            <p className="mt-6 text-sm font-black text-slate-400 uppercase tracking-widest">Sistem Senkronize Ediliyor...</p>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                             {themes.map((theme) => (
-                                <div key={theme.id} className="card group" style={{ border: 'none', padding: 0, overflow: 'hidden', position: 'relative', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', borderRadius: '28px' }}>
-                                    <div style={{ height: '260px', background: '#f8fafc', position: 'relative', overflow: 'hidden' }}>
+                                <div key={theme.id} className="bg-white rounded-[40px] overflow-hidden relative shadow-sm border border-slate-100 hover:shadow-2xl hover:shadow-slate-200/60 hover:-translate-y-2 transition-all duration-500 group">
+                                    <div className="h-[280px] bg-slate-50 relative overflow-hidden">
                                         {theme.previewUrl ? (
-                                            <img src={theme.previewUrl} alt={theme.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'all 0.7s cubic-bezier(0.4, 0, 0.2, 1)' }} className="group-hover:scale-110" />
+                                            <img src={theme.previewUrl} alt={theme.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                                         ) : (
-                                            <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#cbd5e1', background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)' }}>
-                                                <ImageIcon size={64} strokeWidth={1.2} />
+                                            <div className="w-full h-full flex items-center justify-center text-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 relative">
+                                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ff7a21 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                                                <ImageIcon size={64} strokeWidth={1.2} className="relative z-10" />
                                             </div>
                                         )}
 
                                         {/* Status Badges Overlay */}
-                                        <div style={{ position: 'absolute', top: '24px', right: '24px', display: 'flex', gap: '10px', zIndex: 10 }}>
+                                        <div className="absolute top-6 left-6 flex flex-wrap gap-2 z-10">
                                             {theme.isPremium && (
-                                                <div style={{ background: 'linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%)', color: '#fff', fontSize: '0.65rem', fontWeight: '900', padding: '8px 16px', borderRadius: '12px', boxShadow: '0 8px 15px rgba(109,40,217,0.3)', letterSpacing: '0.08em' }}>PREMIUM</div>
+                                                <div className="bg-[#ff7a21] text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-lg shadow-orange-500/20 tracking-[0.2em] uppercase flex items-center gap-1.5 border border-white/20 backdrop-blur-sm">
+                                                    <Zap size={10} fill="currentColor" /> PREMIUM
+                                                </div>
                                             )}
-                                            <div style={{
-                                                background: theme.isActive ? 'rgba(16, 185, 129, 0.9)' : 'rgba(244, 63, 94, 0.9)',
-                                                color: '#fff',
-                                                fontSize: '0.65rem',
-                                                fontWeight: '900',
-                                                padding: '8px 16px',
-                                                borderRadius: '12px',
-                                                backdropFilter: 'blur(8px)',
-                                                letterSpacing: '0.08em',
-                                                border: '1px solid rgba(255,255,255,0.2)'
-                                            }}>
-                                                {theme.isActive ? 'AKTİF' : 'DEVRE DIŞI'}
+                                        </div>
+
+                                        <div className="absolute top-6 right-6 z-10">
+                                            <div className={`text-white text-[9px] font-black px-4 py-2 rounded-xl backdrop-blur-md border border-white/20 tracking-[0.2em] shadow-lg uppercase ${theme.isActive ? 'bg-emerald-500/80' : 'bg-rose-500/80'}`}>
+                                                {theme.isActive ? 'AKTİF' : 'PASİF'}
                                             </div>
                                         </div>
 
-                                        {/* Premium Hover Actions Overlay */}
-                                        <div style={{ position: 'absolute', inset: 0, background: 'rgba(15, 23, 42, 0.5)', opacity: 0, transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '16px', backdropFilter: 'blur(8px)' }} className="group-hover:opacity-100">
+                                        {/* Actions Overlay */}
+                                        <div className="absolute inset-0 bg-slate-900/60 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center gap-5 backdrop-blur-[3px]">
                                             <button
                                                 onClick={() => router.push(`/super-admin/temalar/${theme.id}`)}
-                                                style={{ width: '56px', height: '56px', borderRadius: '18px', background: '#fff', color: '#111827', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', cursor: 'pointer', boxShadow: '0 15px 30px rgba(0,0,0,0.3)', transition: 'all 0.2s' }}
-                                                className="hover:scale-110 active:scale-95"
+                                                className="w-16 h-16 rounded-[24px] bg-white text-slate-900 flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group/btn"
                                                 title="Tasarımı Düzenle"
                                             >
-                                                <Edit size={24} />
+                                                <Edit size={28} className="group-hover/btn:text-[#ff7a21] transition-colors" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(theme.id)}
-                                                style={{ width: '56px', height: '56px', borderRadius: '18px', background: '#f43f5e', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', border: 'none', cursor: 'pointer', boxShadow: '0 15px 30px rgba(244,63,94,0.4)', transition: 'all 0.2s' }}
-                                                className="hover:scale-110 active:scale-95"
+                                                className="w-16 h-16 rounded-[24px] bg-rose-500 text-white flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all"
                                                 title="Temayı Kaldır"
                                             >
-                                                <Trash2 size={24} />
+                                                <Trash2 size={28} />
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div style={{ padding: '32px' }}>
-                                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '18px' }}>
+                                    <div className="p-10">
+                                        <div className="flex justify-between items-start mb-6">
                                             <div>
-                                                <h3 style={{ fontSize: '1.4rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.03em' }}>{theme.name}</h3>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginTop: '8px' }}>
-                                                    <span style={{ fontSize: '0.75rem', fontWeight: '900', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em' }}>KEY: {theme.key.toUpperCase()}</span>
+                                                <div className="flex items-center gap-2 mb-2">
+                                                    <div className="w-2 h-2 rounded-full bg-[#ff7a21]"></div>
+                                                    <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">SİSTEM ANAHTARI: {theme.key.toUpperCase()}</span>
                                                 </div>
+                                                <h3 className="text-2xl font-black text-gray-900 tracking-tight group-hover:text-[#ff7a21] transition-colors leading-none">{theme.name}</h3>
                                             </div>
-                                            <div style={{ background: '#f8fafc', color: '#475569', fontSize: '0.85rem', fontWeight: '900', padding: '8px 16px', borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
-                                                #{theme.order}
+                                            <div className="bg-slate-50 text-slate-400 text-[10px] font-black px-4 py-2 rounded-xl border border-slate-100 shadow-inner">
+                                                SIRA #{theme.order}
                                             </div>
                                         </div>
-                                        <p style={{ margin: 0, fontSize: '0.95rem', color: '#64748b', lineHeight: '1.7', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden', height: '48px', fontWeight: '500' }}>
-                                            {theme.description || 'Bu tasarım için detaylı bir görsel kurgu ve kullanıcı deneyimi açıklaması henüz tanımlanmamıştır.'}
+                                        <p className="text-sm text-slate-400 leading-relaxed font-bold line-clamp-2 italic h-10">
+                                            {theme.description || 'Bu tasarım varyasyonu için henüz bir açıklama girilmemiş.'}
                                         </p>
+                                        <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
+                                            <div className="flex -space-x-2">
+                                                {[1, 2, 3].map(i => (
+                                                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-100 flex items-center justify-center text-[10px] font-black text-slate-400 overflow-hidden">
+                                                        <img src={`https://i.pravatar.cc/100?u=${theme.id}${i}`} className="opacity-40 grayscale" alt="user" />
+                                                    </div>
+                                                ))}
+                                                <div className="w-8 h-8 rounded-full border-2 border-white bg-slate-50 flex items-center justify-center text-[8px] font-black text-slate-300 tracking-widest">+12</div>
+                                            </div>
+                                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest flex items-center gap-2">
+                                                <Check size={14} className="text-emerald-500" /> FULLY RESPONSIVE
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             ))}
 
                             {themes.length === 0 && (
-                                <div style={{ gridColumn: '1 / -1', padding: '120px', textAlign: 'center', background: '#fff', borderRadius: '32px', border: '2px dashed #e2e8f0', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <div style={{ width: '80px', height: '80px', background: '#f8fafc', borderRadius: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                                        <ImageIcon size={48} style={{ color: '#cbd5e1' }} />
+                                <div className="col-span-full bg-white rounded-[40px] p-24 text-center border-2 border-dashed border-slate-200 flex flex-col items-center">
+                                    <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mb-6">
+                                        <ImageIcon size={48} className="text-slate-200" />
                                     </div>
-                                    <h4 style={{ fontWeight: '900', color: '#111827', fontSize: '1.5rem', marginBottom: '12px' }}>Kütüphane Boş Gözüküyor</h4>
-                                    <p style={{ color: '#94a3b8', fontWeight: '600', maxWidth: '400px', lineHeight: '1.6' }}>Sisteme kayıtlı herhangi bir tema tasarımı bulunmuyor. Yeni bir mizanpaj ekleyerek restoranlara seçenek sunun.</p>
+                                    <h4 className="text-xl font-black text-gray-900 mb-2">Kütüphane Henüz Boş</h4>
+                                    <p className="text-slate-500 font-medium max-w-sm text-sm">Sisteme kayıtlı mizanpaj bulunmuyor. Yeni bir tasarım ekleyerek kataloğu genişletin.</p>
                                     <button
                                         onClick={() => router.push('/super-admin/temalar/yeni')}
-                                        style={{ marginTop: '32px', background: '#ff7a21', color: '#fff', padding: '14px 32px', borderRadius: '16px', border: 'none', fontWeight: '900', fontSize: '1rem', cursor: 'pointer', boxShadow: '0 10px 15px rgba(255,122,33,0.3)' }}
-                                    >+ İlk Tasarımı Şimdi Başlat</button>
+                                        className="mt-8 bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm shadow-xl shadow-orange-500/20 hover:scale-105 transition-all"
+                                    >+ İlk Tasarımı Başlat</button>
                                 </div>
                             )}
                         </div>
@@ -172,52 +177,51 @@ export default function ThemesPage() {
                 </div>
 
                 {/* Sidebar Metrics */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '40px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', borderRadius: '32px', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', bottom: '-20%', left: '-20%', width: '180px', height: '180px', background: 'rgba(59,130,246,0.1)', filter: 'blur(60px)', borderRadius: '50%' }}></div>
+                <div className="flex flex-col gap-8 xl:sticky xl:top-8 h-fit">
+                    <div className="bg-slate-900 rounded-[32px] p-10 text-white shadow-2xl shadow-slate-900/10 relative overflow-hidden group">
+                        <div className="absolute -left-10 -bottom-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
+                        <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-10 relative">Görsel Envanter Özeti</h3>
 
-                        <h3 style={{ fontSize: '0.9rem', fontWeight: '900', marginBottom: '32px', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#94a3b8', position: 'relative' }}>Görsel Envanter Özeti</h3>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '32px', position: 'relative' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
+                        <div className="flex flex-col gap-10 relative">
+                            <div className="flex justify-between items-end">
                                 <div>
-                                    <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#94a3b8', display: 'block', marginBottom: '6px' }}>Toplam Seçenek</span>
-                                    <span style={{ fontSize: '2.5rem', fontWeight: '900', letterSpacing: '-0.05em' }}>{themes.length}</span>
+                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest block mb-1.5">Toplam Tema</span>
+                                    <span className="text-4xl font-black tracking-tighter">{themes.length}</span>
                                 </div>
-                                <div style={{ background: 'rgba(16, 185, 129, 0.1)', color: '#10b981', padding: '8px 14px', borderRadius: '12px', fontSize: '0.75rem', fontWeight: '900' }}>TASARIM AKTİF</div>
+                                <div className="bg-emerald-500/10 text-emerald-400 px-3 py-1.5 rounded-xl text-[10px] font-black tracking-widest">AKTİF PLATFORM</div>
                             </div>
 
-                            <div style={{ height: '1px', background: 'rgba(255,255,255,0.05)' }}></div>
+                            <div className="h-px bg-white/5 w-full"></div>
 
-                            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
+                            <div className="grid grid-cols-2 gap-6">
                                 <div>
-                                    <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Premium</span>
-                                    <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#8b5cf6' }}>{themes.filter(t => t.isPremium).length} <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Adet</span></div>
+                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest block mb-1.5">Premium</span>
+                                    <div className="text-2xl font-black text-violet-400">{themes.filter(t => t.isPremium).length} <span className="text-[10px] text-slate-500">ADET</span></div>
                                 </div>
                                 <div>
-                                    <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', display: 'block', marginBottom: '8px', textTransform: 'uppercase' }}>Standart</span>
-                                    <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#3b82f6' }}>{themes.filter(t => !t.isPremium).length} <span style={{ fontSize: '0.8rem', color: '#64748b' }}>Adet</span></div>
+                                    <span className="text-[10px] font-black text-slate-600 uppercase tracking-widest block mb-1.5">Standart</span>
+                                    <div className="text-2xl font-black text-blue-400">{themes.filter(t => !t.isPremium).length} <span className="text-[10px] text-slate-500">ADET</span></div>
                                 </div>
                             </div>
 
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '20px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#94a3b8' }}>Dağıtımdaki Temalar</span>
-                                    <span style={{ fontSize: '1.2rem', fontWeight: '900', color: '#10b981' }}>%{Math.round((themes.filter(t => t.isActive).length / (themes.length || 1)) * 100)}</span>
+                            <div className="bg-white/5 p-5 rounded-2xl border border-white/5">
+                                <div className="flex justify-between items-center">
+                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Kullanılabilir Tema</span>
+                                    <span className="text-xl font-black text-emerald-400">%{Math.round((themes.filter(t => t.isActive).length / (themes.length || 1)) * 100)}</span>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', borderRadius: '28px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                            <div style={{ background: '#fff7ed', padding: '12px', borderRadius: '16px' }}>
-                                <Zap size={24} color="#ff7a21" />
+                    <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 border-l-4 border-l-[#ff7a21]">
+                        <div className="flex gap-4">
+                            <div className="bg-orange-50 p-3 rounded-2xl shrink-0 text-[#ff7a21]">
+                                <Zap size={24} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 10px 0', fontSize: '1rem', fontWeight: '900', color: '#111827' }}>Tasarım Rehberi</h4>
-                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', lineHeight: '1.7', fontWeight: '500' }}>
-                                    Tasarım kütüphanesini güncellerken restoran tarafındaki **Branding** ayarlarına dikkat edin. Her yeni mizanpaj tüm renk paletlerini desteklemelidir.
+                                <h4 className="text-sm font-black text-gray-900 uppercase tracking-wide mb-2">Tasarım İlkesi</h4>
+                                <p className="text-xs text-slate-500 leading-relaxed font-bold">
+                                    Yeni mizanpajlar eklerken **Mobile-First** prensibine sadık kalın. Her temanın karanlık ve aydınlık mod uyumunu kontrol edin.
                                 </p>
                             </div>
                         </div>

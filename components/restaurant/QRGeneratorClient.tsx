@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { QRCodeCanvas } from 'qrcode.react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     Settings,
     Download,
@@ -14,8 +15,18 @@ import {
     Eye,
     FileImage,
     ExternalLink,
+    Activity,
 } from 'lucide-react';
 import Link from 'next/link';
+
+const StatusBadge = ({ status }: { status: string }) => {
+    return (
+        <span className="flex items-center gap-2 px-4 py-2 rounded-xl border-2 bg-emerald-50 text-emerald-600 border-emerald-100 text-[10px] font-black tracking-widest">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            AKTİF
+        </span>
+    );
+};
 
 interface QRGeneratorClientProps {
     slug: string;
@@ -151,323 +162,274 @@ export default function QRGeneratorClient({ slug, tenantName, logoUrl }: QRGener
     };
 
     return (
-        <div style={{ padding: '0' }}>
-            {/* Header */}
-            <div style={{
-                display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem'
-            }}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: '500', color: '#333', margin: 0 }}>
-                    QR Oluşturucu
-                </h1>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#666', fontSize: '0.9rem' }}>
-                    <Link href="/dashboard" style={{ color: '#666', textDecoration: 'none' }}>
-                        Geri
-                    </Link>
-                    <span>›</span>
-                    <span>QR Oluşturucu</span>
-                </div>
-            </div>
+        <div className="p-0 bg-[#f8fafc] min-h-screen">
+            <div className="p-8 md:p-12 lg:p-16">
+                <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 items-start">
 
-            {/* Content Area */}
-            <div style={{ padding: '0 2rem', paddingBottom: '3rem' }}>
-                <div style={{
-                    display: 'grid',
-                    gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-                    gap: '18px',
-                }}>
-
-                    {/* ========== COL 1: Ayarlar ========== */}
-                    <div style={cardStyle}>
-                        <div style={cardHeaderStyle}>
-                            <Settings size={17} color="#ff6e01" />
-                            <h3 style={cardTitleStyle}>QR Kodu Ayarları</h3>
-                        </div>
-                        <div style={{ ...cardBodyStyle, maxHeight: 'calc(100vh - 160px)', overflowY: 'auto' }}>
-                            {/* Ön plan rengi */}
-                            <div style={fieldStyle}>
-                                <div style={colorRowStyle}>
-                                    <span style={labelStyle}>Ön plan rengi</span>
-                                    <input type="color" value={fgColor}
-                                        onChange={e => setFgColor(e.target.value)}
-                                        style={colorInputStyle} />
+                    {/* ========== COL 1: Ayarlar (Customization Panel) ========== */}
+                    <div className="xl:col-span-4 space-y-10">
+                        <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
+                            <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/30">
+                                <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                    <Settings size={20} strokeWidth={3} />
                                 </div>
+                                <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">TASARIM AYARLARI</h3>
                             </div>
 
-                            {/* Arka plan rengi */}
-                            <div style={fieldStyle}>
-                                <div style={colorRowStyle}>
-                                    <span style={labelStyle}>Arka plan rengi</span>
-                                    <input type="color" value={bgColor}
-                                        onChange={e => setBgColor(e.target.value)}
-                                        style={colorInputStyle} />
-                                </div>
-                            </div>
-
-                            {/* Dolgu */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Dolgu: {padding}</label>
-                                <input type="range" min={0} max={5} step={1} value={padding}
-                                    onChange={e => setPadding(Number(e.target.value))} style={rangeStyle} />
-                            </div>
-
-                            {/* Köşe yarıçapı */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Köşe yarıçapı: {cornerRadius}</label>
-                                <input type="range" min={0} max={50} step={10} value={cornerRadius}
-                                    onChange={e => setCornerRadius(Number(e.target.value))} style={rangeStyle} />
-                            </div>
-
-                            {/* Mod */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Mod</label>
-                                <select value={mode}
-                                    onChange={e => setMode(e.target.value as QRMode)}
-                                    style={selectStyle}>
-                                    <option value="normal">Normal</option>
-                                    <option value="text">Metin</option>
-                                    <option value="image">Resim</option>
-                                </select>
-                            </div>
-
-                            {/* TEXT MODE */}
-                            {mode === 'text' && (
-                                <React.Fragment>
-                                    <div style={fieldStyle}>
-                                        <label style={labelStyle}>Metin</label>
-                                        <input type="text" value={qrText}
-                                            onChange={e => setQrText(e.target.value)}
-                                            placeholder="QR üzerindeki metin" style={inputStyle} />
-                                    </div>
-                                    <div style={fieldStyle}>
-                                        <div style={colorRowStyle}>
-                                            <span style={labelStyle}>Metin Rengi</span>
-                                            <input type="color" value={textColor}
-                                                onChange={e => setTextColor(e.target.value)}
-                                                style={colorInputStyle} />
+                            <div className="p-8 space-y-8 max-h-[calc(100vh-280px)] overflow-y-auto no-scrollbar">
+                                {/* Color Selectors */}
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">QR RENGİ</label>
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border-2 border-gray-100/50 group hover:border-[#ff7a21] transition-all">
+                                            <input type="color" value={fgColor} onChange={e => setFgColor(e.target.value)} className="w-10 h-10 rounded-xl border-none cursor-pointer bg-transparent" />
+                                            <span className="text-xs font-black text-gray-900 tracking-tighter uppercase">{fgColor}</span>
                                         </div>
                                     </div>
-                                </React.Fragment>
-                            )}
+                                    <div className="space-y-3">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">ARKA PLAN</label>
+                                        <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border-2 border-gray-100/50 group hover:border-[#ff7a21] transition-all">
+                                            <input type="color" value={bgColor} onChange={e => setBgColor(e.target.value)} className="w-10 h-10 rounded-xl border-none cursor-pointer bg-transparent" />
+                                            <span className="text-xs font-black text-gray-900 tracking-tighter uppercase">{bgColor}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            {/* IMAGE MODE */}
-                            {mode === 'image' && (
-                                <div style={fieldStyle}>
-                                    <label style={labelStyle}>Resim</label>
-                                    <label style={{
-                                        display: 'inline-flex', alignItems: 'center', gap: '8px',
-                                        padding: '9px 16px', border: '1px solid #e0e0e0', borderRadius: '8px',
-                                        cursor: 'pointer', fontSize: '0.82rem', color: '#555', background: '#fafafa',
-                                    }}>
-                                        <Upload size={14} /> Fotoğraf Yükle
-                                        <input type="file" accept="image/*" style={{ display: 'none' }}
-                                            onChange={handleImageUpload} />
-                                    </label>
-                                    {customImage && (
-                                        <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                            <img src={customImage} alt="Logo" style={{
-                                                width: 42, height: 42, borderRadius: 8,
-                                                objectFit: 'cover', border: '2px solid #f0f1f3',
-                                            }} />
-                                            <button onClick={() => setCustomImage(null)} style={{
-                                                background: 'none', border: 'none', cursor: 'pointer', color: '#ef4444',
-                                                fontSize: '0.78rem', display: 'flex', alignItems: 'center', gap: '4px',
-                                            }}>
-                                                <Trash2 size={13} /> Kaldır
+                                {/* Sliders */}
+                                <div className="space-y-6">
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center px-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">DIŞ BOŞLUK (PADDING)</label>
+                                            <span className="bg-orange-50 text-[#ff7a21] text-[10px] font-black px-2 py-0.5 rounded-lg border border-orange-100">{padding}</span>
+                                        </div>
+                                        <input type="range" min={0} max={5} step={1} value={padding} onChange={e => setPadding(Number(e.target.value))}
+                                            className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-[#ff7a21]" />
+                                    </div>
+
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center px-1">
+                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">KÖŞE YUMUŞATMA</label>
+                                            <span className="bg-orange-50 text-[#ff7a21] text-[10px] font-black px-2 py-0.5 rounded-lg border border-orange-100">{cornerRadius}</span>
+                                        </div>
+                                        <input type="range" min={0} max={50} step={10} value={cornerRadius} onChange={e => setCornerRadius(Number(e.target.value))}
+                                            className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-[#ff7a21]" />
+                                    </div>
+                                </div>
+
+                                {/* Mode Selection */}
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">MERKEZ LOGO / METİN</label>
+                                    <div className="grid grid-cols-3 gap-3">
+                                        {['normal', 'text', 'image'].map((m) => (
+                                            <button key={m} onClick={() => setMode(m as QRMode)}
+                                                className={`py-4 rounded-2xl border-2 text-[10px] font-black uppercase tracking-widest transition-all ${mode === m ? 'bg-gray-900 border-gray-900 text-white shadow-xl shadow-gray-400/20 scale-[1.05]' : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-gray-100'}`}>
+                                                {m === 'normal' ? 'YOK' : m === 'text' ? 'METİN' : 'LOGO'}
                                             </button>
-                                        </div>
-                                    )}
+                                        ))}
+                                    </div>
                                 </div>
-                            )}
 
-                            {/* Common for text/image */}
-                            {(mode === 'text' || mode === 'image') && (
-                                <React.Fragment>
-                                    <div style={fieldStyle}>
-                                        <label style={labelStyle}>Boyut: {modeSize}</label>
-                                        <input type="range" min={1} max={15} step={1} value={modeSize}
-                                            onChange={e => setModeSize(Number(e.target.value))} style={rangeStyle} />
-                                    </div>
-                                    <div style={fieldStyle}>
-                                        <label style={labelStyle}>Pozisyon X: {positionX}%</label>
-                                        <input type="range" min={0} max={100} step={1} value={positionX}
-                                            onChange={e => setPositionX(Number(e.target.value))} style={rangeStyle} />
-                                    </div>
-                                    <div style={fieldStyle}>
-                                        <label style={labelStyle}>Pozisyon Y: {positionY}%</label>
-                                        <input type="range" min={0} max={100} step={1} value={positionY}
-                                            onChange={e => setPositionY(Number(e.target.value))} style={rangeStyle} />
-                                    </div>
-                                </React.Fragment>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* ========== COL 2: Önizleme ========== */}
-                    <div style={cardStyle}>
-                        <div style={cardHeaderStyle}>
-                            <Eye size={17} color="#ff6e01" />
-                            <h3 style={cardTitleStyle}>QR Kodunuz</h3>
-                        </div>
-                        <div style={cardBodyStyle}>
-                            {/* Link bar */}
-                            <div style={{
-                                display: 'flex', border: '1px solid #e0e0e0', borderRadius: '8px',
-                                overflow: 'hidden', marginBottom: '16px',
-                            }}>
-                                <input type="text" value={menuUrl} readOnly style={{
-                                    flex: 1, border: 'none', padding: '9px 12px', fontSize: '0.78rem',
-                                    color: '#666', outline: 'none', background: '#fafafa', minWidth: 0,
-                                    boxSizing: 'border-box',
-                                }} />
-                                <button onClick={copyLink} title="Kopyala" style={{
-                                    padding: '9px 12px', border: 'none', borderLeft: '1px solid #e0e0e0',
-                                    background: copied ? '#f0fdf4' : '#fafafa', cursor: 'pointer',
-                                    color: copied ? '#10b981' : '#888', display: 'flex', alignItems: 'center',
-                                }}>
-                                    {copied ? <Check size={15} /> : <Copy size={15} />}
-                                </button>
-                                <Link href={menuUrl} target="_blank" style={{
-                                    padding: '9px 12px', borderLeft: '1px solid #e0e0e0',
-                                    display: 'flex', alignItems: 'center', color: '#888', background: '#fafafa',
-                                }}>
-                                    <ExternalLink size={15} />
-                                </Link>
-                            </div>
-
-                            {/* QR Preview */}
-                            <div style={{
-                                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                minHeight: '320px', background: '#f5f5f5',
-                                borderRadius: '10px', padding: '24px', marginBottom: '16px',
-                                backgroundImage: 'linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee), linear-gradient(45deg, #eee 25%, transparent 25%, transparent 75%, #eee 75%, #eee)',
-                                backgroundSize: '16px 16px',
-                                backgroundPosition: '0 0, 8px 8px',
-                            }}>
-                                <div style={{
-                                    background: bgColor, padding: `${padding * 8 + 16}px`,
-                                    borderRadius: `${cornerRadius / 3}px`,
-                                    boxShadow: '0 4px 24px rgba(0,0,0,0.1)',
-                                    position: 'relative', display: 'inline-block',
-                                }}>
-                                    <QRCodeCanvas
-                                        id="qr-canvas"
-                                        value={menuUrl}
-                                        size={qrSize}
-                                        bgColor={bgColor}
-                                        fgColor={fgColor}
-                                        level="H"
-                                        includeMargin={false}
-                                        imageSettings={mode === 'image' && activeLogo ? {
-                                            src: activeLogo,
-                                            x: undefined,
-                                            y: undefined,
-                                            height: modeSize * 7,
-                                            width: modeSize * 7,
-                                            excavate: true,
-                                            crossOrigin: 'anonymous',
-                                        } : undefined}
-                                    />
-                                    {/* Text overlay */}
-                                    {mode === 'text' && qrText && (
-                                        <div style={{
-                                            position: 'absolute',
-                                            left: `${positionX}%`,
-                                            top: `${positionY}%`,
-                                            transform: 'translate(-50%, -50%)',
-                                            color: textColor,
-                                            fontSize: `${modeSize * 2.5}px`,
-                                            fontWeight: 800,
-                                            pointerEvents: 'none',
-                                            whiteSpace: 'nowrap',
-                                            textShadow: '0 1px 3px rgba(0,0,0,0.1)',
-                                        }}>
-                                            {qrText}
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-
-                            {/* Restaurant name */}
-                            <div style={{
-                                textAlign: 'center', marginBottom: '16px',
-                                fontSize: '0.75rem', fontWeight: 600, color: '#bbb',
-                                textTransform: 'uppercase', letterSpacing: '2px',
-                            }}>
-                                {tenantName}
-                            </div>
-
-                            {/* Actions */}
-                            <div style={{ display: 'flex', gap: '8px', justifyContent: 'center' }}>
-                                <button onClick={downloadQR} style={{
-                                    ...btnPrimary,
-                                    background: downloadSuccess ? '#10b981' : '#ff6e01',
-                                }}>
-                                    {downloadSuccess ? <Check size={15} /> : <Download size={15} />}
-                                    {downloadSuccess ? 'İndirildi!' : 'Resmi İndir'}
-                                </button>
-                                <button onClick={handlePrint} style={btnSecondary}>
-                                    <Printer size={15} /> Yazdır
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ========== COL 3: Şablonlar ========== */}
-                    <div style={cardStyle}>
-                        <div style={cardHeaderStyle}>
-                            <FileImage size={17} color="#ff6e01" />
-                            <h3 style={cardTitleStyle}>QR Şablonları</h3>
-                        </div>
-                        <div style={cardBodyStyle}>
-                            <p style={{ fontSize: '0.8rem', color: '#888', marginTop: 0, marginBottom: '14px', lineHeight: 1.5 }}>
-                                Masa kartı ve menü posteri için hazır şablonları kullanın. Şablonları indirip QR kodunuzu üzerine yerleştirin.
-                            </p>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
-                                {templates.map((src, i) => (
-                                    <div key={i} onClick={() => setActiveTemplate(i)} style={{
-                                        border: activeTemplate === i ? '2px solid #ff6e01' : '2px solid #e8ecf1',
-                                        borderRadius: '10px', overflow: 'hidden', cursor: 'pointer',
-                                        transition: 'all 0.2s', position: 'relative',
-                                        boxShadow: activeTemplate === i ? '0 0 0 3px rgba(255,110,1,0.12)' : 'none',
-                                    }}>
-                                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                                        <img src={src} alt={`Şablon ${i + 1}`} style={{
-                                            width: '100%', height: '130px', objectFit: 'cover', display: 'block',
-                                        }} />
-                                        {activeTemplate === i && (
-                                            <div style={{
-                                                position: 'absolute', top: 6, right: 6,
-                                                background: '#ff6e01', color: '#fff',
-                                                fontSize: '0.65rem', fontWeight: 700,
-                                                padding: '3px 8px', borderRadius: '6px',
-                                                display: 'flex', alignItems: 'center', gap: '3px',
-                                            }}>
-                                                <Check size={10} /> Seçili
+                                {/* Dynamic Mode Controls */}
+                                <AnimatePresence mode="wait">
+                                    {mode === 'text' && (
+                                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6 pt-4 border-t-2 border-gray-50">
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">LOGO METNİ</label>
+                                                <input type="text" value={qrText} onChange={e => setQrText(e.target.value)} className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-4 text-xs font-black text-gray-900 outline-none focus:border-[#ff7a21] transition-all" />
                                             </div>
-                                        )}
-                                        <div style={{
-                                            padding: '8px 12px', background: '#fafbfc',
-                                            fontSize: '0.78rem', fontWeight: 600, color: '#555',
-                                        }}>
-                                            Şablon {i + 1}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">METİN RENGİ</label>
+                                                <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-2xl border-2 border-gray-100/50">
+                                                    <input type="color" value={textColor} onChange={e => setTextColor(e.target.value)} className="w-10 h-10 rounded-xl border-none cursor-pointer bg-transparent" />
+                                                    <span className="text-xs font-black text-gray-900 tracking-tighter uppercase">{textColor}</span>
+                                                </div>
+                                            </div>
+                                        </motion.div>
+                                    )}
 
-                            <button style={{ ...btnPrimary, width: '100%', justifyContent: 'center', marginTop: '14px' }}
-                                onClick={() => alert('Şablon indirme özelliği yakında eklenecek!')}>
-                                <Download size={15} /> Şablonları İndir
-                            </button>
+                                    {mode === 'image' && (
+                                        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="space-y-6 pt-4 border-t-2 border-gray-50">
+                                            <div className="space-y-3">
+                                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">LOGO GÖRSELİ</label>
+                                                <div className="relative group">
+                                                    <input type="file" accept="image/*" onChange={handleImageUpload} className="hidden" id="logo-upload" />
+                                                    <label htmlFor="logo-upload" className="flex items-center justify-center gap-3 w-full py-6 bg-gray-50 border-2 border-dashed border-gray-200 rounded-[24px] cursor-pointer hover:bg-gray-100 hover:border-[#ff7a21] transition-all">
+                                                        <Upload size={20} className="text-gray-400 group-hover:text-[#ff7a21]" strokeWidth={3} />
+                                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest group-hover:text-gray-900">GÖRSEL SEÇİN</span>
+                                                    </label>
+                                                </div>
+                                                {customImage && (
+                                                    <div className="flex items-center justify-between p-4 bg-orange-50 rounded-[24px] border-2 border-orange-100 animate-in fade-in slide-in-from-top-2">
+                                                        <div className="flex items-center gap-4">
+                                                            <img src={customImage} alt="Logo" className="w-12 h-12 rounded-xl object-cover border-2 border-white shadow-sm" />
+                                                            <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">LOGO AKTİF</span>
+                                                        </div>
+                                                        <button onClick={() => setCustomImage(null)} className="p-3 bg-white text-rose-500 rounded-xl shadow-sm hover:bg-rose-50 transition-all">
+                                                            <Trash2 size={16} strokeWidth={3} />
+                                                        </button>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </motion.div>
+                                    )}
+
+                                    {(mode === 'text' || mode === 'image') && (
+                                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6 pt-4 border-t-2 border-gray-50">
+                                            <div className="space-y-4">
+                                                <div className="flex justify-between items-center px-1">
+                                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest">LOGO/METİN BOYUTU</label>
+                                                    <span className="bg-blue-50 text-blue-600 text-[10px] font-black px-2 py-0.5 rounded-lg border border-blue-100">{modeSize}</span>
+                                                </div>
+                                                <input type="range" min={1} max={15} step={1} value={modeSize} onChange={e => setModeSize(Number(e.target.value))}
+                                                    className="w-full h-1.5 bg-gray-100 rounded-lg appearance-none cursor-pointer accent-blue-500" />
+                                            </div>
+                                        </motion.div>
+                                    )}
+                                </AnimatePresence>
+                            </div>
+                        </div>
+
+                        {/* Link Area */}
+                        <div className="bg-white rounded-[40px] p-8 shadow-sm border-2 border-gray-50 space-y-4">
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">MENÜ BAĞLANTISI</label>
+                            <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-[24px] border-2 border-gray-100/50">
+                                <input type="text" value={menuUrl} readOnly className="flex-1 bg-transparent border-none px-4 text-xs font-bold text-gray-500 outline-none truncate" />
+                                <button onClick={copyLink} className={`p-4 rounded-2xl transition-all ${copied ? 'bg-emerald-500 text-white' : 'bg-white text-gray-900 hover:bg-gray-900 hover:text-white shadow-sm'}`}>
+                                    {copied ? <Check size={18} strokeWidth={3} /> : <Copy size={18} strokeWidth={3} />}
+                                </button>
+                                <a href={menuUrl} target="_blank" className="p-4 bg-white text-gray-900 rounded-2xl shadow-sm hover:bg-gray-900 hover:text-white transition-all">
+                                    <ExternalLink size={18} strokeWidth={3} />
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                {/* Footer */}
-                <div style={{ textAlign: 'center', padding: '16px 24px', color: '#bbb', fontSize: '0.75rem' }}>
-                    {new Date().getFullYear()} QRlamenü — Tüm Hakları Saklıdır.
+                    {/* ========== COL 2: Önizleme (The Big Preview) ========== */}
+                    <div className="xl:col-span-5 space-y-10">
+                        <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden flex flex-col">
+                            <div className="p-8 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/30">
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                        <Eye size={20} strokeWidth={3} />
+                                    </div>
+                                    <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">ÖNİZLEME</h3>
+                                </div>
+                                <StatusBadge status="ACTIVE" />
+                            </div>
+
+                            <div className="p-12 md:p-16 flex flex-col items-center justify-center bg-[#fcfdfe] relative overflow-hidden group">
+                                {/* Decorative background elements */}
+                                <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none select-none overflow-hidden">
+                                    <div className="absolute -top-24 -left-24 w-96 h-96 bg-orange-500 rounded-full blur-[100px]" />
+                                    <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-blue-500 rounded-full blur-[100px]" />
+                                </div>
+
+                                {/* The QR Card */}
+                                <div className="relative z-10 transition-transform duration-700 group-hover:scale-[1.02] active:scale-[0.98]">
+                                    <div className="bg-white p-12 md:p-16 rounded-[48px] shadow-2xl shadow-gray-200/50 border-2 border-gray-50 flex flex-col items-center gap-10">
+                                        <div style={{ backgroundColor: bgColor }} className="p-12 rounded-[32px] shadow-inner relative">
+                                            <QRCodeCanvas
+                                                id="qr-canvas"
+                                                value={menuUrl}
+                                                size={320}
+                                                bgColor={bgColor}
+                                                fgColor={fgColor}
+                                                level="H"
+                                                includeMargin={false}
+                                                imageSettings={mode === 'image' && activeLogo ? {
+                                                    src: activeLogo,
+                                                    x: undefined, y: undefined,
+                                                    height: modeSize * 10, width: modeSize * 10,
+                                                    excavate: true, crossOrigin: 'anonymous',
+                                                } : undefined}
+                                            />
+                                            {mode === 'text' && qrText && (
+                                                <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-center select-none pointer-events-none"
+                                                    style={{ color: textColor, fontSize: `${modeSize * 3.5}px`, fontWeight: 900, textShadow: '0 2px 10px rgba(0,0,0,0.1)' }}>
+                                                    {qrText.toUpperCase()}
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        <div className="text-center space-y-4">
+                                            <h2 className="text-3xl font-black text-gray-900 tracking-tighter uppercase">{tenantName}</h2>
+                                            <div className="flex items-center justify-center gap-3">
+                                                <div className="h-px w-8 bg-gray-100" />
+                                                <span className="text-[10px] font-black text-gray-400 tracking-[0.3em] uppercase">QR MENÜ</span>
+                                                <div className="h-px w-8 bg-gray-100" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="p-10 bg-gray-50 border-t-2 border-gray-100 flex flex-col sm:flex-row gap-6">
+                                <button onClick={downloadQR} className={`flex-1 py-5 rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 shadow-xl transition-all active:scale-95 ${downloadSuccess ? 'bg-emerald-500 text-white shadow-emerald-500/20' : 'bg-[#ff7a21] text-white shadow-orange-500/20 hover:scale-[1.03]'}`}>
+                                    {downloadSuccess ? <Check size={20} strokeWidth={3} /> : <Download size={20} strokeWidth={3} />}
+                                    {downloadSuccess ? 'İNDİRİLDİ' : 'GÖRSELİ İNDİR'}
+                                </button>
+                                <button onClick={handlePrint} className="flex-1 py-5 bg-white border-2 border-gray-200 text-gray-900 rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 hover:border-gray-900 transition-all active:scale-95 shadow-sm">
+                                    <Printer size={20} strokeWidth={3} /> YAZDIR
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* ========== COL 3: Şablonlar (Templetes) ========== */}
+                    <div className="xl:col-span-3 space-y-10">
+                        <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
+                            <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/30">
+                                <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                    <FileImage size={20} strokeWidth={3} />
+                                </div>
+                                <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">ŞABLONLAR</h3>
+                            </div>
+
+                            <div className="p-8 space-y-6">
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-loose pl-1">
+                                    Masa kartı ve menü posteri için hazır premium tasarımları kullanın.
+                                </p>
+
+                                <div className="space-y-6">
+                                    {templates.map((src, i) => (
+                                        <div key={i} onClick={() => setActiveTemplate(i)}
+                                            className={`relative group cursor-pointer overflow-hidden rounded-[24px] border-4 transition-all ${activeTemplate === i ? 'border-[#ff7a21] shadow-xl shadow-orange-500/10' : 'border-gray-50 grayscale-[0.8] hover:grayscale-0 hover:border-gray-100'}`}>
+                                            <img src={src} alt={`Template ${i + 1}`} className="w-full h-40 object-cover transition-transform duration-1000 group-hover:scale-110" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-5">
+                                                <span className="text-white text-[10px] font-black uppercase tracking-widest">Şablon {i + 1}</span>
+                                            </div>
+                                            {activeTemplate === i && (
+                                                <div className="absolute top-4 right-4 bg-[#ff7a21] text-white p-2 rounded-xl shadow-lg">
+                                                    <Check size={14} strokeWidth={4} />
+                                                </div>
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+
+                                <button onClick={() => alert('Premium şablonlar yakında aktif edilecek!')}
+                                    className="w-full py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase tracking-widest text-[10px] flex items-center justify-center gap-3 shadow-xl shadow-gray-900/10 hover:bg-black transition-all">
+                                    <Download size={18} strokeWidth={3} /> TÜMÜNÜ PAKET İNDİR
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* Tip Box */}
+                        <div className="bg-orange-50 rounded-[40px] p-8 border-2 border-orange-100/50">
+                            <div className="flex items-center gap-3 mb-4">
+                                <div className="bg-orange-500 text-white p-2 rounded-lg">
+                                    <Activity size={12} strokeWidth={4} />
+                                </div>
+                                <span className="text-[10px] font-black text-orange-600 uppercase tracking-widest">PROFESYONEL İPUCU</span>
+                            </div>
+                            <p className="text-xs font-black text-orange-900/70 leading-relaxed italic">
+                                "En iyi okuma performansı için QR kodunuzda yüksek kontrastlı renkler (örneğin koyu lacivert üzerine beyaz) tercih edin."
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     );
+
 }

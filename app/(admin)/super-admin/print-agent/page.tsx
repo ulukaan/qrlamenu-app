@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Printer, Wifi, WifiOff, Activity, ShieldCheck, RefreshCw } from 'lucide-react';
+import { Printer, Wifi, WifiOff, Activity, ShieldCheck, RefreshCw, Loader2 } from 'lucide-react';
 
 export default function PrintAgentPage() {
     const [agents, setAgents] = React.useState<any[]>([]);
@@ -34,162 +34,173 @@ export default function PrintAgentPage() {
     const offlinePercentage = stats.total > 0 ? (stats.offline / stats.total) * 100 : 0;
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
+            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
                 <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Yerel Servis & Yazıcı İzleme</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Restoran terminallerindeki print agent servislerinin aktiflik, gecikme ve sistem sağlığını gerçek zamanlı izleyin.</p>
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                        Yerel Servis & Yazıcı İzleme
+                    </h2>
+                    <p className="text-gray-500 mt-3 text-lg font-medium max-w-3xl leading-relaxed">
+                        Restoran terminallerindeki print agent servislerinin aktiflik, gecikme ve sistem sağlığını gerçek zamanlı izleyin.
+                    </p>
                 </div>
-                <button className="hover:scale-105 active:scale-95 transition-all" style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '10px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}>
-                    <RefreshCw size={18} strokeWidth={2.5} /> Ağ Taraması Başlat
+                <button
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[#ff7a21] text-white font-black text-sm uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all group"
+                >
+                    <RefreshCw size={22} strokeWidth={3} className="group-hover:rotate-180 transition-transform duration-500" />
+                    <span>Ağ Taraması Başlat</span>
                 </button>
-            </div>
+            </header>
 
             {/* Premium Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-                <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '24px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ flex: 1 }}>
-                            <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Aktif Terminal Servisleri</p>
-                            <h3 style={{ margin: 0, fontSize: '2.25rem', fontWeight: '900', color: '#10b981', letterSpacing: '-0.05em', lineHeight: '1' }}>{loading ? '...' : stats.online}</h3>
-                            <div style={{ marginTop: '16px', width: '100%', height: '8px', background: '#f8fafc', borderRadius: '4px', overflow: 'hidden', border: '1px solid #f1f5f9' }}>
-                                <div style={{ width: `${onlinePercentage}%`, height: '100%', background: 'linear-gradient(90deg, #10b981, #34d399)', borderRadius: '4px' }}></div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+                <div className="group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl hover:shadow-emerald-500/5 transition-all duration-500 border-2 border-transparent hover:border-emerald-100 relative overflow-hidden">
+                    <div className="relative z-10 flex justify-between items-start">
+                        <div className="flex-1">
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Aktif Terminal Servisleri</p>
+                            <h3 className="text-5xl font-black text-emerald-500 tracking-tighter leading-none mb-6">{loading ? '...' : stats.online}</h3>
+                            <div className="w-full h-2.5 bg-gray-50 rounded-full overflow-hidden border border-gray-100 mb-4">
+                                <div
+                                    className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 transition-all duration-1000"
+                                    style={{ width: `${onlinePercentage}%` }}
+                                ></div>
                             </div>
-                            <p style={{ margin: '12px 0 0 0', color: '#10b981', fontSize: '0.85rem', fontWeight: '800' }}>%{onlinePercentage.toFixed(1)} Operasyonel Başarı</p>
+                            <p className="text-emerald-500 text-xs font-black uppercase tracking-wider flex items-center gap-2">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                                %{onlinePercentage.toFixed(1)} Operasyonel Başarı
+                            </p>
                         </div>
-                        <div style={{ background: '#ecfdf5', padding: '14px', borderRadius: '18px', color: '#10b981', border: '1px solid #d1fae5' }}>
-                            <Wifi size={28} strokeWidth={2.5} />
+                        <div className="bg-emerald-50 p-5 rounded-3xl text-emerald-500 group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                            <Wifi size={32} strokeWidth={2.5} />
                         </div>
                     </div>
                 </div>
 
-                <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '24px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                        <div style={{ flex: 1 }}>
-                            <p style={{ margin: '0 0 8px 0', fontSize: '0.8rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.15em' }}>Erişilemeyen Birimler</p>
-                            <h3 style={{ margin: 0, fontSize: '2.25rem', fontWeight: '900', color: '#f43f5e', letterSpacing: '-0.05em', lineHeight: '1' }}>{loading ? '...' : stats.offline}</h3>
-                            <div style={{ marginTop: '16px', width: '100%', height: '8px', background: '#f8fafc', borderRadius: '4px', overflow: 'hidden', border: '1px solid #f1f5f9' }}>
-                                <div style={{ width: `${offlinePercentage}%`, height: '100%', background: 'linear-gradient(90deg, #f43f5e, #fb7185)', borderRadius: '4px' }}></div>
+                <div className="group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl hover:shadow-rose-500/5 transition-all duration-500 border-2 border-transparent hover:border-rose-100 relative overflow-hidden">
+                    <div className="relative z-10 flex justify-between items-start">
+                        <div className="flex-1">
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Erişilemeyen Birimler</p>
+                            <h3 className="text-5xl font-black text-rose-500 tracking-tighter leading-none mb-6">{loading ? '...' : stats.offline}</h3>
+                            <div className="w-full h-2.5 bg-gray-50 rounded-full overflow-hidden border border-gray-100 mb-4">
+                                <div
+                                    className="h-full bg-gradient-to-r from-rose-500 to-rose-400 transition-all duration-1000"
+                                    style={{ width: `${offlinePercentage}%` }}
+                                ></div>
                             </div>
-                            <p style={{ margin: '12px 0 0 0', color: '#f43f5e', fontSize: '0.85rem', fontWeight: '800' }}>Acil Müdahale Gerekebilir</p>
+                            <p className="text-rose-500/80 text-xs font-black uppercase tracking-wider">Acil Müdahale Gerekebilir</p>
                         </div>
-                        <div style={{ background: '#fff1f2', padding: '14px', borderRadius: '18px', color: '#f43f5e', border: '1px solid #fee2e2' }}>
-                            <WifiOff size={28} strokeWidth={2.5} />
+                        <div className="bg-rose-50 p-5 rounded-3xl text-rose-500 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
+                            <WifiOff size={32} strokeWidth={2.5} />
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ padding: '20px 28px', borderBottom: '1px solid #f1f5f9', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                            <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Terminal Bağlantı Kanalları</h3>
-                            <div style={{ fontSize: '0.85rem', fontWeight: '900', color: '#64748b', background: '#f8fafc', padding: '4px 10px', borderRadius: '8px', border: '1px solid #e2e8f0' }}>Toplam {agents.length} Agent</div>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_420px] gap-12">
+                <div className="space-y-8 min-w-0">
+                    <section className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="px-10 py-8 border-b border-gray-50 flex justify-between items-center bg-gray-50/50">
+                            <h3 className="text-xl font-black text-gray-900 tracking-tight">Terminal Bağlantı Kanalları</h3>
+                            <div className="px-4 py-1.5 rounded-full bg-white border-2 border-gray-100 text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                Toplam {agents.length} Agent
+                            </div>
                         </div>
-                        <div style={{ padding: '0 28px' }}>
+                        <div className="px-10 divide-y divide-gray-50">
                             {loading ? (
-                                <div style={{ padding: '60px', textAlign: 'center' }}>
-                                    <RefreshCw size={40} className="animate-spin text-orange-500" style={{ margin: '0 auto' }} />
-                                    <p style={{ color: '#94a3b8', fontWeight: '800', marginTop: '16px', fontSize: '1rem' }}>Terminal verileri senkronize ediliyor...</p>
+                                <div className="py-32 text-center">
+                                    <Loader2 size={48} className="animate-spin text-[#ff7a21] mx-auto mb-6" />
+                                    <p className="text-gray-400 font-bold tracking-tight uppercase text-xs">Terminal verileri senkronize ediliyor...</p>
                                 </div>
-                            ) : error ? (
-                                <div style={{ padding: '40px', textAlign: 'center', color: '#f43f5e', fontWeight: '900', fontSize: '1rem' }}>{error}</div>
                             ) : agents.length === 0 ? (
-                                <div style={{ padding: '60px', textAlign: 'center' }}>
-                                    <Printer size={56} style={{ color: '#cbd5e1', margin: '0 auto 20px', strokeWidth: 1 }} />
-                                    <p style={{ color: '#94a3b8', fontWeight: '800', fontSize: '1rem' }}>Sistemde kayıtlı servis bulunmuyor.</p>
+                                <div className="py-32 text-center">
+                                    <Printer size={80} className="text-gray-100 mx-auto mb-8" strokeWidth={1} />
+                                    <p className="text-gray-400 font-bold text-lg">Sistemde aktif servis bulunmuyor.</p>
                                 </div>
-                            ) : agents.map((row, i) => (
-                                <div key={row.id} className="group" style={{ display: 'flex', alignItems: 'center', gap: '24px', padding: '24px 0', borderBottom: i < agents.length - 1 ? '1px solid #f1f5f9' : 'none', transition: 'all 0.3s' }}>
-                                    <div style={{ position: 'relative' }}>
-                                        <div style={{
-                                            width: '12px',
-                                            height: '12px',
-                                            borderRadius: '50%',
-                                            background: row.status === 'ONLINE' ? '#10b981' : '#f43f5e',
-                                            boxShadow: row.status === 'ONLINE' ? '0 0 15px rgba(16, 185, 129, 0.5)' : '0 0 15px rgba(244, 63, 94, 0.3)',
-                                            flexShrink: 0
-                                        }}></div>
-                                        {row.status === 'ONLINE' && <div className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#10b981', opacity: 0.4 }}></div>}
+                            ) : agents.map((row) => (
+                                <div key={row.id} className="group flex flex-col sm:flex-row items-start sm:items-center gap-6 py-10 transition-colors">
+                                    <div className="relative shrink-0">
+                                        <div className={`w-4 h-4 rounded-full ${row.status === 'ONLINE' ? 'bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.4)]' : 'bg-rose-500 shadow-[0_0_20px_rgba(244,63,94,0.3)]'}`}></div>
+                                        {row.status === 'ONLINE' && <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-25"></div>}
                                     </div>
-                                    <div style={{ flex: 1 }}>
-                                        <p style={{ margin: 0, fontWeight: '900', fontSize: '1.05rem', color: '#111827', letterSpacing: '-0.02em' }}>{row.name || row.tenant?.name}</p>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '4px' }}>
-                                            <span style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '800', textTransform: 'uppercase', letterSpacing: '0.05em' }}>AGENT-ID: <span style={{ color: '#ff7a21' }}>{row.agentId}</span></span>
-                                            <span style={{ fontSize: '0.75rem', color: '#e2e8f0', fontWeight: '400' }}>|</span>
-                                            <span style={{ fontSize: '0.75rem', color: '#64748b', fontWeight: '900', background: '#f8fafc', padding: '2px 8px', borderRadius: '6px' }}>VERSION {row.version || '1.0.0'} STABLE</span>
+                                    <div className="flex-1 min-w-0">
+                                        <h4 className="text-xl font-black text-gray-900 tracking-tight leading-tight group-hover:text-[#ff7a21] transition-colors truncate">
+                                            {row.name || row.tenant?.name}
+                                        </h4>
+                                        <div className="flex flex-wrap items-center gap-3 mt-2">
+                                            <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                                ID: <span className="text-[#ff7a21]">{row.agentId}</span>
+                                            </span>
+                                            <span className="text-gray-200">|</span>
+                                            <span className="px-3 py-1 rounded-lg bg-gray-50 text-[10px] font-black text-gray-500 uppercase tracking-widest border border-gray-100">
+                                                v{row.version || '1.0.0'} STABLE
+                                            </span>
                                         </div>
                                     </div>
-                                    <div style={{ textAlign: 'right', minWidth: '160px' }}>
-                                        <div style={{
-                                            display: 'inline-flex',
-                                            alignItems: 'center',
-                                            gap: '6px',
-                                            padding: '6px 14px',
-                                            borderRadius: '10px',
-                                            background: row.latency > 100 ? 'rgba(180, 83, 9, 0.1)' : 'rgba(16, 185, 129, 0.1)',
-                                            color: row.latency > 100 ? '#b45309' : '#10b981',
-                                            border: '1px solid currentColor',
-                                            opacity: row.status === 'ONLINE' ? 1 : 0.4,
-                                            transition: 'all 0.2s'
-                                        }}>
-                                            <Activity size={14} strokeWidth={2.5} />
-                                            <span style={{ fontSize: '0.85rem', fontWeight: '900' }}>{row.latency ? `${row.latency}ms` : 'N/A'}</span>
+                                    <div className="flex sm:flex-col items-center sm:items-end gap-3 sm:gap-1.5 shrink-0 text-right">
+                                        <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black tracking-tight border-2 transition-all ${row.latency > 100
+                                            ? 'bg-orange-50 text-orange-600 border-orange-100'
+                                            : 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                            } ${row.status !== 'ONLINE' ? 'opacity-30 grayscale' : ''}`}>
+                                            <Activity size={14} strokeWidth={3} />
+                                            <span>{row.latency ? `${row.latency}ms` : 'N/A'}</span>
                                         </div>
-                                        <p style={{ margin: '8px 0 0 0', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '700', letterSpacing: '0.02em' }}>Son Sinyal: <span style={{ color: '#475569' }}>{new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span></p>
+                                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
+                                            SYC: <span className="text-gray-700">{new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
+                                        </p>
                                     </div>
-                                    <button className="hover:scale-105 active:scale-95 transition-all" style={{ padding: '10px 20px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fff', color: '#1e293b', fontSize: '0.85rem', fontWeight: '900', cursor: 'pointer', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}>Log Çek</button>
+                                    <button className="sm:ml-4 shrink-0 px-6 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-900 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ff7a21] hover:shadow-lg transition-all active:scale-95">
+                                        Log Çek
+                                    </button>
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </section>
                 </div>
 
-                {/* Right Sidebar Network Metrics */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '1.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', borderRadius: '24px', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '120px', height: '120px', background: 'rgba(255,122,33,0.1)', filter: 'blur(40px)', borderRadius: '50%' }}></div>
-                        <div style={{ position: 'relative' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
-                                <div style={{ background: 'rgba(255,122,33,0.1)', padding: '8px', borderRadius: '12px' }}>
-                                    <Activity size={20} color="#ff7a21" strokeWidth={2.5} />
+                {/* Right Sidebar */}
+                <aside className="space-y-8 xl:sticky xl:top-8 xl:h-fit">
+                    <div className="bg-[#0f172a] p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-[#ff7a21]/10 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
+
+                        <div className="relative z-10 flex items-center gap-4 mb-8">
+                            <div className="bg-[#ff7a21]/20 p-3 rounded-2xl">
+                                <Activity size={24} className="text-[#ff7a21]" strokeWidth={2.5} />
+                            </div>
+                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Ağ Verimliliği</h3>
+                        </div>
+
+                        <p className="relative z-10 text-sm font-bold text-slate-400 leading-relaxed mb-10">
+                            Platform genelinde terminal servislerinin ortalama yanıt süresi <span className="text-white font-black underline underline-offset-4 decoration-emerald-500/50">42ms</span> olarak ölçüldü.
+                        </p>
+
+                        <div className="space-y-6 relative z-10">
+                            <div className="space-y-3">
+                                <div className="flex justify-between text-[10px] font-black tracking-widest uppercase">
+                                    <span className="text-slate-500">Veri Paket Başarısı</span>
+                                    <span className="text-emerald-400">%99.8</span>
                                 </div>
-                                <h3 style={{ margin: 0, fontSize: '0.85rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#94a3b8' }}>Ağ Verimliliği</h3>
-                            </div>
-                            <div style={{ fontSize: '0.9rem', color: '#94a3b8', marginBottom: '24px', lineHeight: '1.7', fontWeight: '500' }}>
-                                Platform genelinde terminal servislerinin ortalama yanıt süresi <span style={{ color: '#fff', fontWeight: '900' }}>42ms</span> olarak ölçüldü.
-                            </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', fontWeight: '900', letterSpacing: '0.05em' }}>
-                                        <span style={{ color: '#94a3b8' }}>VERİ PAKET BAŞARISI</span>
-                                        <span style={{ color: '#10b981' }}>%99.8</span>
-                                    </div>
-                                    <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', border: '1px solid rgba(255,255,255,0.02)' }}>
-                                        <div style={{ width: '99.8%', height: '100%', background: 'linear-gradient(90deg, #10b981, #34d399)', borderRadius: '3px' }}></div>
-                                    </div>
+                                <div className="h-2 bg-white/5 rounded-full overflow-hidden border border-white/5 shadow-inner">
+                                    <div className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 w-[99.8%] rounded-full shadow-[0_0_10px_rgba(16,185,129,0.3)]"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '24px', background: '#fff', borderRadius: '24px', boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
-                            <div style={{ background: '#ecfdf5', padding: '10px', borderRadius: '14px', border: '1px solid #d1fae5' }}>
-                                <ShieldCheck size={24} color="#10b981" strokeWidth={2.5} />
-                            </div>
-                            <div>
-                                <h4 style={{ margin: '0 0 8px 0', fontSize: '1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>End-to-End Güvenlik</h4>
-                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#64748b', lineHeight: '1.7', fontWeight: '500' }}>
-                                    Tüm print agent bağlantıları <span style={{ color: '#111827', fontWeight: '900' }}>AES-256 TLS 1.3</span> protokolü ile şifrelenmektedir.
-                                </p>
-                            </div>
+                    <div className="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 flex gap-6 items-start">
+                        <div className="bg-emerald-50 p-4 rounded-3xl border-2 border-emerald-100 shrink-0">
+                            <ShieldCheck size={26} className="text-emerald-500" strokeWidth={2.5} />
+                        </div>
+                        <div>
+                            <h4 className="text-lg font-black text-gray-900 tracking-tight mb-2">E2E Güvenlik</h4>
+                            <p className="text-sm font-medium text-gray-500 leading-relaxed">
+                                Tüm print agent bağlantıları <span className="text-[#ff7a21] font-black">TLS 1.3</span> protokolü ile şifrelenmektedir.
+                            </p>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
         </div>
     );
+
 }

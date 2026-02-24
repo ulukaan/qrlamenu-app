@@ -43,119 +43,115 @@ export default function SupportPage() {
     };
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Destek & Talepler</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Kullanıcı geri bildirimlerini, teknik biletleri ve kurumsal talepleri tek merkezden yönetin.</p>
+            <div className="mb-8 md:mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
+                <div className="max-w-3xl">
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Destek & Talepler</h2>
+                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium">Kullanıcı geri bildirimlerini, teknik biletleri ve kurumsal talepleri tek merkezden yönetin.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '12px' }}>
-                    <div style={{ position: 'relative' }}>
-                        <Search size={18} style={{ position: 'absolute', left: '16px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
+                <div className="w-full lg:w-auto">
+                    <div className="relative group">
+                        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#ff7a21] transition-colors" />
                         <input
                             type="text"
                             placeholder="Ad, e-posta veya mesaj..."
-                            style={{ padding: '12px 20px 12px 48px', borderRadius: '14px', border: '1px solid #e2e8f0', fontSize: '0.9rem', width: '280px', outline: 'none', background: '#fff', fontWeight: '600', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)' }}
-                            className="focus:border-orange-500 transition-all"
+                            className="w-full lg:w-[320px] pl-12 pr-6 py-3.5 rounded-2xl border-2 border-slate-50 bg-white text-sm font-black text-gray-900 focus:border-[#ff7a21] outline-none transition-all shadow-sm"
                         />
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 items-start">
+                <div className="space-y-6">
                     {/* Premium Categories Filter Bar */}
-                    <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>
-                        {['Tüm Talepler'].map((cat, i) => (
-                            <button key={i} style={{
-                                padding: '10px 20px',
-                                borderRadius: '14px',
-                                background: i === 0 ? '#1e293b' : '#fff',
-                                color: i === 0 ? '#fff' : '#64748b',
-                                fontWeight: '900',
-                                fontSize: '0.8rem',
-                                cursor: 'pointer',
-                                whiteSpace: 'nowrap',
-                                border: i === 0 ? 'none' : '1px solid #e2e8f0',
-                                boxShadow: i === 0 ? '0 10px 15px -3px rgba(30, 41, 59, 0.2)' : '0 2px 4px rgba(0,0,0,0.02)',
-                                transition: 'all 0.2s'
-                            }} className="hover:scale-105 active:scale-95">{cat}</button>
+                    <div className="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+                        {['Tüm Talepler', 'Teknik Destek', 'Satış/Kurumsal', 'Geri Bildirim'].map((cat, i) => (
+                            <button
+                                key={i}
+                                className={`px-6 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all whitespace-nowrap border ${i === 0 ? 'bg-slate-900 text-white border-slate-900 shadow-lg shadow-slate-900/20' : 'bg-white text-slate-400 border-slate-100 hover:border-slate-300 hover:text-slate-600'}`}
+                            >
+                                {cat}
+                            </button>
                         ))}
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
+                    <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
                         {loading ? (
-                            <div style={{ padding: '60px', textAlign: 'center' }}>
-                                <Loader2 size={40} className="animate-spin text-orange-500" style={{ margin: '0 auto' }} />
-                                <p style={{ marginTop: '16px', fontWeight: '800', color: '#64748b', fontSize: '1rem' }}>Veriler Senkronize Ediliyor...</p>
+                            <div className="py-32 text-center">
+                                <Loader2 className="animate-spin text-[#ff7a21] mx-auto" size={48} />
+                                <p className="mt-6 text-xs font-black text-slate-400 uppercase tracking-widest">Veriler Senkronize Ediliyor...</p>
                             </div>
                         ) : error ? (
-                            <div style={{ padding: '40px', textAlign: 'center', color: '#f43f5e', fontWeight: '900', background: '#fff1f2' }}>{error}</div>
+                            <div className="p-8 text-center font-black text-rose-500 bg-rose-50 rounded-3xl">{error}</div>
                         ) : leads.length === 0 ? (
-                            <div style={{ padding: '60px', textAlign: 'center' }}>
-                                <MessageSquare size={48} style={{ color: '#e2e8f0', margin: '0 auto 16px' }} strokeWidth={1.5} />
-                                <h4 style={{ fontWeight: '900', color: '#111827', fontSize: '1.1rem' }}>İletişim Kutusu Boş</h4>
-                                <p style={{ fontWeight: '600', color: '#94a3b8', marginTop: '8px', fontSize: '0.9rem' }}>Şu an için herhangi bir aktif destek talebi bulunmuyor.</p>
+                            <div className="py-32 text-center flex flex-col items-center justify-center">
+                                <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mb-6 text-slate-200">
+                                    <MessageSquare size={40} />
+                                </div>
+                                <h4 className="text-lg font-black text-gray-900 mb-2">İletişim Kutusu Boş</h4>
+                                <p className="text-sm font-bold text-slate-400 max-w-[280px] leading-relaxed italic">Şu an için herhangi bir aktif destek talebi bulunmuyor.</p>
                             </div>
                         ) : (
-                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                            <div className="divide-y divide-slate-50">
                                 {leads.map((msg, idx) => (
-                                    <div key={msg.id} style={{
-                                        padding: '24px',
-                                        borderBottom: idx < leads.length - 1 ? '1px solid #f1f5f9' : 'none',
-                                        display: 'flex',
-                                        gap: '24px',
-                                        background: msg.status === 'PENDING' ? '#fff' : '#fcfcfc',
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        position: 'relative'
-                                    }} className="hover:bg-slate-50 group">
+                                    <div key={msg.id} className={`group p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 items-start transition-all relative ${msg.status === 'PENDING' ? 'bg-white' : 'bg-slate-50/30'}`}>
                                         {msg.status === 'PENDING' && (
-                                            <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: '#ff7a21' }}></div>
+                                            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#ff7a21] rounded-r-full"></div>
                                         )}
 
-                                        <div style={{ width: '56px', height: '56px', borderRadius: '16px', background: msg.status === 'PENDING' ? 'linear-gradient(135deg, #ff7a21 0%, #ffb07a 100%)' : '#f1f5f9', color: msg.status === 'PENDING' ? '#fff' : '#94a3b8', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, boxShadow: msg.status === 'PENDING' ? '0 10px 20px rgba(255, 122, 33, 0.25)' : 'none' }}>
-                                            <MessageSquare size={24} strokeWidth={msg.status === 'PENDING' ? 2.5 : 2} />
+                                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg transition-all duration-500 overflow-hidden relative ${msg.status === 'PENDING' ? 'bg-[#ff7a21] text-white shadow-orange-500/20' : 'bg-slate-100 text-slate-400 shadow-none'}`}>
+                                            <MessageSquare size={24} strokeWidth={2.5} className="relative z-10" />
+                                            {msg.status === 'PENDING' && <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 opacity-50"></div>}
                                         </div>
 
-                                        <div style={{ flex: 1 }}>
-                                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
+                                        <div className="flex-1 w-full">
+                                            <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6">
                                                 <div>
-                                                    <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>{msg.name}</h4>
-                                                    <div style={{ display: 'flex', gap: '16px', marginTop: '4px' }}>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: '#64748b', fontWeight: '700' }}>
-                                                            <Mail size={14} style={{ color: '#ff7a21' }} /> {msg.email}
+                                                    <h4 className="text-lg font-black text-gray-900 tracking-tight">{msg.name}</h4>
+                                                    <div className="flex flex-wrap gap-4 mt-2">
+                                                        <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                                            <Mail size={12} className="text-[#ff7a21]" /> {msg.email}
                                                         </div>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', color: '#64748b', fontWeight: '700' }}>
-                                                            <Phone size={14} style={{ color: '#10b981' }} /> {msg.phone || '-'}
-                                                        </div>
+                                                        {msg.phone && (
+                                                            <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                                                <Phone size={12} className="text-emerald-500" /> {msg.phone}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
-                                                <div style={{ textAlign: 'right' }}>
-                                                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '800' }}>
+                                                <div className="flex flex-col items-start sm:items-end gap-2 shrink-0">
+                                                    <div className="flex items-center gap-2 text-[10px] font-bold text-slate-300 uppercase tracking-widest">
                                                         <Clock size={12} /> {new Date(msg.createdAt).toLocaleString('tr-TR')}
                                                     </div>
-                                                    <div style={{ marginTop: '8px' }}>
-                                                        <span style={{ fontSize: '0.7rem', fontWeight: '900', textTransform: 'uppercase', padding: '4px 10px', borderRadius: '8px', background: msg.status === 'PENDING' ? 'rgba(16, 185, 129, 0.1)' : '#f8fafc', color: msg.status === 'PENDING' ? '#10b981' : '#64748b', border: '1px solid currentColor', letterSpacing: '0.05em' }}>
-                                                            {msg.status === 'PENDING' ? 'YENİ TALEP' : (msg.status === 'LOST' ? 'ARŞİVLENDİ' : 'ÇÖZÜLDÜ')}
-                                                        </span>
-                                                    </div>
+                                                    <span className={`text-[9px] font-black px-3 py-1 rounded-full uppercase tracking-[0.15em] border ${msg.status === 'PENDING' ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                                                        {msg.status === 'PENDING' ? 'YENİ TALEP' : (msg.status === 'LOST' ? 'ARŞİVLENDİ' : 'ÇÖZÜLDÜ')}
+                                                    </span>
                                                 </div>
                                             </div>
 
-                                            <div style={{ background: '#f8fafc', padding: '16px 24px', borderRadius: '16px', border: '1px solid #f1f5f9', marginBottom: '20px', position: 'relative' }}>
-                                                <div style={{ position: 'absolute', top: '-8px', left: '16px', width: '16px', height: '16px', background: '#f8fafc', borderLeft: '1px solid #f1f5f9', borderTop: '1px solid #f1f5f9', transform: 'rotate(45deg)' }}></div>
-                                                <p style={{ margin: 0, fontSize: '0.95rem', color: '#334155', lineHeight: '1.7', fontWeight: '500' }}>
-                                                    {msg.notes || 'Herhangi bir detaylı açıklama metni tanımlanmamıştır.'}
+                                            <div className="bg-slate-50/50 p-6 rounded-[24px] border border-slate-100 mb-6 group-hover:bg-white transition-colors">
+                                                <p className="text-sm text-slate-600 font-medium leading-relaxed italic">
+                                                    {msg.notes || 'Herhangi bir bilet açıklama metni tanımlanmamıştır.'}
                                                 </p>
                                             </div>
 
-                                            <div style={{ display: 'flex', gap: '12px', justifyContent: 'flex-end' }}>
+                                            <div className="flex justify-end gap-3">
                                                 {msg.status !== 'LOST' && (
-                                                    <button onClick={() => updateLeadStatus(msg.id, 'LOST')} style={{ padding: '10px 20px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.85rem', fontWeight: '900', color: '#64748b', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50 hover:border-slate-300">Arşive Kaldır</button>
+                                                    <button
+                                                        onClick={() => updateLeadStatus(msg.id, 'LOST')}
+                                                        className="px-6 py-2.5 rounded-xl border border-slate-100 bg-white text-[11px] font-black text-slate-400 uppercase tracking-widest hover:bg-rose-50 hover:text-rose-500 hover:border-rose-100 transition-all"
+                                                    >
+                                                        Arşive Kaldır
+                                                    </button>
                                                 )}
                                                 {msg.status === 'PENDING' && (
-                                                    <button onClick={() => updateLeadStatus(msg.id, 'CONTACTED')} style={{ padding: '10px 24px', borderRadius: '12px', border: 'none', background: '#ff7a21', color: '#fff', fontSize: '0.85rem', fontWeight: '900', cursor: 'pointer', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.25)', transition: 'all 0.2s' }} className="hover:scale-105 active:scale-95">Çözüldü İşaretle</button>
+                                                    <button
+                                                        onClick={() => updateLeadStatus(msg.id, 'CONTACTED')}
+                                                        className="px-8 py-2.5 rounded-xl bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest shadow-xl shadow-slate-900/10 hover:bg-[#ff7a21] hover:shadow-orange-500/20 transition-all"
+                                                    >
+                                                        Çözüldü Olarak İşaretle
+                                                    </button>
                                                 )}
                                             </div>
                                         </div>
@@ -167,57 +163,72 @@ export default function SupportPage() {
                 </div>
 
                 {/* Right Sidebar Metrics */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '1.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', bottom: '-20%', right: '-10%', width: '120px', height: '120px', background: 'rgba(59,130,246,0.1)', filter: 'blur(40px)', borderRadius: '50%' }}></div>
+                <div className="xl:sticky xl:top-8 flex flex-col gap-6">
+                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
 
-                        <div style={{ position: 'relative' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                                <div style={{ background: 'rgba(255,122,33,0.15)', padding: '8px', borderRadius: '12px' }}>
-                                    <MessageSquare size={20} color="#ff7a21" strokeWidth={2.5} />
+                        <div className="relative z-10">
+                            <div className="flex items-center gap-4 mb-8">
+                                <div className="bg-orange-500/10 p-3 rounded-2xl">
+                                    <MessageSquare size={24} className="text-[#ff7a21]" strokeWidth={3} />
                                 </div>
-                                <h3 style={{ margin: 0, fontSize: '0.8rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#94a3b8' }}>Bekleyen İş Yükü</h3>
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">İş Yükü</h3>
                             </div>
 
-                            <div style={{ fontSize: '3.5rem', fontWeight: '900', lineHeight: '0.9', letterSpacing: '-0.05em', marginBottom: '8px' }}>{leads.filter(l => l.status === 'PENDING').length}</div>
-                            <p style={{ margin: 0, fontSize: '0.9rem', color: '#94a3b8', fontWeight: '700' }}>Aktif Aksiyon Bekleyen Talep</p>
+                            <div className="flex items-end gap-3 mb-2">
+                                <span className="text-6xl font-black tracking-tighter leading-none">{leads.filter(l => l.status === 'PENDING').length}</span>
+                                <span className="text-orange-500 text-xs font-black uppercase tracking-widest mb-2">TALEP</span>
+                            </div>
+                            <p className="text-xs font-bold text-slate-400 italic mb-10">Aktif aksiyon bekleyen bilet sayısı.</p>
 
-                            <div style={{ marginTop: '24px', padding: '12px', background: 'rgba(255,255,255,0.03)', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '0.8rem', fontWeight: '700', color: '#94a3b8' }}>Müşteri Memnuniyeti</span>
-                                    <span style={{ fontSize: '1.1rem', fontWeight: '900', color: '#10b981' }}>%98.4</span>
+                            <div className="bg-white/5 border border-white/5 p-5 rounded-[32px] backdrop-blur-sm group-hover:bg-white/10 transition-all">
+                                <div className="flex justify-between items-center mb-1">
+                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Müşteri Memnuniyeti</span>
+                                    <span className="text-sm font-black text-emerald-500">%98.4</span>
+                                </div>
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div className="w-[98%] h-full bg-emerald-500 rounded-full"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '24px', background: '#fff', borderRadius: '24px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <h4 style={{ margin: '0 0 16px 0', fontSize: '0.8rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Hız Göstergesi</h4>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                <span style={{ fontSize: '0.85rem', color: '#64748b', fontWeight: '800' }}>Yanıt Süresi</span>
-                                <span style={{ fontSize: '1rem', fontWeight: '900', color: '#10b981' }}>14 dk</span>
+                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                        <div className="flex justify-between items-center mb-6">
+                            <h4 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">Hız Göstergesi</h4>
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div>
+                                <div className="flex justify-between items-end mb-3">
+                                    <span className="text-xs font-black text-slate-500">Ort. Yanıt Süresi</span>
+                                    <span className="text-lg font-black text-emerald-500 tabular-nums">14 dk</span>
+                                </div>
+                                <div className="h-2 bg-slate-50 rounded-full overflow-hidden">
+                                    <div className="w-4/5 h-full bg-gradient-to-r from-emerald-400 to-emerald-600 rounded-full"></div>
+                                </div>
                             </div>
-                            <div style={{ height: '8px', background: '#f1f5f9', borderRadius: '4px', overflow: 'hidden' }}>
-                                <div style={{ width: '85%', height: '100%', background: 'linear-gradient(90deg, #10b981, #34d399)', borderRadius: '4px' }} />
-                            </div>
+                            <p className="text-[10px] text-slate-400 font-bold italic">Sektör ortalamasından %40 daha hızlı.</p>
                         </div>
                     </div>
 
-                    <div style={{ padding: '24px', borderRadius: '24px', background: '#fff', border: '1px solid #e2e8f0' }}>
-                        <h5 style={{ margin: '0 0 16px 0', fontSize: '0.8rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Trafik Kaynakları</h5>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
+                        <h5 className="text-[10px] font-black text-gray-900 uppercase tracking-widest mb-8">Trafik Kanalları</h5>
+                        <div className="space-y-4">
                             {[
-                                { label: 'Web Portalı', count: '82%', icon: <Globe size={14} />, color: '#3b82f6' },
-                                { label: 'Mobile App', count: '12%', icon: <Smartphone size={14} />, color: '#8b5cf6' },
-                                { label: 'E-Posta', count: '6%', icon: <Mail size={14} />, color: '#ff7a21' }
+                                { label: 'Web Portalı', count: '82%', icon: <Globe size={14} />, color: 'text-blue-500', bg: 'bg-blue-50' },
+                                { label: 'Mobile App', count: '12%', icon: <Smartphone size={14} />, color: 'text-violet-500', bg: 'bg-violet-50' },
+                                { label: 'E-Posta', count: '6%', icon: <Mail size={14} />, color: 'text-orange-500', bg: 'bg-orange-50' }
                             ].map((channel, idx) => (
-                                <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '10px 16px', background: '#f8fafc', borderRadius: '14px', border: '1px solid #f1f5f9' }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', color: '#1e293b', fontWeight: '800' }}>
-                                        <div style={{ color: channel.color }}>{channel.icon}</div>
-                                        {channel.label}
+                                <div key={idx} className="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:shadow-lg hover:shadow-slate-100 transition-all group/item cursor-default">
+                                    <div className="flex items-center gap-3">
+                                        <div className={`${channel.bg} ${channel.color} p-2 rounded-lg group-hover/item:scale-110 transition-transform`}>
+                                            {channel.icon}
+                                        </div>
+                                        <span className="text-[11px] font-black text-slate-600 uppercase tracking-widest">{channel.label}</span>
                                     </div>
-                                    <span style={{ fontSize: '0.9rem', fontWeight: '900', color: '#111827' }}>{channel.count}</span>
+                                    <span className="text-xs font-black text-gray-900 tabular-nums tracking-tighter">{channel.count}</span>
                                 </div>
                             ))}
                         </div>

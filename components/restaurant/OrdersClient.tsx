@@ -16,7 +16,10 @@ import {
     AlertCircle,
     Trash2,
     Eye,
-    Printer
+    Printer,
+    ChevronRight,
+    FileText,
+    Search
 } from 'lucide-react';
 
 interface OrderItem {
@@ -56,26 +59,73 @@ export default function OrdersClient() {
     const lastCallCountRef = useRef(0);
 
     const [soundEnabled, setSoundEnabled] = useState(false);
+    const [audioUnlocked, setAudioUnlocked] = useState(false);
+    const audioContextRef = useRef<AudioContext | null>(null);
     const [statusFilter, setStatusFilter] = useState<string>('ALL');
 
-    // AudioContext-based notification sound
-    const playNotificationSound = () => {
-        if (!soundEnabled) return;
+    // Initialize AudioContext and try to unlock on interaction
+    const initAudio = () => {
+        if (audioContextRef.current) return;
         try {
             const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
-            if (!AudioCtx) return;
-            const ctx = new AudioCtx();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-            osc.frequency.exponentialRampToValueAtTime(1046.5, ctx.currentTime + 0.1); // C6
-            gain.gain.setValueAtTime(0.15, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
-            osc.start();
-            osc.stop(ctx.currentTime + 0.5);
+            if (AudioCtx) {
+                audioContextRef.current = new AudioCtx();
+            }
+        } catch (e) {
+            console.error('AudioContext initialization failed', e);
+        }
+    };
+
+    const unlockAudio = async () => {
+        initAudio();
+        if (audioContextRef.current && audioContextRef.current.state === 'suspended') {
+            await audioContextRef.current.resume();
+        }
+        setAudioUnlocked(true);
+        if (!soundEnabled) setSoundEnabled(true);
+
+        // Play a test sound to confirm
+        playNotificationSound(true);
+    };
+
+    // Improved notification sound (Ding-Dong style)
+    const playNotificationSound = (isTest = false) => {
+        if (!isTest && !soundEnabled) return;
+
+        try {
+            initAudio();
+            const ctx = audioContextRef.current;
+            if (!ctx) return;
+
+            if (ctx.state === 'suspended') {
+                console.warn('AudioContext is suspended. Interaction required.');
+                setAudioUnlocked(false);
+                return;
+            }
+
+            const playTone = (freq: number, start: number, duration: number, volume: number) => {
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, ctx.currentTime + start);
+                gain.gain.setValueAtTime(0, ctx.currentTime + start);
+                gain.gain.linearRampToValueAtTime(volume, ctx.currentTime + start + 0.05);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + duration);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start(ctx.currentTime + start);
+                osc.stop(ctx.currentTime + start + duration);
+            };
+
+            // Double bell sound (harmonized)
+            // Tone 1: High E
+            playTone(659.25, 0, 0.8, 0.1);
+            playTone(329.63, 0, 0.8, 0.05);
+
+            // Tone 2: Low E after 0.2s
+            playTone(523.25, 0.2, 0.8, 0.1);
+            playTone(261.63, 0.2, 0.8, 0.05);
+
         } catch (e) {
             console.log('Audio play failed', e);
         }
@@ -165,42 +215,30 @@ export default function OrdersClient() {
     // ... existing StatusBadge and helper functions
 
     const StatusBadge = ({ status }: { status: string }) => {
-        const styles: Record<string, { bg: string, color: string, icon: any, label: string }> = {
-            PENDING: { bg: '#fff7ed', color: '#c2410c', icon: AlertCircle, label: 'Bekliyor' },
-            PREPARING: { bg: '#eff6ff', color: '#1d4ed8', icon: ChefHat, label: 'Hazırlanıyor' },
-            SERVED: { bg: '#f0fdf4', color: '#15803d', icon: Utensils, label: 'Servis Edildi' },
-            COMPLETED: { bg: '#f3f4f6', color: '#374151', icon: CheckCircle2, label: 'Tamamlandı' },
-            CANCELLED: { bg: '#fef2f2', color: '#b91c1c', icon: XCircle, label: 'İptal' }
+        const styles: Record<string, { bg: string, color: string, icon: any, label: string, border: string }> = {
+            PENDING: { bg: 'bg-rose-50', color: 'text-rose-600', border: 'border-rose-100', icon: AlertCircle, label: 'BEKLEYEN' },
+            PREPARING: { bg: 'bg-blue-50', color: 'text-blue-600', border: 'border-blue-100', icon: ChefHat, label: 'HAZIRLANIYOR' },
+            SERVED: { bg: 'bg-emerald-50', color: 'text-emerald-600', border: 'border-emerald-100', icon: Utensils, label: 'SERVİS EDİLDİ' },
+            COMPLETED: { bg: 'bg-gray-50', color: 'text-gray-600', border: 'border-gray-100', icon: CheckCircle2, label: 'TAMAMLANDI' },
+            CANCELLED: { bg: 'bg-rose-50', color: 'text-rose-600', border: 'border-rose-100', icon: XCircle, label: 'İPTAL' }
         };
 
         const style = styles[status] || styles.COMPLETED;
         const Icon = style.icon;
 
         return (
-            <span style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '6px',
-                padding: '6px 12px',
-                borderRadius: '20px',
-                backgroundColor: style.bg,
-                color: style.color,
-                fontSize: '0.75rem',
-                fontWeight: '600'
-            }}>
-                <Icon size={14} />
+            <span className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 ${style.bg} ${style.color} ${style.border} text-[10px] font-black tracking-widest`}>
+                <Icon size={14} strokeWidth={3} />
                 {style.label}
             </span>
         );
     };
 
     const filteredOrders = orders.filter(o => {
-        // Completed orders drop out of view after 1 minute
         if (o.status === 'COMPLETED') {
             const ageInMs = new Date().getTime() - new Date(o.updatedAt).getTime();
             if (ageInMs > 60000) return false;
         }
-
         if (statusFilter === 'ALL') return true;
         if (statusFilter === 'ACTIVE') return ['PENDING', 'PREPARING', 'SERVED'].includes(o.status);
         return o.status === statusFilter;
@@ -208,69 +246,35 @@ export default function OrdersClient() {
 
     const getElapsedTime = (dateString: string) => {
         const diff = Math.floor((new Date().getTime() - new Date(dateString).getTime()) / 60000);
-        if (diff < 1) return 'Şimdi';
-        return `${diff} dk önce`;
+        if (diff < 1) return 'AZ ÖNCE';
+        return `${diff} DK ÖNCE`;
     };
 
     return (
-        <div style={{ padding: '0', background: '#f9fafb', minHeight: 'calc(100vh - 80px)' }}>
-            {/* Header / Tabs */}
-            <div className="bg-white p-4 md:px-8 border-b border-[#e5e7eb] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sticky top-0 z-10">
-                <div className="flex flex-wrap gap-4 md:gap-6">
+        <div className="p-0 bg-[#f8fafc] min-h-screen">
+            {/* Elite Sub-Header / Filters */}
+            <div className="bg-white px-8 md:px-12 py-6 border-b-2 border-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 sticky top-[-1px] z-30 shadow-sm shadow-slate-200/5 transition-all">
+                <div className="flex bg-gray-50 p-2 rounded-[24px] border-2 border-gray-100/50 w-full sm:w-auto">
                     <button
                         onClick={() => setActiveTab('orders')}
-                        style={{
-                            padding: '10px 0',
-                            background: 'none',
-                            border: 'none',
-                            borderBottom: activeTab === 'orders' ? '2px solid #ff7a21' : '2px solid transparent',
-                            color: activeTab === 'orders' ? '#ff7a21' : '#6b7280',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}
+                        className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-[18px] text-xs font-black tracking-widest transition-all ${activeTab === 'orders' ? 'bg-white text-gray-900 shadow-xl shadow-gray-200/50 scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}
                     >
-                        <Utensils size={18} />
-                        Siparişler
+                        <ShoppingBag size={18} strokeWidth={activeTab === 'orders' ? 3 : 2.5} />
+                        SİPARİŞLER
                         {orders.filter(o => o.status === 'PENDING').length > 0 && (
-                            <span style={{
-                                background: '#ef4444',
-                                color: 'white',
-                                fontSize: '10px',
-                                padding: '2px 6px',
-                                borderRadius: '10px'
-                            }}>
-                                {orders.filter(o => o.status === 'PENDING').length} Yeni
+                            <span className="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full shadow-lg shadow-rose-500/20">
+                                {orders.filter(o => o.status === 'PENDING').length}
                             </span>
                         )}
                     </button>
                     <button
                         onClick={() => setActiveTab('waiter')}
-                        style={{
-                            padding: '10px 0',
-                            background: 'none',
-                            border: 'none',
-                            borderBottom: activeTab === 'waiter' ? '2px solid #ff7a21' : '2px solid transparent',
-                            color: activeTab === 'waiter' ? '#ff7a21' : '#6b7280',
-                            fontWeight: 600,
-                            cursor: 'pointer',
-                            display: 'flex',
-                            alignItems: 'center',
-                            gap: '8px'
-                        }}
+                        className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-[18px] text-xs font-black tracking-widest transition-all ${activeTab === 'waiter' ? 'bg-white text-gray-900 shadow-xl shadow-gray-200/50 scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}
                     >
-                        <Bell size={18} />
-                        Garson Çağrıları
+                        <Bell size={18} strokeWidth={activeTab === 'waiter' ? 3 : 2.5} />
+                        ÇAĞRILAR
                         {waiterCalls.filter(c => c.status === 'PENDING').length > 0 && (
-                            <span style={{
-                                background: '#ef4444',
-                                color: 'white',
-                                fontSize: '10px',
-                                padding: '2px 6px',
-                                borderRadius: '10px'
-                            }}>
+                            <span className="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full shadow-lg shadow-rose-500/20">
                                 {waiterCalls.filter(c => c.status === 'PENDING').length}
                             </span>
                         )}
@@ -278,388 +282,304 @@ export default function OrdersClient() {
                 </div>
 
                 {activeTab === 'orders' && (
-                    <div className="flex flex-wrap gap-3 items-center w-full lg:w-auto">
-                        <select
-                            value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value)}
-                            style={{
-                                padding: '8px 12px',
-                                borderRadius: '6px',
-                                border: '1px solid #d1d5db',
-                                fontSize: '0.875rem',
-                                color: '#374151'
-                            }}
-                        >
-                            <option value="ALL">Tüm Siparişler</option>
-                            <option value="ACTIVE">Aktif (Bekleyen/Hazırlanan)</option>
-                            <option value="COMPLETED">Tamamlananlar</option>
-                            <option value="CANCELLED">İptaller</option>
-                        </select>
+                    <div className="flex flex-wrap gap-4 items-center w-full xl:w-auto">
+                        <div className="relative group w-full sm:w-[240px]">
+                            <select
+                                value={statusFilter}
+                                onChange={(e) => setStatusFilter(e.target.value)}
+                                className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-3.5 text-xs font-black text-gray-900 appearance-none outline-none focus:border-[#ff7a21] transition-all cursor-pointer tracking-widest"
+                            >
+                                <option value="ALL">TÜM SİPARİŞLER</option>
+                                <option value="ACTIVE">AKTİF DURUMDAKİLER</option>
+                                <option value="COMPLETED">TAMAMLANANLAR</option>
+                                <option value="CANCELLED">İPTAL EDİLENLER</option>
+                            </select>
+                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300">
+                                <ChevronRight size={16} strokeWidth={3} className="rotate-90" />
+                            </div>
+                        </div>
 
                         <button
-                            onClick={() => setSoundEnabled(!soundEnabled)}
-                            style={{
-                                background: soundEnabled ? '#fff7ed' : 'white',
-                                border: `1px solid ${soundEnabled ? '#ff7a21' : '#d1d5db'}`,
-                                padding: '8px 12px',
-                                borderRadius: '6px',
-                                cursor: 'pointer',
-                                color: soundEnabled ? '#ff7a21' : '#6b7280',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px',
-                                fontSize: '0.85rem',
-                                fontWeight: 600
-                            }}
-                            title={soundEnabled ? 'Sesli Bildirim Açık' : 'Sesli Bildirim Kapalı'}
+                            onClick={audioUnlocked ? () => setSoundEnabled(!soundEnabled) : unlockAudio}
+                            className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl border-2 transition-all font-black text-[10px] tracking-widest ${soundEnabled ? 'bg-orange-50 border-orange-100 text-[#ff7a21] shadow-lg shadow-orange-500/5' : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-gray-100'}`}
                         >
-                            {soundEnabled ? <Volume2 size={18} /> : <Volume2 size={18} style={{ opacity: 0.5 }} />}
-                            {soundEnabled ? 'Ses Açık' : 'Ses Kapalı'}
+                            <Volume2 size={18} strokeWidth={3} className={soundEnabled ? 'animate-pulse' : 'opacity-40'} />
+                            {!audioUnlocked ? 'SESİ AKTİF ET' : (soundEnabled ? 'SES AÇIK' : 'SES KAPALI')}
                         </button>
 
                         <button
                             onClick={fetchData}
-                            style={{
-                                background: 'white',
-                                border: '1px solid #d1d5db',
-                                padding: '8px',
-                                borderRadius: '6px',
-                                cursor: 'pointer',
-                                color: '#6b7280'
-                            }}
+                            className="bg-gray-900 text-white p-3.5 rounded-2xl hover:bg-[#ff7a21] transition-all shadow-xl shadow-gray-900/10 active:scale-95 group"
                             title="Yenile"
                         >
-                            <Activity size={18} />
+                            <Activity size={20} className={loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'} strokeWidth={3} />
                         </button>
                     </div>
                 )}
             </div>
 
-            <div className="p-4 md:p-8">
+            <div className="p-8 md:p-12 lg:p-16">
                 {activeTab === 'orders' && (
-                    <>
-                        {loading && orders.length === 0 ? (
-                            <div style={{ textAlign: 'center', padding: '40px', color: '#9ca3af' }}>Yükleniyor...</div>
-                        ) : filteredOrders.length === 0 ? (
-                            <div style={{
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                padding: '60px',
-                                background: 'white',
-                                borderRadius: '16px',
-                                border: '1px dashed #e5e7eb'
-                            }}>
-                                <div style={{ background: '#f3f4f6', padding: '20px', borderRadius: '50%', marginBottom: '20px' }}>
-                                    <ShoppingBag size={48} color="#9ca3af" />
-                                </div>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#374151', fontSize: '1.1rem' }}>Sipariş Bulunamadı</h3>
-                                <p style={{ margin: 0, color: '#9ca3af', fontSize: '0.9rem' }}>
-                                    {statusFilter !== 'ALL' ? 'Bu filtrede görüntülenecek sipariş yok.' : 'Henüz hiç sipariş almadınız.'}
-                                </p>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
-                                <AnimatePresence>
-                                    {filteredOrders.map((order) => (
-                                        <motion.div
-                                            key={order.id}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            exit={{ opacity: 0, scale: 0.95 }}
-                                            style={{
-                                                background: 'white',
-                                                borderRadius: '12px',
-                                                boxShadow: '0 2px 10px rgba(0,0,0,0.03)',
-                                                border: '1px solid #e5e7eb',
-                                                overflow: 'hidden',
-                                                display: 'flex',
-                                                flexDirection: 'column'
-                                            }}
-                                        >
-                                            {/* Card Header */}
-                                            <div style={{ padding: '16px', borderBottom: '1px solid #f3f4f6', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: order.status === 'PENDING' ? '#fff7ed' : 'white' }}>
-                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                                    <div style={{ background: '#111827', color: 'white', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 'bold', fontSize: '0.9rem' }}>
-                                                        {order.tableId || 'P'}
-                                                    </div>
-                                                    <div>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.75rem', fontWeight: 600 }}>
-                                                            <span style={{ color: '#6b7280' }}>{order.tableId ? 'Masa' : 'Paket'}</span>
-                                                            {(order as any).note?.startsWith('🔔 EK SİPARİŞ') && (
-                                                                <span style={{ background: '#7c3aed', color: 'white', fontSize: '9px', fontWeight: '800', padding: '2px 6px', borderRadius: '10px', letterSpacing: '0.5px' }}>🔔 EK SİPARİŞ</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-10">
+                        <AnimatePresence>
+                            {filteredOrders.map((order) => (
+                                <motion.div
+                                    key={order.id}
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+                                    className={`bg-white rounded-[40px] shadow-sm border-2 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group overflow-hidden flex flex-col ${order.status === 'PENDING' ? 'border-orange-100 shadow-orange-500/5' : 'border-gray-50'}`}
+                                >
+                                    {/* Card Header */}
+                                    <div className={`p-8 border-b-2 border-gray-50 flex justify-between items-center ${order.status === 'PENDING' ? 'bg-orange-50/30' : 'bg-white'}`}>
+                                        <div className="flex items-center gap-5">
+                                            <div className="bg-gray-900 text-white w-14 h-14 rounded-2xl flex flex-col items-center justify-center shadow-lg shadow-gray-900/20 group-hover:-rotate-6 transition-transform">
+                                                <span className="text-[10px] font-black opacity-50 leading-none">MASA</span>
+                                                <span className="text-xl font-black">{order.tableId || 'P'}</span>
+                                            </div>
+                                            <div>
+                                                <div className="flex items-center gap-3 mb-1">
+                                                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{order.tableId ? 'SİPARİŞ' : 'PAKET SİPARİŞ'}</span>
+                                                    {(order as any).note?.toUpperCase().includes('EK SİPARİŞ') && (
+                                                        <span className="bg-purple-100 text-purple-600 text-[8px] font-black px-2 py-0.5 rounded-lg border border-purple-200 tracking-[0.2em] animate-pulse">🔔 EK</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex items-center gap-2">
+                                                    <Clock size={12} className="text-[#ff7a21]" strokeWidth={3} />
+                                                    <span className="text-xs font-black text-gray-900 tracking-tight">{getElapsedTime(order.createdAt)}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <StatusBadge status={order.status} />
+                                    </div>
+
+                                    {/* Items Container */}
+                                    <div className="p-8 flex-1">
+                                        <div className="space-y-4 mb-8">
+                                            {order.items && Object.values(order.items).map((item: any, idx: number) => (
+                                                <div key={idx} className="flex justify-between items-start group/item">
+                                                    <div className="flex gap-4 items-start">
+                                                        <div className="bg-orange-50 text-[#ff7a21] text-[11px] font-black w-7 h-7 flex items-center justify-center rounded-lg border border-orange-100 shrink-0">
+                                                            {item.quantity}
+                                                        </div>
+                                                        <div className="pt-0.5">
+                                                            <p className="text-sm font-black text-gray-800 tracking-tight leading-tight">{item.name}</p>
+                                                            {item.options && (
+                                                                <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase italic">{item.options.join(', ')}</p>
                                                             )}
                                                         </div>
-                                                        <div style={{ fontSize: '0.75rem', color: '#374151', fontWeight: 600 }}>{getElapsedTime(order.createdAt)}</div>
                                                     </div>
+                                                    <span className="text-sm font-black text-gray-400 tracking-tighter">{(item.price * item.quantity).toFixed(2)}₺</span>
                                                 </div>
-                                                <StatusBadge status={order.status} />
-                                            </div>
+                                            ))}
+                                        </div>
 
-                                            {/* Items */}
-                                            <div style={{ padding: '16px', flex: 1 }}>
-                                                <ul style={{ listStyle: 'none', padding: 0, margin: 0, fontSize: '0.9rem' }}>
-                                                    {order.items && Object.values(order.items).map((item: any, idx: number) => (
-                                                        <li key={idx} style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '8px', alignItems: 'flex-start' }}>
-                                                            <div style={{ display: 'flex', gap: '8px' }}>
-                                                                <span style={{ color: '#ff7a21', fontWeight: 'bold', minWidth: '20px' }}>{item.quantity}x</span>
-                                                                <span style={{ color: '#374151' }}>{item.name}</span>
-                                                            </div>
-                                                            <span style={{ color: '#6b7280', fontSize: '0.85rem' }}>{(item.price * item.quantity).toFixed(2)}₺</span>
-                                                        </li>
-                                                    ))}
-                                                </ul>
-                                                {/* Order Note */}
-                                                {(order as any).note && (
-                                                    <div style={{ marginTop: '10px', padding: '8px 10px', background: '#f5f3ff', borderRadius: '8px', fontSize: '0.78rem', color: '#6d28d9', fontWeight: 600, borderLeft: '3px solid #7c3aed' }}>
-                                                        📝 {(order as any).note}
+                                        {(order as any).note && (
+                                            <div className="bg-rose-50/50 p-5 rounded-3xl border-2 border-rose-100 border-dashed group/note hover:bg-rose-50 transition-colors">
+                                                <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-2 flex items-center gap-2">
+                                                    <FileText size={12} strokeWidth={3} /> Müşteri Notu
+                                                </p>
+                                                <p className="text-xs font-black text-rose-600/90 leading-relaxed italic">
+                                                    "{(order as any).note}"
+                                                </p>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Action Footer */}
+                                    <div className="p-8 bg-gray-50 border-t-2 border-gray-100 space-y-6">
+                                        <div className="flex justify-between items-end">
+                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Toplam Hesap</div>
+                                            <div className="text-3xl font-black text-gray-900 tracking-tighter">{order.totalAmount.toFixed(2)}<span className="text-base font-black text-gray-400 ml-1">₺</span></div>
+                                        </div>
+
+                                        <div className="flex gap-4">
+                                            {order.status === 'PENDING' && (
+                                                <>
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95 shadow-sm">
+                                                        <Eye size={20} strokeWidth={3} />
+                                                    </button>
+                                                    <button onClick={() => updateOrderStatus(order.id, 'CANCELLED')} className="flex-1 py-4 px-6 rounded-2xl border-2 border-rose-100 text-rose-500 text-xs font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all active:scale-95">İptal</button>
+                                                    <button onClick={() => updateOrderStatus(order.id, 'PREPARING')} className="flex-[2] py-4 px-6 rounded-2xl bg-[#ff7a21] text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:scale-[1.05] active:scale-95 transition-all flex items-center justify-center gap-2">
+                                                        <ChefHat size={18} strokeWidth={3} /> Hazırla
+                                                    </button>
+                                                </>
+                                            )}
+                                            {order.status === 'PREPARING' && (
+                                                <>
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95 shadow-sm">
+                                                        <Eye size={20} strokeWidth={3} />
+                                                    </button>
+                                                    <button onClick={() => updateOrderStatus(order.id, 'SERVED')} className="flex-1 py-4 px-6 rounded-2xl bg-emerald-500 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.05] active:scale-95 transition-all flex items-center justify-center gap-3">
+                                                        <CheckCircle2 size={18} strokeWidth={3} /> Servis Edildi
+                                                    </button>
+                                                </>
+                                            )}
+                                            {['SERVED', 'COMPLETED', 'CANCELLED'].includes(order.status) && (
+                                                <div className="w-full flex gap-4 items-center">
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all shadow-sm">
+                                                        <Eye size={20} strokeWidth={3} />
+                                                    </button>
+                                                    <div className={`flex-1 flex flex-col items-center justify-center py-3 rounded-2xl border-2 italic font-black text-[10px] tracking-[0.25em] ${order.status === 'CANCELLED' ? 'bg-rose-50 border-rose-100 text-rose-500' : 'bg-emerald-50 border-emerald-100 text-emerald-500'}`}>
+                                                        {order.status === 'CANCELLED' ? '🔴 İPTAL' : '🟢 AKTİF'}
                                                     </div>
-                                                )}
-                                            </div>
-
-                                            {/* Footer Actions */}
-                                            <div style={{ padding: '16px', background: '#f9fafb', borderTop: '1px solid #f3f4f6' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '12px' }}>
-                                                    <span style={{ color: '#6b7280', fontSize: '0.85rem', fontWeight: 500 }}>Toplam Tutar</span>
-                                                    <span style={{ color: '#111827', fontSize: '1.1rem', fontWeight: '700' }}>{order.totalAmount.toFixed(2)}₺</span>
+                                                    {order.status === 'SERVED' && (
+                                                        <button onClick={() => updateOrderStatus(order.id, 'COMPLETED')} className="p-4 rounded-2xl bg-gray-900 text-white hover:bg-black transition-all shadow-xl shadow-gray-400/20">
+                                                            <CheckCircle2 size={20} strokeWidth={3} />
+                                                        </button>
+                                                    )}
+                                                    <button onClick={() => deleteOrder(order.id)} className="p-3 bg-rose-50 text-rose-400 rounded-xl hover:bg-rose-100 hover:text-rose-600 transition-colors">
+                                                        <Trash2 size={18} strokeWidth={3} />
+                                                    </button>
                                                 </div>
-                                                <div style={{ display: 'flex', gap: '8px' }}>
-                                                    {order.status === 'PENDING' && (
-                                                        <>
-                                                            <button onClick={() => setViewReceiptOrder(order)} title="Fişi Görüntüle" style={{ padding: '8px', borderRadius: '6px', background: '#f3f4f6', color: '#4b5563', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                                                                <Eye size={16} />
-                                                            </button>
-                                                            <button onClick={() => updateOrderStatus(order.id, 'CANCELLED')} style={{ flex: 1, padding: '8px', borderRadius: '6px', border: '1px solid #fee2e2', background: 'white', color: '#dc2626', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer' }}>Reddet</button>
-                                                            <button onClick={() => updateOrderStatus(order.id, 'PREPARING')} style={{ flex: 1.5, padding: '8px', borderRadius: '6px', background: '#ff7a21', color: 'white', border: 'none', fontSize: '0.85rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                                                                <ChefHat size={16} /> Onayla
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                    {order.status === 'PREPARING' && (
-                                                        <>
-                                                            <button onClick={() => setViewReceiptOrder(order)} title="Fişi Görüntüle" style={{ padding: '8px', borderRadius: '6px', background: '#f3f4f6', color: '#4b5563', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                                                                <Eye size={16} />
-                                                            </button>
-                                                            <button onClick={() => updateOrderStatus(order.id, 'SERVED')} style={{ width: '100%', padding: '10px', borderRadius: '6px', background: '#22c55e', color: 'white', border: 'none', fontSize: '0.85rem', fontWeight: 700, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
-                                                                <CheckCircle2 size={18} /> Teslim Et / Servis Et
-                                                            </button>
-                                                        </>
-                                                    )}
-                                                    {['SERVED', 'COMPLETED', 'CANCELLED'].includes(order.status) && (
-                                                        <div style={{ width: '100%', display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                            <button onClick={() => setViewReceiptOrder(order)} title="Fişi Görüntüle" style={{ padding: '8px', borderRadius: '6px', background: '#f3f4f6', color: '#4b5563', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                                                                <Eye size={16} />
-                                                            </button>
-                                                            <div style={{ flex: 1, textAlign: 'center', fontSize: '0.8rem', color: order.status === 'CANCELLED' ? '#ef4444' : '#22c55e', fontWeight: 700, background: order.status === 'CANCELLED' ? '#fef2f2' : '#f0fdf4', padding: '6px', borderRadius: '6px' }}>
-                                                                {order.status === 'CANCELLED' ? 'İPTAL EDİLDİ' : (order.status === 'SERVED' ? 'SERVİS EDİLDİ' : 'TAMAMLANDI')}
-                                                            </div>
-                                                            {order.status === 'SERVED' && (
-                                                                <button onClick={() => updateOrderStatus(order.id, 'COMPLETED')} title="Tamamla" style={{ padding: '8px', borderRadius: '6px', background: '#374151', color: 'white', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}>
-                                                                    <CheckCircle2 size={16} />
-                                                                </button>
-                                                            )}
-                                                            <button
-                                                                onClick={() => deleteOrder(order.id)}
-                                                                title="Siparişi Sil"
-                                                                style={{ padding: '8px', borderRadius: '6px', background: '#fee2e2', color: '#dc2626', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer' }}
-                                                            >
-                                                                <Trash2 size={16} />
-                                                            </button>
-                                                        </div>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </motion.div>
-                                    ))}
-                                </AnimatePresence>
-                            </div>
-                        )}
-                    </>
+                                            )}
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
                 )}
 
                 {activeTab === 'waiter' && (
-                    <>
-                        {waiterCalls.length === 0 ? (
-                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '60px', background: 'white', borderRadius: '16px', border: '1px dashed #e5e7eb' }}>
-                                <div style={{ background: '#f3f4f6', padding: '20px', borderRadius: '50%', marginBottom: '20px' }}>
-                                    <Bell size={48} color="#9ca3af" />
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                        {waiterCalls.filter(call => {
+                            if (call.status !== 'COMPLETED') return true;
+                            const ageInMs = new Date().getTime() - new Date(call.updatedAt || call.createdAt).getTime();
+                            return ageInMs < 60000;
+                        }).map((call) => (
+                            <motion.div
+                                key={call.id}
+                                layout
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                className={`bg-white rounded-[40px] p-10 shadow-sm border-2 text-center transition-all hover:scale-[1.02] ${call.status === 'PENDING' ? 'border-[#ff7a21] shadow-2xl shadow-orange-500/10' : 'border-gray-50'}`}
+                            >
+                                <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">MASA NUMARASI</div>
+                                <div className="text-7xl font-black text-gray-900 tracking-tighter mb-8 leading-none">{call.tableId}</div>
+
+                                <div className="flex items-center justify-center gap-2 mb-10 bg-rose-50/50 py-3 px-6 rounded-2xl border border-rose-100 inline-flex mx-auto">
+                                    <Clock size={16} className="text-rose-500 animate-pulse" strokeWidth={3} />
+                                    <span className="text-[11px] font-black text-rose-600 tracking-wide uppercase">{getElapsedTime(call.createdAt)}</span>
                                 </div>
-                                <h3 style={{ margin: '0 0 8px 0', color: '#374151', fontSize: '1.1rem' }}>Çağrı Yok</h3>
-                                <p style={{ margin: 0, color: '#9ca3af', fontSize: '0.9rem' }}>Şu an aktif bir garson çağrısı bulunmuyor.</p>
-                            </div>
-                        ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-                                <AnimatePresence>
-                                    {waiterCalls
-                                        .filter(call => {
-                                            if (call.status !== 'COMPLETED') return true;
-                                            const completedTime = new Date(call.updatedAt || call.createdAt).getTime();
-                                            const now = new Date().getTime();
-                                            // Hide if completed more than 1 minute ago (60000ms)
-                                            return (now - completedTime) < 60000;
-                                        })
-                                        .map((call) => (
-                                            <motion.div
-                                                key={call.id}
-                                                initial={{ opacity: 0, scale: 0.95 }}
-                                                animate={{ opacity: 1, scale: 1 }}
-                                                exit={{ opacity: 0, scale: 0.95 }}
-                                                style={{
-                                                    background: 'white',
-                                                    borderRadius: '12px',
-                                                    boxShadow: '0 2px 10px rgba(0,0,0,0.05)',
-                                                    border: call.status === 'PENDING' ? '1px solid #ff7a21' : '1px solid #e5e7eb',
-                                                    overflow: 'hidden'
-                                                }}
-                                            >
-                                                <div style={{ padding: '20px', textAlign: 'center' }}>
-                                                    <div style={{ marginBottom: '16px' }}>
-                                                        <span style={{ fontSize: '0.8rem', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 600 }}>Masa No</span>
-                                                        <div style={{ fontSize: '3rem', fontWeight: '800', color: '#111827', lineHeight: 1 }}>{call.tableId}</div>
-                                                    </div>
-                                                    <div style={{ marginBottom: '20px' }}>
-                                                        <div style={{ fontSize: '0.85rem', color: '#ef4444', fontWeight: 600, display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}>
-                                                            <Clock size={14} />
-                                                            {getElapsedTime(call.createdAt)}
-                                                        </div>
-                                                    </div>
-                                                    <div style={{ display: 'flex', gap: '10px' }}>
-                                                        {call.status === 'PENDING' ? (
-                                                            <button
-                                                                onClick={() => updateCallStatus(call.id, 'COMPLETED')}
-                                                                style={{ width: '100%', padding: '12px', background: '#ff7a21', color: 'white', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
-                                                            >
-                                                                <CheckCircle2 size={18} />
-                                                                İlgilenildi
-                                                            </button>
-                                                        ) : (
-                                                            <button
-                                                                disabled
-                                                                style={{ width: '100%', padding: '12px', background: '#f3f4f6', color: '#9ca3af', border: 'none', borderRadius: '8px', fontWeight: 600, cursor: 'not-allowed' }}
-                                                            >
-                                                                Tamamlandı
-                                                            </button>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </motion.div>
-                                        ))}
-                                </AnimatePresence>
-                            </div>
-                        )}
-                    </>
+
+                                {call.status === 'PENDING' ? (
+                                    <button
+                                        onClick={() => updateCallStatus(call.id, 'COMPLETED')}
+                                        className="w-full py-5 bg-[#ff7a21] text-white rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 active:scale-95 transition-all"
+                                    >
+                                        <CheckCircle2 size={24} strokeWidth={3} /> İLGİLENİLDİ
+                                    </button>
+                                ) : (
+                                    <div className="w-full py-5 bg-gray-50 border-2 border-gray-100 text-gray-400 rounded-[24px] font-black uppercase tracking-[0.2em] text-[10px] italic">
+                                        TAMAMLANDI
+                                    </div>
+                                )}
+                            </motion.div>
+                        ))}
+                    </div>
                 )}
             </div>
-            {/* Receipt Modal */}
+
+            {/* Elite Receipt Modal */}
             <AnimatePresence>
                 {viewReceiptOrder && (
-                    <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 9999, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px' }} onClick={() => setViewReceiptOrder(null)}>
+                    <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-6" onClick={() => setViewReceiptOrder(null)}>
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 50, scale: 0.95 }}
                             onClick={e => e.stopPropagation()}
-                            style={{ background: 'white', borderRadius: '12px', width: '100%', maxWidth: '380px', overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1)' }}
+                            className="bg-white rounded-[48px] w-full max-w-[440px] overflow-hidden shadow-2xl flex flex-col"
                         >
-                            {/* Modal Header */}
-                            <div style={{ padding: '16px', borderBottom: '1px solid #e5e7eb', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#f9fafb' }}>
-                                <h3 style={{ margin: 0, fontSize: '1rem', fontWeight: 600, color: '#111827', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <ShoppingBag size={18} /> Sipariş Fişi
-                                </h3>
-                                <button onClick={() => setViewReceiptOrder(null)} style={{ background: 'none', border: 'none', color: '#9ca3af', cursor: 'pointer', padding: '4px' }}>
-                                    <XCircle size={20} />
+                            <div className="p-8 border-b-2 border-gray-50 flex justify-between items-center bg-gray-50/50">
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                        <Printer size={20} strokeWidth={3} />
+                                    </div>
+                                    <h3 className="font-black text-gray-900 uppercase tracking-tight text-lg">Sipariş Fişi</h3>
+                                </div>
+                                <button onClick={() => setViewReceiptOrder(null)} className="w-12 h-12 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-gray-400 hover:text-rose-500 hover:border-rose-100 transition-all active:scale-90 shadow-sm">
+                                    <XCircle size={24} strokeWidth={3} />
                                 </button>
                             </div>
 
-                            {/* Ticket Content */}
-                            <div id="receipt-content" style={{ padding: '24px', fontFamily: '"Courier New", Courier, monospace', color: '#111827', background: '#fff' }}>
-                                <div style={{ textAlign: 'center', marginBottom: '20px', borderBottom: '2px dashed #d1d5db', paddingBottom: '16px' }}>
-                                    <h2 style={{ margin: '0 0 8px 0', fontSize: '1.2rem', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1px' }}>SİPARİŞ DETAYI</h2>
-                                    <div style={{ fontSize: '0.85rem', color: '#4b5563', marginBottom: '4px' }}>TARİH: {new Date(viewReceiptOrder.createdAt).toLocaleString('tr-TR')}</div>
-                                    <div style={{ fontSize: '0.95rem', fontWeight: 700, background: '#111827', color: 'white', display: 'inline-block', padding: '4px 12px', borderRadius: '4px', marginTop: '8px' }}>
+                            <div id="receipt-content" className="p-10 text-gray-900 bg-white">
+                                <div className="text-center mb-10 border-b-4 border-gray-900 border-double pb-10">
+                                    <h2 className="text-3xl font-black tracking-tighter mb-4">MESA RESTORAN</h2>
+                                    <div className="text-xs font-black text-gray-400 space-y-2 uppercase tracking-widest">
+                                        <div>Fiş No: #{(viewReceiptOrder.id || '').slice(-6).toUpperCase()}</div>
+                                        <div>Tarih: {new Date(viewReceiptOrder.createdAt).toLocaleString('tr-TR')}</div>
+                                    </div>
+                                    <div className="mt-8 bg-gray-900 text-white py-4 px-8 rounded-2xl inline-block text-xl font-black">
                                         {viewReceiptOrder.tableId ? `MASA ${viewReceiptOrder.tableId}` : 'PAKET SERVİS'}
                                     </div>
                                 </div>
 
-                                <table style={{ width: '100%', fontSize: '0.9rem', marginBottom: '16px', borderCollapse: 'collapse' }}>
-                                    <thead>
-                                        <tr style={{ borderBottom: '1px solid #e5e7eb' }}>
-                                            <th style={{ textAlign: 'left', paddingBottom: '8px' }}>ÜRÜN</th>
-                                            <th style={{ textAlign: 'center', paddingBottom: '8px' }}>MİKTAR</th>
-                                            <th style={{ textAlign: 'right', paddingBottom: '8px' }}>TUTAR</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {viewReceiptOrder.items && Object.values(viewReceiptOrder.items).map((item: any, idx: number) => (
-                                            <tr key={idx}>
-                                                <td style={{ padding: '8px 0', borderBottom: '1px dashed #f3f4f6' }}>
-                                                    <div style={{ fontWeight: 600 }}>{item.name}</div>
-                                                </td>
-                                                <td style={{ padding: '8px 0', textAlign: 'center', borderBottom: '1px dashed #f3f4f6' }}>{item.quantity}</td>
-                                                <td style={{ padding: '8px 0', textAlign: 'right', borderBottom: '1px dashed #f3f4f6' }}>{(item.price * item.quantity).toFixed(2)}₺</td>
-                                            </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-
-                                <div style={{ borderTop: '2px solid #111827', paddingTop: '16px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                    <span style={{ fontSize: '1.1rem', fontWeight: 700 }}>GENEL TOPLAM</span>
-                                    <span style={{ fontSize: '1.25rem', fontWeight: 800 }}>{viewReceiptOrder.totalAmount.toFixed(2)}₺</span>
+                                <div className="space-y-6 mb-12">
+                                    {viewReceiptOrder.items && Object.values(viewReceiptOrder.items).map((item: any, idx: number) => (
+                                        <div key={idx} className="flex justify-between items-start gap-4">
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="font-black text-lg">{item.quantity}x</span>
+                                                    <span className="font-black text-gray-800 tracking-tight uppercase text-sm leading-tight">{item.name}</span>
+                                                </div>
+                                                {item.options && (
+                                                    <div className="text-[10px] font-bold text-gray-400 ml-9 mt-1 italic leading-none">{item.options.join(' / ')}</div>
+                                                )}
+                                            </div>
+                                            <span className="font-black text-gray-900 text-sm">{(item.price * item.quantity).toFixed(2)}₺</span>
+                                        </div>
+                                    ))}
                                 </div>
-                                <div style={{ textAlign: 'center', marginTop: '24px', fontSize: '0.8rem', color: '#6b7280' }}>
-                                    Teşekkür Ederiz
+
+                                <div className="border-t-4 border-gray-900 pt-8 flex justify-between items-end">
+                                    <div className="text-xs font-black text-gray-400 uppercase tracking-widest pb-1">Genel Toplam</div>
+                                    <div className="text-4xl font-black tracking-tighter leading-none">{viewReceiptOrder.totalAmount.toFixed(2)}₺</div>
                                 </div>
                             </div>
 
-                            {/* Modal Footer Actions */}
-                            <div style={{ padding: '16px', borderTop: '1px solid #e5e7eb', background: '#f9fafb', display: 'flex', gap: '12px' }}>
+                            <div className="p-10 bg-gray-50 flex gap-4">
                                 <button
                                     onClick={() => {
                                         const printContent = document.getElementById('receipt-content');
-                                        const originalContents = document.body.innerHTML;
                                         if (printContent) {
                                             const printWindow = window.open('', '_blank');
                                             if (printWindow) {
                                                 printWindow.document.write(`
                                                     <html>
                                                         <head>
-                                                            <title>Fiş Yazdır</title>
                                                             <style>
-                                                                body { font-family: "Courier New", Courier, monospace; color: #000; padding: 10px; margin: 0; width: 80mm; }
-                                                                @media print { 
-                                                                    body { width: 80mm; padding: 0; margin: 0; }
-                                                                    @page { margin: 0; size: 80mm auto; }
-                                                                }
+                                                                @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700;800&display=swap');
+                                                                body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; width: 80mm; margin: 0; background: white; }
                                                                 * { box-sizing: border-box; }
-                                                                table { width: 100%; border-collapse: collapse; }
-                                                                .text-center { textAlign: center; }
-                                                                .font-bold { fontWeight: bold; }
+                                                                .text-center { text-align: center; }
+                                                                .font-black { font-weight: 800; }
+                                                                .tracking-tighter { letter-spacing: -0.05em; }
+                                                                .uppercase { text-transform: uppercase; }
+                                                                .text-4xl { font-size: 24pt; }
+                                                                .mb-10 { margin-bottom: 30pt; }
+                                                                .mt-8 { margin-top: 20pt; }
+                                                                .space-y-6 > * + * { margin-top: 15pt; }
+                                                                @media print { @page { margin: 0; size: 80mm auto; } body { width: 80mm; } }
+                                                                .receipt-box { border: 2px solid #000; padding: 20pt; border-radius: 10pt; }
                                                             </style>
                                                         </head>
-                                                        <body>
-                                                            ${printContent.innerHTML}
-                                                        </body>
+                                                        <body>${printContent.innerHTML}</body>
                                                     </html>
                                                 `);
                                                 printWindow.document.close();
-                                                printWindow.focus();
-                                                setTimeout(() => {
-                                                    printWindow.print();
-                                                    printWindow.close();
-                                                }, 250);
+                                                setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
                                             }
                                         }
                                     }}
-                                    style={{ flex: 1, padding: '10px', borderRadius: '6px', background: '#111827', color: 'white', border: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', cursor: 'pointer', fontWeight: 600 }}
+                                    className="flex-1 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 shadow-xl shadow-gray-900/20 active:scale-95 transition-all"
                                 >
-                                    <Printer size={18} /> Yazdır
+                                    <Printer size={20} strokeWidth={3} /> YAZDIR
                                 </button>
-                                <button
-                                    onClick={() => setViewReceiptOrder(null)}
-                                    style={{ flex: 1, padding: '10px', borderRadius: '6px', background: 'white', border: '1px solid #d1d5db', color: '#374151', cursor: 'pointer', fontWeight: 600 }}
-                                >
-                                    Kapat
+                                <button onClick={() => setViewReceiptOrder(null)} className="flex-1 py-5 bg-white border-2 border-gray-200 text-gray-400 rounded-[24px] font-black uppercase tracking-widest text-[10px] hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95">
+                                    KAPAT
                                 </button>
                             </div>
                         </motion.div>
@@ -668,4 +588,5 @@ export default function OrdersClient() {
             </AnimatePresence>
         </div>
     );
+
 }

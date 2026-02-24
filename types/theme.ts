@@ -1,4 +1,4 @@
-export type ThemeType = 'LITE' | 'CLASSIC' | 'MODERN' | 'SIGNATURE' | 'LUXURY' | 'FASTFOOD';
+export type ThemeType = 'LITE' | 'CLASSIC' | 'MODERN' | 'SIGNATURE' | 'LUXURY' | 'FASTFOOD' | 'MOBILE_APP';
 
 export interface ThemeColors {
     primary: string;

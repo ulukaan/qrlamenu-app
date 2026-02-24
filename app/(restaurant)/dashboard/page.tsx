@@ -22,13 +22,19 @@ const RechartsTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip
 const RechartsResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 
 const StatCard = ({ title, value, icon, iconBg, iconColor }: any) => (
-    <div className="stat-card">
-        <div className="stat-info">
-            <h3>{title}</h3>
-            <p>{value}</p>
+    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group flex flex-col gap-6">
+        <div className="flex justify-between items-start">
+            <div
+                className="w-16 h-16 rounded-3xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
+                style={{ backgroundColor: iconBg, color: iconColor }}
+            >
+                {React.cloneElement(icon as React.ReactElement, { size: 28, strokeWidth: 3 })}
+            </div>
+            <div className="bg-gray-50 px-4 py-2 rounded-xl text-[10px] font-black tracking-widest text-gray-400">AKTİF</div>
         </div>
-        <div className="stat-icon" style={{ backgroundColor: iconBg, color: iconColor }}>
-            {icon}
+        <div>
+            <h3 className="text-gray-400 font-bold uppercase text-[10px] tracking-[0.2em] mb-2">{title}</h3>
+            <p className="text-4xl font-black text-gray-900 tracking-tighter">{value}</p>
         </div>
     </div>
 );
@@ -51,16 +57,13 @@ export default function Dashboard() {
     React.useEffect(() => {
         const fetchDashboardData = async () => {
             try {
-                // 1. Get current user info
                 const userRes = await fetch('/api/auth/me');
                 if (!userRes.ok) {
-                    // Redirect to login if not authenticated
                     window.location.href = '/login';
                     return;
                 }
                 const userData = await userRes.json();
 
-                // Check if user is Super Admin
                 if (userData.user.role === 'SUPER_ADMIN') {
                     setStats({
                         orderCount: 0,
@@ -73,8 +76,6 @@ export default function Dashboard() {
                 }
 
                 const tenantId = userData.user.tenantId;
-
-                // 2. Fetch stats for this tenant
                 const statsRes = await fetch(`/api/restaurant/stats?tenantId=${tenantId}`);
                 const statsData = await statsRes.json();
 
@@ -91,88 +92,163 @@ export default function Dashboard() {
         fetchDashboardData();
     }, []);
 
-    // Helper to check if we are in "Admin Mode" causing 0 data
     const isSuperAdminView = !loading && stats.orderCount === 0 && stats.categoryCount === 0;
 
+    if (loading) return (
+        <div className="flex flex-col items-center justify-center min-h-[500px] gap-6">
+            <Activity size={56} className="animate-spin text-[#ff7a21]" />
+            <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Analiz Ediliyor...</p>
+        </div>
+    );
+
     return (
-        <div style={{ padding: '0' }}>
-            <div style={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '1.5rem 2rem',
-                background: 'transparent'
-            }}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: '500', color: '#333' }}>Gösterge Paneli</h1>
-                <button className="back-btn">
-                    Geri <ChevronRight size={14} /> Gösterge Paneli
-                </button>
-            </div>
+        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
+            {/* Page Header Area */}
+            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+                <div className="max-w-3xl">
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                        Gösterge Paneli
+                    </h2>
+                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
+                        Restoranınızın performansını, sipariş hacmini ve müşteri etkileşimlerini gerçek zamanlı izleyin.
+                    </p>
+                </div>
+                <div className="flex items-center gap-4 bg-gray-50 px-8 py-4 rounded-[28px] border-2 border-gray-100">
+                    <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-[#ff7a21]">
+                        <TrendingUp size={20} strokeWidth={3} />
+                    </div>
+                    <div>
+                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">Durum</p>
+                        <p className="text-sm font-black text-gray-900 leading-none">Canlı Takip Aktif</p>
+                    </div>
+                </div>
+            </header>
 
             {isSuperAdminView && (
-                <div style={{ margin: '0 2rem 1.5rem 2rem', padding: '1rem', background: '#eff6ff', border: '1px solid #dbeafe', borderRadius: '8px', color: '#1e40af', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                    <div style={{ background: '#3b82f6', color: 'white', borderRadius: '50%', width: '20px', height: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.75rem', fontWeight: 'bold' }}>i</div>
+                <div className="mb-12 p-8 bg-blue-50 border-2 border-blue-100 rounded-[32px] flex items-start gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
+                    <div className="bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
+                        <Activity size={24} strokeWidth={3} />
+                    </div>
                     <div>
-                        <strong>Süper Admin Görünümü:</strong> Şu anda bir restoran seçili değil. Restoran verilerini görmek için Yönetici Panelinden bir restoran seçerek "Yönet" diyebilirsiniz.
+                        <h4 className="text-blue-900 font-black text-lg mb-1 tracking-tight">Süper Admin Görünümü</h4>
+                        <p className="text-blue-700/70 font-medium leading-relaxed italic">
+                            Şu anda bir restoran seçili değil. Restoran verilerini görmek için Yönetici Panelinden bir restoran seçerek "Yönet" diyebilirsiniz.
+                        </p>
                     </div>
                 </div>
             )}
 
-            <div className="grid-dashboard">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 lg:gap-12 mb-12 lg:mb-16">
                 <StatCard
                     title="Bekleyen Siparişler"
-                    value={loading ? "..." : stats.pendingOrders.toString()}
-                    icon={<Activity size={32} />}
+                    value={stats.pendingOrders.toString()}
+                    icon={<Activity />}
                     iconBg="#fff1f2"
                     iconColor="#e11d48"
                 />
                 <StatCard
                     title="Toplam Siparişler"
-                    value={loading ? "..." : stats.orderCount.toString()}
-                    icon={<BarChart2 size={32} />}
+                    value={stats.orderCount.toString()}
+                    icon={<BarChart2 />}
                     iconBg="#f0fdf4"
                     iconColor="#16a34a"
                 />
                 <StatCard
                     title="Menü Kategorileri"
-                    value={loading ? "..." : stats.categoryCount.toString()}
-                    icon={<UtensilsCrossed size={32} />}
+                    value={stats.categoryCount.toString()}
+                    icon={<UtensilsCrossed />}
                     iconBg="#fffbeb"
                     iconColor="#d97706"
                 />
             </div>
 
-            <div style={{ padding: '0.5rem 2rem 2rem 2rem' }}>
-                <div className="card" style={{ minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1.5rem', borderBottom: '1px solid #eee', paddingBottom: '1rem' }}>
-                        <TrendingUp size={18} style={{ color: '#ff7a21' }} />
-                        <h2 style={{ fontSize: '1rem', fontWeight: '500', color: '#ff7a21' }}>Son 7 Günlük Analiz</h2>
+            <div className="grid grid-cols-1 gap-12">
+                <div className="bg-white rounded-[40px] p-10 md:p-12 shadow-sm border-2 border-gray-50 flex flex-col min-h-[500px]">
+                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12 border-b-2 border-gray-50 pb-10">
+                        <div className="flex items-center gap-5">
+                            <div className="bg-orange-50 text-[#ff7a21] p-4 rounded-2xl border-2 border-orange-100">
+                                <TrendingUp size={24} strokeWidth={3} />
+                            </div>
+                            <div>
+                                <h2 className="text-2xl font-black text-gray-900 tracking-tight">Performans Analizi</h2>
+                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">Son 7 Günlük Trend</p>
+                            </div>
+                        </div>
+                        <div className="flex gap-4">
+                            <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl">
+                                <div className="w-2 h-2 rounded-full bg-[#ff7a21]"></div>
+                                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Taramalar</span>
+                            </div>
+                            <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl">
+                                <div className="w-2 h-2 rounded-full bg-[#10b981]"></div>
+                                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Siparişler</span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div style={{
-                        flex: 1,
-                        width: '100%',
-                        height: '100%',
-                        minHeight: '300px'
-                    }}>
-                        {!loading && stats.monthlyScans && stats.monthlyScans.length > 0 ? (
-                            <RechartsResponsiveContainer width="100%" height={300}>
-                                <RechartsLineChart data={stats.monthlyScans} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
-                                    <RechartsCartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-                                    <RechartsXAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#888', fontSize: 12 }} dy={10} />
-                                    <RechartsYAxis axisLine={false} tickLine={false} tick={{ fill: '#888', fontSize: 12 }} />
-                                    <RechartsTooltip
-                                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                                    />
-                                    <RechartsLine type="monotone" dataKey="scans" name="QR Taramaları" stroke="#ff7a21" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
-                                    <RechartsLine type="monotone" dataKey="orders" name="Siparişler" stroke="#10b981" strokeWidth={3} dot={{ r: 4, strokeWidth: 2 }} activeDot={{ r: 6 }} />
-                                </RechartsLineChart>
-                            </RechartsResponsiveContainer>
+                    <div className="flex-1 w-full relative">
+                        {stats.monthlyScans && stats.monthlyScans.length > 0 ? (
+                            <div className="h-[400px] w-full">
+                                <RechartsResponsiveContainer width="100%" height="100%">
+                                    <RechartsLineChart data={stats.monthlyScans} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
+                                        <defs>
+                                            <linearGradient id="colorScans" x1="0" y1="0" x2="0" y2="1">
+                                                <stop offset="5%" stopColor="#ff7a21" stopOpacity={0.1} />
+                                                <stop offset="95%" stopColor="#ff7a21" stopOpacity={0} />
+                                            </linearGradient>
+                                        </defs>
+                                        <RechartsCartesianGrid strokeDasharray="6 6" vertical={false} stroke="#f1f5f9" />
+                                        <RechartsXAxis
+                                            dataKey="name"
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
+                                            dy={20}
+                                        />
+                                        <RechartsYAxis
+                                            axisLine={false}
+                                            tickLine={false}
+                                            tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
+                                            dx={-10}
+                                        />
+                                        <RechartsTooltip
+                                            contentStyle={{
+                                                borderRadius: '24px',
+                                                border: 'none',
+                                                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
+                                                padding: '20px',
+                                                backgroundColor: '#ffffff'
+                                            }}
+                                            itemStyle={{ fontWeight: 900, fontSize: '13px', padding: '4px 0' }}
+                                            labelStyle={{ color: '#94a3b8', fontWeight: 900, fontSize: '10px', textTransform: 'uppercase', marginBottom: '8px' }}
+                                        />
+                                        <RechartsLine
+                                            type="monotone"
+                                            dataKey="scans"
+                                            name="QR Taramaları"
+                                            stroke="#ff7a21"
+                                            strokeWidth={4}
+                                            dot={{ r: 6, fill: '#ff7a21', strokeWidth: 4, stroke: '#fff' }}
+                                            activeDot={{ r: 8, strokeWidth: 0 }}
+                                        />
+                                        <RechartsLine
+                                            type="monotone"
+                                            dataKey="orders"
+                                            name="Siparişler"
+                                            stroke="#10b981"
+                                            strokeWidth={4}
+                                            dot={{ r: 6, fill: '#10b981', strokeWidth: 4, stroke: '#fff' }}
+                                            activeDot={{ r: 8, strokeWidth: 0 }}
+                                        />
+                                    </RechartsLineChart>
+                                </RechartsResponsiveContainer>
+                            </div>
                         ) : (
-                            <div style={{
-                                width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#999', fontSize: '0.9rem'
-                            }}>
-                                {loading ? 'Yükleniyor...' : 'Grafik Verisi Mevcut Değil'}
+                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 group">
+                                <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center text-gray-200 group-hover:scale-110 transition-transform duration-500 border-2 border-dashed border-gray-100">
+                                    <BarChart2 size={40} strokeWidth={2.5} />
+                                </div>
+                                <p className="text-gray-400 font-black uppercase text-[10px] tracking-widest italic">Henüz yeterli veri seti oluşmadı</p>
                             </div>
                         )}
                     </div>
@@ -181,3 +257,4 @@ export default function Dashboard() {
         </div>
     );
 }
+

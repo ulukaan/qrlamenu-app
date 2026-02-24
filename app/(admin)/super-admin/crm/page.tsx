@@ -100,126 +100,151 @@ export default function CRMPage() {
     };
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
             {/* Page Header */}
-            <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>CRM & Müşteri İlişkileri</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Potansiyel müşteri akışını yönetin ve satışlarınızı takip edin.</p>
+            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+                <div className="max-w-3xl">
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                        CRM & Müşteri İlişkileri
+                    </h2>
+                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
+                        Potansiyel müşteri akışını yönetin, görüşme notlarını takip edin ve dönüşüm oranlarını analiz edin.
+                    </p>
                 </div>
-                <div style={{ display: 'flex', gap: '12px' }}>
+                <div className="w-full xl:w-auto">
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="hover:scale-105 active:scale-95 transition-all"
-                        style={{ background: '#ff7a21', color: '#fff', padding: '12px 24px', borderRadius: '14px', border: 'none', fontSize: '0.9rem', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '8px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', cursor: 'pointer' }}
+                        className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
                     >
-                        <Plus size={18} strokeWidth={3} /> Yeni Lead Tanımla
+                        <Plus size={20} strokeWidth={3} /> Yeni Lead Tanımla
                     </button>
                 </div>
-            </div>
+            </header>
 
             {/* Quick Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                 {[
-                    { label: 'Toplam Aday', value: stats.total, icon: Users, color: '#3b82f6', bg: '#eff6ff' },
-                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: '#ff7a21', bg: '#fff7ed' },
-                    { label: 'Dönüşüm Oranı', value: `%${stats.conversionRate}`, icon: TrendingUp, color: '#10b981', bg: '#f0fdf4' },
-                    { label: 'Dönüşenler', value: stats.converted, icon: CheckCircle2, color: '#6366f1', bg: '#f5f3ff' }
+                    { label: 'Toplam Aday', value: stats.total, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50', border: 'border-blue-100', shadow: 'hover:shadow-blue-500/5' },
+                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-100', shadow: 'hover:shadow-orange-500/5' },
+                    { label: 'Dönüşüm Oranı', value: `%${stats.conversionRate}`, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50', border: 'border-emerald-100', shadow: 'hover:shadow-emerald-500/5' },
+                    { label: 'Dönüşenler', value: stats.converted, icon: CheckCircle2, color: 'text-violet-500', bg: 'bg-violet-50', border: 'border-violet-100', shadow: 'hover:shadow-violet-500/5' }
                 ].map((stat, i) => (
-                    <div key={i} className="card" style={{ border: 'none', padding: '24px', background: '#fff', boxShadow: '0 15px 25px -5px rgba(0, 0, 0, 0.04)', borderRadius: '24px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                        <div>
-                            <p style={{ margin: '0 0 6px 0', fontSize: '0.7rem', fontWeight: '900', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.1em' }}>{stat.label}</p>
-                            <h3 style={{ margin: 0, fontSize: '1.6rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>{loading ? '...' : stat.value}</h3>
-                        </div>
-                        <div style={{ background: stat.bg, padding: '12px', borderRadius: '14px', color: stat.color, boxShadow: `inset 0 2px 4px rgba(0,0,0,0.02)` }}>
-                            <stat.icon size={24} strokeWidth={2.5} />
+                    <div key={i} className={`group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl ${stat.shadow} transition-all duration-500 border-2 border-transparent hover:border-gray-100 relative overflow-hidden`}>
+                        <div className="relative z-10 flex justify-between items-start">
+                            <div>
+                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{stat.label}</p>
+                                <h3 className="text-4xl font-black text-gray-900 tracking-tighter leading-none">{loading ? '...' : stat.value}</h3>
+                            </div>
+                            <div className={`${stat.bg} ${stat.color} p-5 rounded-3xl border ${stat.border} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
+                                <stat.icon size={28} strokeWidth={2.5} />
+                            </div>
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '24px', background: '#fff' }}>
-                        <div style={{ padding: '24px 32px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Lead Akışı & Potansiyeller</h3>
-                                <div style={{ background: '#f8fafc', padding: '4px 10px', borderRadius: '8px', fontSize: '0.75rem', fontWeight: '900', color: '#64748b', border: '1px solid #e2e8f0' }}>{filteredLeads.length} KAYIT</div>
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-12 items-start">
+                <div className="space-y-10 min-w-0">
+                    <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
+                        <div className="px-10 py-8 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50/50 gap-6">
+                            <div className="flex items-center gap-4">
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Lead Akışı</h3>
+                                <span className="bg-white border-2 border-gray-100 px-4 py-1.5 rounded-full text-[10px] font-black text-gray-400 tracking-widest uppercase shadow-sm">
+                                    {filteredLeads.length} KAYIT
+                                </span>
                             </div>
                         </div>
-                        <div style={{ padding: '28px', background: '#fff' }}>
+
+                        <div className="p-10">
                             {loading ? (
-                                <div style={{ textAlign: 'center', padding: '60px' }}>
-                                    <Loader2 className="animate-spin text-orange-500" size={40} style={{ margin: '0 auto' }} />
-                                    <p style={{ marginTop: '16px', color: '#64748b', fontWeight: '800', fontSize: '1rem' }}>Sistem Verilerine Erişiliyor...</p>
+                                <div className="py-40 text-center">
+                                    <Loader2 className="animate-spin text-[#ff7a21] mx-auto mb-6" size={48} />
+                                    <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</p>
                                 </div>
                             ) : error ? (
-                                <div style={{ color: '#f43f5e', textAlign: 'center', padding: '40px', fontWeight: '900', background: '#fff1f2', borderRadius: '16px' }}>{error}</div>
+                                <div className="p-10 text-center font-black text-rose-500 bg-rose-50 rounded-[32px] border-2 border-rose-100">{error}</div>
                             ) : filteredLeads.length === 0 ? (
-                                <div style={{ textAlign: 'center', padding: '80px', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                                    <div style={{ width: '64px', height: '64px', background: '#f8fafc', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
-                                        <Users size={32} style={{ color: '#cbd5e1' }} />
+                                <div className="py-40 text-center flex flex-col items-center justify-center">
+                                    <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center mb-8 text-gray-200 border-2 border-gray-100 shadow-inner">
+                                        <Users size={48} strokeWidth={1} />
                                     </div>
-                                    <h4 style={{ color: '#111827', fontWeight: '900', fontSize: '1.1rem', marginBottom: '8px' }}>Eşleşen Lead Bulunamadı</h4>
-                                    <p style={{ color: '#64748b', fontWeight: '500', maxWidth: '300px', lineHeight: '1.5', fontSize: '0.9rem' }}>Seçili filtreye uygun kayıtlı potansiyel müşteri bulunmamaktadır.</p>
+                                    <h4 className="text-xl font-black text-gray-900 mb-2">Eşleşen Kayıt Bulunamadı</h4>
+                                    <p className="text-gray-400 font-bold max-w-[320px] leading-relaxed italic">Seçili filtrelere uygun potansiyel müşteri kaydı mevcut değil.</p>
                                 </div>
                             ) : (
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                                <div className="space-y-8">
                                     {filteredLeads.map((lead) => (
-                                        <div key={lead.id} className="lead-item group" style={{ display: 'flex', gap: '24px', padding: '24px', borderRadius: '20px', background: '#fff', border: '1px solid #f1f5f9', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', position: 'relative' }}>
-                                            <div style={{ position: 'absolute', inset: 0, borderRadius: '20px', background: 'linear-gradient(90deg, #f8fafc 0%, transparent 100%)', opacity: 0, transition: '0.3s' }} className="group-hover:opacity-100"></div>
+                                        <div key={lead.id} className="group relative bg-white rounded-[40px] border-2 border-gray-50 p-8 md:p-10 hover:shadow-2xl hover:shadow-gray-200/40 transition-all duration-500 overflow-hidden hover:border-orange-100">
+                                            {/* Glow Effect */}
+                                            <div className="absolute -left-10 -top-10 w-40 h-40 bg-gray-50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
-                                            <div style={{ width: '56px', height: '56px', background: '#fff', borderRadius: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#1e293b', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px rgba(0,0,0,0.03)', flexShrink: 0, position: 'relative' }}>
-                                                <Users size={24} strokeWidth={1.5} />
-                                            </div>
+                                            <div className="relative flex flex-col lg:flex-row gap-10 items-start">
+                                                <div className="w-16 h-16 bg-gray-900 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-xl shadow-gray-900/20 group-hover:bg-[#ff7a21] group-hover:shadow-orange-500/30 group-hover:rotate-6 transition-all duration-500">
+                                                    <Users size={28} strokeWidth={1.5} />
+                                                </div>
 
-                                            <div style={{ flex: 1, position: 'relative' }}>
-                                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '12px' }}>
-                                                    <div>
-                                                        <h4 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>
-                                                            {lead.name} {lead.restaurant && <span style={{ color: '#94a3b8', fontWeight: '700', fontSize: '0.85rem' }}>• {lead.restaurant}</span>}
-                                                        </h4>
-                                                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginTop: '4px' }}>
-                                                            <Calendar size={12} style={{ color: '#ff7a21' }} />
-                                                            <span style={{ fontSize: '0.75rem', fontWeight: '800', color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em' }}>KAYIT: {new Date(lead.createdAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
+                                                <div className="flex-1 space-y-8 w-full">
+                                                    <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
+                                                        <div>
+                                                            <h4 className="text-2xl font-black text-gray-900 tracking-tight flex flex-wrap items-center gap-3">
+                                                                {lead.name}
+                                                                {lead.restaurant && <span className="text-gray-400 font-black text-sm px-3 py-1 bg-gray-50 rounded-lg border border-gray-100">/ {lead.restaurant}</span>}
+                                                            </h4>
+                                                            <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-3">
+                                                                <Calendar size={14} className="text-[#ff7a21]" />
+                                                                KAYIT: {new Date(lead.createdAt).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' })}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="flex items-center gap-4 w-full sm:w-auto">
+                                                            <div className="relative flex-1 sm:flex-none">
+                                                                <select
+                                                                    value={lead.status}
+                                                                    onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
+                                                                    className={`w-full sm:w-48 text-[10px] font-black px-6 py-3 rounded-xl uppercase tracking-widest border-2 transition-all cursor-pointer outline-none appearance-none text-center shadow-sm ${lead.status === 'CONVERTED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-500/5' :
+                                                                            lead.status === 'PENDING' ? 'bg-orange-50 text-[#ff7a21] border-orange-100 shadow-orange-500/5' :
+                                                                                'bg-gray-50 text-gray-500 border-gray-100'
+                                                                        }`}
+                                                                >
+                                                                    <option value="PENDING">BEKLEMEDE</option>
+                                                                    <option value="CONTACTED">GÖRÜŞÜLDÜ</option>
+                                                                    <option value="CONVERTED">DÖNÜŞTÜ</option>
+                                                                    <option value="LOST">KAYBEDİLDİ</option>
+                                                                </select>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => handleDeleteLead(lead.id)}
+                                                                className="w-12 h-12 flex items-center justify-center border-2 border-rose-50 bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all shrink-0 shadow-sm"
+                                                            >
+                                                                <Trash2 size={18} />
+                                                            </button>
                                                         </div>
                                                     </div>
-                                                    <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
-                                                        <select
-                                                            value={lead.status}
-                                                            onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
-                                                            style={{
-                                                                fontSize: '0.75rem',
-                                                                fontWeight: '900',
-                                                                padding: '6px 10px',
-                                                                borderRadius: '10px',
-                                                                textTransform: 'uppercase',
-                                                                letterSpacing: '0.05em',
-                                                                background: lead.status === 'CONVERTED' ? 'rgba(16, 185, 129, 0.1)' : lead.status === 'PENDING' ? 'rgba(255, 122, 33, 0.1)' : '#f1f5f9',
-                                                                color: lead.status === 'CONVERTED' ? '#10b981' : lead.status === 'PENDING' ? '#ff7a21' : '#64748b',
-                                                                border: '1px solid currentColor',
-                                                                outline: 'none',
-                                                                cursor: 'pointer'
-                                                            }}
-                                                        >
-                                                            <option value="PENDING">BEKLEMEDE</option>
-                                                            <option value="CONTACTED">GÖRÜŞÜLDÜ</option>
-                                                            <option value="CONVERTED">DÖNÜŞTÜ</option>
-                                                            <option value="LOST">KAYBEDİLDİ</option>
-                                                        </select>
-                                                        <button
-                                                            onClick={() => handleDeleteLead(lead.id)}
-                                                            style={{ width: '32px', height: '32px', borderRadius: '10px', border: '1px solid #fee2e2', background: '#fff', color: '#f43f5e', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                                            className="hover:bg-rose-50"
-                                                        >
-                                                            <Trash2 size={16} />
-                                                        </button>
+
+                                                    <div className="bg-gray-50/50 rounded-3xl p-6 border-2 border-gray-50 group-hover:border-orange-50 group-hover:bg-white transition-all">
+                                                        <p className="text-sm text-gray-600 font-bold leading-relaxed italic border-l-4 border-orange-200 pl-6 py-1">
+                                                            {lead.notes || 'Görüşme notu bulunmuyor.'}
+                                                        </p>
                                                     </div>
-                                                </div>
-                                                <p style={{ margin: '0 0 16px 0', fontSize: '0.9rem', color: '#4b5563', lineHeight: '1.6', fontWeight: '500', maxWidth: '600px' }}>{lead.notes || 'Herhangi bir görüşme notu eklenmemiş.'}</p>
-                                                <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                                                    {lead.email && <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '800', color: '#1e293b' }}><div style={{ background: '#fff7ed', padding: '6px', borderRadius: '8px' }}><Mail size={14} color="#ff7a21" /></div> {lead.email}</div>}
-                                                    {lead.phone && <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.85rem', fontWeight: '800', color: '#1e293b' }}><div style={{ background: '#ecfdf5', padding: '6px', borderRadius: '8px' }}><Phone size={14} color="#10b981" /></div> {lead.phone}</div>}
+
+                                                    <div className="flex flex-wrap gap-4">
+                                                        {lead.email && (
+                                                            <div className="flex items-center gap-4 text-xs font-black text-gray-700 bg-gray-50 px-5 py-3 rounded-2xl group/link cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border-2 border-transparent hover:border-gray-100">
+                                                                <div className="bg-orange-100 p-2 rounded-xl text-[#ff7a21] group-hover/link:rotate-12 transition-transform shadow-sm">
+                                                                    <Mail size={16} strokeWidth={2.5} />
+                                                                </div>
+                                                                {lead.email}
+                                                            </div>
+                                                        )}
+                                                        {lead.phone && (
+                                                            <div className="flex items-center gap-4 text-xs font-black text-gray-700 bg-gray-50 px-5 py-3 rounded-2xl group/link cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border-2 border-transparent hover:border-gray-100">
+                                                                <div className="bg-emerald-100 p-2 rounded-xl text-emerald-600 group-hover/link:scale-110 transition-transform shadow-sm">
+                                                                    <Phone size={16} strokeWidth={2.5} />
+                                                                </div>
+                                                                {lead.phone}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -230,138 +255,135 @@ export default function CRMPage() {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem', position: 'sticky', top: '1.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', borderRadius: '24px', position: 'relative', overflow: 'hidden' }}>
-                        <div style={{ position: 'absolute', top: '-10%', right: '-10%', width: '120px', height: '120px', background: 'rgba(255,122,33,0.1)', filter: 'blur(40px)', borderRadius: '50%' }}></div>
+                <aside className="xl:sticky xl:top-8 flex flex-col gap-10">
+                    <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
+                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="relative">
+                            <div className="flex items-center gap-4 mb-10">
+                                <div className="w-1.5 h-10 bg-[#ff7a21] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
+                                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Kategori Filtresi</h3>
+                            </div>
 
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '24px', position: 'relative' }}>
-                            <div style={{ width: '10px', height: '10px', borderRadius: '50%', background: '#ff7a21', boxShadow: '0 0 10px #ff7a21' }}></div>
-                            <h3 style={{ margin: 0, fontSize: '0.8rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.15em', color: '#94a3b8' }}>Dönüşüm Kanalları</h3>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', position: 'relative' }}>
-                            {[
-                                { id: 'ALL', label: 'Bütün Potansiyeller' },
-                                { id: 'PENDING', label: 'Bekleyen Adaylar' },
-                                { id: 'CONVERTED', label: 'Dönüşen İşletmeler' },
-                                { id: 'LOST', label: 'Arşivlenmiş Görüşmeler' }
-                            ].map((filter) => (
-                                <button
-                                    key={filter.id}
-                                    onClick={() => setActiveFilter(filter.id)}
-                                    style={{
-                                        padding: '12px 16px',
-                                        borderRadius: '14px',
-                                        border: activeFilter === filter.id ? '1px solid rgba(255,122,33,0.3)' : '1px solid rgba(255,255,255,0.05)',
-                                        background: activeFilter === filter.id ? 'rgba(255,122,33,0.1)' : 'rgba(255,255,255,0.03)',
-                                        color: activeFilter === filter.id ? '#fff' : '#94a3b8',
-                                        fontSize: '0.9rem',
-                                        fontWeight: '800',
-                                        textAlign: 'left',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s'
-                                    }}
-                                    className="hover:bg-slate-800"
-                                >
-                                    {filter.label}
-                                </button>
-                            ))}
+                            <div className="space-y-4">
+                                {[
+                                    { id: 'ALL', label: 'Bütün Potansiyeller' },
+                                    { id: 'PENDING', label: 'Bekleyen Adaylar' },
+                                    { id: 'CONVERTED', label: 'Dönüşen İşletmeler' },
+                                    { id: 'LOST', label: 'Arşivlenmiş' }
+                                ].map((filter) => (
+                                    <button
+                                        key={filter.id}
+                                        onClick={() => setActiveFilter(filter.id)}
+                                        className={`w-full p-5 rounded-[24px] text-[11px] font-black uppercase tracking-[0.15em] text-left transition-all duration-300 border-2 ${activeFilter === filter.id ? 'bg-[#ff7a21] border-[#ff7a21] text-white shadow-xl shadow-orange-500/20 scale-[1.02]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                                    >
+                                        {filter.label}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '24px', background: '#fff', borderRadius: '24px', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-start' }}>
-                            <div style={{ background: '#f0fdf4', padding: '10px', borderRadius: '14px' }}>
-                                <TrendingUp size={20} color="#10b981" />
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-emerald-500 group hover:shadow-2xl hover:shadow-emerald-500/5 transition-all">
+                        <div className="flex gap-6 items-start">
+                            <div className="bg-emerald-50 text-emerald-500 p-4 rounded-[24px] shrink-0 border-2 border-emerald-100 group-hover:rotate-6 transition-transform">
+                                <TrendingUp size={28} strokeWidth={2.5} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: '900', color: '#111827' }}>Performans İpucu</h4>
-                                <p style={{ margin: 0, fontSize: '0.8rem', color: '#64748b', lineHeight: '1.6', fontWeight: '500' }}>
-                                    Potansiyel müşterilere <b style={{ color: '#10b981' }}>ilk 24 saat</b> içinde dönüş yapmak satış şansını %65 artırır.
+                                <h4 className="text-lg font-black text-gray-900 mb-3 tracking-tight">Dönüşüm Rehberi</h4>
+                                <p className="text-sm text-gray-500 leading-relaxed font-bold italic">
+                                    Potansiyel adaylara <span className="text-emerald-500 font-black underline decoration-emerald-200 underline-offset-4">ilk 24 saat</span> içinde dönüş yapmak, satış şansını %65'e kadar artırır.
                                 </p>
                             </div>
                         </div>
                     </div>
-                </div>
+                </aside>
             </div>
 
             {/* Add Lead Modal */}
             {isAddModalOpen && (
-                <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(10px)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
-                    <div style={{ background: '#fff', width: '100%', maxWidth: '600px', borderRadius: '32px', boxShadow: '0 50px 100px -20px rgba(0,0,0,0.2)' }}>
-                        <div style={{ padding: '40px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                                <h3 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em', margin: 0 }}>Yeni Lead Tanımla</h3>
-                                <button onClick={() => setIsAddModalOpen(false)} style={{ border: 'none', background: 'none', color: '#94a3b8', cursor: 'pointer' }}><X size={24} /></button>
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
+                    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-2xl animate-in fade-in duration-500" onClick={() => setIsAddModalOpen(false)} />
+                    <div className="relative w-full max-w-3xl bg-white rounded-[50px] p-10 md:p-16 shadow-2xl animate-in zoom-in duration-500 border-2 border-gray-100">
+                        <button
+                            onClick={() => setIsAddModalOpen(false)}
+                            className="absolute top-10 right-10 w-14 h-14 flex items-center justify-center bg-gray-50 text-gray-400 rounded-2xl hover:bg-rose-50 hover:text-rose-500 transition-all font-black border-2 border-transparent hover:border-rose-100 shadow-sm"
+                        >
+                            <X size={28} />
+                        </button>
+
+                        <div className="mb-12">
+                            <div className="w-20 h-20 bg-gray-900 text-white rounded-[32px] flex items-center justify-center mb-8 shadow-2xl shadow-gray-900/20">
+                                <Plus size={40} strokeWidth={3} />
                             </div>
-                            <form onSubmit={handleAddLead} style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase' }}>Ad Soyad</label>
-                                        <input
-                                            required
-                                            type="text"
-                                            value={formData.name}
-                                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            style={{ padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.95rem', fontWeight: '500' }}
-                                            placeholder="Görüşülen kişi"
-                                        />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase' }}>İşletme Adı</label>
-                                        <input
-                                            type="text"
-                                            value={formData.restaurant}
-                                            onChange={(e) => setFormData({ ...formData, restaurant: e.target.value })}
-                                            style={{ padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.95rem', fontWeight: '500' }}
-                                            placeholder="Restoran adı"
-                                        />
-                                    </div>
-                                </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase' }}>E-Posta</label>
-                                        <input
-                                            type="email"
-                                            value={formData.email}
-                                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            style={{ padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.95rem', fontWeight: '500' }}
-                                            placeholder="ornek@mail.com"
-                                        />
-                                    </div>
-                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                        <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase' }}>Telefon</label>
-                                        <input
-                                            type="text"
-                                            value={formData.phone}
-                                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                            style={{ padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.95rem', fontWeight: '500' }}
-                                            placeholder="05..."
-                                        />
-                                    </div>
-                                </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase' }}>Görüşme Notları</label>
-                                    <textarea
-                                        rows={4}
-                                        value={formData.notes}
-                                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                                        style={{ padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', outline: 'none', fontSize: '0.95rem', fontWeight: '500', resize: 'none' }}
-                                        placeholder="Görüşme detaylarını buraya not alın..."
-                                    />
-                                </div>
-                                <button
-                                    disabled={isSaving}
-                                    style={{ marginTop: '12px', background: '#111827', color: '#fff', padding: '18px', borderRadius: '18px', border: 'none', fontWeight: '900', fontSize: '1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', boxShadow: '0 20px 40px -10px rgba(0,0,0,0.2)' }}
-                                    className="hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
-                                >
-                                    {isSaving ? <Loader2 size={24} className="animate-spin" /> : 'Lead Kaydını Başlat'}
-                                </button>
-                            </form>
+                            <h3 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Yeni Lead Tanımla</h3>
+                            <p className="text-gray-400 font-bold mt-2 text-lg italic">Satış sürecini başlatmak için aday bilgilerini sisteme kaydedin.</p>
                         </div>
+
+                        <form onSubmit={handleAddLead} className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Yetkili Ad Soyad</label>
+                                <input
+                                    required
+                                    type="text"
+                                    value={formData.name}
+                                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                    placeholder="Örn: Ahmet Yılmaz"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">İşletme / Restoran</label>
+                                <input
+                                    type="text"
+                                    value={formData.restaurant}
+                                    onChange={(e) => setFormData({ ...formData, restaurant: e.target.value })}
+                                    placeholder="Örn: Gurme Burger"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">İletişim E-Posta</label>
+                                <input
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    placeholder="örnek@mail.com"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                />
+                            </div>
+                            <div className="space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Telefon Numarası</label>
+                                <input
+                                    type="text"
+                                    value={formData.phone}
+                                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                                    placeholder="05..."
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                />
+                            </div>
+                            <div className="md:col-span-2 space-y-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Görüşme Detayları / Notlar</label>
+                                <textarea
+                                    rows={4}
+                                    value={formData.notes}
+                                    onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                                    placeholder="İlk görüşme çıktılarını not alın..."
+                                    className="w-full px-8 py-5 rounded-3xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all resize-none shadow-sm"
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                disabled={isSaving}
+                                className="md:col-span-2 mt-6 bg-gray-900 text-white py-6 rounded-[32px] font-black text-xl flex items-center justify-center gap-4 shadow-2xl shadow-gray-900/30 hover:bg-[#ff7a21] hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 disabled:opacity-70 transition-all uppercase tracking-widest"
+                            >
+                                {isSaving ? <Loader2 className="animate-spin" size={28} /> : <Check size={28} strokeWidth={4} />}
+                                {isSaving ? 'İşleniyor...' : 'Aday Kaydını Onayla'}
+                            </button>
+                        </form>
                     </div>
                 </div>
             )}
         </div>
     );
+
 }

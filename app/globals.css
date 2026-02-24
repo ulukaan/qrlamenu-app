@@ -4,18 +4,18 @@
 
 :root {
     /* MESA Light Palette */
-    --background: 210 20% 98%;
-    /* Light Grey Background */
-    --foreground: 222.2 84% 4.9%;
+    --background: 210 50% 98%;
+    /* Soft Blue Tinted Background */
+    --foreground: 224 71% 4%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 224 71% 4%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 224 71% 4%;
 
     --primary: 24 100% 56%;
-    /* MESA Orange #ff7a21 approx */
+    /* MESA Orange #ff7a21 */
     --primary-foreground: 210 20% 98%;
 
     --secondary: 210 40% 96.1%;
@@ -34,19 +34,20 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 24 100% 56%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+    /* 16px default radius for modern look */
 }
 
 * {
     box-sizing: border-box;
     padding: 0;
     margin: 0;
-    -webkit-tap-highlight-color: transparent; /* Mobilde göze çarpan gri mavi dokunma kutucuklarını yokederek app hissi verir */
-    scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
-    -ms-overflow-style: none; /* IE/Edge için */
+    -webkit-tap-highlight-color: transparent;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
-/* Tüm scrollbarları Webkit (Chrome/Safari) tarayıcılarda görünmez yap ama scroll çalışsın */
+/* Hide scrollbars but keep scrolling functionality */
 ::-webkit-scrollbar {
     display: none;
     width: 0;
@@ -58,54 +59,46 @@ body {
     max-width: 100vw;
     width: 100vw;
     overflow-x: hidden;
-    overscroll-behavior-y: none; /* iOS Safari'de olan ekranın üstünden çekince yaşanan 'bounce' (yaylanma) efektini durdurur */
-    touch-action: pan-y; /* Yatay kaymayı kısıtla, dikey kaydırmaya izin ver. Pinch to zoom yedek engelleyici */
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
+    overscroll-behavior-y: none;
+    touch-action: pan-y;
+    font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, sans-serif;
+    background-color: #f8fafc;
+    color: #0f172a;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
 body {
     min-height: 100vh;
 }
 
+/* Premium Component Classes */
 .card {
     background-color: #ffffff;
-    border-radius: 12px;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
     padding: 1.5rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
 }
 
 .card:hover {
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+    border-color: #e2e8f0;
 }
 
 .premium-card {
     background: #ffffff;
-    border-radius: 16px;
-    border: none;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
-    padding: 24px;
+    border-radius: 32px;
+    border: 1px solid #f1f5f9;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.03);
+    padding: 2rem;
+    transition: all 0.4s ease;
 }
 
 .sidebar {
-    /* Layout handled by Tailwind classes in components */
-    /* width: 250px; REMOVED */
-    /* height: 100vh; REMOVED */
-    /* position: sticky; REMOVED */
-    /* top: 0; REMOVED */
-    /* background-color: #ffffff; REMOVED - handled in component */
-    /* border-right: ... REMOVED - handled in component */
-
-    /* display: flex; REMOVED - handled in component */
-    /* flex-direction: column; REMOVED - handled in component */
-
-    /* Keeping empty or minimal if requested, but better to just remove the conflicts. 
-       Actually, I will keep the class empty or just remove the properties that conflict.
-    */
-    transition: all 0.3s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .main-content {

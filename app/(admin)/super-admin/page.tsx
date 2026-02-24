@@ -52,14 +52,23 @@ export default function SuperAdminDashboard() {
 
     if (loading) {
         return (
-            <div style={{ height: 'calc(100vh - 100px)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Loader2 size={40} className="animate-spin text-gray-200" />
+            <div className="flex flex-col items-center justify-center min-h-[80vh] gap-4">
+                <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Sistem Verileri Senkronize Ediliyor...</p>
             </div>
         );
     }
 
     if (!data) {
-        return <div className="p-10 text-center text-red-500">Veriler yüklenemedi.</div>;
+        return (
+            <div className="flex flex-col items-center justify-center min-h-[80vh] p-10">
+                <div className="bg-rose-50 p-10 rounded-[40px] border border-rose-100 text-center max-w-md">
+                    <Activity size={48} className="text-rose-500 mx-auto mb-4" />
+                    <h3 className="text-xl font-black text-rose-600 mb-2">Veri Bağlantı Hatası</h3>
+                    <p className="text-sm font-bold text-rose-400">Sunucu ile bağlantı kurulamadı. Lütfen internet bağlantınızı kontrol edip tekrar deneyin.</p>
+                </div>
+            </div>
+        );
     }
 
     const stats = [
@@ -70,64 +79,58 @@ export default function SuperAdminDashboard() {
     ];
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
-            <div style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="p-4 md:p-10 w-full max-w-full">
+            <div className="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>Sistem Kontrol Merkezi</h2>
-                    <p style={{ color: '#6b7280', marginTop: '4px', fontSize: '0.85rem', fontWeight: '500' }}>Platform veri akışı, büyüme performansı ve sistem sağlığı analitiği.</p>
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Sistem Kontrol Merkezi</h2>
+                    <p className="text-gray-500 mt-1 text-sm font-medium">Platform veri akışı, büyüme performansı ve sistem sağlığı analitiği.</p>
                 </div>
-                <div style={{ display: 'flex', gap: '14px' }}>
-                    <div style={{ position: 'relative' }}>
-                        <Clock size={16} style={{ position: 'absolute', left: '14px', top: '50%', transform: 'translateY(-50%)', color: '#94a3b8' }} />
-                        <select style={{ padding: '10px 16px 10px 36px', borderRadius: '12px', border: '1px solid #e2e8f0', background: '#fff', fontSize: '0.8rem', fontWeight: '800', color: '#374151', outline: 'none', cursor: 'pointer', boxShadow: '0 2px 4px rgba(0,0,0,0.02)' }}>
+                <div className="flex flex-wrap gap-4 w-full sm:w-auto">
+                    <div className="relative flex-1 sm:flex-initial">
+                        <Clock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <select className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-200 bg-white text-xs font-extrabold text-slate-700 outline-none cursor-pointer shadow-sm">
                             <option>Son 30 Günlük Veri</option>
                             <option>Son 7 Günlük Veri</option>
                             <option>Bugünün Özeti</option>
                         </select>
                     </div>
-                    <button onClick={() => router.push('/super-admin/restoranlar/yeni')} className="btn-primary" style={{ padding: '10px 20px', borderRadius: '12px', fontSize: '0.85rem', fontWeight: '900', boxShadow: '0 4px 12px rgba(255,122,33,0.2)' }}>
+                    <button
+                        onClick={() => router.push('/super-admin/restoranlar/yeni')}
+                        className="flex-1 sm:flex-initial bg-[#ff7a21] text-white px-5 py-2.5 rounded-xl text-sm font-black shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
+                    >
                         Yeni Restoran Kaydı
                     </button>
                 </div>
             </div>
 
             {/* İstatistik Kartları */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '1.5rem', marginBottom: '2rem' }}>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                 {stats.map((stat, idx) => (
-                    <div className="card" key={idx} style={{ border: 'none', padding: '24px', position: 'relative', overflow: 'hidden', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
-                        <div style={{ position: 'absolute', top: '-15px', right: '-15px', width: '100px', height: '100px', borderRadius: '50%', background: `${stat.color}08` }}></div>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', position: 'relative' }}>
+                    <div className="bg-white rounded-[32px] p-8 relative overflow-hidden shadow-sm border border-slate-100 group hover:shadow-xl hover:shadow-slate-200/50 hover:-translate-y-1 transition-all duration-500 cursor-default" key={idx}>
+                        <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full transition-all duration-700 group-hover:scale-150" style={{ background: `${stat.color}05` }}></div>
+                        <div className="flex justify-between items-start relative">
                             <div>
-                                <p style={{ color: '#64748b', fontSize: '0.7rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: '8px' }}>{stat.title}</p>
-                                <h3 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.03em' }}>{stat.value}</h3>
-                                <div style={{
-                                    marginTop: '12px',
-                                    fontSize: '0.75rem',
-                                    color: stat.trend.startsWith('+') ? '#10b981' : '#f43f5e',
-                                    fontWeight: '900',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    gap: '6px'
-                                }}>
-                                    <div style={{ display: 'flex', alignItems: 'center', background: stat.trend.startsWith('+') ? '#ecfdf5' : '#fff1f2', padding: '2px 6px', borderRadius: '6px' }}>
+                                <div className="flex items-center gap-2 mb-3">
+                                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: stat.color }}></div>
+                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest leading-none">{stat.title}</p>
+                                </div>
+                                <h3 className="m-0 text-3xl font-black text-gray-900 tracking-tighter leading-none group-hover:text-[#ff7a21] transition-colors">{stat.value}</h3>
+                                <div className="mt-4 flex items-center gap-1.5">
+                                    <div className={`flex items-center px-2 py-1 rounded-lg text-[10px] font-black tracking-widest ${stat.trend.startsWith('+') ? 'bg-emerald-50 text-emerald-500 shadow-sm shadow-emerald-500/10' : 'bg-rose-50 text-rose-500 shadow-sm shadow-rose-500/10'}`}>
                                         {stat.trend.startsWith('+') ? <ArrowUpRight size={12} strokeWidth={3} /> : <ArrowDownRight size={12} strokeWidth={3} />}
-                                        <span style={{ marginLeft: '2px' }}>{stat.trend}</span>
+                                        <span className="ml-0.5">{stat.trend}</span>
                                     </div>
-                                    <span style={{ color: '#94a3b8', fontWeight: '600', fontSize: '0.7rem' }}>büyüme</span>
+                                    <span className="text-slate-300 font-bold text-[9px] uppercase tracking-tighter italic">büyüme endeksi</span>
                                 </div>
                             </div>
-                            <div style={{
-                                background: `${stat.color}15`,
-                                color: stat.color,
-                                width: '48px',
-                                height: '48px',
-                                borderRadius: '14px',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                boxShadow: `inset 0 0 10px ${stat.color}10`
-                            }}>
-                                {React.cloneElement(stat.icon as any, { size: 20 })}
+                            <div
+                                className="w-14 h-14 rounded-2xl flex items-center justify-center shadow-sm border border-slate-50 relative group-hover:scale-110 transition-all duration-500"
+                                style={{ background: `${stat.color}08`, color: stat.color }}
+                            >
+                                <div className="absolute inset-0 bg-white opacity-40 rounded-2xl"></div>
+                                <div className="relative">
+                                    {React.cloneElement(stat.icon as any, { size: 24, strokeWidth: 2.5 })}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -135,25 +138,25 @@ export default function SuperAdminDashboard() {
             </div>
 
             {/* Orta Bölüm: Grafikler ve Sağ Panel */}
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '2rem', marginBottom: '2rem' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '28px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                <div style={{ background: '#fff7ed', padding: '8px', borderRadius: '10px' }}>
-                                    <TrendingUp size={20} style={{ color: '#ff7a21' }} />
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 mb-8">
+                <div className="flex flex-col gap-8">
+                    <div className="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                            <div className="flex items-center gap-3">
+                                <div className="bg-[#fff7ed] p-2 rounded-xl">
+                                    <TrendingUp size={20} className="text-[#ff7a21]" />
                                 </div>
                                 <div>
-                                    <h3 style={{ fontSize: '1.1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Finansal Gelir Analizi</h3>
-                                    <p style={{ margin: '4px 0 0', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}>Platform genelinde aylık brüt kazanç akışı.</p>
+                                    <h3 className="text-lg font-black text-gray-900 tracking-tight">Finansal Gelir Analizi</h3>
+                                    <p className="mt-1 text-xs text-slate-400 font-semibold">Platform genelinde aylık brüt kazanç akışı.</p>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '6px 14px', background: '#f8fafc', borderRadius: '8px', border: '1px solid #f1f5f9' }}>
-                                <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#ff7a21', boxShadow: '0 0 8px rgba(255,122,33,0.5)' }}></div>
-                                <span style={{ fontSize: '0.7rem', color: '#475569', fontWeight: '800' }}>Canlı Senkronizasyon</span>
+                            <div className="flex items-center gap-2 px-3.5 py-1.5 bg-[#f8fafc] rounded-lg border border-slate-100">
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21] shadow-[0_0_8px_rgba(255,122,33,0.5)]"></div>
+                                <span className="text-[10px] text-slate-600 font-extrabold uppercase tracking-wider">Canlı Senkronizasyon</span>
                             </div>
                         </div>
-                        <div style={{ width: '100%', height: '400px' }}>
+                        <div className="w-full h-[300px] md:h-[400px]">
                             <ResponsiveContainer width="100%" height="100%">
                                 <AreaChart data={data.revenueHistory}>
                                     <defs>
@@ -177,46 +180,69 @@ export default function SuperAdminDashboard() {
                     </div>
 
                     {/* Son Kayıtlar */}
-                    <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ padding: '20px 24px', borderBottom: '1px solid #f1f5f9', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                            <h3 style={{ fontSize: '1rem', fontWeight: '900', color: '#111827', display: 'flex', alignItems: 'center', gap: '10px' }}>
-                                <Activity size={18} color="#ff7a21" /> Son Sistem Aktiviteleri
-                            </h3>
-                            <button onClick={() => router.push('/super-admin/restoranlar')} style={{ background: '#f8fafc', border: '1px solid #e2e8f0', color: '#475569', fontWeight: '900', fontSize: '0.75rem', padding: '6px 12px', borderRadius: '8px', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-slate-50">Tümünü Yönet</button>
+                    <div className="bg-white rounded-[40px] overflow-hidden shadow-sm border border-slate-100 flex flex-col">
+                        <div className="p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-50 gap-4">
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ff7a21]">
+                                    <Activity size={24} strokeWidth={2.5} />
+                                </div>
+                                <div>
+                                    <h3 className="text-lg font-black text-gray-900 tracking-tight">Yeni Katılan İşletmeler</h3>
+                                    <p className="text-xs font-bold text-slate-400 mt-0.5">Sisteme en son kayıt olan 5 restoran.</p>
+                                </div>
+                            </div>
+                            <button
+                                onClick={() => router.push('/super-admin/restoranlar')}
+                                className="bg-slate-900 text-white font-black text-[10px] px-6 py-3 rounded-xl hover:bg-[#ff7a21] transition-all uppercase tracking-widest shadow-lg shadow-slate-900/10 active:scale-95"
+                            >
+                                Tümünü Yönet
+                            </button>
                         </div>
-                        <div style={{ overflowX: 'auto' }}>
-                            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-                                <thead style={{ background: '#f9fafb' }}>
+                        <div className="overflow-x-auto custom-scrollbar">
+                            <table className="w-full">
+                                <thead className="bg-slate-50/50">
                                     <tr>
-                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>İşletme Detayı</th>
-                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Üyelik Paketi</th>
-                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Durum</th>
-                                        <th style={{ padding: '14px 24px', textAlign: 'left', fontSize: '0.7rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Kayıt Zamanı</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">İşletme Kimliği</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Lisans Paketi</th>
+                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Durum</th>
+                                        <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Kayıt Tarihi</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="divide-y divide-slate-50">
                                     {data.recentRestaurants.map((res: any, idx: number) => (
-                                        <tr key={idx} style={{ borderBottom: '1px solid #f3f4f6' }} className="table-row-hover">
-                                            <td style={{ padding: '16px 24px' }}>
-                                                <div style={{ fontSize: '0.9rem', fontWeight: '900', color: '#111827' }}>{res.name}</div>
-                                                <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600', marginTop: '2px' }}>{res.city || 'İstanbul'} • Türkiye</div>
+                                        <tr key={idx} className="group hover:bg-slate-50/50 transition-all">
+                                            <td className="px-8 py-6">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-xs font-black text-slate-400 group-hover:bg-[#ff7a21] group-hover:text-white transition-all shadow-sm">
+                                                        {res.name.charAt(0).toUpperCase()}
+                                                    </div>
+                                                    <div>
+                                                        <div className="text-sm font-black text-gray-900 group-hover:text-[#ff7a21] transition-colors">{res.name}</div>
+                                                        <div className="text-[10px] text-slate-400 font-bold mt-0.5 flex items-center gap-1">
+                                                            <div className="w-1 h-1 rounded-full bg-slate-200"></div>
+                                                            {res.city || 'İstanbul'} • Türkiye
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
-                                            <td style={{ padding: '16px 24px' }}>
-                                                <div style={{ fontSize: '0.7rem', fontWeight: '900', padding: '4px 10px', borderRadius: '8px', background: '#f1f5f9', display: 'inline-block', color: '#334155', border: '1px solid #e2e8f0' }}>{res.plan}</div>
+                                            <td className="px-8 py-6">
+                                                <span className="text-[10px] font-black px-3 py-1.5 rounded-xl bg-white text-slate-500 border border-slate-100 shadow-sm uppercase tracking-tighter">
+                                                    {res.plan}
+                                                </span>
                                             </td>
-                                            <td style={{ padding: '16px 24px' }}>
-                                                <span style={{
-                                                    fontSize: '0.7rem',
-                                                    fontWeight: '900',
-                                                    color: res.status === 'Aktif' ? '#10b981' : '#64748b',
-                                                    background: res.status === 'Aktif' ? '#ecfdf5' : '#f9fafb',
-                                                    padding: '4px 10px',
-                                                    borderRadius: '8px',
-                                                    border: '1px solid currentColor'
-                                                }}>{res.status.toUpperCase()}</span>
+                                            <td className="px-8 py-6">
+                                                <div className="flex items-center gap-2">
+                                                    <div className={`w-2 h-2 rounded-full ${res.status === 'Aktif' ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-slate-300'}`}></div>
+                                                    <span className={`text-[10px] font-black uppercase tracking-widest ${res.status === 'Aktif' ? 'text-emerald-500' : 'text-slate-400'}`}>
+                                                        {res.status}
+                                                    </span>
+                                                </div>
                                             </td>
-                                            <td style={{ padding: '16px 24px', fontSize: '0.8rem', color: '#475569', fontWeight: '700' }}>
-                                                {new Date(res.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                            <td className="px-8 py-6 text-right">
+                                                <div className="text-[11px] font-black text-slate-300 tracking-tighter">
+                                                    {new Date(res.date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
+                                                    <span className="ml-1 text-[9px] font-bold opacity-50">/ {new Date(res.date).getFullYear()}</span>
+                                                </div>
                                             </td>
                                         </tr>
                                     ))}
@@ -226,52 +252,50 @@ export default function SuperAdminDashboard() {
                     </div>
                 </div>
 
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="flex flex-col gap-8">
                     {/* Platform Sağlığı */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <Activity size={20} style={{ color: '#4ade80' }} />
-                            <h3 style={{ fontSize: '0.85rem', fontWeight: '900', margin: 0, textTransform: 'uppercase', letterSpacing: '0.1em' }}>Platform Sağlığı</h3>
+                    <div className="bg-slate-900 rounded-[32px] p-8 text-white shadow-xl shadow-slate-900/10">
+                        <div className="flex items-center gap-3 mb-8">
+                            <Activity size={20} className="text-[#4ade80]" />
+                            <h3 className="text-xs font-black uppercase tracking-widest">Platform Sağlığı</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+                        <div className="flex flex-col gap-6">
                             <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '10px', fontWeight: '700' }}>
-                                    <span style={{ color: '#94a3b8' }}>API Ortalama Yanıt</span>
-                                    <span style={{ color: '#4ade80' }}>42ms</span>
+                                <div className="flex justify-between text-[11px] font-bold mb-2.5">
+                                    <span className="text-slate-400">API Ortalama Yanıt</span>
+                                    <span className="text-[#4ade80]">42ms</span>
                                 </div>
-                                <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
-                                    <div style={{ width: '85%', height: '100%', background: '#4ade80', boxShadow: '0 0 10px rgba(74,222,128,0.3)' }}></div>
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div className="w-[85%] h-full bg-[#4ade80] shadow-[0_0_10px_rgba(74,222,128,0.3)]"></div>
                                 </div>
                             </div>
                             <div>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.8rem', marginBottom: '10px', fontWeight: '700' }}>
-                                    <span style={{ color: '#94a3b8' }}>Kullanılan Kapasite</span>
-                                    <span style={{ color: '#fbbf24' }}>%4.2</span>
+                                <div className="flex justify-between text-[11px] font-bold mb-2.5">
+                                    <span className="text-slate-400">Kullanılan Kapasite</span>
+                                    <span className="text-[#fbbf24]">%4.2</span>
                                 </div>
-                                <div style={{ height: '6px', background: 'rgba(255,255,255,0.05)', borderRadius: '3px', overflow: 'hidden' }}>
-                                    <div style={{ width: '12%', height: '100%', background: '#fbbf24', boxShadow: '0 0 10px rgba(251,191,36,0.3)' }}></div>
+                                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                                    <div className="w-[12%] h-full bg-[#fbbf24] shadow-[0_0_10px_rgba(251,191,36,0.3)]"></div>
                                 </div>
                             </div>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginTop: '10px', padding: '14px', background: 'rgba(255,255,255,0.03)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <Database size={18} style={{ color: '#3b82f6' }} />
+                            <div className="flex items-center gap-4 mt-2 p-4 bg-white/5 rounded-2xl border border-white/10">
+                                <Database size={18} className="text-[#3b82f6]" />
                                 <div>
-                                    <p style={{ margin: 0, fontSize: '0.75rem', fontWeight: '900', color: '#fff' }}>Cluster Durumu</p>
-                                    <p style={{ margin: '2px 0 0', fontSize: '0.65rem', color: '#4ade80', fontWeight: '800' }}>BAĞLI & OPTİMİZE</p>
+                                    <p className="text-[11px] font-black text-white">Cluster Durumu</p>
+                                    <p className="mt-0.5 text-[10px] text-[#4ade80] font-extrabold uppercase tracking-wide">BAĞLI & OPTİMİZE</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <div style={{ background: '#f5f3ff', padding: '8px', borderRadius: '10px' }}>
-                                <BarChart3 size={20} style={{ color: '#6366f1' }} />
+                    <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100">
+                        <div className="flex items-center gap-3 mb-8">
+                            <div className="bg-[#f5f3ff] p-2 rounded-xl">
+                                <BarChart3 size={20} className="text-[#6366f1]" />
                             </div>
-                            <div>
-                                <h3 style={{ fontSize: '1rem', fontWeight: '900', margin: 0, color: '#111827', letterSpacing: '-0.02em' }}>Büyüme Eğrisi</h3>
-                            </div>
+                            <h3 className="text-base font-black text-gray-900 tracking-tight">Büyüme Eğrisi</h3>
                         </div>
-                        <div style={{ width: '100%', height: '200px' }}>
+                        <div className="w-full h-[200px]">
                             <ResponsiveContainer width="100%" height="100%">
                                 <BarChart data={data.signupHistory}>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -281,7 +305,7 @@ export default function SuperAdminDashboard() {
                                 </BarChart>
                             </ResponsiveContainer>
                         </div>
-                        <p style={{ marginTop: '20px', fontSize: '0.75rem', color: '#94a3b8', textAlign: 'center', fontWeight: '600', fontStyle: 'italic' }}>Son 7 gündeki yeni işletme kayıtları.</p>
+                        <p className="mt-6 text-[10px] text-slate-400 text-center font-bold italic">Son 7 gündeki yeni işletme kayıtları.</p>
                     </div>
                 </div>
             </div>

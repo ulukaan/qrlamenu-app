@@ -10,6 +10,7 @@ import ModernLayout from '@/components/themes/modern/ModernLayout';
 import SignatureLayout from '@/components/themes/signature/SignatureLayout';
 import LuxuryLayout from '@/components/themes/luxury/LuxuryLayout';
 import FastFoodLayout from '@/components/themes/fast-food/FastFoodLayout';
+import MobileAppsLayout from '@/components/themes/mobile-app/MobileAppsLayout';
 import {
     Loader2, Bell, X, ShoppingCart, Plus, Minus, CheckCircle2,
     Trash2, ArrowRight, MapPin, Package, Home, Hotel, Truck
@@ -184,7 +185,8 @@ function MenuContent({ restaurant, defaultTheme }: MenuClientProps) {
             {themeName === 'SIGNATURE' && <SignatureLayout {...commonProps} />}
             {themeName === 'LUXURY' && <LuxuryLayout {...commonProps} />}
             {themeName === 'FASTFOOD' && <FastFoodLayout {...commonProps} />}
-            {(!['CLASSIC', 'MODERN', 'SIGNATURE', 'LUXURY', 'FASTFOOD'].includes(themeName)) && <LiteLayout {...commonProps} />}
+            {themeName === 'MOBILE_APP' && <MobileAppsLayout {...commonProps} />}
+            {(!['CLASSIC', 'MODERN', 'SIGNATURE', 'LUXURY', 'FASTFOOD', 'MOBILE_APP'].includes(themeName)) && <LiteLayout {...commonProps} />}
 
             {/* ── Floating Waiter Call Button ── garson çağır açıksa göster */}
             {allowCallWaiter && (

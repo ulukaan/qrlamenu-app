@@ -48,18 +48,24 @@ export default function SystemSettingsPage() {
     };
 
     if (loading) return (
-        <div style={{ padding: '40px', textAlign: 'center' }}>
-            <Loader2 size={32} className="animate-spin text-gray-400" style={{ margin: '0 auto' }} />
+        <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
+            <Loader2 size={56} className="animate-spin text-[#ff7a21]" />
+            <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Sistem Konfigürasyonu Yükleniyor...</p>
         </div>
     );
 
     if (!settings) return (
-        <div style={{ padding: '40px', textAlign: 'center' }}>
-            <div style={{ color: '#f44336', fontWeight: '600', marginBottom: '16px' }}>Ayarlar yüklenemedi.</div>
+        <div className="flex flex-col items-center justify-center min-h-[400px] gap-8 text-center p-12 bg-white rounded-[40px] border-2 border-dashed border-gray-100">
+            <div className="w-20 h-20 bg-rose-50 text-rose-500 rounded-3xl flex items-center justify-center mb-2 shadow-sm border border-rose-100">
+                <Shield size={32} strokeWidth={2.5} />
+            </div>
+            <div>
+                <h3 className="text-xl font-black text-gray-900 mb-2 uppercase tracking-tight">Bağlantı Hatası</h3>
+                <p className="text-gray-400 font-bold max-w-xs leading-relaxed italic">Sistem ayarları şu anda sunucudan çekilemiyor.</p>
+            </div>
             <button
                 onClick={() => window.location.reload()}
-                className="btn-primary"
-                style={{ padding: '8px 16px', borderRadius: '8px' }}
+                className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-gray-200 hover:bg-[#ff7a21] hover:shadow-orange-500/20 active:scale-95 transition-all"
             >
                 Yeniden Dene
             </button>
@@ -67,185 +73,156 @@ export default function SystemSettingsPage() {
     );
 
     return (
-        <div style={{ padding: '1.5rem 2rem', width: '100%', maxWidth: '100%' }}>
+        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
             {/* Page Header Area */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '2rem' }}>
-                <div>
-                    <h2 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em', margin: 0 }}>Global Sistem Ayarları</h2>
-                    <p style={{ color: '#64748b', marginTop: '4px', fontSize: '0.9rem', fontWeight: '500' }}>Platform genelini ilgilendiren teknik, iletişim ve güvenlik yapılandırmalarını merkezi olarak yönetin.</p>
+            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+                <div className="max-w-3xl">
+                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                        Global Sistem Ayarları
+                    </h2>
+                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
+                        Platform genelini ilgilendiren teknik, iletişim ve güvenlik yapılandırmalarını gerçek zamanlı yönetin.
+                    </p>
                 </div>
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="hover:scale-105 active:scale-95 transition-all"
-                    style={{
-                        background: '#ff7a21',
-                        color: '#fff',
-                        padding: '12px 24px',
-                        borderRadius: '14px',
-                        border: 'none',
-                        fontSize: '0.9rem',
-                        fontWeight: '900',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px',
-                        boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)',
-                        cursor: 'pointer',
-                        opacity: saving ? 0.8 : 1
-                    }}
+                    className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-70 uppercase tracking-widest"
                 >
-                    {saving ? <Loader2 size={18} className="animate-spin" strokeWidth={2.5} /> : <Save size={18} strokeWidth={2.5} />}
-                    {saving ? 'Ayarlar Güncelleniyor...' : 'Konfigürasyonu Kaydet'}
+                    {saving ? <Loader2 size={20} className="animate-spin" strokeWidth={3} /> : <Save size={20} strokeWidth={3} />}
+                    {saving ? 'Güncelleniyor...' : 'Konfigürasyonu Kaydet'}
                 </button>
-            </div>
+            </header>
 
             {message && (
-                <div style={{
-                    padding: '20px 28px',
-                    borderRadius: '20px',
-                    marginBottom: '3rem',
-                    background: message.type === 'success' ? '#ecfdf5' : '#fef2f2',
-                    color: message.type === 'success' ? '#10b981' : '#f43f5e',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    fontWeight: '900',
-                    fontSize: '1rem',
-                    border: `1px solid ${message.type === 'success' ? '#d1fae5' : '#fee2e2'}`,
-                    boxShadow: '0 10px 15px -3px rgba(0,0,0,0.02)',
-                    animation: 'slideIn 0.3s ease-out'
-                }}>
-                    {message.type === 'success' ? <CheckCircle2 size={24} strokeWidth={2.5} /> : <Settings size={24} strokeWidth={2.5} />}
-                    {message.text}
+                <div className={`p-8 rounded-[32px] mb-12 flex items-center gap-6 font-black transition-all animate-in fade-in slide-in-from-top-6 duration-500 border-2 shadow-sm ${message.type === 'success' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-500/10' : 'bg-rose-50 text-rose-600 border-rose-100 shadow-rose-500/10'}`}>
+                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 ${message.type === 'success' ? 'bg-emerald-100' : 'bg-rose-100'}`}>
+                        {message.type === 'success' ? <CheckCircle2 size={24} strokeWidth={3} /> : <Settings size={24} strokeWidth={3} />}
+                    </div>
+                    <span className="text-lg tracking-tight leading-none">{message.text}</span>
                 </div>
             )}
 
-            <div className="grid grid-cols-1 gap-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-12 items-start">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                     {/* Platform Kimliği & İletişim */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-                            <div style={{ background: '#fff7f2', color: '#ff7a21', padding: '10px', borderRadius: '14px', border: '1px solid #ffedd5' }}>
-                                <Globe size={20} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group">
+                        <div className="flex items-center gap-5 mb-10">
+                            <div className="bg-orange-50 text-[#ff7a21] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm shadow-orange-500/5">
+                                <Globe size={24} strokeWidth={3} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Platform Kimliği & İletişim</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Marka başlığı ve kritik iletişim kanalları.</p>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Platform Kimliği</h3>
+                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">Global Marka & İletişim</p>
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Platform Başlığı</label>
+                        <div className="space-y-8">
+                            <div className="flex flex-col gap-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Platform Başlığı</label>
                                 <input
                                     type="text"
                                     value={settings.platformTitle}
                                     onChange={(e) => setSettings({ ...settings, platformTitle: e.target.value })}
-                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,122,33,0.1)]"
+                                    className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
                                     placeholder="Örn: QRLA Menü SaaS"
                                 />
                             </div>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                    <Mail size={14} color="#64748b" /> Destek E-Posta Adresi
-                                </label>
-                                <input
-                                    type="email"
-                                    value={settings.contactEmail}
-                                    onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
-                                    className="focus:border-orange-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(255,122,33,0.1)]"
-                                    placeholder="support@domain.com"
-                                />
+                            <div className="flex flex-col gap-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Destek E-Posta</label>
+                                <div className="relative group/input">
+                                    <Mail className="absolute left-7 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within/input:text-[#ff7a21] transition-colors" size={20} strokeWidth={2.5} />
+                                    <input
+                                        type="email"
+                                        value={settings.contactEmail}
+                                        onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
+                                        className="w-full pl-16 pr-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
+                                        placeholder="support@domain.com"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
 
                     {/* Dil & Bölge Ayarları */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-                            <div style={{ background: '#f0fdfa', color: '#14b8a6', padding: '10px', borderRadius: '14px', border: '1px solid #ccfbf1' }}>
-                                <Globe size={20} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group">
+                        <div className="flex items-center gap-5 mb-10">
+                            <div className="bg-emerald-50 text-emerald-500 p-4 rounded-2xl border-2 border-emerald-100 group-hover:rotate-12 transition-transform shadow-sm shadow-emerald-500/5">
+                                <Globe size={24} strokeWidth={3} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Yerelleştirme</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Varsayılan lokasyon verileri.</p>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Yerelleştirme</h3>
+                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">Bölgesel Standartlar</p>
                             </div>
                         </div>
 
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Sistem Para Birimi</label>
-                                <div style={{ position: 'relative' }}>
+                        <div className="space-y-8">
+                            <div className="flex flex-col gap-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Sistem Para Birimi</label>
+                                <div className="relative">
                                     <select
                                         value={settings.currency}
                                         onChange={(e) => setSettings({ ...settings, currency: e.target.value })}
-                                        style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s', appearance: 'none', cursor: 'pointer' }}
-                                        className="focus:border-teal-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(20,184,166,0.1)]"
+                                        className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-emerald-500 focus:ring-4 focus:ring-emerald-500/5 outline-none transition-all appearance-none cursor-pointer shadow-sm"
                                     >
                                         <option value="USD">USD - Amerikan Doları</option>
                                         <option value="EUR">EUR - Euro</option>
                                         <option value="TRY">TRY - Türk Lirası</option>
                                     </select>
-                                    <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
+                                    <div className="absolute right-7 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                     {/* SMTP Settings */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-                            <div style={{ background: '#f0f9ff', color: '#0ea5e9', padding: '10px', borderRadius: '14px', border: '1px solid #e0f2fe' }}>
-                                <Mail size={20} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group md:col-span-2">
+                        <div className="flex items-center gap-5 mb-10">
+                            <div className="bg-blue-50 text-blue-500 p-4 rounded-2xl border-2 border-blue-100 group-hover:rotate-12 transition-transform shadow-sm shadow-blue-500/5">
+                                <Mail size={24} strokeWidth={3} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>E-posta (SMTP) Servisi</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Giden e-posta sunucusu yapılandırması.</p>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">SMTP Servisi</h3>
+                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">E-posta Altyapısı</p>
                             </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>SMTP Relay Host</label>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div className="lg:col-span-2 flex flex-col gap-3">
+                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">SMTP Host</label>
                                 <input
                                     type="text"
                                     value={settings.smtpHost}
                                     onChange={(e) => setSettings({ ...settings, smtpHost: e.target.value })}
-                                    style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
-                                    className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                    className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-500/5 outline-none transition-all shadow-sm"
                                 />
                             </div>
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Servis Portu</label>
+                            <div className="grid grid-cols-2 gap-6">
+                                <div className="flex flex-col gap-3">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Port</label>
                                     <input
                                         type="number"
                                         value={settings.smtpPort}
                                         onChange={(e) => setSettings({ ...settings, smtpPort: parseInt(e.target.value) })}
-                                        style={{ padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s' }}
-                                        className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                        className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-blue-500 outline-none transition-all shadow-sm"
                                     />
                                 </div>
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                    <label style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Protokol Güvenliği</label>
-                                    <div style={{ position: 'relative' }}>
+                                <div className="flex flex-col gap-3">
+                                    <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Güvenlik</label>
+                                    <div className="relative">
                                         <select
                                             value={settings.smtpSecurity}
                                             onChange={(e) => setSettings({ ...settings, smtpSecurity: e.target.value })}
-                                            style={{ width: '100%', padding: '12px 16px', borderRadius: '12px', border: '2px solid #f1f5f9', background: '#f8fafc', fontSize: '0.9rem', fontWeight: '600', color: '#111827', outline: 'none', transition: 'all 0.2s', appearance: 'none', cursor: 'pointer' }}
-                                            className="focus:border-blue-500 focus:bg-white focus:shadow-[0_0_0_4px_rgba(14,165,233,0.1)]"
+                                            className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-sm font-black text-gray-900 outline-none appearance-none cursor-pointer focus:bg-white focus:border-blue-500 transition-all shadow-sm"
                                         >
-                                            <option value="TLS">TLS / STARTTLS</option>
+                                            <option value="TLS">TLS</option>
                                             <option value="SSL">SSL</option>
-                                            <option value="NONE">Yok (Güvensiz)</option>
+                                            <option value="NONE">YOK</option>
                                         </select>
-                                        <div style={{ position: 'absolute', right: '16px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none', color: '#94a3b8' }}>
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="lucide lucide-chevron-down"><path d="m6 9 6 6 6-6" /></svg>
+                                        <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m6 9 6 6 6-6" /></svg>
                                         </div>
                                     </div>
                                 </div>
@@ -254,52 +231,41 @@ export default function SystemSettingsPage() {
                     </div>
 
                     {/* System Toggles */}
-                    <div className="card" style={{ border: 'none', padding: '28px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '28px' }}>
-                            <div style={{ background: '#fef2f2', color: '#f43f5e', padding: '10px', borderRadius: '14px', border: '1px solid #fee2e2' }}>
-                                <Shield size={20} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group md:col-span-2">
+                        <div className="flex items-center gap-5 mb-10">
+                            <div className="bg-rose-50 text-rose-500 p-4 rounded-2xl border-2 border-rose-100 group-hover:rotate-12 transition-transform shadow-sm shadow-rose-500/5">
+                                <Shield size={24} strokeWidth={3} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Sistem Kontrolleri</h3>
-                                <p style={{ margin: '4px 0 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Kritik sistem özelliklerini yönetin.</p>
+                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Kritik Kontroller</h3>
+                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">Sistem Güvenlik & Erişim</p>
                             </div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <button
                                 onClick={() => setSettings({ ...settings, maintenanceMode: !settings.maintenanceMode })}
-                                style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderRadius: '16px',
-                                    border: settings.maintenanceMode ? '2px solid #fda4af' : '2px solid #f1f5f9',
-                                    background: settings.maintenanceMode ? '#fff1f2' : '#f8fafc',
-                                    cursor: 'pointer', transition: 'all 0.2s', width: '100%'
-                                }}
-                                className="hover:scale-[1.02]"
+                                className={`flex items-center justify-between p-8 rounded-[32px] border-4 transition-all hover:scale-[1.02] active:scale-95 group/btn ${settings.maintenanceMode ? 'bg-rose-50 border-rose-200 shadow-2xl shadow-rose-500/10' : 'bg-gray-50 border-transparent hover:border-rose-100'}`}
                             >
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
-                                    <span style={{ fontSize: '0.9rem', fontWeight: '900', color: settings.maintenanceMode ? '#e11d48' : '#111827' }}>Bakım Modu (Erişim Kes)</span>
-                                    <span style={{ fontSize: '0.8rem', color: settings.maintenanceMode ? '#f43f5e' : '#64748b', fontWeight: '500' }}>Aktif edildiğinde sadece Super Admin'ler sisteme girebilir.</span>
+                                <div className="text-left">
+                                    <span className={`text-lg font-black block transition-colors ${settings.maintenanceMode ? 'text-rose-600' : 'text-gray-900'}`}>Bakım Modu</span>
+                                    <span className="text-[10px] text-gray-400 font-black tracking-widest uppercase mt-1 block">Erişimi Geçici Olarak Kısıtla</span>
                                 </div>
-                                <div style={{ width: '48px', height: '26px', borderRadius: '13px', background: settings.maintenanceMode ? '#e11d48' : '#cbd5e1', position: 'relative', transition: 'all 0.3s' }}>
-                                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: settings.maintenanceMode ? '24px' : '2px', transition: 'all 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+                                <div className={`w-14 h-8 rounded-full relative transition-all duration-500 ${settings.maintenanceMode ? 'bg-rose-500' : 'bg-gray-200'}`}>
+                                    <div className={`w-6 h-6 rounded-full bg-white absolute top-1 transition-all duration-500 shadow-md ${settings.maintenanceMode ? 'left-7' : 'left-1'}`} />
                                 </div>
                             </button>
 
                             <button
                                 onClick={() => setSettings({ ...settings, RegistrationOpen: !settings.RegistrationOpen })}
-                                style={{
-                                    display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderRadius: '16px',
-                                    border: settings.RegistrationOpen ? '2px solid #86efac' : '2px solid #f1f5f9',
-                                    background: settings.RegistrationOpen ? '#f0fdf4' : '#f8fafc',
-                                    cursor: 'pointer', transition: 'all 0.2s', width: '100%'
-                                }}
-                                className="hover:scale-[1.02]"
+                                className={`flex items-center justify-between p-8 rounded-[32px] border-4 transition-all hover:scale-[1.02] active:scale-95 group/btn ${settings.RegistrationOpen ? 'bg-emerald-50 border-emerald-200 shadow-2xl shadow-emerald-500/10' : 'bg-gray-50 border-transparent hover:border-emerald-100'}`}
                             >
-                                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', textAlign: 'left' }}>
-                                    <span style={{ fontSize: '0.9rem', fontWeight: '900', color: settings.RegistrationOpen ? '#16a34a' : '#111827' }}>Yeni Restoran Kaydı</span>
-                                    <span style={{ fontSize: '0.8rem', color: settings.RegistrationOpen ? '#22c55e' : '#64748b', fontWeight: '500' }}>Yeni abonelik satışına platformu aç/kapat.</span>
+                                <div className="text-left">
+                                    <span className={`text-lg font-black block transition-colors ${settings.RegistrationOpen ? 'text-emerald-600' : 'text-gray-900'}`}>Yeni Kayıtlar</span>
+                                    <span className="text-[10px] text-gray-400 font-black tracking-widest uppercase mt-1 block">Abonelik Satışını Yönet</span>
                                 </div>
-                                <div style={{ width: '48px', height: '26px', borderRadius: '13px', background: settings.RegistrationOpen ? '#16a34a' : '#cbd5e1', position: 'relative', transition: 'all 0.3s' }}>
-                                    <div style={{ width: '22px', height: '22px', borderRadius: '50%', background: '#fff', position: 'absolute', top: '2px', left: settings.RegistrationOpen ? '24px' : '2px', transition: 'all 0.3s', boxShadow: '0 2px 4px rgba(0,0,0,0.1)' }} />
+                                <div className={`w-14 h-8 rounded-full relative transition-all duration-500 ${settings.RegistrationOpen ? 'bg-emerald-500' : 'bg-gray-200'}`}>
+                                    <div className={`w-6 h-6 rounded-full bg-white absolute top-1 transition-all duration-500 shadow-md ${settings.RegistrationOpen ? 'left-7' : 'left-1'}`} />
                                 </div>
                             </button>
                         </div>
@@ -307,23 +273,53 @@ export default function SystemSettingsPage() {
                 </div>
 
                 {/* Backup Widget */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem', position: 'sticky', top: '2.5rem', height: 'fit-content' }}>
-                    <div className="card" style={{ padding: '32px', background: '#f8fafc', borderRadius: '32px', border: '1px solid #f1f5f9' }}>
-                        <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
-                            <div style={{ background: '#fff', padding: '10px', borderRadius: '12px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.02)', border: '1px solid #e2e8f0' }}>
-                                <Save size={20} color="#64748b" strokeWidth={2.5} />
+                <aside className="xl:sticky xl:top-8 flex flex-col gap-10">
+                    <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
+                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="flex items-center gap-5 mb-10 relative">
+                            <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-[#ff7a21] shadow-xl shadow-orange-500/5 group-hover:rotate-6 transition-transform">
+                                <Save size={28} strokeWidth={3} />
                             </div>
                             <div>
-                                <h4 style={{ margin: '0 0 6px 0', fontSize: '0.9rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.02em' }}>Son Yedekleme</h4>
-                                <p style={{ margin: 0, fontSize: '0.85rem', color: '#10b981', fontWeight: '900' }}>Bugün, 04:00 AM</p>
-                                <div style={{ marginTop: '12px', padding: '8px 12px', borderRadius: '10px', background: 'rgba(0,0,0,0.03)', fontSize: '0.75rem', color: '#64748b', fontWeight: '700' }}>
-                                    CLOUD STORAGE: <span style={{ color: '#1e293b' }}>AWS S3 (FRA)</span>
+                                <h4 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Sistem Yedekleri</h4>
+                                <div className="flex items-center gap-2 mt-2">
+                                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_10px_#10b981]"></div>
+                                    <span className="text-[10px] font-black text-emerald-400 uppercase tracking-widest">KORUMA AKTİF</span>
                                 </div>
                             </div>
                         </div>
+
+                        <div className="space-y-8 relative">
+                            <div className="bg-white/5 p-6 rounded-[32px] border border-white/5 hover:bg-white/10 transition-colors">
+                                <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-2 block">Son Senkronizasyon</div>
+                                <div className="text-2xl font-black text-white tracking-tight">Bugün, 04:00 AM</div>
+                            </div>
+
+                            <div className="bg-orange-500/5 rounded-[32px] p-6 border-l-4 border-[#ff7a21]">
+                                <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic">
+                                    <span className="text-white not-italic block mb-2 text-xs font-black uppercase tracking-widest">Altyapı Güvenliği:</span>
+                                    Tüm veriler <span className="text-[#ff7a21]">AES-256</span> standartlarında şifrelenerek AWS S3 (FRA1) üzerine anlık yedeklenmektedir.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                </div>
+
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ff7a21] group hover:shadow-2xl hover:shadow-orange-500/5 transition-all">
+                        <div className="flex gap-6 items-start">
+                            <div className="bg-orange-50 p-4 rounded-2xl shrink-0 border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm">
+                                <Shield size={28} className="text-[#ff7a21]" strokeWidth={3} />
+                            </div>
+                            <div>
+                                <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight mb-3">Teknik Not</h4>
+                                <p className="text-sm text-gray-500 leading-relaxed font-bold italic">
+                                    Bu penceredeki değişiklikler <span className="text-[#ff7a21] underline decoration-orange-200 underline-offset-4 font-black">global ölçekte</span> tüm işletme ve kullanıcı süreçlerini etkiler.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </aside>
             </div>
         </div>
     );
 }
+

@@ -16,12 +16,11 @@ import {
     Code,
     Monitor,
     Zap,
-    Sparkles,
-    Crown,
-    Flame,
-    PenTool
+    PenTool,
+    Activity,
 } from 'lucide-react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const THEMES = [
     {
@@ -151,186 +150,173 @@ export default function BrandingPage() {
     }
 
     return (
-        <div className="p-4 md:p-8 bg-slate-50 min-h-screen">
-            {notification && (
-                <div className={`fixed top-4 right-4 z-50 p-4 rounded-xl shadow-lg flex items-center gap-3 animate-in fade-in slide-in-from-top-4 ${notification.type === 'success' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'
-                    }`}>
-                    {notification.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
-                    <span className="font-medium">{notification.message}</span>
-                </div>
-            )}
+        <div className="p-0 bg-[#f8fafc] min-h-screen">
+            <div className="p-8 md:p-12 lg:p-16">
+                <div className="max-w-6xl mx-auto space-y-10">
 
-            <div className="max-w-4xl mx-auto">
-                <div className="flex items-center justify-between mb-8">
-                    <div>
-                        <h1 className="text-2xl font-bold text-slate-900">Markalaşma & Pixel</h1>
-                        <p className="text-slate-500">Müşteri menünüzü markanıza göre özelleştirin.</p>
-                    </div>
-                    <Link href="/dashboard" className="text-slate-500 hover:text-slate-900 transition-colors text-sm font-medium">
-                        Geri Dön
-                    </Link>
-                </div>
-
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Theme Selector */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div className="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
-                            <Monitor className="text-purple-500" size={24} />
-                            <h2 className="text-lg font-bold text-slate-900">Menü Teması</h2>
-                            <span className="ml-auto text-xs font-black text-purple-500 bg-purple-50 px-3 py-1 rounded-full">6 Tema</span>
+                    {/* Header Section */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 border-b-2 border-gray-100">
+                        <div className="space-y-2">
+                            <h1 className="text-4xl font-black text-gray-900 tracking-tighter">MARKALAŞMA & TEMA</h1>
+                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest">MENÜNÜZÜ KİMLİĞİNİZE GÖRE ÖZELLEŞTİRİN</p>
                         </div>
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                            {THEMES.map(t => (
-                                <button
-                                    key={t.id}
-                                    type="button"
-                                    onClick={() => setSelectedTheme(t.id)}
-                                    className={`relative group rounded-2xl overflow-hidden border-2 transition-all duration-300 text-left ${selectedTheme === t.id
-                                            ? 'border-orange-500 scale-[1.02] shadow-xl shadow-orange-500/20'
-                                            : 'border-slate-100 hover:border-slate-300 hover:scale-[1.01]'
-                                        }`}
-                                >
-                                    {/* Preview area */}
-                                    <div className={`h-24 ${t.preview} flex items-center justify-center text-4xl relative overflow-hidden`}>
-                                        <div className="absolute inset-0" style={{ background: `linear-gradient(135deg, ${t.accent}15, ${t.accent}35)` }} />
-                                        <span className="relative z-10 drop-shadow-sm">{t.icon}</span>
-                                        {selectedTheme === t.id && (
-                                            <div className="absolute top-2 right-2 w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center">
-                                                <CheckCircle2 size={14} className="text-white" />
+                        <Link href="/dashboard" className="flex items-center gap-3 px-8 py-4 bg-white border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-500 hover:border-gray-900 hover:text-gray-900 shadow-sm transition-all group w-fit">
+                            <div className="w-2 h-2 rounded-full bg-gray-200 group-hover:bg-gray-900 transition-colors" />
+                            VAZGEÇ
+                        </Link>
+                    </div>
+
+                    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        {/* Notification Toast */}
+                        <AnimatePresence>
+                            {notification && (
+                                <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+                                    className={`fixed top-12 left-1/2 -translate-x-1/2 z-[100] px-8 py-5 rounded-[28px] shadow-2xl flex items-center gap-4 border-2 ${notification.type === 'success' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : 'bg-rose-50 text-rose-600 border-rose-100/50'}`}>
+                                    {notification.type === 'success' ? <CheckCircle2 size={24} strokeWidth={3} /> : <AlertCircle size={24} strokeWidth={3} />}
+                                    <span className="text-sm font-black tracking-tight">{notification.message.toUpperCase()}</span>
+                                </motion.div>
+                            )}
+                        </AnimatePresence>
+
+                        {/* LEFT COLUMN: Theme Selection */}
+                        <div className="lg:col-span-8 space-y-10">
+                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
+                                <div className="p-10 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/20">
+                                    <div className="flex items-center gap-4">
+                                        <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                            <Monitor size={20} strokeWidth={3} />
+                                        </div>
+                                        <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">GÖRÜNÜM TEMASI</h2>
+                                    </div>
+                                    <span className="bg-orange-50 text-[#ff7a21] text-[10px] font-black px-4 py-2 rounded-xl border border-orange-100 uppercase tracking-widest">
+                                        {THEMES.length} SEÇENEK
+                                    </span>
+                                </div>
+
+                                <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    {THEMES.map(t => (
+                                        <button key={t.id} type="button" onClick={() => setSelectedTheme(t.id)}
+                                            className={`relative group rounded-[32px] overflow-hidden border-4 transition-all duration-500 text-left ${selectedTheme === t.id ? 'border-[#ff7a21] shadow-2xl shadow-orange-500/10 scale-[1.02]' : 'border-gray-50 grayscale hover:grayscale-0 hover:border-gray-200 hover:scale-[1.01]'}`}>
+
+                                            {/* Visual Preview */}
+                                            <div className={`h-40 ${t.preview} flex flex-col items-center justify-center relative overflow-hidden group-hover:grayscale-0 transition-all`}>
+                                                <div className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(circle at center, ${t.accent}, transparent)` }} />
+                                                <span className="text-5xl drop-shadow-2xl relative z-10 transition-transform duration-700 group-hover:scale-125">{t.icon}</span>
+
+                                                {/* Theme Badge */}
+                                                <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                                                    <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border-2" style={{ backgroundColor: `${t.accent}10`, color: t.accent, borderColor: `${t.accent}20` }}>
+                                                        {t.badge}
+                                                    </span>
+                                                </div>
+
+                                                {/* Selected Indicator */}
+                                                {selectedTheme === t.id && (
+                                                    <div className="absolute top-4 right-4 bg-[#ff7a21] text-white p-2 rounded-xl shadow-lg animate-in zoom-in duration-300">
+                                                        <CheckCircle2 size={16} strokeWidth={3} />
+                                                    </div>
+                                                )}
                                             </div>
-                                        )}
-                                        <span className="absolute bottom-2 left-2 text-[9px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full" style={{ background: `${t.accent}20`, color: t.accent }}>{t.badge}</span>
-                                    </div>
-                                    {/* Info area */}
-                                    <div className="p-3 bg-white">
-                                        <div className="font-black text-sm text-slate-900 mb-0.5" style={{ color: selectedTheme === t.id ? t.accent : undefined }}>{t.name}</div>
-                                        <p className="text-[10px] text-slate-400 font-medium leading-snug">{t.desc}</p>
-                                    </div>
-                                </button>
-                            ))}
-                        </div>
-                        <p className="mt-4 text-xs text-slate-400">
-                            Seçilen tema anında tüm müşterilerinizin menü sayfasında aktif olur. Tema URL üzerinden de test edebilirsiniz: <span className="font-mono">/r/{tenantSlug}?theme=MODERN</span>
-                        </p>
-                    </div>
 
-                    {/* Visual Branding Section */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div className="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
-                            <Palette className="text-orange-500" size={24} />
-                            <h2 className="text-lg font-bold text-slate-900">Görsel Kimlik</h2>
-                        </div>
-
-                        <div className="space-y-6">
-                            <div>
-                                <label className="block text-sm font-bold text-slate-700 mb-2">Tema Ana Rengi</label>
-                                <div className="flex items-center gap-4">
-                                    <div
-                                        onClick={() => colorInputRef.current?.click()}
-                                        className="w-12 h-12 rounded-xl cursor-pointer border-4 border-slate-100 shadow-sm transition-transform active:scale-95"
-                                        style={{ backgroundColor: primaryColor }}
-                                    />
-                                    <input
-                                        ref={colorInputRef}
-                                        type="color"
-                                        value={primaryColor}
-                                        onChange={(e) => setPrimaryColor(e.target.value)}
-                                        className="hidden"
-                                    />
-                                    <input
-                                        type="text"
-                                        value={primaryColor.toUpperCase()}
-                                        onChange={(e) => setPrimaryColor(e.target.value)}
-                                        className="bg-slate-50 border border-slate-100 rounded-lg px-4 py-2 text-sm font-mono outline-none focus:border-orange-500 transition-colors"
-                                    />
-                                    <p className="text-xs text-slate-400">Butonlar, ikonlar ve öne çıkan alanlar bu rengi kullanacaktır.</p>
+                                            {/* Info Area */}
+                                            <div className="p-6 bg-white space-y-2">
+                                                <div className="font-black text-sm text-gray-900 tracking-tight flex items-center justify-between">
+                                                    {t.name.toUpperCase()}
+                                                    {selectedTheme === t.id && <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21]" />}
+                                                </div>
+                                                <p className="text-[10px] text-gray-400 font-bold leading-relaxed tracking-wide uppercase">
+                                                    {t.desc}
+                                                </p>
+                                            </div>
+                                        </button>
+                                    ))}
+                                </div>
+                                <div className="px-10 pb-10">
+                                    <div className="p-6 bg-orange-50 rounded-[24px] border border-orange-100/50 flex items-center gap-4">
+                                        <div className="p-3 bg-white rounded-xl shadow-sm">
+                                            <Code size={18} className="text-[#ff7a21]" strokeWidth={3} />
+                                        </div>
+                                        <p className="text-[10px] font-black text-orange-900/60 uppercase tracking-widest leading-relaxed italic">
+                                            "URL'NİZE <span className="text-orange-950">?theme=MODERN</span> EKLEYEREK TÜM TEMALARI ANINDA TEST EDEBİLİRSİNİZ."
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {/* Tracking & Pixels Section */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100">
-                        <div className="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
-                            <Code className="text-blue-500" size={24} />
-                            <h2 className="text-lg font-bold text-slate-900">Pixel & Takip Kodları</h2>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
-                                    <Facebook size={16} className="text-[#1877F2]" /> Facebook Pixel ID
-                                </label>
-                                <input
-                                    type="text"
-                                    value={fbPixelId}
-                                    onChange={(e) => setFbPixelId(e.target.value)}
-                                    placeholder="Örn: 123456789012345"
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all"
-                                />
-                            </div>
-                            <div>
-                                <label className="flex items-center gap-2 text-sm font-bold text-slate-700 mb-2">
-                                    <Globe size={16} className="text-orange-500" /> Google Analytics ID (GA4)
-                                </label>
-                                <input
-                                    type="text"
-                                    value={gaTrackingId}
-                                    onChange={(e) => setGaTrackingId(e.target.value)}
-                                    placeholder="Örn: G-XXXXXXXXXX"
-                                    className="w-full bg-slate-50 border border-slate-100 rounded-xl px-4 py-3 outline-none focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all"
-                                />
-                            </div>
-                        </div>
-                        <p className="mt-4 text-xs text-slate-400 leading-relaxed">
-                            Bu kodlar menü sayfanıza otomatik olarak entegre edilecektir. Dönüşüm takibi için herhangi bir ek kod eklemenize gerek yoktur.
-                        </p>
-                    </div>
-
-                    {/* Custom Domain Section (Informational for now) */}
-                    <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 opacity-80">
-                        <div className="flex items-center justify-between mb-6 border-b border-slate-50 pb-4">
-                            <div className="flex items-center gap-3">
-                                <LinkIcon className="text-slate-500" size={24} />
-                                <h2 className="text-lg font-bold text-slate-900">Özel Alan Adı (CName)</h2>
-                            </div>
-                            <span className="bg-slate-100 text-slate-500 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider">Plan Üstü</span>
-                        </div>
-
-                        <div className="space-y-4">
-                            <div className="p-4 bg-slate-50 rounded-xl border border-slate-100">
-                                <p className="text-sm text-slate-600 mb-4">
-                                    Menünüzü `menu.{customDomain || 'restoran-adiniz.com'}` gibi kendi web sitenizin altında çalıştırabilirsiniz.
-                                </p>
-                                <div className="flex gap-4">
-                                    <div className="flex-1">
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">CName Hedefi</label>
-                                        <div className="flex items-center justify-between bg-white border border-slate-200 rounded-lg px-3 py-2 text-xs font-mono">
-                                            <span>app.qrlamenu.com</span>
-                                            <button type="button" className="text-slate-400 hover:text-slate-900"><Copy size={14} /></button>
+                        {/* RIGHT COLUMN: Styling & Pixels */}
+                        <div className="lg:col-span-4 space-y-10">
+                            {/* Visual Identity */}
+                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
+                                <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/20">
+                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
+                                        <Palette size={20} strokeWidth={3} />
+                                    </div>
+                                    <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">KİMLİK</h2>
+                                </div>
+                                <div className="p-8 space-y-6">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">TEMA ANA RENGİ</label>
+                                        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-[28px] border-2 border-gray-100/50 group hover:border-[#ff7a21] transition-all">
+                                            <div onClick={() => colorInputRef.current?.click()} style={{ backgroundColor: primaryColor }} className="w-16 h-16 rounded-[20px] shadow-lg cursor-pointer border-4 border-white transition-transform active:scale-90" />
+                                            <div className="flex-1">
+                                                <input ref={colorInputRef} type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} className="hidden" />
+                                                <input type="text" value={primaryColor.toUpperCase()} onChange={(e) => setPrimaryColor(e.target.value)} className="w-full bg-transparent border-none text-lg font-black text-gray-900 outline-none uppercase tracking-tighter" />
+                                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">HEX KODU</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex-1">
-                                        <label className="block text-[10px] font-bold text-slate-400 uppercase mb-1">Durum</label>
-                                        <div className="text-xs font-bold text-amber-500 mt-2">Desteğe başvurun</div>
+                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed italic text-center px-4">
+                                        BUTONLAR, İKONLAR VE ÖNE ÇIKAN TÜM ALANLAR BU RENGİ KULLANIR.
+                                    </p>
+                                </div>
+                            </div>
+
+                            {/* Tracking codes */}
+                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
+                                <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/20">
+                                    <div className="bg-blue-600 text-white p-3 rounded-2xl shadow-lg">
+                                        <Zap size={20} strokeWidth={3} />
+                                    </div>
+                                    <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">TAKİP & ANALİZ</h2>
+                                </div>
+                                <div className="p-8 space-y-8">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 flex items-center gap-2">
+                                            <Facebook size={12} className="text-[#1877F2]" strokeWidth={3} /> FACEBOOK PIXEL ID
+                                        </label>
+                                        <input type="text" value={fbPixelId} onChange={(e) => setFbPixelId(e.target.value)} placeholder="0000000000" className="w-full bg-gray-50 border-2 border-gray-100 rounded-[24px] px-8 py-5 text-xs font-black text-gray-900 outline-none focus:border-blue-500 transition-all placeholder:text-gray-200" />
+                                    </div>
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 flex items-center gap-2">
+                                            <Globe size={12} className="text-orange-500" strokeWidth={3} /> ANALYTICS ID (GA4)
+                                        </label>
+                                        <input type="text" value={gaTrackingId} onChange={(e) => setGaTrackingId(e.target.value)} placeholder="G-XXXXXXXXXX" className="w-full bg-gray-50 border-2 border-gray-100 rounded-[24px] px-8 py-5 text-xs font-black text-gray-900 outline-none focus:border-orange-500 transition-all placeholder:text-gray-200" />
+                                    </div>
+                                    <div className="p-6 bg-blue-50/50 rounded-[24px] border border-blue-100/50">
+                                        <p className="text-[10px] font-black text-blue-900/60 uppercase tracking-widest leading-loose">
+                                            TAKİP KODLARI MENÜ SAYFANIZA OTOMATİK ENTEGRE OLUR. DÖNÜŞÜMLERİ PANELİNİZDEN TAKİP EDEBİLİRSİNİZ.
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    {/* Actions */}
-                    <div className="flex items-center justify-end gap-3 pt-4">
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-orange-500/20 flex items-center gap-2 disabled:opacity-70"
-                        >
-                            {loading ? <Loader2 className="animate-spin" size={20} /> : <Save size={20} />}
-                            {loading ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
-                        </button>
-                    </div>
-                </form>
+                            {/* Actions Card */}
+                            <div className="bg-gray-900 rounded-[40px] p-10 shadow-2xl shadow-gray-400/20 space-y-8">
+                                <div className="space-y-4">
+                                    <h3 className="text-white text-xl font-black tracking-tight">KAYDETMEYE HAZIR MISINIZ?</h3>
+                                    <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest leading-relaxed">
+                                        DEĞİŞİKLİKLER KAYDEDİLDİĞİ ANDA TÜM MÜŞTERİ MENÜLERİ GÜNCELLENECEKTİR.
+                                    </p>
+                                </div>
+                                <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-4 py-8 bg-[#ff7a21] text-white rounded-[32px] text-sm font-black uppercase tracking-widest shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-95 transition-all disabled:opacity-50">
+                                    {loading ? <Loader2 className="animate-spin" size={24} strokeWidth={3} /> : <Save size={24} strokeWidth={3} />}
+                                    {loading ? 'GÜNCELLENİYOR' : 'AYARLARI YAYINLA'}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     );
