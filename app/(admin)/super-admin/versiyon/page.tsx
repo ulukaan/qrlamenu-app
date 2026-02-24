@@ -38,7 +38,7 @@ export default function VersionManagementPage() {
                 </button>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {/* Core Version Dashboard */}
                     <div className="card" style={{ border: 'none', padding: '40px 48px', display: 'flex', gap: '40px', alignItems: 'center', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', borderRadius: '32px', position: 'relative', overflow: 'hidden', boxShadow: '0 30px 60px -12px rgba(0, 0, 0, 0.45)' }}>

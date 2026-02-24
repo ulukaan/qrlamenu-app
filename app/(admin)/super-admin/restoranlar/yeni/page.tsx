@@ -154,7 +154,7 @@ export default function YeniRestoranEkle() {
                                     <h3 style={{ fontSize: '1.5rem', fontWeight: '900', color: '#111827', marginBottom: '10px' }}>Uygun Hizmet Paketini Belirleyin</h3>
                                     <p style={{ color: '#64748b', fontSize: '1rem', fontWeight: '500' }}>İşletmenin büyüklüğüne ve ihtiyaçlarına en uygun lisans modelini seçin.</p>
                                 </div>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+                                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                                     {plans.map((plan) => (
                                         <div
                                             key={plan.id}
@@ -211,7 +211,7 @@ export default function YeniRestoranEkle() {
                                     <p style={{ color: '#64748b', fontWeight: '500' }}>Restoranın platform üzerindeki görüneceği temel bilgileri tanımlayın.</p>
                                 </div>
 
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                     <div style={{ gridColumn: 'span 2' }}>
                                         <label style={{ display: 'block', marginBottom: '12px', fontSize: '0.9rem', fontWeight: '900', color: '#374151' }}>Resmi Restoran Adı</label>
                                         <input

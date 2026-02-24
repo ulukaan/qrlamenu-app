@@ -138,3 +138,17 @@ export const sendPasswordResetEmail = async (email: string, unhashedPassword: st
 
     return sendMail(email, `QRlamenü - Hesabınızın Şifresi Sıfırlandı`, html);
 };
+
+export const sendVerificationEmail = async (email: string, token: string) => {
+    const verifyUrl = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}` : `https://qrlamenu.com/verify-email?token=${token}`;
+
+    const html = `
+    <div style="font-family: Arial; padding: 20px;">
+        <h2>E-posta Doğrulama</h2>
+        <p>Hesabınızı doğrulamak için aşağıdaki bağlantıya tıklayın:</p>
+        <a href="${verifyUrl}" style="background: #3b82f6; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">Doğrula</a>
+    </div>
+    `;
+
+    return sendMail(email, `QRlamenü - E-posta Doğrulama`, html);
+};

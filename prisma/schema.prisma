@@ -4,16 +4,16 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
 }
 
 model SuperAdmin {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
+  id                       String    @id @default(cuid())
+  email                    String    @unique
+  password                 String
+  name                     String?
   role                     String    @default("SUPER_ADMIN")
   emailVerified            DateTime?
   verificationToken        String?   @unique
@@ -59,15 +59,16 @@ model Tenant {
   transactions   Transaction[]
   printAgents    PrintAgent[]
   campaigns      Campaign[]
+  dailyStats     DailyStat[]
 
   @@index([slug])
 }
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  password  String
-  name      String?
+  id                       String    @id @default(cuid())
+  email                    String    @unique
+  password                 String
+  name                     String?
   role                     UserRole  @default(ADMIN)
   tenantId                 String
   emailVerified            DateTime?
@@ -156,7 +157,6 @@ enum UserRole {
   KITCHEN
 }
 
-
 enum OrderStatus {
   PENDING
   PREPARING
@@ -168,7 +168,7 @@ enum OrderStatus {
 model Theme {
   id          String   @id @default(cuid())
   key         String   @unique // e.g. "MODERN", "CLASSIC"
-  name        String   // Display Name
+  name        String // Display Name
   description String?
   previewUrl  String?
   isPremium   Boolean  @default(false)
@@ -198,10 +198,10 @@ enum CallStatus {
 
 model Transaction {
   id            String            @id @default(cuid())
-  title         String            // e.g. "Premium Plan - 1 Month"
+  title         String // e.g. "Premium Plan - 1 Month"
   amount        Float
-  reward        String?           // e.g. "No Reward"
-  paymentMethod String            // e.g. "Stripe", "Iyzico", "Havale"
+  reward        String? // e.g. "No Reward"
+  paymentMethod String // e.g. "Stripe", "Iyzico", "Havale"
   status        TransactionStatus @default(COMPLETED)
   tenantId      String
   createdAt     DateTime          @default(now())
@@ -222,7 +222,7 @@ model SystemLog {
   id        String   @id @default(cuid())
   level     LogLevel @default(INFO)
   message   String
-  category  String?  // e.g. "AUTH", "DATABASE", "SYSTEM"
+  category  String? // e.g. "AUTH", "DATABASE", "SYSTEM"
   createdAt DateTime @default(now())
 }
 
@@ -234,15 +234,15 @@ enum LogLevel {
 }
 
 model Lead {
-  id          String     @id @default(cuid())
-  name        String
-  restaurant  String?
-  email       String?
-  phone       String?
-  status      LeadStatus @default(PENDING)
-  notes       String?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  id         String     @id @default(cuid())
+  name       String
+  restaurant String?
+  email      String?
+  phone      String?
+  status     LeadStatus @default(PENDING)
+  notes      String?
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 enum LeadStatus {
@@ -266,7 +266,7 @@ model PrintAgent {
   agentId   String   @unique
   status    String   @default("OFFLINE") // ONLINE, OFFLINE
   version   String?
-  latency   Int?     // ms
+  latency   Int? // ms
   lastSeen  DateTime @default(now())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -276,27 +276,43 @@ model PrintAgent {
 }
 
 model AuditLog {
-  id           String   @id @default(cuid())
-  adminId      String?
-  adminEmail   String?
-  action       String   // e.g. "CREATE_TENANT", "DELETE_PRODUCT"
-  details      String?
-  ipAddress    String?
-  createdAt    DateTime @default(now())
+  id         String   @id @default(cuid())
+  adminId    String?
+  adminEmail String?
+  action     String // e.g. "CREATE_TENANT", "DELETE_PRODUCT"
+  details    String?
+  ipAddress  String?
+  createdAt  DateTime @default(now())
 }
 
 model Campaign {
-  id          String   @id @default(cuid())
-  title       String
-  content     String?
-  imageUrl    String?
-  isActive    Boolean  @default(true)
-  tenantId    String
-  startDate   DateTime?
-  endDate     DateTime?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  id        String    @id @default(cuid())
+  title     String
+  content   String?
+  imageUrl  String?
+  isActive  Boolean   @default(true)
+  tenantId  String
+  startDate DateTime?
+  endDate   DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  tenant    Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   @@index([tenantId])
+}
+
+model DailyStat {
+  id           String   @id @default(cuid())
+  tenantId     String
+  date         DateTime @db.Date
+  totalRevenue Float    @default(0)
+  orderCount   Int      @default(0)
+  statusDesc   Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  @@unique([tenantId, date])
+  @@index([tenantId])
+  @@index([date])
 }

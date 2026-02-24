@@ -162,7 +162,7 @@ export default function RestoranBilgileri() {
     // ===== STYLES =====
     const pageStyle: React.CSSProperties = { padding: '0' };
     const headerStyle: React.CSSProperties = {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'
     };
     const cardStyle: React.CSSProperties = {
         background: '#fff', borderRadius: '14px', border: '1px solid #e8ecf1',
@@ -174,7 +174,7 @@ export default function RestoranBilgileri() {
         flexWrap: 'wrap', gap: '12px', background: '#fafbfc',
     };
     const cardBodyStyle: React.CSSProperties = { padding: '24px' };
-    const rowStyle: React.CSSProperties = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' };
+    const rowStyle: string = "grid grid-cols-1 md:grid-cols-2 gap-5";
     const fullRowStyle: React.CSSProperties = { gridColumn: '1 / -1' };
     const labelStyle: React.CSSProperties = {
         display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#444', marginBottom: '8px',
@@ -358,7 +358,7 @@ export default function RestoranBilgileri() {
                             </div>
 
                             {/* Alt Başlık + Çalışma Zamanı */}
-                            <div style={{ ...rowStyle, marginBottom: '20px' }}>
+                            <div className={rowStyle} style={{ marginBottom: '20px' }}>
                                 <div>
                                     <label style={labelStyle}>Firma Alt Başlığı</label>
                                     <input type="text" name="subtitle" value={formData.subtitle}
@@ -399,7 +399,7 @@ export default function RestoranBilgileri() {
                             </div>
 
                             {/* Sosyal Medya */}
-                            <div style={{ ...rowStyle, marginBottom: '20px' }}>
+                            <div className={rowStyle} style={{ marginBottom: '20px' }}>
                                 <div>
                                     <div style={iconLabelStyle}><Instagram size={15} /> Instagram (Örnek: https://instagram.com/...)</div>
                                     <input type="text" name="instagram" value={formData.instagram}
@@ -428,7 +428,7 @@ export default function RestoranBilgileri() {
                             </div>
 
                             {/* Logo & Kapak Resmi */}
-                            <div style={{ ...rowStyle, marginBottom: '20px', borderTop: '1px solid #f0f1f3', paddingTop: '20px' }}>
+                            <div className={rowStyle} style={{ marginBottom: '20px', borderTop: '1px solid #f0f1f3', paddingTop: '20px' }}>
                                 <div>
                                     <label style={labelStyle}>Logonuz</label>
                                     <div style={uploadBoxStyle}>
@@ -488,7 +488,7 @@ export default function RestoranBilgileri() {
                             {/* Menü Şablonu */}
                             <div style={{ borderTop: '1px solid #f0f1f3', paddingTop: '20px', marginBottom: '20px' }}>
                                 <label style={labelStyle}>Menü Şablonu Seçin</label>
-                                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '14px' }}>
+                                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                                     {AVAILABLE_THEMES.map((theme) => {
                                         const isPremiumTheme = theme.key !== 'LITE' && theme.key !== 'CLASSIC';
                                         const isLocked = isPremiumTheme && !availableFeatures.includes('Premium Tema') && !availableFeatures.includes('Pro Tema');

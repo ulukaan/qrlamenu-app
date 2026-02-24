@@ -65,7 +65,7 @@ export default function SecuritySettingsPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {/* General Security Layers */}
                     <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', borderRadius: '24px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)' }}>
@@ -136,7 +136,7 @@ export default function SecuritySettingsPage() {
                                 <p style={{ margin: '4px 0 0', fontSize: '0.9rem', color: '#64748b', fontWeight: '500' }}>Şifre kriterleri ve rotasyon kuralları.</p>
                             </div>
                         </div>
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div style={{ gridColumn: 'span 2', padding: '28px', borderRadius: '20px', background: '#f8fafc', border: '1px solid #e2e8f0', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.02)' }}>
                                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
                                     <span style={{ fontSize: '0.95rem', fontWeight: '900', color: '#1f2937', letterSpacing: '-0.01em' }}>Minimum Karakter Uzunluğu</span>
@@ -145,7 +145,7 @@ export default function SecuritySettingsPage() {
                                 <div style={{ height: '10px', background: '#e2e8f0', borderRadius: '5px', overflow: 'hidden', position: 'relative' }}>
                                     <div style={{ width: '75%', height: '100%', background: 'linear-gradient(90deg, #ff7a21, #fb923c)', borderRadius: '5px', boxShadow: '0 0 15px rgba(255, 122, 33, 0.5)' }} />
                                 </div>
-                                <div style={{ marginTop: '24px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.85rem', fontWeight: '800', color: '#4b5563', padding: '10px 16px', background: '#fff', borderRadius: '12px', border: '1px solid #e2e8f0' }}>
                                         <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#10b981', boxShadow: '0 0 8px #10b981' }} /> Büyük/Küçük Harf
                                     </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
@@ -7,6 +7,14 @@ import "./globals.css";
 
 
 const inter = Inter({ subsets: ["latin"] });
+
+export const viewport: Viewport = {
+    themeColor: '#ffffff', // Status bar ve SafeArea kısımları beyaz (veya sonradan light/dark duruma göre)
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false, // Pinch-to-zoom (Yakınlaştırma) tamamen yasaklanıyor. App hissiyatı.
+};
 
 export const metadata: Metadata = {
     metadataBase: new URL('https://qrlamenu.com'),

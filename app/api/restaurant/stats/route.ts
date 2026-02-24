@@ -10,31 +10,62 @@ export async function GET(request: Request) {
     const tenantId = getTenantId(request);
 
     try {
-        const [orderCount, categoryCount, pendingOrders] = await Promise.all([
-            prisma.order.count({ where: { tenantId } }),
+        const [categoryCount, pendingOrders] = await Promise.all([
             prisma.category.count({ where: { tenantId } }),
             prisma.order.count({ where: { tenantId, status: 'PENDING' } })
         ]);
 
-        // Generate some realistic-looking mock data for the last 7 days
-        const mockMonthlyScans = Array.from({ length: 7 }).map((_, i) => {
-            const date = new Date();
-            date.setDate(date.getDate() - (6 - i));
+        // Son 7 günün istatistiklerini DailyStat'tan hesapla (Gerçek Veri)
+        const endDate = new Date();
+        const startDate = new Date();
+        startDate.setDate(endDate.getDate() - 6);
+        startDate.setUTCHours(0, 0, 0, 0);
+
+        const dailyStats = await prisma.dailyStat.findMany({
+            where: {
+                tenantId,
+                date: { gte: startDate }
+            },
+            orderBy: { date: 'asc' }
+        });
+
+        // Tüm zamanların sipariş sayısını getirme (Eskiden Order'ların sayımıydı)
+        const totalStatInfo = await prisma.dailyStat.aggregate({
+            where: { tenantId },
+            _sum: {
+                orderCount: true,
+                totalRevenue: true
+            }
+        });
+
+        // DailyStat verisini Recharts'in istediği formata (gün bazlı) doldur/matchle
+        const monthlyScans = Array.from({ length: 7 }).map((_, i) => {
+            const currentDate = new Date();
+            currentDate.setDate(currentDate.getDate() - (6 - i));
+            currentDate.setUTCHours(0, 0, 0, 0);
+
+            const statMatch = dailyStats.find(d =>
+                new Date(d.date).setUTCHours(0, 0, 0, 0) === currentDate.getTime()
+            );
+
             return {
-                name: date.toLocaleDateString('tr-TR', { weekday: 'short' }),
-                scans: Math.floor(Math.random() * 50) + 10,
-                orders: Math.floor(Math.random() * 20) + 5
+                name: currentDate.toLocaleDateString('tr-TR', { weekday: 'short' }),
+                scans: statMatch ? statMatch.orderCount : 0, // QR Okunmaları geçici olarak ciro ile simüle edebilirsiniz veya scan sayaçları olursa eklersiniz.
+                orders: statMatch ? statMatch.orderCount : 0,
+                revenue: statMatch ? statMatch.totalRevenue : 0
             };
         });
 
         return NextResponse.json({
-            orderCount,
+            orderCount: totalStatInfo._sum.orderCount || 0,
+            totalRevenue: totalStatInfo._sum.totalRevenue || 0,
             categoryCount,
             pendingOrders,
-            scanCount: mockMonthlyScans.reduce((sum, day) => sum + day.scans, 0),
-            monthlyScans: mockMonthlyScans
+            scanCount: totalStatInfo._sum.orderCount || 0, // Geçici
+            monthlyScans: monthlyScans
         });
     } catch (error) {
+        console.error('Stats Error:', error);
         return NextResponse.json({ error: 'İstatistikler alınamadı' }, { status: 500 });
     }
 }

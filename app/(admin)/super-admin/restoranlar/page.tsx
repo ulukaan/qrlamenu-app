@@ -48,7 +48,7 @@ export default function SuperAdminRestoranlar() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 380px', gap: '2.5rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-8">
                 {/* Main Table Column */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>

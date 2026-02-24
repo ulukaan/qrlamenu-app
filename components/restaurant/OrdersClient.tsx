@@ -215,18 +215,8 @@ export default function OrdersClient() {
     return (
         <div style={{ padding: '0', background: '#f9fafb', minHeight: 'calc(100vh - 80px)' }}>
             {/* Header / Tabs */}
-            <div style={{
-                background: 'white',
-                padding: '1rem 2rem',
-                borderBottom: '1px solid #e5e7eb',
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                position: 'sticky',
-                top: 0,
-                zIndex: 10
-            }}>
-                <div style={{ display: 'flex', gap: '24px' }}>
+            <div className="bg-white p-4 md:px-8 border-b border-[#e5e7eb] flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 sticky top-0 z-10">
+                <div className="flex flex-wrap gap-4 md:gap-6">
                     <button
                         onClick={() => setActiveTab('orders')}
                         style={{
@@ -288,7 +278,7 @@ export default function OrdersClient() {
                 </div>
 
                 {activeTab === 'orders' && (
-                    <div style={{ display: 'flex', gap: '12px', alignItems: 'center' }}>
+                    <div className="flex flex-wrap gap-3 items-center w-full lg:w-auto">
                         <select
                             value={statusFilter}
                             onChange={(e) => setStatusFilter(e.target.value)}
@@ -345,7 +335,7 @@ export default function OrdersClient() {
                 )}
             </div>
 
-            <div style={{ padding: '2rem' }}>
+            <div className="p-4 md:p-8">
                 {activeTab === 'orders' && (
                     <>
                         {loading && orders.length === 0 ? (
@@ -370,11 +360,7 @@ export default function OrdersClient() {
                                 </p>
                             </div>
                         ) : (
-                            <div style={{
-                                display: 'grid',
-                                gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
-                                gap: '20px'
-                            }}>
+                            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
                                 <AnimatePresence>
                                     {filteredOrders.map((order) => (
                                         <motion.div
@@ -503,7 +489,7 @@ export default function OrdersClient() {
                                 <p style={{ margin: 0, color: '#9ca3af', fontSize: '0.9rem' }}>Şu an aktif bir garson çağrısı bulunmuyor.</p>
                             </div>
                         ) : (
-                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
                                 <AnimatePresence>
                                     {waiterCalls
                                         .filter(call => {

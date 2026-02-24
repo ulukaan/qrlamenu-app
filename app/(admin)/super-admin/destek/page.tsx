@@ -63,7 +63,7 @@ export default function SupportPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 340px', gap: '2rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-8">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                     {/* Premium Categories Filter Bar */}
                     <div style={{ display: 'flex', gap: '10px', overflowX: 'auto', paddingBottom: '8px' }}>

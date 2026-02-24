@@ -123,7 +123,7 @@ export default function SuperAdminPlanlar() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '3rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2.5rem' }}>
                     {loading ? (
                         <div style={{ textAlign: 'center', padding: '120px', background: '#fff', borderRadius: '32px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
@@ -140,7 +140,7 @@ export default function SuperAdminPlanlar() {
                             <button onClick={() => handleOpenModal()} style={{ marginTop: '24px', background: 'none', border: 'none', color: '#3b82f6', fontWeight: '900', cursor: 'pointer', fontSize: '1rem', textDecoration: 'underline' }}>+ İlk Paketi Şimdi Tanımla</button>
                         </div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '2.5rem' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                             {plans.map((plan: any) => (
                                 <div key={plan.id} className="card group" style={{ border: 'none', padding: '48px', position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', height: '100%', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
                                     <div style={{ position: 'absolute', top: '32px', right: '32px', display: 'flex', gap: '12px', zIndex: 10 }}>
@@ -277,7 +277,7 @@ export default function SuperAdminPlanlar() {
                             <p style={{ color: '#64748b', fontSize: '1rem', fontWeight: '500' }}>Hizmet limitlerini rafine ederek platform teklifini güncelleyin.</p>
                         </div>
 
-                        <form onSubmit={handleSave} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                        <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <div style={{ gridColumn: 'span 2' }}>
                                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Paket Görünür Adı</label>
                                 <input

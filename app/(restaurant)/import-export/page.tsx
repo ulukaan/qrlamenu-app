@@ -23,11 +23,11 @@ export default function ImportExport() {
 
     // Header
     const headerStyle: React.CSSProperties = {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'
     };
 
     const containerStyle: React.CSSProperties = {
-        padding: '0 2rem', paddingBottom: '3rem'
+        paddingBottom: '3rem'
     };
 
     // Notice
@@ -38,9 +38,7 @@ export default function ImportExport() {
     };
 
     // Grid
-    const rowStyle: React.CSSProperties = {
-        display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '24px'
-    };
+    const rowStyle: string = "grid grid-cols-1 md:grid-cols-2 gap-6";
 
     // Box
     const dashboardBoxStyle: React.CSSProperties = {
@@ -105,7 +103,7 @@ export default function ImportExport() {
     return (
         <div style={pageStyle}>
             {/* Header / Breadcrumb */}
-            <div style={headerStyle}>
+            <div className="p-4 md:p-8" style={headerStyle}>
                 <h1 style={{ fontSize: '1.5rem', fontWeight: '500', color: '#333', margin: 0 }}>Import / Export</h1>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#666', fontSize: '0.9rem' }}>
                     <Link href="/dashboard" style={{ color: '#666', textDecoration: 'none' }}>Geri</Link>
@@ -114,7 +112,7 @@ export default function ImportExport() {
                 </div>
             </div>
 
-            <div style={containerStyle}>
+            <div className="px-4 md:px-8" style={containerStyle}>
                 {/* Notice */}
                 <div style={noticeStyle}>
                     <div>1.) Kategori ve ürünlerinizi excelde hazırlayarak toplu yükleyebilirsiniz.</div>
@@ -122,7 +120,7 @@ export default function ImportExport() {
                 </div>
 
                 {/* Row */}
-                <div style={rowStyle}>
+                <div className={rowStyle}>
 
                     {/* Kategori Yükle */}
                     <div style={dashboardBoxStyle}>

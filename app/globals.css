@@ -41,12 +41,25 @@
     box-sizing: border-box;
     padding: 0;
     margin: 0;
+    -webkit-tap-highlight-color: transparent; /* Mobilde göze çarpan gri mavi dokunma kutucuklarını yokederek app hissi verir */
+    scrollbar-width: none; /* Firefox için kaydırma çubuğunu gizle */
+    -ms-overflow-style: none; /* IE/Edge için */
+}
+
+/* Tüm scrollbarları Webkit (Chrome/Safari) tarayıcılarda görünmez yap ama scroll çalışsın */
+::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
 }
 
 html,
 body {
     max-width: 100vw;
+    width: 100vw;
     overflow-x: hidden;
+    overscroll-behavior-y: none; /* iOS Safari'de olan ekranın üstünden çekince yaşanan 'bounce' (yaylanma) efektini durdurur */
+    touch-action: pan-y; /* Yatay kaymayı kısıtla, dikey kaydırmaya izin ver. Pinch to zoom yedek engelleyici */
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     background-color: hsl(var(--background));
     color: hsl(var(--foreground));

@@ -196,7 +196,7 @@ export default function EditRestaurantPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '300px 1fr 340px', gap: '2.5rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_340px] gap-10">
                 {/* Left Sidebar: Stats & Preview */}
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {/* Stats Card */}
@@ -253,7 +253,7 @@ export default function EditRestaurantPage() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', marginBottom: '32px' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                             <div style={{ gridColumn: 'span 2' }}>
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Restoran Kamu Adı</label>
                                 <input
@@ -314,7 +314,7 @@ export default function EditRestaurantPage() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div>
                                 <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Platform URL (Slug)</label>
                                 <div style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '0 18px', transition: 'all 0.2s' }} className="focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-50">
@@ -368,7 +368,7 @@ export default function EditRestaurantPage() {
                             )}
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '20px' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                             {plans.map((plan) => (
                                 <div
                                     key={plan.id}
@@ -416,7 +416,7 @@ export default function EditRestaurantPage() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
                             {Object.entries(THEMES).map(([key, config]: [string, any]) => (
                                 <div
                                     key={key}

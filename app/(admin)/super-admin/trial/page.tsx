@@ -109,7 +109,7 @@ export default function TrialManagementPage() {
             </div>
 
             {/* Premium Stats Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2.5rem', marginBottom: '3.5rem' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
                 <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', borderRadius: '32px' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
                         <div>
@@ -155,7 +155,7 @@ export default function TrialManagementPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 380px', gap: '3rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', borderRadius: '32px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
                         <div style={{ padding: '28px 40px', borderBottom: '1px solid #f1f5f9', background: '#fff', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -338,7 +338,7 @@ export default function TrialManagementPage() {
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
                                 <div>
                                     <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>Uzatma Aralığı</label>
-                                    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '12px' }}>
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                                         {[
                                             { label: '+7 Gün', value: '7' },
                                             { label: '+15 Gün', value: '15' },

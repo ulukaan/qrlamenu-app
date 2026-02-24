@@ -48,16 +48,22 @@ export default async function UyelikPlanAyarlari() {
     }
 
     // Fetch all available plans
-    const allPlans = await prisma.subscriptionPlan.findMany({
+    const allPlansRaw = await prisma.subscriptionPlan.findMany({
         orderBy: {
             price: 'asc'
         }
     });
 
+    const allPlans = allPlansRaw.map(p => ({
+        ...p,
+        features: p.features as string[]
+    }));
+
     // Mock dates for now if they don't exist in DB (DB has trialExpiresAt but not explicit start/end for subscription cycle usually in simple schemes)
     // We can use updated at or create mock logic
     const currentPlanData = {
         ...tenant.plan,
+        features: tenant.plan.features as string[],
         startDate: tenant.createdAt,
         endDate: tenant.trialExpiresAt ? tenant.trialExpiresAt : new Date(new Date().setFullYear(new Date().getFullYear() + 1)) // Default 1 year from now if not trial
     };

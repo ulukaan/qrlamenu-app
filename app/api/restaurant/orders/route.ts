@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 import { validateSession } from '@/lib/auth';
 import { triggerRestaurantEvent } from '@/lib/pusher';
 import { checkTenantLimits, hasFeature } from '@/lib/limits';
+import { aggregateOrderStat } from '@/lib/aggregator';
 
 export async function POST(request: Request) {
     try {
@@ -113,8 +114,18 @@ export async function PATCH(request: Request) {
             data: { status: data.status }
         });
 
-        // Trigger status update notification
+        // Trigger real-time notification
         await triggerRestaurantEvent(tenantId, 'order-status-update', order);
+
+        // Agregasyon: "Ciro" ve "Sipariş Sayısı" sadece başarılıysa eklenir veya düşülür
+        if (existingOrder.status !== data.status) {
+            await aggregateOrderStat(
+                tenantId,
+                existingOrder.totalAmount,
+                existingOrder.status,
+                data.status
+            );
+        }
 
         return NextResponse.json(order);
     } catch (error) {
@@ -154,9 +165,19 @@ export async function DELETE(request: Request) {
             return NextResponse.json({ error: 'Order not found or access denied' }, { status: 404 });
         }
 
-        await prisma.order.delete({
+        const deletedOrder = await prisma.order.delete({
             where: { id }
         });
+
+        // Silinen sipariş eğer 'COMPLETED' (Gelir Olarak Kaydedilen) durumdaysa ciroyu aggregrate'den geri düş.
+        if (existingOrder.status === 'COMPLETED') {
+            await aggregateOrderStat(
+                tenantId,
+                existingOrder.totalAmount,
+                'COMPLETED',
+                'CANCELLED' // Siliniyorsa iptal edilmiş (revenueDelta=-amount) muamelesi yapmak mantıklıdır
+            );
+        }
 
         return NextResponse.json({ success: true });
     } catch (error) {

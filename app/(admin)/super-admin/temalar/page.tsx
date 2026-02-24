@@ -74,7 +74,7 @@ export default function ThemesPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 380px', gap: '3rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     {loading ? (
                         <div style={{ textAlign: 'center', padding: '120px', background: '#fff', borderRadius: '32px', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}>
@@ -82,7 +82,7 @@ export default function ThemesPage() {
                             <p style={{ marginTop: '24px', color: '#64748b', fontWeight: '800', fontSize: '1.1rem' }}>Sistem Senkronize Ediliyor...</p>
                         </div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(360px, 1fr))', gap: '2.5rem' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                             {themes.map((theme) => (
                                 <div key={theme.id} className="card group" style={{ border: 'none', padding: 0, overflow: 'hidden', position: 'relative', background: '#fff', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)', borderRadius: '28px' }}>
                                     <div style={{ height: '260px', background: '#f8fafc', position: 'relative', overflow: 'hidden' }}>

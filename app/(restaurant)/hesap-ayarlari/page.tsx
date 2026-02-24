@@ -281,7 +281,7 @@ export default function HesapAyarlari() {
     // ===== Styles =====
     const pageStyle: React.CSSProperties = { padding: '0' };
     const headerStyle: React.CSSProperties = {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '1.5rem 2rem'
+        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'
     };
     const cardStyle: React.CSSProperties = {
         background: '#fff', borderRadius: '14px', border: '1px solid #e8ecf1',
@@ -295,9 +295,7 @@ export default function HesapAyarlari() {
         margin: 0, fontSize: '0.95rem', fontWeight: 700, color: '#1a1a2e',
     };
     const cardBodyStyle: React.CSSProperties = { padding: '20px' };
-    const gridStyle: React.CSSProperties = {
-        display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px',
-    };
+    const gridStyle: string = "grid grid-cols-1 md:grid-cols-2 gap-4";
     const fieldStyle: React.CSSProperties = { marginBottom: '0' };
     const labelStyle: React.CSSProperties = {
         display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#444',
@@ -398,7 +396,7 @@ export default function HesapAyarlari() {
                 </div>
             </div>
 
-            <div style={{ padding: '0 2rem', paddingBottom: '3rem' }}>
+            <div className="px-4 md:px-8 pb-12">
                 {/* Notice */}
                 <div style={noticeStyle}>
                     <AlertCircle size={18} style={{ flexShrink: 0 }} />
@@ -418,7 +416,7 @@ export default function HesapAyarlari() {
                         <h3 style={cardTitleStyle}>Hesap Ayarları</h3>
                     </div>
                     <div style={cardBodyStyle}>
-                        <div style={gridStyle}>
+                        <div className={gridStyle}>
                             {/* Username */}
                             <div style={fieldStyle}>
                                 <label style={labelStyle}>Kullanıcı Adı *</label>
@@ -471,7 +469,7 @@ export default function HesapAyarlari() {
                             </div>
                         )}
 
-                        <div style={{ ...gridStyle, marginTop: '16px' }}>
+                        <div className={gridStyle} style={{ marginTop: '16px' }}>
                             {/* Phone */}
                             <div style={fieldStyle}>
                                 <label style={labelStyle}>Telefon</label>
@@ -533,7 +531,7 @@ export default function HesapAyarlari() {
                         </div>
 
                         {/* Language Popup */}
-                        <div style={{ ...gridStyle, marginTop: '16px' }}>
+                        <div className={gridStyle} style={{ marginTop: '16px' }}>
                             <div style={fieldStyle}>
                                 <label style={labelStyle}>Menü Açılmadan Dil Seçimi İstensin Mi?</label>
                                 <select value={languageSelectorPopup ? '1' : '0'}
@@ -605,7 +603,7 @@ export default function HesapAyarlari() {
                                         onChange={e => setBillingCompanyName(e.target.value)}
                                         style={inputStyle} placeholder="Firma adı" />
                                 </div>
-                                <div style={gridStyle}>
+                                <div className={gridStyle}>
                                     <div style={{ marginBottom: '16px' }}>
                                         <label style={labelStyle}>Vergi Dairesi *</label>
                                         <input type="text" value={billingTaxDaire}
@@ -643,7 +641,7 @@ export default function HesapAyarlari() {
                             </div>
                         </div>
 
-                        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1.5fr 1fr', gap: '16px', marginBottom: '16px' }}>
+                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
                             <div>
                                 <label style={labelStyle}>İl *</label>
                                 <input type="text" value={billingCity}

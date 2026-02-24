@@ -122,7 +122,7 @@ export default function PaymentsPage() {
             </div>
 
             {/* High-End Stats Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '2.5rem', marginBottom: '3.5rem' }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-14">
                 <div className="card" style={{ border: 'none', padding: '40px', background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)', color: '#fff', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', borderRadius: '32px', position: 'relative', overflow: 'hidden' }}>
                     <div style={{ position: 'absolute', top: '-10%', right: '-5%', width: '120px', height: '120px', background: 'rgba(255,122,33,0.1)', filter: 'blur(40px)', borderRadius: '50%' }}></div>
                     <div style={{ position: 'relative' }}>
@@ -168,7 +168,7 @@ export default function PaymentsPage() {
                 </div>
             </div>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1fr) 380px', gap: '3rem' }}>
+            <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-12">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
                     <div className="card" style={{ border: 'none', padding: 0, overflow: 'hidden', borderRadius: '32px', boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.05)', background: '#fff' }}>
                         <div style={{ padding: '28px 40px', borderBottom: '1px solid #f1f5f9', display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#fff' }}>
@@ -373,7 +373,7 @@ export default function PaymentsPage() {
                             <p style={{ color: '#64748b', fontSize: '1rem', fontWeight: '500' }}>Dış kaynaklı veya manuel tahsilatları sisteme işleyin.</p>
                         </div>
 
-                        <form onSubmit={handleSave} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+                        <form onSubmit={handleSave} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <div style={{ gridColumn: 'span 2' }}>
                                 <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '900', color: '#374151', marginBottom: '12px' }}>İlgili Restoran</label>
                                 <select

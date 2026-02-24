@@ -127,8 +127,8 @@ export default function CampaignsPage() {
     };
 
     return (
-        <div style={{ padding: '2rem', background: '#f9fafb', minHeight: 'calc(100vh - 80px)' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
+        <div className="p-4 md:p-8 bg-[#f9fafb] min-h-[calc(100vh-80px)]">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
                 <div>
                     <h2 style={{ fontSize: '1.75rem', fontWeight: '800', color: '#111827', margin: 0 }}>Kampanya & Duyuru Yönetimi</h2>
                     <p style={{ color: '#6b7280', marginTop: '4px' }}>Müşterilerinizin menüde göreceği bannerları ve kampanyaları yönetin.</p>
@@ -183,7 +183,7 @@ export default function CampaignsPage() {
                     </p>
                 </div>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(380px, 1fr))', gap: '24px' }}>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {campaigns.map((campaign) => (
                         <div key={campaign.id} style={{
                             background: 'white',
@@ -331,7 +331,7 @@ export default function CampaignsPage() {
                                     </div>
                                 </div>
 
-                                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <div>
                                         <label style={{ display: 'block', fontSize: '0.85rem', fontWeight: '700', marginBottom: '8px' }}>Başlangıç Tarihi</label>
                                         <input
