@@ -21,20 +21,30 @@ const RechartsCartesianGrid = dynamic(() => import('recharts').then(mod => mod.C
 const RechartsTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip), { ssr: false });
 const RechartsResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 
-const StatCard = ({ title, value, icon, iconBg, iconColor }: any) => (
-    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group flex flex-col gap-6">
-        <div className="flex justify-between items-start">
-            <div
-                className="w-16 h-16 rounded-3xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-sm"
-                style={{ backgroundColor: iconBg, color: iconColor }}
-            >
-                {React.cloneElement(icon as React.ReactElement, { size: 28, strokeWidth: 3 })}
-            </div>
-            <div className="bg-gray-50 px-4 py-2 rounded-xl text-[10px] font-black tracking-widest text-gray-400">AKTİF</div>
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+
+type StatCardProps = {
+    title: string;
+    value: string;
+    subtitle?: string;
+    statusLabel?: string;
+};
+
+const StatCard: React.FC<StatCardProps> = ({ title, value, subtitle, statusLabel = 'Aktif' }) => (
+    <div className="bg-white border border-gray-200 rounded-md p-4 flex flex-col gap-1.5 min-h-[96px]">
+        <div className="flex items-center justify-between">
+            <h3 className="text-[11px] font-medium text-gray-600 tracking-wide">{title}</h3>
+            <span className="text-[11px] font-medium text-emerald-600">
+                {statusLabel}
+            </span>
         </div>
-        <div>
-            <h3 className="text-gray-400 font-bold uppercase text-[10px] tracking-[0.2em] mb-2">{title}</h3>
-            <p className="text-4xl font-black text-gray-900 tracking-tighter">{value}</p>
+        <div className="mt-1">
+            <p className="text-3xl font-semibold text-gray-900 leading-tight">{value}</p>
+            {subtitle && (
+                <p className="mt-0.5 text-[11px] text-gray-500">
+                    {subtitle}
+                </p>
+            )}
         </div>
     </div>
 );
@@ -106,21 +116,27 @@ export default function Dashboard() {
             {/* Page Header Area */}
             <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
                 <div className="max-w-3xl">
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                        Gösterge Paneli
-                    </h2>
+                    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-2">
+                        <MobileMenuToggle />
+                        <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
+                            Gösterge Paneli
+                        </h2>
+                    </div>
                     <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
                         Restoranınızın performansını, sipariş hacmini ve müşteri etkileşimlerini gerçek zamanlı izleyin.
                     </p>
                 </div>
-                <div className="flex items-center gap-4 bg-gray-50 px-8 py-4 rounded-[28px] border-2 border-gray-100">
-                    <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-[#ff7a21]">
-                        <TrendingUp size={20} strokeWidth={3} />
+                <div className="flex flex-wrap items-center gap-4">
+                    <div className="flex items-center gap-4 bg-gray-50 px-8 py-4 rounded-[28px] border-2 border-gray-100">
+                        <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-[#ea580c]">
+                            <TrendingUp size={20} strokeWidth={3} />
+                        </div>
+                        <div>
+                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">Durum</p>
+                            <p className="text-sm font-black text-gray-900 leading-none">Canlı Takip Aktif</p>
+                        </div>
                     </div>
-                    <div>
-                        <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">Durum</p>
-                        <p className="text-sm font-black text-gray-900 leading-none">Canlı Takip Aktif</p>
-                    </div>
+                    <ProfileDropdown />
                 </div>
             </header>
 
@@ -138,27 +154,24 @@ export default function Dashboard() {
                 </div>
             )}
 
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-10 lg:gap-12 mb-12 lg:mb-16">
+            <div
+                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-10 lg:mb-12"
+                style={{ color: 'rgba(15, 23, 42, 1)' }}
+            >
                 <StatCard
                     title="Bekleyen Siparişler"
                     value={stats.pendingOrders.toString()}
-                    icon={<Activity />}
-                    iconBg="#fff1f2"
-                    iconColor="#e11d48"
+                    subtitle="Son 24 saat"
                 />
                 <StatCard
                     title="Toplam Siparişler"
                     value={stats.orderCount.toString()}
-                    icon={<BarChart2 />}
-                    iconBg="#f0fdf4"
-                    iconColor="#16a34a"
+                    subtitle="Tüm zamanlar"
                 />
                 <StatCard
                     title="Menü Kategorileri"
                     value={stats.categoryCount.toString()}
-                    icon={<UtensilsCrossed />}
-                    iconBg="#fffbeb"
-                    iconColor="#d97706"
+                    subtitle="Aktif kategori sayısı"
                 />
             </div>
 
