@@ -25,14 +25,33 @@ async function main() {
     console.log('✅ Veritabanı tamamen sıfırlandı.')
 
     // 2. Abonelik Planı
-    console.log('📦 Profesyonel Plan oluşturuluyor...')
+    console.log('📦 Abonelik Planları oluşturuluyor...')
+    const starterPlan = await prisma.subscriptionPlan.create({
+        data: {
+            name: 'Başlangıç',
+            code: 'starter',
+            price: 590,
+            branchLimit: 1,
+            tableLimit: 25,
+            features: [
+                'QR Menü (Mobil Optimize)',
+                'Sınırsız Ürün Ekleme',
+                'Masa Bazlı Sipariş Takibi',
+                'Günlük Ciro Özeti',
+                'Basit Satış Raporu',
+                '1 Kullanıcı',
+                'Standart Tema (1 adet)'
+            ]
+        }
+    })
+
     const proPlan = await prisma.subscriptionPlan.create({
         data: {
             name: 'Profesyonel',
             code: 'pro',
             price: 1290,
             branchLimit: 1,
-            tableLimit: 999,
+            tableLimit: 100,
             features: [
                 'Tüm Başlangıç Özellikleri',
                 'Garson Çağrı Sistemi',
@@ -44,6 +63,47 @@ async function main() {
                 '6+ Premium Tema',
                 '5 Kullanıcı',
                 'Logo & Renk Özelleştirme'
+            ]
+        }
+    })
+
+    const growthPlan = await prisma.subscriptionPlan.create({
+        data: {
+            name: 'Growth+',
+            code: 'growth',
+            price: 1990,
+            branchLimit: 3,
+            tableLimit: 300,
+            features: [
+                'Tüm Profesyonel Özellikleri',
+                'Stok Takibi (Ürün Düşümü)',
+                'Rol Bazlı Yetkilendirme',
+                'Çoklu Kasa Raporu',
+                'Şube Açmaya Hazır Altyapı',
+                'API Erişimi',
+                'POS Entegrasyon Altyapısı',
+                'Özel Kampanya Kurguları',
+                'Öncelikli Destek'
+            ]
+        }
+    })
+
+    const kurumsalPlan = await prisma.subscriptionPlan.create({
+        data: {
+            name: 'Kurumsal',
+            code: 'kurumsal',
+            price: 3990,
+            branchLimit: 10,
+            tableLimit: 999,
+            features: [
+                'Tüm Growth+ Özellikleri',
+                'Sınırsız Şube',
+                'Merkezi Dashboard (Tüm Şubeler)',
+                'Şube Performans Karşılaştırma',
+                'Özel Domain',
+                'ERP / Muhasebe Entegrasyonu',
+                'SLA Destek',
+                'Özel Onboarding'
             ]
         }
     })
