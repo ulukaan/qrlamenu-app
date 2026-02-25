@@ -3,14 +3,13 @@ import type { NextRequest } from 'next/server';
 
 // ── Herkese Açık (Auth gerektirmeyen) Path'ler ─────────────────────────────
 const PUBLIC_PREFIXES = [
-    '/',                            // Landing page
     '/login',
     '/giris',
     '/iletisim',
     '/hakkimizda',
     '/gizlilik',
     '/kullanim',
-    '/r',                           // Müşteri QR menüsü
+    '/r/',                          // Müşteri QR menüsü (prefix olarak)
     '/api/auth',                    // Auth endpoint'leri
     '/api/restaurant/orders',       // Müşteri sipariş
     '/api/restaurant/waiter-calls', // Garson çağır
@@ -65,6 +64,10 @@ function hasMaliciousPatterns(url: string, userAgent: string): boolean {
 }
 
 function isPublicPath(pathname: string): boolean {
+    // Exact match for home page
+    if (pathname === '/') return true;
+
+    // Check other prefixes
     return PUBLIC_PREFIXES.some(prefix => pathname.startsWith(prefix));
 }
 

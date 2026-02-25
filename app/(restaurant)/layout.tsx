@@ -5,11 +5,23 @@ import ExpiryBanner from "@/components/admin/ExpiryBanner";
 import { SidebarProvider } from "@/components/SidebarContext";
 import MobileHeader from "@/components/MobileHeader";
 
-export default function RestaurantLayout({
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import { validateSession } from "@/lib/auth";
+
+export default async function RestaurantLayout({
     children,
 }: {
     children: React.ReactNode;
 }) {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value || cookieStore.get('auth_token')?.value;
+    const session = token ? await validateSession(token) : null;
+
+    if (!session) {
+        redirect('/login?reason=session_required');
+    }
+
     return (
         <SidebarProvider>
             <div className="flex bg-[#f8fafc]" style={{ height: '100dvh', width: '100%' }}>
