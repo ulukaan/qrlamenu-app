@@ -43,7 +43,7 @@ const LiteProductCard: React.FC<LiteProductCardProps> = ({ product, theme, onAdd
                 <div className="flex items-center justify-between mt-2">
                     <span className="font-bold text-gray-900">₺{product.price}</span>
                     <button
-                        className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center active:bg-orange-500 active:text-white transition-colors"
+                        className="w-8 h-8 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center active:bg-orange-600 active:text-white transition-colors"
                         onClick={(e) => {
                             e.stopPropagation();
                             onAdd?.();

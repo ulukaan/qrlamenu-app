@@ -66,7 +66,7 @@ export default function ForgotPasswordPage() {
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ff7a21] focus:ring-1 focus:ring-[#ff7a21] transition-all text-[17px] font-normal outline-none"
+                                        className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ea580c] focus:ring-1 focus:ring-[#ea580c] transition-all text-[17px] font-normal outline-none"
                                         placeholder="Kurumsal E-posta"
                                     />
                                 </div>
@@ -75,7 +75,7 @@ export default function ForgotPasswordPage() {
                                     <button
                                         type="submit"
                                         disabled={loading}
-                                        className="w-full flex justify-center items-center gap-2 rounded-xl bg-[#ff7a21] py-3.5 px-4 text-[17px] font-semibold text-white hover:bg-[#e0681b] active:bg-[#cc5a14] focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                                        className="w-full flex justify-center items-center gap-2 rounded-xl bg-[#ea580c] py-3.5 px-4 text-[17px] font-semibold text-white hover:bg-[#e0681b] active:bg-[#cc5a14] focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                                     >
                                         {loading ? (
                                             <Loader2 size={20} className="animate-spin" />
@@ -88,7 +88,7 @@ export default function ForgotPasswordPage() {
                         ) : (
                             <motion.div key="success" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-2">
                                 <div className="mx-auto w-12 h-12 flex items-center justify-center rounded-full bg-slate-50 mb-4 border border-slate-100">
-                                    <Check size={24} className="text-[#ff7a21]" strokeWidth={2.5} />
+                                    <Check size={24} className="text-[#ea580c]" strokeWidth={2.5} />
                                 </div>
                                 <h3 className="text-[19px] font-semibold text-slate-900 mb-2 tracking-tight">E-posta gönderildi</h3>
                                 <p className="text-[15px] text-slate-500 font-medium">
@@ -99,7 +99,7 @@ export default function ForgotPasswordPage() {
                     </AnimatePresence>
 
                     <div className="mt-8 flex flex-col items-center border-t border-slate-100 pt-6 text-[15px]">
-                        <a href="/login" className="text-slate-600 hover:text-[#ff7a21] transition-colors font-medium">
+                        <a href="/login" className="text-slate-600 hover:text-[#ea580c] transition-colors font-medium">
                             Giriş Ekranına Dön
                         </a>
                     </div>
@@ -111,8 +111,8 @@ export default function ForgotPasswordPage() {
                         <a href="https://wa.me/905300000000" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#25D366] transition-colors group">
                             <MessageCircle size={18} className="text-slate-400 group-hover:text-[#25D366] transition-colors" /> Destek Hattı
                         </a>
-                        <a href="mailto:info@qrlamenu.com" className="flex items-center gap-1.5 hover:text-[#ff7a21] transition-colors group">
-                            <Mail size={18} className="text-slate-400 group-hover:text-[#ff7a21] transition-colors" /> info@qrlamenu.com
+                        <a href="mailto:info@qrlamenu.com" className="flex items-center gap-1.5 hover:text-[#ea580c] transition-colors group">
+                            <Mail size={18} className="text-slate-400 group-hover:text-[#ea580c] transition-colors" /> info@qrlamenu.com
                         </a>
                     </div>
                     <p className="text-[12px] text-slate-400 font-medium mt-6">

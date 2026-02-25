@@ -46,7 +46,7 @@ export default function PrintAgentPage() {
                     </p>
                 </div>
                 <button
-                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[#ff7a21] text-white font-black text-sm uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all group"
+                    className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[#ea580c] text-white font-black text-sm uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all group"
                 >
                     <RefreshCw size={22} strokeWidth={3} className="group-hover:rotate-180 transition-transform duration-500" />
                     <span>Ağ Taraması Başlat</span>
@@ -109,7 +109,7 @@ export default function PrintAgentPage() {
                         <div className="px-10 divide-y divide-gray-50">
                             {loading ? (
                                 <div className="py-32 text-center">
-                                    <Loader2 size={48} className="animate-spin text-[#ff7a21] mx-auto mb-6" />
+                                    <Loader2 size={48} className="animate-spin text-[#ea580c] mx-auto mb-6" />
                                     <p className="text-gray-400 font-bold tracking-tight uppercase text-xs">Terminal verileri senkronize ediliyor...</p>
                                 </div>
                             ) : agents.length === 0 ? (
@@ -124,12 +124,12 @@ export default function PrintAgentPage() {
                                         {row.status === 'ONLINE' && <div className="absolute inset-0 rounded-full bg-emerald-500 animate-ping opacity-25"></div>}
                                     </div>
                                     <div className="flex-1 min-w-0">
-                                        <h4 className="text-xl font-black text-gray-900 tracking-tight leading-tight group-hover:text-[#ff7a21] transition-colors truncate">
+                                        <h4 className="text-xl font-black text-gray-900 tracking-tight leading-tight group-hover:text-[#ea580c] transition-colors truncate">
                                             {row.name || row.tenant?.name}
                                         </h4>
                                         <div className="flex flex-wrap items-center gap-3 mt-2">
                                             <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                                                ID: <span className="text-[#ff7a21]">{row.agentId}</span>
+                                                ID: <span className="text-[#ea580c]">{row.agentId}</span>
                                             </span>
                                             <span className="text-gray-200">|</span>
                                             <span className="px-3 py-1 rounded-lg bg-gray-50 text-[10px] font-black text-gray-500 uppercase tracking-widest border border-gray-100">
@@ -149,7 +149,7 @@ export default function PrintAgentPage() {
                                             SYC: <span className="text-gray-700">{new Date().toLocaleTimeString('tr-TR', { hour: '2-digit', minute: '2-digit' })}</span>
                                         </p>
                                     </div>
-                                    <button className="sm:ml-4 shrink-0 px-6 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-900 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ff7a21] hover:shadow-lg transition-all active:scale-95">
+                                    <button className="sm:ml-4 shrink-0 px-6 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-900 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ea580c] hover:shadow-lg transition-all active:scale-95">
                                         Log Çek
                                     </button>
                                 </div>
@@ -161,11 +161,11 @@ export default function PrintAgentPage() {
                 {/* Right Sidebar */}
                 <aside className="space-y-8 xl:sticky xl:top-8 xl:h-fit">
                     <div className="bg-[#0f172a] p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 w-48 h-48 bg-[#ff7a21]/10 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
+                        <div className="absolute top-0 right-0 w-48 h-48 bg-[#ea580c]/10 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
 
                         <div className="relative z-10 flex items-center gap-4 mb-8">
-                            <div className="bg-[#ff7a21]/20 p-3 rounded-2xl">
-                                <Activity size={24} className="text-[#ff7a21]" strokeWidth={2.5} />
+                            <div className="bg-[#ea580c]/20 p-3 rounded-2xl">
+                                <Activity size={24} className="text-[#ea580c]" strokeWidth={2.5} />
                             </div>
                             <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Ağ Verimliliği</h3>
                         </div>
@@ -194,7 +194,7 @@ export default function PrintAgentPage() {
                         <div>
                             <h4 className="text-lg font-black text-gray-900 tracking-tight mb-2">E2E Güvenlik</h4>
                             <p className="text-sm font-medium text-gray-500 leading-relaxed">
-                                Tüm print agent bağlantıları <span className="text-[#ff7a21] font-black">TLS 1.3</span> protokolü ile şifrelenmektedir.
+                                Tüm print agent bağlantıları <span className="text-[#ea580c] font-black">TLS 1.3</span> protokolü ile şifrelenmektedir.
                             </p>
                         </div>
                     </div>

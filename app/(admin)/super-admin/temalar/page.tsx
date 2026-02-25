@@ -65,7 +65,7 @@ export default function ThemesPage() {
                 </div>
                 <button
                     onClick={() => router.push('/super-admin/temalar/yeni')}
-                    className="w-full sm:w-auto bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
+                    className="w-full sm:w-auto bg-[#ea580c] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-2.5 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all"
                 >
                     <Plus size={22} strokeWidth={3} /> Yeni Tasarım Oluştur
                 </button>
@@ -75,7 +75,7 @@ export default function ThemesPage() {
                 <div className="flex flex-col gap-8">
                     {loading ? (
                         <div className="bg-white rounded-[32px] p-24 text-center shadow-sm border border-slate-100">
-                            <Loader2 className="animate-spin text-[#ff7a21] mx-auto" size={48} />
+                            <Loader2 className="animate-spin text-[#ea580c] mx-auto" size={48} />
                             <p className="mt-6 text-sm font-black text-slate-400 uppercase tracking-widest">Sistem Senkronize Ediliyor...</p>
                         </div>
                     ) : (
@@ -87,7 +87,7 @@ export default function ThemesPage() {
                                             <img src={theme.previewUrl} alt={theme.name} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110" />
                                         ) : (
                                             <div className="w-full h-full flex items-center justify-center text-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 relative">
-                                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ff7a21 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
+                                                <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ea580c 1px, transparent 1px)', backgroundSize: '20px 20px' }}></div>
                                                 <ImageIcon size={64} strokeWidth={1.2} className="relative z-10" />
                                             </div>
                                         )}
@@ -95,7 +95,7 @@ export default function ThemesPage() {
                                         {/* Status Badges Overlay */}
                                         <div className="absolute top-6 left-6 flex flex-wrap gap-2 z-10">
                                             {theme.isPremium && (
-                                                <div className="bg-[#ff7a21] text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-lg shadow-orange-500/20 tracking-[0.2em] uppercase flex items-center gap-1.5 border border-white/20 backdrop-blur-sm">
+                                                <div className="bg-[#ea580c] text-white text-[9px] font-black px-4 py-2 rounded-xl shadow-lg shadow-orange-500/20 tracking-[0.2em] uppercase flex items-center gap-1.5 border border-white/20 backdrop-blur-sm">
                                                     <Zap size={10} fill="currentColor" /> PREMIUM
                                                 </div>
                                             )}
@@ -114,7 +114,7 @@ export default function ThemesPage() {
                                                 className="w-16 h-16 rounded-[24px] bg-white text-slate-900 flex items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition-all group/btn"
                                                 title="Tasarımı Düzenle"
                                             >
-                                                <Edit size={28} className="group-hover/btn:text-[#ff7a21] transition-colors" />
+                                                <Edit size={28} className="group-hover/btn:text-[#ea580c] transition-colors" />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(theme.id)}
@@ -130,10 +130,10 @@ export default function ThemesPage() {
                                         <div className="flex justify-between items-start mb-6">
                                             <div>
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <div className="w-2 h-2 rounded-full bg-[#ff7a21]"></div>
+                                                    <div className="w-2 h-2 rounded-full bg-[#ea580c]"></div>
                                                     <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">SİSTEM ANAHTARI: {theme.key.toUpperCase()}</span>
                                                 </div>
-                                                <h3 className="text-2xl font-black text-gray-900 tracking-tight group-hover:text-[#ff7a21] transition-colors leading-none">{theme.name}</h3>
+                                                <h3 className="text-2xl font-black text-gray-900 tracking-tight group-hover:text-[#ea580c] transition-colors leading-none">{theme.name}</h3>
                                             </div>
                                             <div className="bg-slate-50 text-slate-400 text-[10px] font-black px-4 py-2 rounded-xl border border-slate-100 shadow-inner">
                                                 SIRA #{theme.order}
@@ -168,7 +168,7 @@ export default function ThemesPage() {
                                     <p className="text-slate-500 font-medium max-w-sm text-sm">Sisteme kayıtlı mizanpaj bulunmuyor. Yeni bir tasarım ekleyerek kataloğu genişletin.</p>
                                     <button
                                         onClick={() => router.push('/super-admin/temalar/yeni')}
-                                        className="mt-8 bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm shadow-xl shadow-orange-500/20 hover:scale-105 transition-all"
+                                        className="mt-8 bg-[#ea580c] text-white px-8 py-3.5 rounded-2xl font-black text-sm shadow-xl shadow-orange-500/20 hover:scale-105 transition-all"
                                     >+ İlk Tasarımı Başlat</button>
                                 </div>
                             )}
@@ -213,9 +213,9 @@ export default function ThemesPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 border-l-4 border-l-[#ff7a21]">
+                    <div className="bg-white rounded-[32px] p-8 shadow-sm border border-slate-100 border-l-4 border-l-[#ea580c]">
                         <div className="flex gap-4">
-                            <div className="bg-orange-50 p-3 rounded-2xl shrink-0 text-[#ff7a21]">
+                            <div className="bg-orange-50 p-3 rounded-2xl shrink-0 text-[#ea580c]">
                                 <Zap size={24} />
                             </div>
                             <div>

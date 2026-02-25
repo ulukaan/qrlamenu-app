@@ -39,7 +39,7 @@ export async function GET() {
 
         // 3. Veritabanı Tablo Detayları (Arayüzde görselleştirme için)
         const dbStats = [
-            { name: 'Restoranlar', count: tenants, color: '#ff7a21', icon: 'Store' },
+            { name: 'Restoranlar', count: tenants, color: '#ea580c', icon: 'Store' },
             { name: 'Kullanıcılar', count: users, color: '#3b82f6', icon: 'Users' },
             { name: 'Ürünler', count: products, color: '#10b981', icon: 'Utensils' },
             { name: 'Siparişler', count: orders, color: '#8b5cf6', icon: 'ShoppingBag' },

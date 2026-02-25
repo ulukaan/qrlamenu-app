@@ -1,7 +1,7 @@
 "use client";
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { QrCode, Eye, EyeOff, Loader2, MessageCircle, Mail } from "lucide-react";
+import { QrCode, Eye, EyeOff, Loader2, MessageCircle, Mail, User } from "lucide-react";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 import TrustLogos from "@/components/TrustLogos";
 import { motion, AnimatePresence } from "framer-motion";
@@ -87,7 +87,7 @@ function LoginForm() {
                                     required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
-                                    className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ff7a21] focus:ring-1 focus:ring-[#ff7a21] transition-all text-[17px] font-normal outline-none"
+                                    className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ea580c] focus:ring-1 focus:ring-[#ea580c] transition-all text-[17px] font-normal outline-none"
                                     placeholder="Kurumsal E-posta"
                                 />
                             </div>
@@ -98,7 +98,7 @@ function LoginForm() {
                                     required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
-                                    className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ff7a21] focus:ring-1 focus:ring-[#ff7a21] transition-all text-[17px] font-normal outline-none pr-12"
+                                    className="block w-full bg-white rounded-xl border border-slate-300 px-4 py-3.5 text-slate-900 placeholder-slate-400 focus:border-[#ea580c] focus:ring-1 focus:ring-[#ea580c] transition-all text-[17px] font-normal outline-none pr-12"
                                     placeholder="Parola"
                                 />
                                 <button
@@ -115,7 +115,7 @@ function LoginForm() {
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full flex justify-center items-center gap-2 rounded-xl bg-[#ff7a21] py-3.5 px-4 text-[17px] font-semibold text-white hover:bg-[#e0681b] active:bg-[#cc5a14] focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
+                                className="w-full flex justify-center items-center gap-2 rounded-xl bg-[#ea580c] py-3.5 px-4 text-[17px] font-semibold text-white hover:bg-[#e0681b] active:bg-[#cc5a14] focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
                             >
                                 {loading ? (
                                     <Loader2 size={20} className="animate-spin" />
@@ -127,13 +127,25 @@ function LoginForm() {
                     </form>
 
                     <div className="mt-6 flex flex-col items-center gap-4 text-[15px]">
-                        <a href="/sifremi-unuttum" className="text-slate-600 hover:text-[#ff7a21] transition-colors font-medium">
+                        <button
+                            type="button"
+                            onClick={() => {
+                                setEmail("restoran@qrlamenu.com");
+                                setPassword("123");
+                            }}
+                            className="w-full py-3 px-4 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-600 font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2 group"
+                        >
+                            <User size={18} className="text-slate-400 group-hover:text-slate-600" />
+                            Demo Hesabı ile Giriş Yap
+                        </button>
+                        <div className="h-[1px] w-full bg-slate-100 my-2"></div>
+                        <a href="/sifremi-unuttum" className="text-slate-600 hover:text-[#ea580c] transition-colors font-medium">
                             Parolanızı mı unuttunuz?
                         </a>
                         <div className="h-[1px] w-full bg-slate-100"></div>
                         <p className="text-slate-600 font-medium">
                             Hesabınız yok mu?{" "}
-                            <a href="/kayit-ol" className="text-[#ff7a21] hover:underline font-semibold">
+                            <a href="/kayit-ol" className="text-[#ea580c] hover:underline font-semibold">
                                 Yeni Hesap Oluşturun
                             </a>
                         </p>
@@ -146,8 +158,8 @@ function LoginForm() {
                         <a href="https://wa.me/905314660550" target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 hover:text-[#25D366] transition-colors group">
                             <MessageCircle size={18} className="text-slate-400 group-hover:text-[#25D366] transition-colors" /> Destek Hattı
                         </a>
-                        <a href="mailto:info@qrlamenu.com" className="flex items-center gap-1.5 hover:text-[#ff7a21] transition-colors group">
-                            <Mail size={18} className="text-slate-400 group-hover:text-[#ff7a21] transition-colors" /> info@qrlamenu.com
+                        <a href="mailto:info@qrlamenu.com" className="flex items-center gap-1.5 hover:text-[#ea580c] transition-colors group">
+                            <Mail size={18} className="text-slate-400 group-hover:text-[#ea580c] transition-colors" /> info@qrlamenu.com
                         </a>
                     </div>
                     <p className="text-[12px] text-slate-400 font-medium mt-6">

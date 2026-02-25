@@ -114,7 +114,7 @@ export default function CRMPage() {
                 <div className="w-full xl:w-auto">
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
+                        className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
                     >
                         <Plus size={20} strokeWidth={3} /> Yeni Lead Tanımla
                     </button>
@@ -125,7 +125,7 @@ export default function CRMPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
                 {[
                     { label: 'Toplam Aday', value: stats.total, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50', border: 'border-blue-100', shadow: 'hover:shadow-blue-500/5' },
-                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: 'text-orange-500', bg: 'bg-orange-50', border: 'border-orange-100', shadow: 'hover:shadow-orange-500/5' },
+                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', shadow: 'hover:shadow-orange-500/5' },
                     { label: 'Dönüşüm Oranı', value: `%${stats.conversionRate}`, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50', border: 'border-emerald-100', shadow: 'hover:shadow-emerald-500/5' },
                     { label: 'Dönüşenler', value: stats.converted, icon: CheckCircle2, color: 'text-violet-500', bg: 'bg-violet-50', border: 'border-violet-100', shadow: 'hover:shadow-violet-500/5' }
                 ].map((stat, i) => (
@@ -158,7 +158,7 @@ export default function CRMPage() {
                         <div className="p-10">
                             {loading ? (
                                 <div className="py-40 text-center">
-                                    <Loader2 className="animate-spin text-[#ff7a21] mx-auto mb-6" size={48} />
+                                    <Loader2 className="animate-spin text-[#ea580c] mx-auto mb-6" size={48} />
                                     <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</p>
                                 </div>
                             ) : error ? (
@@ -179,7 +179,7 @@ export default function CRMPage() {
                                             <div className="absolute -left-10 -top-10 w-40 h-40 bg-gray-50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
 
                                             <div className="relative flex flex-col lg:flex-row gap-10 items-start">
-                                                <div className="w-16 h-16 bg-gray-900 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-xl shadow-gray-900/20 group-hover:bg-[#ff7a21] group-hover:shadow-orange-500/30 group-hover:rotate-6 transition-all duration-500">
+                                                <div className="w-16 h-16 bg-gray-900 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-xl shadow-gray-900/20 group-hover:bg-[#ea580c] group-hover:shadow-orange-500/30 group-hover:rotate-6 transition-all duration-500">
                                                     <Users size={28} strokeWidth={1.5} />
                                                 </div>
 
@@ -191,7 +191,7 @@ export default function CRMPage() {
                                                                 {lead.restaurant && <span className="text-gray-400 font-black text-sm px-3 py-1 bg-gray-50 rounded-lg border border-gray-100">/ {lead.restaurant}</span>}
                                                             </h4>
                                                             <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-3">
-                                                                <Calendar size={14} className="text-[#ff7a21]" />
+                                                                <Calendar size={14} className="text-[#ea580c]" />
                                                                 KAYIT: {new Date(lead.createdAt).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' })}
                                                             </div>
                                                         </div>
@@ -202,7 +202,7 @@ export default function CRMPage() {
                                                                     value={lead.status}
                                                                     onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
                                                                     className={`w-full sm:w-48 text-[10px] font-black px-6 py-3 rounded-xl uppercase tracking-widest border-2 transition-all cursor-pointer outline-none appearance-none text-center shadow-sm ${lead.status === 'CONVERTED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-500/5' :
-                                                                            lead.status === 'PENDING' ? 'bg-orange-50 text-[#ff7a21] border-orange-100 shadow-orange-500/5' :
+                                                                            lead.status === 'PENDING' ? 'bg-orange-50 text-[#ea580c] border-orange-100 shadow-orange-500/5' :
                                                                                 'bg-gray-50 text-gray-500 border-gray-100'
                                                                         }`}
                                                                 >
@@ -230,7 +230,7 @@ export default function CRMPage() {
                                                     <div className="flex flex-wrap gap-4">
                                                         {lead.email && (
                                                             <div className="flex items-center gap-4 text-xs font-black text-gray-700 bg-gray-50 px-5 py-3 rounded-2xl group/link cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border-2 border-transparent hover:border-gray-100">
-                                                                <div className="bg-orange-100 p-2 rounded-xl text-[#ff7a21] group-hover/link:rotate-12 transition-transform shadow-sm">
+                                                                <div className="bg-orange-100 p-2 rounded-xl text-[#ea580c] group-hover/link:rotate-12 transition-transform shadow-sm">
                                                                     <Mail size={16} strokeWidth={2.5} />
                                                                 </div>
                                                                 {lead.email}
@@ -257,10 +257,10 @@ export default function CRMPage() {
 
                 <aside className="xl:sticky xl:top-8 flex flex-col gap-10">
                     <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="relative">
                             <div className="flex items-center gap-4 mb-10">
-                                <div className="w-1.5 h-10 bg-[#ff7a21] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
+                                <div className="w-1.5 h-10 bg-[#ea580c] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
                                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Kategori Filtresi</h3>
                             </div>
 
@@ -274,7 +274,7 @@ export default function CRMPage() {
                                     <button
                                         key={filter.id}
                                         onClick={() => setActiveFilter(filter.id)}
-                                        className={`w-full p-5 rounded-[24px] text-[11px] font-black uppercase tracking-[0.15em] text-left transition-all duration-300 border-2 ${activeFilter === filter.id ? 'bg-[#ff7a21] border-[#ff7a21] text-white shadow-xl shadow-orange-500/20 scale-[1.02]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                                        className={`w-full p-5 rounded-[24px] text-[11px] font-black uppercase tracking-[0.15em] text-left transition-all duration-300 border-2 ${activeFilter === filter.id ? 'bg-[#ea580c] border-[#ea580c] text-white shadow-xl shadow-orange-500/20 scale-[1.02]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
                                     >
                                         {filter.label}
                                     </button>
@@ -328,7 +328,7 @@ export default function CRMPage() {
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     placeholder="Örn: Ahmet Yılmaz"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -338,7 +338,7 @@ export default function CRMPage() {
                                     value={formData.restaurant}
                                     onChange={(e) => setFormData({ ...formData, restaurant: e.target.value })}
                                     placeholder="Örn: Gurme Burger"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -348,7 +348,7 @@ export default function CRMPage() {
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                                     placeholder="örnek@mail.com"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -358,7 +358,7 @@ export default function CRMPage() {
                                     value={formData.phone}
                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                     placeholder="05..."
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
                                 />
                             </div>
                             <div className="md:col-span-2 space-y-3">
@@ -368,13 +368,13 @@ export default function CRMPage() {
                                     value={formData.notes}
                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                     placeholder="İlk görüşme çıktılarını not alın..."
-                                    className="w-full px-8 py-5 rounded-3xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all resize-none shadow-sm"
+                                    className="w-full px-8 py-5 rounded-3xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all resize-none shadow-sm"
                                 />
                             </div>
                             <button
                                 type="submit"
                                 disabled={isSaving}
-                                className="md:col-span-2 mt-6 bg-gray-900 text-white py-6 rounded-[32px] font-black text-xl flex items-center justify-center gap-4 shadow-2xl shadow-gray-900/30 hover:bg-[#ff7a21] hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 disabled:opacity-70 transition-all uppercase tracking-widest"
+                                className="md:col-span-2 mt-6 bg-gray-900 text-white py-6 rounded-[32px] font-black text-xl flex items-center justify-center gap-4 shadow-2xl shadow-gray-900/30 hover:bg-[#ea580c] hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 disabled:opacity-70 transition-all uppercase tracking-widest"
                             >
                                 {isSaving ? <Loader2 className="animate-spin" size={28} /> : <Check size={28} strokeWidth={4} />}
                                 {isSaving ? 'İşleniyor...' : 'Aday Kaydını Onayla'}

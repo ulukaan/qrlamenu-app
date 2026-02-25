@@ -93,7 +93,7 @@ export default function YeniRestoranEkle() {
                     <button
                         onClick={() => router.back()}
                         style={{ width: '48px', height: '48px', border: '1px solid #e2e8f0', background: '#fff', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}
-                        className="hover:border-orange-500 hover:text-orange-500"
+                        className="hover:border-orange-600 hover:text-orange-600"
                     >
                         <ArrowLeft size={20} />
                     </button>
@@ -112,7 +112,7 @@ export default function YeniRestoranEkle() {
                             <div style={{
                                 width: step === 1 ? '0%' : step === 2 ? '50%' : '100%',
                                 height: '100%',
-                                background: 'linear-gradient(to right, #ff7a21, #ff9d5c)',
+                                background: 'linear-gradient(to right, #ea580c, #ff9d5c)',
                                 transition: 'width 0.6s cubic-bezier(0.4, 0, 0.2, 1)',
                                 boxShadow: '0 0 10px rgba(255,122,33,0.3)'
                             }}></div>
@@ -126,8 +126,8 @@ export default function YeniRestoranEkle() {
                                     borderRadius: '16px',
                                     background: step >= s ? '#fff' : '#f8fafc',
                                     border: '3px solid',
-                                    borderColor: step >= s ? '#ff7a21' : '#e2e8f0',
-                                    color: step >= s ? '#ff7a21' : '#cbd5e1',
+                                    borderColor: step >= s ? '#ea580c' : '#e2e8f0',
+                                    color: step >= s ? '#ea580c' : '#cbd5e1',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
@@ -163,7 +163,7 @@ export default function YeniRestoranEkle() {
                                                 padding: '40px 32px',
                                                 borderRadius: '24px',
                                                 border: '2px solid',
-                                                borderColor: formData.planId === plan.id ? '#ff7a21' : '#f1f5f9',
+                                                borderColor: formData.planId === plan.id ? '#ea580c' : '#f1f5f9',
                                                 background: formData.planId === plan.id ? '#fff' : '#fcfcfc',
                                                 cursor: 'pointer',
                                                 transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -174,7 +174,7 @@ export default function YeniRestoranEkle() {
                                             className="plan-card-hover"
                                         >
                                             {formData.planId === plan.id && (
-                                                <div style={{ position: 'absolute', top: '24px', right: '24px', color: '#ff7a21', background: '#fff7ed', padding: '8px', borderRadius: '12px' }}>
+                                                <div style={{ position: 'absolute', top: '24px', right: '24px', color: '#ea580c', background: '#fff7ed', padding: '8px', borderRadius: '12px' }}>
                                                     <ShieldCheck size={24} />
                                                 </div>
                                             )}
@@ -182,15 +182,15 @@ export default function YeniRestoranEkle() {
                                             <div style={{ fontSize: '2rem', fontWeight: '900', color: '#111827', marginBottom: '24px' }}>₺{plan.price}<span style={{ fontSize: '0.9rem', color: '#94a3b8', fontWeight: '600' }}> /ay</span></div>
                                             <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '16px' }}>
                                                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.95rem', color: '#475569', fontWeight: '600' }}>
-                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ff7a21', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
+                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ea580c', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
                                                     {plan.branchLimit} Şube Yetkili
                                                 </li>
                                                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.95rem', color: '#475569', fontWeight: '600' }}>
-                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ff7a21', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
+                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ea580c', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
                                                     {plan.tableLimit} Masa Kotası
                                                 </li>
                                                 <li style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '0.95rem', color: '#475569', fontWeight: '600' }}>
-                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ff7a21', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
+                                                    <div style={{ width: '20px', height: '20px', borderRadius: '50%', background: '#ea580c', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Check size={12} strokeWidth={4} /></div>
                                                     Adisyon & Stok Yönetimi
                                                 </li>
                                             </ul>
@@ -312,7 +312,7 @@ export default function YeniRestoranEkle() {
                                 <button
                                     onClick={nextStep}
                                     disabled={step === 1 && !formData.planId}
-                                    style={{ padding: '16px 50px', borderRadius: '16px', border: 'none', background: (step === 1 && !formData.planId) ? '#ffedd5' : '#ff7a21', color: '#fff', fontWeight: '900', fontSize: '1rem', cursor: (step === 1 && !formData.planId) ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', transition: 'all 0.2s' }}
+                                    style={{ padding: '16px 50px', borderRadius: '16px', border: 'none', background: (step === 1 && !formData.planId) ? '#ffedd5' : '#ea580c', color: '#fff', fontWeight: '900', fontSize: '1rem', cursor: (step === 1 && !formData.planId) ? 'not-allowed' : 'pointer', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)', transition: 'all 0.2s' }}
                                     className="hover:scale-105 active:scale-95"
                                 >
                                     Sonraki Adım <ChevronRight size={22} />
@@ -368,7 +368,7 @@ export default function YeniRestoranEkle() {
 
             <style jsx>{`
                 .plan-card-hover:hover {
-                    border-color: #ff7a21 !important;
+                    border-color: #ea580c !important;
                 }
                 @keyframes fadeIn {
                     from { opacity: 0; transform: translateY(20px); }

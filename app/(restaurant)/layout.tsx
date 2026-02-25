@@ -1,6 +1,5 @@
 import React from "react";
 import Sidebar from "@/components/Sidebar";
-import Header from "@/components/Header";
 import VerificationBanner from "@/components/VerificationBanner";
 import ExpiryBanner from "@/components/admin/ExpiryBanner";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -13,13 +12,15 @@ export default function RestaurantLayout({
 }) {
     return (
         <SidebarProvider>
-            <div style={{ display: 'flex', minHeight: '100vh', width: '100%' }}>
+            <div className="flex bg-[#f8fafc]" style={{ height: '100dvh', width: '100%' }}>
                 <Sidebar />
-                <main className="main-content" style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-                    <ExpiryBanner />
-                    <VerificationBanner />
-                    <Header />
-                    <div style={{ flex: 1, overflowY: 'auto' }}>
+                <main className="main-content relative flex flex-col flex-1 h-full overflow-hidden">
+                    <div className="flex-shrink-0 z-[60] relative">
+                        <ExpiryBanner />
+                        <VerificationBanner />
+                    </div>
+
+                    <div className="flex-1 overflow-y-auto relative z-0 w-full" id="main-scroll-area">
                         {children}
                     </div>
                     <WhatsAppButton />

@@ -53,21 +53,21 @@ export default function ExpiryBanner() {
             >
                 <div className="max-w-7xl mx-auto px-4 py-3 sm:px-6 lg:px-8 flex items-center justify-between flex-wrap gap-4">
                     <div className="flex items-center gap-3">
-                        <div className={`p-2 rounded-lg ${isExpired ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600'}`}>
-                            {isExpired ? <AlertTriangle size={18} /> : <Clock size={18} />}
+                        <div className={`p-2 rounded-md ${isExpired ? 'bg-red-100 text-red-600' : 'bg-amber-100 text-amber-600'}`}>
+                            {isExpired ? <AlertTriangle size={16} /> : <Clock size={16} />}
                         </div>
-                        <p className={`text-sm font-medium ${isExpired ? 'text-red-800' : 'text-amber-800'}`}>
+                        <p className={`text-[11px] font-black uppercase tracking-tight ${isExpired ? 'text-red-800' : 'text-amber-800'}`}>
                             {isExpired
-                                ? "Deneme süreniz dolmuştur! Kullanmaya devam etmek için abonelik planınızı seçin."
-                                : <>Deneme sürenizin bitmesine <span className="font-bold">{daysLeft} gün</span> kaldı. Kesintisiz hizmet için planınızı yükseltin.</>}
+                                ? "DENEME SÜRENİZ DOLMUŞTUR! KULLANMAYA DEVAM ETMEK İÇİN ABONELİK PLANINIZI SEÇİN."
+                                : <>DENEME SÜRESİNİN BİTMESİNE <span className="font-black underline underline-offset-2">{daysLeft} GÜN</span> KALDI. KESİNTİSİZ HİZMET İÇİN PLANINIZI YÜKSELTİN.</>}
                         </p>
                     </div>
                     <div className="flex items-center gap-3">
                         <button
                             onClick={() => window.location.href = '/uyelik-plan-ayarlari'}
-                            className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-1.5 rounded-lg text-xs font-bold transition-colors shadow-sm"
+                            className="bg-amber-600 hover:bg-amber-700 text-white px-4 py-2 rounded-md text-[10px] font-black tracking-widest transition-all shadow-sm uppercase"
                         >
-                            Hemen Yükselt
+                            HEMEN YÜKSELT
                         </button>
                         <button
                             onClick={() => setIsVisible(false)}

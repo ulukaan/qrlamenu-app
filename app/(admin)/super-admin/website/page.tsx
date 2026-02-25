@@ -238,7 +238,7 @@ export default function WebsiteManagementPage() {
                         <button
                             onClick={handleSave}
                             disabled={saving}
-                            className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-[#ff7a21] transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95 disabled:opacity-50"
+                            className="bg-slate-900 text-white px-8 py-3 rounded-2xl text-xs font-black uppercase tracking-widest flex items-center gap-3 hover:bg-[#ea580c] transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95 disabled:opacity-50"
                         >
                             {saving ? <Loader2 className="animate-spin" size={16} /> : <Save size={16} />}
                             {saving ? 'İşleniyor...' : 'Yayına Al'}
@@ -308,7 +308,7 @@ export default function WebsiteManagementPage() {
                                                     <textarea
                                                         value={content.hero.title}
                                                         onChange={(e) => updateContent("hero.title", e.target.value)}
-                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-xl font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
+                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-xl font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
                                                         placeholder="Mükemmel restoran..."
                                                     />
                                                 </div>
@@ -317,7 +317,7 @@ export default function WebsiteManagementPage() {
                                                     <textarea
                                                         value={content.hero.subtitle}
                                                         onChange={(e) => updateContent("hero.subtitle", e.target.value)}
-                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 leading-relaxed focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
+                                                        className="w-full px-6 py-5 rounded-3xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 leading-relaxed focus:bg-white focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-300 min-h-[140px]"
                                                         placeholder="Siparişleri hızlandırın..."
                                                     />
                                                 </div>
@@ -327,7 +327,7 @@ export default function WebsiteManagementPage() {
                                                         <input
                                                             value={content.hero.cta_primary}
                                                             onChange={(e) => updateContent("hero.cta_primary", e.target.value)}
-                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                                         />
                                                     </div>
                                                     <div className="flex flex-col gap-3">
@@ -335,7 +335,7 @@ export default function WebsiteManagementPage() {
                                                         <input
                                                             value={content.hero.cta_secondary}
                                                             onChange={(e) => updateContent("hero.cta_secondary", e.target.value)}
-                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                                            className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                                         />
                                                     </div>
                                                 </div>
@@ -358,7 +358,7 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].value = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-black text-[#ff7a21] text-lg focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-black text-[#ea580c] text-lg focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                                                 placeholder="5.000+"
                                                             />
                                                         </div>
@@ -371,7 +371,7 @@ export default function WebsiteManagementPage() {
                                                                     newS[idx].label = e.target.value;
                                                                     setContent({ ...content, stats: newS });
                                                                 }}
-                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-bold text-slate-500 text-xs focus:bg-white focus:border-[#ff7a21] outline-none transition-all uppercase tracking-tighter"
+                                                                className="w-full px-4 py-3 rounded-xl border-2 border-slate-50 bg-slate-50 font-bold text-slate-500 text-xs focus:bg-white focus:border-[#ea580c] outline-none transition-all uppercase tracking-tighter"
                                                                 placeholder="Aktif Restoran"
                                                             />
                                                         </div>
@@ -400,7 +400,7 @@ export default function WebsiteManagementPage() {
                                                             <div className="flex items-center gap-4">
                                                                 {/* Icon Selector Button */}
                                                                 <div className="relative group/icon">
-                                                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-[#ff7a21] cursor-pointer shadow-sm group-hover/icon:bg-white group-hover/icon:border-[#ff7a21] transition-all">
+                                                                    <div className="w-12 h-12 bg-slate-50 rounded-2xl border-2 border-slate-100 flex items-center justify-center text-[#ea580c] cursor-pointer shadow-sm group-hover/icon:bg-white group-hover/icon:border-[#ea580c] transition-all">
                                                                         {(() => {
                                                                             const IconComp = ICON_LIST.find(i => i.name === feature.icon)?.icon || QrCode;
                                                                             return <IconComp size={24} />;
@@ -415,7 +415,7 @@ export default function WebsiteManagementPage() {
                                                                                     newF[idx].icon = ic.name;
                                                                                     setContent({ ...content, features: newF });
                                                                                 }}
-                                                                                className={`p-2.5 rounded-xl hover:bg-orange-50 hover:text-[#ff7a21] transition-all flex justify-center items-center ${feature.icon === ic.name ? 'bg-[#ff7a21] text-white shadow-lg shadow-orange-500/20' : 'text-slate-400'}`}
+                                                                                className={`p-2.5 rounded-xl hover:bg-orange-50 hover:text-[#ea580c] transition-all flex justify-center items-center ${feature.icon === ic.name ? 'bg-[#ea580c] text-white shadow-lg shadow-orange-500/20' : 'text-slate-400'}`}
                                                                             >
                                                                                 <ic.icon size={18} />
                                                                             </button>
@@ -431,7 +431,7 @@ export default function WebsiteManagementPage() {
                                                                             newF[idx].title = e.target.value;
                                                                             setContent({ ...content, features: newF });
                                                                         }}
-                                                                        className="w-full bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none text-sm font-black text-gray-900 transition-all placeholder:text-slate-300"
+                                                                        className="w-full bg-transparent border-b-2 border-slate-50 focus:border-[#ea580c] outline-none text-sm font-black text-gray-900 transition-all placeholder:text-slate-300"
                                                                         placeholder="Özellik Başlığı"
                                                                     />
                                                                 </div>
@@ -445,7 +445,7 @@ export default function WebsiteManagementPage() {
                                                                         newF[idx].desc = e.target.value;
                                                                         setContent({ ...content, features: newF });
                                                                     }}
-                                                                    className="w-full bg-slate-50 p-4 rounded-2xl border-2 border-slate-50 text-xs text-slate-500 font-bold leading-relaxed min-h-[80px] outline-none focus:bg-white focus:border-[#ff7a21] transition-all resize-none"
+                                                                    className="w-full bg-slate-50 p-4 rounded-2xl border-2 border-slate-50 text-xs text-slate-500 font-bold leading-relaxed min-h-[80px] outline-none focus:bg-white focus:border-[#ea580c] transition-all resize-none"
                                                                     placeholder="Özellik açıklaması..."
                                                                 />
                                                             </div>
@@ -454,9 +454,9 @@ export default function WebsiteManagementPage() {
                                                 ))}
                                                 <button
                                                     onClick={() => setContent({ ...content, features: [...content.features, { icon: "CheckCircle2", title: "Yeni Özellik", desc: "Açıklama giriniz" }] })}
-                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center gap-4 p-10 text-slate-300 hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all font-black group active:scale-95"
+                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center gap-4 p-10 text-slate-300 hover:border-[#ea580c] hover:text-[#ea580c] hover:bg-orange-50/30 transition-all font-black group active:scale-95"
                                                 >
-                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110">
+                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ea580c] flex items-center justify-center transition-all bg-white group-hover:scale-110">
                                                         <Plus size={28} strokeWidth={3} />
                                                     </div>
                                                     YENİ ÖZELLİK EKLE
@@ -469,9 +469,9 @@ export default function WebsiteManagementPage() {
                                     {activeTab === "pricing" && (
                                         <div className="space-y-8">
                                             {content.pricing.map((plan, idx) => (
-                                                <div key={idx} className={`p-8 rounded-[40px] border-2 transition-all relative overflow-hidden group hover:shadow-2xl hover:shadow-slate-200/40 ${plan.highlight ? 'border-[#ff7a21] bg-orange-50/10 shadow-xl shadow-orange-500/5' : 'border-slate-50 bg-slate-50/30'}`}>
+                                                <div key={idx} className={`p-8 rounded-[40px] border-2 transition-all relative overflow-hidden group hover:shadow-2xl hover:shadow-slate-200/40 ${plan.highlight ? 'border-[#ea580c] bg-orange-50/10 shadow-xl shadow-orange-500/5' : 'border-slate-50 bg-slate-50/30'}`}>
                                                     {plan.highlight && (
-                                                        <div className="absolute top-6 -right-12 rotate-45 bg-[#ff7a21] text-white text-[10px] font-black px-12 py-1.5 shadow-lg tracking-widest z-10">
+                                                        <div className="absolute top-6 -right-12 rotate-45 bg-[#ea580c] text-white text-[10px] font-black px-12 py-1.5 shadow-lg tracking-widest z-10">
                                                             POPÜLER
                                                         </div>
                                                     )}
@@ -488,7 +488,7 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].name = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="flex-1 bg-white border-2 border-slate-50 p-4 rounded-2xl text-lg font-black text-gray-900 outline-none focus:border-[#ff7a21] transition-all"
+                                                                        className="flex-1 bg-white border-2 border-slate-50 p-4 rounded-2xl text-lg font-black text-gray-900 outline-none focus:border-[#ea580c] transition-all"
                                                                         placeholder="Plan Adı"
                                                                     />
                                                                     <div className="flex flex-col items-center gap-1 group/toggle">
@@ -499,7 +499,7 @@ export default function WebsiteManagementPage() {
                                                                                 newP[idx].highlight = !newP[idx].highlight;
                                                                                 setContent({ ...content, pricing: newP });
                                                                             }}
-                                                                            className={`w-12 h-6 rounded-full transition-all relative ${plan.highlight ? 'bg-[#ff7a21]' : 'bg-slate-200'}`}
+                                                                            className={`w-12 h-6 rounded-full transition-all relative ${plan.highlight ? 'bg-[#ea580c]' : 'bg-slate-200'}`}
                                                                         >
                                                                             <div className={`w-4 h-4 rounded-full bg-white absolute top-1 transition-all ${plan.highlight ? 'left-7' : 'left-1'}`} />
                                                                         </button>
@@ -511,7 +511,7 @@ export default function WebsiteManagementPage() {
                                                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">FİYATLANDIRMA</label>
                                                                 <div className="flex gap-3">
                                                                     <div className="relative flex-1">
-                                                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ff7a21] font-black text-lg">₺</span>
+                                                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ea580c] font-black text-lg">₺</span>
                                                                         <input
                                                                             value={plan.price.replace('₺', '')}
                                                                             onChange={(e) => {
@@ -519,7 +519,7 @@ export default function WebsiteManagementPage() {
                                                                                 newP[idx].price = '₺' + e.target.value;
                                                                                 setContent({ ...content, pricing: newP });
                                                                             }}
-                                                                            className="w-full pl-9 p-4 bg-white border-2 border-slate-50 rounded-2xl font-black text-2xl text-gray-900 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                            className="w-full pl-9 p-4 bg-white border-2 border-slate-50 rounded-2xl font-black text-2xl text-gray-900 focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-200"
                                                                             placeholder="490"
                                                                         />
                                                                     </div>
@@ -530,7 +530,7 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].period = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-24 p-4 bg-slate-100/50 border-2 border-slate-50 rounded-2xl text-[10px] font-black text-slate-400 text-center uppercase tracking-widest focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                                                        className="w-24 p-4 bg-slate-100/50 border-2 border-slate-50 rounded-2xl text-[10px] font-black text-slate-400 text-center uppercase tracking-widest focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                                                         placeholder="/AY"
                                                                     />
                                                                 </div>
@@ -561,7 +561,7 @@ export default function WebsiteManagementPage() {
                                                                         newP[idx].features = e.target.value.split("\n");
                                                                         setContent({ ...content, pricing: newP });
                                                                     }}
-                                                                    className="w-full p-6 bg-white border-2 border-slate-50 rounded-[32px] text-sm font-bold text-slate-600 min-h-[160px] outline-none focus:border-[#ff7a21] transition-all resize-none placeholder:text-slate-200"
+                                                                    className="w-full p-6 bg-white border-2 border-slate-50 rounded-[32px] text-sm font-bold text-slate-600 min-h-[160px] outline-none focus:border-[#ea580c] transition-all resize-none placeholder:text-slate-200"
                                                                     placeholder="Örn: QR Menü&#10;Sipariş Takibi&#10;7/24 Destek"
                                                                 />
                                                             </div>
@@ -576,7 +576,7 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].cta = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] transition-all"
+                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-black text-gray-900 focus:bg-white focus:border-[#ea580c] transition-all"
                                                                         placeholder="Hemen Başla"
                                                                     />
                                                                 </div>
@@ -589,7 +589,7 @@ export default function WebsiteManagementPage() {
                                                                             newP[idx].desc = e.target.value;
                                                                             setContent({ ...content, pricing: newP });
                                                                         }}
-                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-bold text-slate-400 focus:bg-white focus:border-[#ff7a21] transition-all"
+                                                                        className="w-full p-4 bg-slate-50 border-2 border-slate-50 rounded-2xl text-xs font-bold text-slate-400 focus:bg-white focus:border-[#ea580c] transition-all"
                                                                         placeholder="Büyük işletmeler için..."
                                                                     />
                                                                 </div>
@@ -600,9 +600,9 @@ export default function WebsiteManagementPage() {
                                             ))}
                                             <button
                                                 onClick={() => setContent({ ...content, pricing: [...content.pricing, { name: "Yeni Plan", price: "₺0", period: "/ay", desc: "", features: [], cta: "Seç", highlight: false }] })}
-                                                className="w-full py-10 border-4 border-dashed border-slate-100 rounded-[40px] text-slate-300 font-black text-sm uppercase tracking-[0.2em] hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all flex flex-col items-center justify-center gap-4 group active:scale-[0.98]"
+                                                className="w-full py-10 border-4 border-dashed border-slate-100 rounded-[40px] text-slate-300 font-black text-sm uppercase tracking-[0.2em] hover:border-[#ea580c] hover:text-[#ea580c] hover:bg-orange-50/30 transition-all flex flex-col items-center justify-center gap-4 group active:scale-[0.98]"
                                             >
-                                                <div className="w-16 h-16 rounded-3xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110 shadow-sm">
+                                                <div className="w-16 h-16 rounded-3xl border-2 border-slate-100 group-hover:border-[#ea580c] flex items-center justify-center transition-all bg-white group-hover:scale-110 shadow-sm">
                                                     <Plus size={32} strokeWidth={3} />
                                                 </div>
                                                 YENİ FİYAT PAKETİ EKLE
@@ -637,7 +637,7 @@ export default function WebsiteManagementPage() {
                                                                             newT[idx].name = e.target.value;
                                                                             setContent({ ...content, testimonials: newT });
                                                                         }}
-                                                                        className="w-full text-base font-black text-gray-900 bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                        className="w-full text-base font-black text-gray-900 bg-transparent border-b-2 border-slate-50 focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-200"
                                                                         placeholder="İsim Soyisim"
                                                                     />
                                                                 </div>
@@ -650,7 +650,7 @@ export default function WebsiteManagementPage() {
                                                                             newT[idx].role = e.target.value;
                                                                             setContent({ ...content, testimonials: newT });
                                                                         }}
-                                                                        className="w-full text-xs font-bold text-[#ff7a21] bg-transparent border-b-2 border-slate-50 focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-200"
+                                                                        className="w-full text-xs font-bold text-[#ea580c] bg-transparent border-b-2 border-slate-50 focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-200"
                                                                         placeholder="Örn: Gurme Burger"
                                                                     />
                                                                 </div>
@@ -664,7 +664,7 @@ export default function WebsiteManagementPage() {
                                                                         newT[idx].text = e.target.value;
                                                                         setContent({ ...content, testimonials: newT });
                                                                     }}
-                                                                    className="w-full text-sm text-slate-500 font-bold italic leading-relaxed min-h-[100px] outline-none border-2 border-slate-50 p-4 rounded-2xl bg-slate-50/50 focus:bg-white focus:border-[#ff7a21] transition-all resize-none"
+                                                                    className="w-full text-sm text-slate-500 font-bold italic leading-relaxed min-h-[100px] outline-none border-2 border-slate-50 p-4 rounded-2xl bg-slate-50/50 focus:bg-white focus:border-[#ea580c] transition-all resize-none"
                                                                     placeholder="Yorum metni..."
                                                                 />
                                                             </div>
@@ -673,9 +673,9 @@ export default function WebsiteManagementPage() {
                                                 ))}
                                                 <button
                                                     onClick={() => setContent({ ...content, testimonials: [...content.testimonials, { name: "Ad Soyad", role: "Restoran Adı", text: "Yorumunuz buraya..." }] })}
-                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center p-12 text-slate-300 hover:border-[#ff7a21] hover:text-[#ff7a21] hover:bg-orange-50/30 transition-all font-black uppercase tracking-widest active:scale-95 group"
+                                                    className="border-2 border-dashed border-slate-200 rounded-[32px] flex flex-col items-center justify-center p-12 text-slate-300 hover:border-[#ea580c] hover:text-[#ea580c] hover:bg-orange-50/30 transition-all font-black uppercase tracking-widest active:scale-95 group"
                                                 >
-                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ff7a21] flex items-center justify-center transition-all bg-white group-hover:scale-110 mb-3">
+                                                    <div className="w-14 h-14 rounded-2xl border-2 border-slate-100 group-hover:border-[#ea580c] flex items-center justify-center transition-all bg-white group-hover:scale-110 mb-3">
                                                         <Plus size={28} strokeWidth={3} />
                                                     </div>
                                                     YENİ YORUM EKLE
@@ -693,7 +693,7 @@ export default function WebsiteManagementPage() {
                                                     <input
                                                         value={content.branding?.siteName || ""}
                                                         onChange={(e) => updateContent("branding.siteName", e.target.value)}
-                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-300"
                                                         placeholder="QRlamenü"
                                                     />
                                                 </div>
@@ -702,7 +702,7 @@ export default function WebsiteManagementPage() {
                                                     <input
                                                         value={content.branding?.logoUrl || ""}
                                                         onChange={(e) => updateContent("branding.logoUrl", e.target.value)}
-                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-600 focus:bg-white focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-300"
                                                         placeholder="https://example.com/logo.png"
                                                     />
                                                 </div>
@@ -715,7 +715,7 @@ export default function WebsiteManagementPage() {
                                                         <button
                                                             key={ic.name}
                                                             onClick={() => updateContent("branding.logoIcon", ic.name)}
-                                                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-[#ff7a21] text-white shadow-xl shadow-orange-500/30 scale-110' : 'bg-white text-slate-400 hover:text-slate-900 hover:shadow-lg'}`}
+                                                            className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all ${content.branding?.logoIcon === ic.name ? 'bg-[#ea580c] text-white shadow-xl shadow-orange-500/30 scale-110' : 'bg-white text-slate-400 hover:text-slate-900 hover:shadow-lg'}`}
                                                         >
                                                             <ic.icon size={20} />
                                                         </button>
@@ -729,20 +729,20 @@ export default function WebsiteManagementPage() {
                                         <div className="space-y-8">
                                             <div className="p-8 bg-white rounded-[40px] border border-slate-100 shadow-sm space-y-6">
                                                 <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21]"></div>
+                                                    <div className="w-1.5 h-1.5 rounded-full bg-[#ea580c]"></div>
                                                     HAKKIMIZDA BÖLÜMÜ
                                                 </h3>
                                                 <div className="space-y-4">
                                                     <input
                                                         value={content.corporate?.about?.title || ""}
                                                         onChange={(e) => updateContent("corporate.about.title", e.target.value)}
-                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all placeholder:text-slate-300"
+                                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all placeholder:text-slate-300"
                                                         placeholder="Başlık (Örn: Restoranların dijital ortağıyız)"
                                                     />
                                                     <textarea
                                                         value={content.corporate?.about?.content || ""}
                                                         onChange={(e) => updateContent("corporate.about.content", e.target.value)}
-                                                        className="w-full px-6 py-5 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 leading-relaxed min-h-[140px] focus:bg-white focus:border-[#ff7a21] transition-all resize-none outline-none"
+                                                        className="w-full px-6 py-5 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 leading-relaxed min-h-[140px] focus:bg-white focus:border-[#ea580c] transition-all resize-none outline-none"
                                                         placeholder="Vizyon ve misyonunuzdan bahsedin..."
                                                     />
                                                 </div>
@@ -754,10 +754,10 @@ export default function WebsiteManagementPage() {
                                                     İLETİŞİM KANALLARI
                                                 </h3>
                                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="Kurumsal E-posta" />
-                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="İletişim Telefonu" />
+                                                    <input value={content.corporate?.contact?.email || ""} onChange={(e) => updateContent("corporate.contact.email", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all" placeholder="Kurumsal E-posta" />
+                                                    <input value={content.corporate?.contact?.phone || ""} onChange={(e) => updateContent("corporate.contact.phone", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all" placeholder="İletişim Telefonu" />
                                                 </div>
-                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all" placeholder="Fiziksel Ofis Adresi" />
+                                                <input value={content.corporate?.contact?.address || ""} onChange={(e) => updateContent("corporate.contact.address", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all" placeholder="Fiziksel Ofis Adresi" />
                                             </div>
 
                                             <div className="p-8 bg-white rounded-[40px] border border-slate-100 shadow-sm space-y-6">
@@ -768,11 +768,11 @@ export default function WebsiteManagementPage() {
                                                 <div className="grid grid-cols-1 gap-6">
                                                     <div className="space-y-2">
                                                         <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">GİZLİLİK POLİTİKASI GİRİŞ</label>
-                                                        <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ff7a21] transition-all outline-none resize-none" />
+                                                        <textarea value={content.corporate?.legal?.privacy || ""} onChange={(e) => updateContent("corporate.legal.privacy", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ea580c] transition-all outline-none resize-none" />
                                                     </div>
                                                     <div className="space-y-2">
                                                         <label className="text-[9px] font-black text-slate-300 uppercase tracking-widest ml-1">KULLANIM KOŞULLARI GİRİŞ</label>
-                                                        <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ff7a21] transition-all outline-none resize-none" />
+                                                        <textarea value={content.corporate?.legal?.terms || ""} onChange={(e) => updateContent("corporate.legal.terms", e.target.value)} className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-bold text-slate-500 min-h-[80px] focus:bg-white focus:border-[#ea580c] transition-all outline-none resize-none" />
                                                     </div>
                                                 </div>
                                             </div>

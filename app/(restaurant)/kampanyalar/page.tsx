@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
     Megaphone,
     Plus,
@@ -24,6 +24,9 @@ import {
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export default function CampaignsPage() {
     const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -159,50 +162,53 @@ export default function CampaignsPage() {
                         initial={{ opacity: 0, y: -20, x: '-50%' }}
                         animate={{ opacity: 1, y: 20 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className={`fixed top-0 left-1/2 z-[9999] flex items-center gap-3 px-8 py-4 rounded-[24px] shadow-2xl backdrop-blur-md border ${notification?.type === 'success' ? 'bg-emerald-500/90 text-white border-emerald-400/50' : 'bg-rose-500/90 text-white border-rose-400/50'}`}
+                        className={`fixed top-0 left-1/2 z-[9999] flex items-center gap-3 px-6 py-3 rounded-[6px] shadow-lg backdrop-blur-md border ${notification?.type === 'success' ? 'bg-emerald-600 text-white border-emerald-500' : 'bg-rose-600 text-white border-rose-500'}`}
                     >
-                        {notification?.type === 'success' ? <CheckCircle2 size={20} /> : <AlertCircle size={20} />}
-                        <span className="text-xs font-black tracking-widest uppercase">{notification?.message}</span>
+                        {notification?.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
+                        <span className="text-[11px] font-bold tracking-tight uppercase">{notification?.message}</span>
                     </motion.div>
                 )}
             </AnimatePresence>
 
             {/* Header Area */}
-            <div className="bg-white border-b-2 border-gray-50 pt-16 pb-12 px-8 md:px-12">
-                <div className="max-w-7xl mx-auto">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
-                        <div className="space-y-4">
-                            {/* Breadcrumbs */}
-                            <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">
-                                <Link href="/dashboard" className="hover:text-orange-500 transition-colors">PANEL</Link>
-                                <ChevronRight size={10} className="text-gray-300" />
-                                <span className="text-orange-500">KAMPANYALAR</span>
-                            </div>
-
-                            <div className="flex items-center gap-6">
-                                <div className="w-20 h-20 bg-orange-500 rounded-[32px] flex items-center justify-center shadow-2xl shadow-orange-500/20 rotate-3 transform-gpu hover:rotate-0 transition-transform duration-500">
-                                    <Megaphone size={36} className="text-white" strokeWidth={1.5} />
+            <div className="bg-white border-b border-slate-200 py-6 px-6 relative z-30 shadow-sm">
+                <div className="w-full mx-auto">
+                    <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                        <div className="flex items-start md:items-center gap-4">
+                            <MobileMenuToggle />
+                            <div className="space-y-4">
+                                {/* Breadcrumbs */}
+                                <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                    <Link href="/dashboard" className="hover:text-slate-900 transition-colors uppercase">Yönetim</Link>
+                                    <ChevronRight size={10} className="text-slate-300" />
+                                    <span className="text-orange-600">KAMPANYALAR</span>
                                 </div>
-                                <div className="space-y-1">
-                                    <h1 className="text-4xl md:text-5xl font-black text-gray-900 tracking-tighter uppercase leading-none">KAMPANYALAR</h1>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">RESTORAN DUYURULARI</span>
-                                        <div className="h-1 w-1 bg-gray-300 rounded-full" />
-                                        <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.2em] bg-orange-50 px-3 py-1 rounded-full border border-orange-100">{campaigns.length} ADET</span>
+
+                                <div className="flex items-center gap-4">
+                                    <div className="w-10 h-10 bg-slate-900 rounded-[4px] flex items-center justify-center shadow-md">
+                                        <Megaphone size={20} className="text-white" strokeWidth={2} />
+                                    </div>
+                                    <div className="space-y-1">
+                                        <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">KAMPANYALAR</h1>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight bg-slate-50 px-2 py-0.5 rounded-[4px] border border-slate-100">{campaigns.length} AKTİF</span>
+                                            <div className="h-1 w-1 bg-slate-200 rounded-full" />
+                                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">MÜŞTERİ DUYURULARI</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center gap-4">
-                            <div className="relative group w-full sm:w-72">
-                                <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-orange-500 transition-colors" size={18} />
+                        <div className="flex flex-col sm:flex-row items-center gap-3">
+                            <div className="relative group w-full sm:w-64">
+                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-900 transition-colors" size={14} />
                                 <input
                                     type="text"
-                                    placeholder="KAMPANYA ARA..."
+                                    placeholder="ARA..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-16 pr-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black placeholder:text-gray-300 focus:border-orange-500 focus:bg-white outline-none transition-all uppercase"
+                                    className="w-full h-9 pl-10 pr-4 bg-slate-50 border border-slate-200 rounded-[6px] text-[11px] font-bold placeholder:text-slate-400 focus:border-slate-400 focus:bg-white outline-none transition-all uppercase tracking-tight"
                                 />
                             </div>
                             <button
@@ -211,118 +217,105 @@ export default function CampaignsPage() {
                                     setFormData({ title: '', content: '', imageUrl: '', isActive: true, startDate: '', endDate: '' });
                                     setModalOpen(true);
                                 }}
-                                className="w-full sm:w-auto flex items-center justify-center gap-4 bg-gray-900 text-white px-10 py-5 rounded-[24px] text-xs font-black tracking-widest hover:bg-orange-600 transition-all shadow-xl shadow-gray-900/10 active:scale-95 border-b-4 border-black/20"
+                                className="w-full sm:w-auto h-9 flex items-center justify-center gap-2 bg-slate-900 text-white px-4 rounded-[6px] text-[11px] font-bold tracking-tight hover:bg-slate-800 transition-all shadow-sm active:scale-95"
                             >
-                                <Plus size={18} strokeWidth={3} />
-                                YENİ KAMPANYA
+                                <Plus size={14} strokeWidth={2.5} />
+                                YENİ EKLE
                             </button>
+                            <ProfileDropdown />
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Content Area */}
-            <div className="p-8 md:p-12 lg:p-16">
+            <div className="p-6 md:p-8 lg:p-10">
                 <div className="max-w-7xl mx-auto">
                     {loading ? (
-                        <div className="flex flex-col items-center justify-center py-32 space-y-6">
-                            <div className="relative">
-                                <Loader2 className="w-16 h-16 text-orange-500 animate-spin" strokeWidth={1} />
-                                <div className="absolute inset-0 bg-orange-500/10 blur-2xl rounded-full" />
-                            </div>
-                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest animate-pulse">VERİLER YÜKLENİYOR...</p>
-                        </div>
+                        <LoadingScreen message="KAMPANYALAR HAZIRLANIYOR" />
                     ) : campaigns.length === 0 ? (
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="bg-white rounded-[40px] border-2 border-slate-50 p-20 text-center shadow-sm"
+                            className="bg-white rounded-[6px] border border-slate-200 p-20 text-center shadow-sm"
                         >
-                            <div className="w-24 h-24 bg-orange-50 rounded-[32px] flex items-center justify-center mx-auto mb-8 border-2 border-orange-100/50">
-                                <Megaphone size={40} className="text-orange-500" strokeWidth={1.5} />
+                            <div className="w-20 h-20 bg-orange-50 rounded-[6px] flex items-center justify-center mx-auto mb-6 border border-orange-100/50">
+                                <Megaphone size={32} className="text-orange-600" strokeWidth={2} />
                             </div>
-                            <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tighter uppercase">HENÜZ KAMPANYA YOK</h3>
-                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest mb-10">MÜŞTERİLERİNİZ İÇİN İLK DUYURUNUZU OLUŞTURUN</p>
+                            <h3 className="text-xl font-bold text-slate-900 mb-2 tracking-tight uppercase">HENÜZ KAMPANYA YOK</h3>
+                            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-tight mb-8">MÜŞTERİLERİNİZ İÇİN İLK DUYURUNUZU OLUŞTURUN</p>
                             <button
                                 onClick={() => setModalOpen(true)}
-                                className="inline-flex items-center gap-3 bg-gray-900 text-white px-10 py-5 rounded-[24px] text-xs font-black tracking-widest hover:bg-orange-600 transition-all shadow-xl shadow-gray-900/10"
+                                className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-[6px] text-[11px] font-bold tracking-tight hover:bg-slate-800 transition-all shadow-md active:scale-95"
                             >
-                                <Plus size={18} strokeWidth={3} />
+                                <Plus size={16} strokeWidth={2.5} />
                                 KAMPANYA OLUŞTUR
                             </button>
                         </motion.div>
                     ) : (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {campaigns.filter(c => c.title.toLowerCase().includes(searchTerm.toLowerCase())).map((campaign, index) => (
                                 <motion.div
                                     key={campaign.id}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="group bg-white rounded-[40px] border-2 border-slate-50 hover:border-gray-200 transition-all duration-500 overflow-hidden shadow-sm hover:shadow-2xl hover:shadow-gray-900/5"
+                                    className="group bg-white rounded-[6px] border border-slate-200 hover:border-slate-300 transition-all duration-300 overflow-hidden shadow-sm hover:shadow-md"
                                 >
-                                    <div className="relative h-60 overflow-hidden">
+                                    <div className="relative h-48 overflow-hidden bg-slate-100">
                                         {campaign.imageUrl ? (
-                                            <img src={campaign.imageUrl} alt={campaign.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
+                                            <img src={campaign.imageUrl} alt={campaign.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                                         ) : (
-                                            <div className="w-full h-full bg-gray-50 flex items-center justify-center">
-                                                <Megaphone size={48} className="text-gray-200" />
+                                            <div className="w-full h-full flex items-center justify-center">
+                                                <Megaphone size={40} className="text-slate-200" />
                                             </div>
                                         )}
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                        <div className="absolute inset-0 bg-slate-900/40 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
-                                        <div className="absolute top-6 right-6 flex gap-2">
-                                            <div className={`px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest border-2 ${campaign.isActive ? 'bg-emerald-500/90 border-emerald-400 text-white' : 'bg-gray-900/90 border-gray-800 text-white'}`}>
+                                        <div className="absolute top-4 right-4 flex gap-2">
+                                            <div className={`px-2.5 py-1 rounded-[4px] text-[9px] font-bold uppercase tracking-tight border ${campaign.isActive ? 'bg-emerald-600 border-emerald-500 text-white' : 'bg-slate-900 border-slate-800 text-white'}`}>
                                                 {campaign.isActive ? 'AKTİF' : 'PASİF'}
                                             </div>
                                         </div>
 
-                                        <div className="absolute bottom-6 left-6 right-6 translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 flex gap-2">
+                                        <div className="absolute bottom-4 left-4 right-4 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300 flex gap-2">
                                             <button
                                                 onClick={() => toggleStatus(campaign)}
-                                                className="flex-1 bg-white/20 backdrop-blur-md border border-white/30 text-white px-4 py-3 rounded-[18px] text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-gray-900 transition-all"
+                                                className="flex-1 bg-white border border-white text-slate-900 px-3 py-2 rounded-[4px] text-[9px] font-bold uppercase tracking-tight hover:bg-slate-50 transition-all shadow-lg"
                                             >
                                                 {campaign.isActive ? 'DURDUR' : 'YAYINLA'}
                                             </button>
                                             <button
                                                 onClick={() => openEditModal(campaign)}
-                                                className="w-12 h-12 bg-white/20 backdrop-blur-md border border-white/30 text-white rounded-[18px] flex items-center justify-center hover:bg-white hover:text-gray-900 transition-all"
+                                                className="w-9 h-9 bg-white border border-white text-slate-900 rounded-[4px] flex items-center justify-center hover:bg-slate-50 transition-all shadow-lg"
                                             >
-                                                <Edit size={18} />
+                                                <Edit size={14} strokeWidth={2.5} />
                                             </button>
                                             <button
                                                 onClick={() => setConfirmDelete({ id: campaign.id, title: campaign.title })}
-                                                className="w-12 h-12 bg-rose-500/20 backdrop-blur-md border border-rose-500/30 text-rose-500 rounded-[18px] flex items-center justify-center hover:bg-rose-500 hover:text-white transition-all"
+                                                className="w-9 h-9 bg-rose-600 border border-white text-white rounded-[4px] flex items-center justify-center hover:bg-rose-700 transition-all shadow-lg"
                                             >
-                                                <Trash2 size={18} />
+                                                <Trash2 size={14} strokeWidth={2.5} />
                                             </button>
                                         </div>
                                     </div>
 
-                                    <div className="p-8 space-y-4">
+                                    <div className="p-4 space-y-3">
                                         <div>
-                                            <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-2 block">KAMPANYA BAŞLIĞI</span>
-                                            <h3 className="text-2xl font-black text-gray-900 tracking-tighter uppercase leading-tight line-clamp-1">{campaign.title}</h3>
+                                            <span className="text-[9px] font-bold text-orange-600 uppercase tracking-widest mb-1 block">YAYINDA</span>
+                                            <h3 className="text-[14px] font-bold text-slate-900 tracking-tight uppercase leading-tight line-clamp-1">{campaign.title}</h3>
                                         </div>
 
-                                        <p className="text-xs font-medium text-gray-400 leading-relaxed line-clamp-2 h-8">
-                                            {campaign.content || 'AÇIKLAMA BELİRTİLMEDİ.'}
+                                        <p className="text-[11px] font-medium text-slate-500 leading-relaxed line-clamp-2 h-8">
+                                            {campaign.content || 'Açıklama belirtilmedi.'}
                                         </p>
 
-                                        <div className="pt-6 border-t border-gray-50 flex items-center justify-between">
-                                            <div className="flex items-center gap-3 text-gray-400">
-                                                <Calendar size={16} />
-                                                <span className="text-[10px] font-black uppercase tracking-widest">
+                                        <div className="pt-3 border-t border-slate-50 flex items-center justify-between">
+                                            <div className="flex items-center gap-2 text-slate-400">
+                                                <Calendar size={12} strokeWidth={2} />
+                                                <span className="text-[10px] font-bold uppercase tracking-tight">
                                                     {campaign.startDate ? new Date(campaign.startDate).toLocaleDateString('tr-TR') : '...'} - {campaign.endDate ? new Date(campaign.endDate).toLocaleDateString('tr-TR') : '...'}
                                                 </span>
-                                            </div>
-                                            <div className="flex -space-x-2">
-                                                <div className="w-8 h-8 rounded-full bg-orange-100 border-2 border-white flex items-center justify-center">
-                                                    <span className="text-[8px] font-black text-orange-600">M</span>
-                                                </div>
-                                                <div className="w-8 h-8 rounded-full bg-blue-100 border-2 border-white flex items-center justify-center">
-                                                    <span className="text-[8px] font-black text-blue-600">E</span>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -336,98 +329,98 @@ export default function CampaignsPage() {
             {/* Campaign Modal */}
             <AnimatePresence>
                 {modalOpen && (
-                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 md:p-8">
+                    <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setModalOpen(false)}
-                            className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
+                            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
                         />
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative bg-white w-full max-w-2xl rounded-[40px] shadow-2xl overflow-hidden"
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            className="relative bg-white w-full max-w-xl rounded-[6px] shadow-2xl overflow-hidden"
                             onClick={e => e.stopPropagation()}
                         >
                             {/* Modal Header */}
-                            <div className="p-8 md:p-10 border-b-2 border-slate-50 flex items-center justify-between bg-gray-50/30">
+                            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                 <div>
-                                    <span className="text-[10px] font-black text-orange-500 uppercase tracking-[0.2em] mb-2 block">KAMPANYA YÖNETİMİ</span>
-                                    <h3 className="text-3xl font-black text-gray-900 tracking-tighter uppercase leading-none">
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1 block">YÖNETİM</span>
+                                    <h3 className="text-xl font-bold text-slate-900 tracking-tight uppercase leading-none">
                                         {editingCampaign ? 'KAMPANYAYI DÜZENLE' : 'YENİ KAMPANYA'}
                                     </h3>
                                 </div>
                                 <button
                                     onClick={() => setModalOpen(false)}
-                                    className="w-12 h-12 bg-white text-gray-400 rounded-[20px] flex items-center justify-center hover:bg-orange-500 hover:text-white transition-all shadow-sm border border-gray-100"
+                                    className="w-10 h-10 bg-white text-slate-400 rounded-[4px] flex items-center justify-center hover:text-rose-500 transition-all shadow-sm border border-slate-200"
                                 >
-                                    <X size={20} strokeWidth={3} />
+                                    <X size={18} strokeWidth={2.5} />
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="p-8 md:p-10 space-y-8 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                                <div className="space-y-6">
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">KAMPANYA BAŞLIĞI</label>
+                            <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6 max-h-[70vh] overflow-y-auto">
+                                <div className="space-y-5">
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">KAMPANYA BAŞLIĞI</label>
                                         <input
                                             required
                                             type="text"
                                             placeholder="ÖRN: HAFTA SONU FIRSATI"
                                             value={formData.title}
                                             onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                            className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black placeholder:text-gray-300 focus:border-orange-500 focus:bg-white outline-none transition-all uppercase"
+                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 placeholder:text-slate-300 focus:border-slate-900 outline-none transition-all uppercase tracking-tight"
                                         />
                                     </div>
 
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">İÇERİK / AÇIKLAMA</label>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">İÇERİK / AÇIKLAMA</label>
                                         <textarea
                                             placeholder="KAMPANYA DETAYLARINI BURAYA YAZIN..."
                                             rows={3}
                                             value={formData.content}
                                             onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                                            className="w-full px-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black placeholder:text-gray-300 focus:border-orange-500 focus:bg-white outline-none transition-all resize-none uppercase"
+                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 placeholder:text-slate-300 focus:border-slate-900 outline-none transition-all resize-none uppercase tracking-tight"
                                         />
                                     </div>
 
-                                    <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">RESİM URL</label>
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">RESİM URL</label>
                                         <div className="relative group">
-                                            <ImageIcon size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within:text-orange-500 transition-colors" />
+                                            <ImageIcon size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-slate-900 transition-colors" />
                                             <input
                                                 type="text"
-                                                placeholder="HTTPS://..."
+                                                placeholder="RESİM BAĞLANTISI (OPSİYONEL)"
                                                 value={formData.imageUrl}
                                                 onChange={(e) => setFormData({ ...formData, imageUrl: e.target.value })}
-                                                className="w-full pl-16 pr-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black placeholder:text-gray-300 focus:border-orange-500 focus:bg-white outline-none transition-all uppercase"
+                                                className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 placeholder:text-slate-300 focus:border-slate-900 outline-none transition-all uppercase tracking-tight"
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">BAŞLANGIÇ TARİHİ</label>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">BAŞLANGIÇ TARİHİ</label>
                                             <div className="relative">
-                                                <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
+                                                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                                                 <input
                                                     type="date"
                                                     value={formData.startDate}
                                                     onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
-                                                    className="w-full pl-16 pr-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black focus:border-orange-500 focus:bg-white outline-none transition-all uppercase"
+                                                    className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[11px] font-bold text-slate-900 focus:border-slate-900 outline-none transition-all uppercase"
                                                 />
                                             </div>
                                         </div>
-                                        <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">BİTİŞ TARİHİ</label>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">BİTİŞ TARİHİ</label>
                                             <div className="relative">
-                                                <Calendar className="absolute left-6 top-1/2 -translate-y-1/2 text-gray-300" size={18} />
+                                                <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" size={14} />
                                                 <input
                                                     type="date"
                                                     value={formData.endDate}
                                                     onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
-                                                    className="w-full pl-16 pr-8 py-5 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black focus:border-orange-500 focus:bg-white outline-none transition-all uppercase"
+                                                    className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[11px] font-bold text-slate-900 focus:border-slate-900 outline-none transition-all uppercase"
                                                 />
                                             </div>
                                         </div>
@@ -435,43 +428,43 @@ export default function CampaignsPage() {
 
                                     <div
                                         onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
-                                        className="flex items-center justify-between p-6 bg-gray-50 rounded-[32px] cursor-pointer hover:bg-orange-50 transition-colors border-2 border-transparent hover:border-orange-100"
+                                        className="flex items-center justify-between p-4 bg-slate-50 rounded-[6px] cursor-pointer hover:bg-slate-100 transition-colors border border-slate-200 shadow-sm"
                                     >
-                                        <div className="flex items-center gap-4">
-                                            <div className={`w-12 h-12 rounded-[18px] flex items-center justify-center transition-all ${formData.isActive ? 'bg-orange-500 text-white shadow-lg shadow-orange-500/20' : 'bg-gray-200 text-gray-400'}`}>
-                                                <Activity size={20} />
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-10 h-10 rounded-[4px] flex items-center justify-center transition-all ${formData.isActive ? 'bg-slate-900 text-white' : 'bg-slate-200 text-slate-400'}`}>
+                                                <Activity size={18} strokeWidth={2.5} />
                                             </div>
                                             <div>
-                                                <p className="text-[10px] font-black text-gray-900 uppercase tracking-widest">KAMPANYA DURUMU</p>
-                                                <p className="text-xs font-medium text-gray-400 uppercase tracking-widest">
-                                                    {formData.isActive ? 'HEMEN YAYINLA' : 'TASLAK OLARAK KAYDET'}
+                                                <p className="text-[11px] font-bold text-slate-900 uppercase tracking-tight">KAMPANYA DURUMU</p>
+                                                <p className="text-[10px] font-medium text-slate-400 uppercase tracking-tight">
+                                                    {formData.isActive ? 'YAYINLANACAK' : 'TASLAK OLARAK KALACAK'}
                                                 </p>
                                             </div>
                                         </div>
-                                        <div className={`w-14 h-8 rounded-full p-1 transition-colors duration-300 flex items-center ${formData.isActive ? 'bg-orange-500' : 'bg-gray-200'}`}>
+                                        <div className={`w-12 h-6 rounded-full p-1 transition-colors duration-300 flex items-center ${formData.isActive ? 'bg-emerald-600' : 'bg-slate-300'}`}>
                                             <motion.div
                                                 layout
-                                                className="w-6 h-6 bg-white rounded-full shadow-md"
+                                                className="w-4 h-4 bg-white rounded-full shadow-sm"
                                                 animate={{ x: formData.isActive ? 24 : 0 }}
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-4 pt-4">
+                                <div className="flex items-center gap-3 pt-4">
                                     <button
                                         type="button"
                                         onClick={() => setModalOpen(false)}
-                                        className="flex-1 px-8 py-5 rounded-[24px] text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-2 border-gray-100 hover:bg-gray-50 transition-all"
+                                        className="flex-1 px-6 py-3 rounded-[6px] text-[11px] font-bold text-slate-400 uppercase tracking-tight border border-slate-200 hover:bg-slate-50 transition-all"
                                     >
                                         VAZGEÇ
                                     </button>
                                     <button
                                         type="submit"
                                         disabled={isSaving}
-                                        className="flex-[2] flex items-center justify-center gap-3 bg-orange-500 text-white px-10 py-5 rounded-[24px] text-[10px] font-black tracking-[0.2em] hover:bg-orange-600 transition-all shadow-xl shadow-orange-500/20 disabled:opacity-50 border-b-4 border-orange-700/20 active:scale-95"
+                                        className="flex-[2] flex items-center justify-center gap-2 bg-slate-900 text-white px-8 py-3 rounded-[6px] text-[11px] font-bold tracking-tight hover:bg-slate-800 transition-all shadow-md disabled:opacity-50 active:scale-95"
                                     >
-                                        {isSaving ? <Loader2 size={18} className="animate-spin" /> : <Save size={18} />}
+                                        {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} strokeWidth={2.5} />}
                                         {editingCampaign ? 'DEĞİŞİKLİKLERİ KAYDET' : 'KAMPANYAYI BAŞLAT'}
                                     </button>
                                 </div>
@@ -484,37 +477,38 @@ export default function CampaignsPage() {
             {/* Delete Confirmation Modal */}
             <AnimatePresence>
                 {confirmDelete && (
-                    <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4">
+                    <div className="fixed inset-0 z-[10001] flex items-center justify-center p-4 lg:p-6">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setConfirmDelete(null)}
-                            className="absolute inset-0 bg-gray-900/60 backdrop-blur-sm"
+                            className="absolute inset-0 bg-slate-900/40 backdrop-blur-sm"
                         />
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 10 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 20 }}
-                            className="relative bg-white w-full max-w-sm rounded-[40px] shadow-2xl overflow-hidden p-10 text-center"
+                            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+                            className="relative bg-white w-full max-w-sm rounded-[6px] shadow-2xl overflow-hidden p-8 text-center border border-slate-200"
+                            onClick={e => e.stopPropagation()}
                         >
-                            <div className="w-20 h-20 bg-rose-50 rounded-[32px] flex items-center justify-center mx-auto mb-8 border-2 border-rose-100/50">
-                                <Trash2 size={36} className="text-rose-500" strokeWidth={1.5} />
+                            <div className="w-16 h-16 bg-rose-50 rounded-[6px] flex items-center justify-center mx-auto mb-6 border border-rose-100">
+                                <Trash2 size={24} className="text-rose-600" strokeWidth={2} />
                             </div>
-                            <h3 className="text-2xl font-black text-gray-900 mb-2 tracking-tighter uppercase whitespace-normal">KAMPANYAYI SİL?</h3>
-                            <p className="text-xs font-medium text-gray-400 uppercase tracking-widest mb-10 leading-relaxed px-4">
-                                <span className="text-gray-900 font-bold">{confirmDelete?.title}</span> SİLİNECEK. BU İŞLEM GERİ ALINAMAZ.
+                            <h3 className="text-lg font-bold text-slate-900 mb-2 tracking-tight uppercase">KAMPANYAYI SİL</h3>
+                            <p className="text-[11px] font-medium text-slate-400 uppercase tracking-tight mb-8 leading-relaxed">
+                                <span className="text-slate-900 font-bold">"{confirmDelete?.title}"</span> KALICI OLARAK SİLİNECEK.
                             </p>
-                            <div className="flex flex-col gap-3">
+                            <div className="flex flex-col gap-2">
                                 <button
                                     onClick={() => confirmDelete && handleDelete(confirmDelete.id)}
-                                    className="w-full bg-rose-500 text-white px-8 py-5 rounded-[24px] text-[10px] font-black tracking-[0.2em] hover:bg-rose-600 transition-all shadow-xl shadow-rose-500/20 active:scale-95"
+                                    className="w-full bg-rose-600 text-white px-6 py-3 rounded-[6px] text-[11px] font-bold tracking-tight hover:bg-rose-700 transition-all shadow-md active:scale-95"
                                 >
                                     SİLMEYİ ONAYLA
                                 </button>
                                 <button
                                     onClick={() => setConfirmDelete(null)}
-                                    className="w-full bg-gray-50 text-gray-400 px-8 py-5 rounded-[24px] text-[10px] font-black tracking-[0.2em] hover:bg-gray-200 transition-all border-2 border-gray-100"
+                                    className="w-full bg-white text-slate-400 px-6 py-3 rounded-[6px] text-[11px] font-bold tracking-tight hover:bg-slate-50 transition-all border border-slate-200"
                                 >
                                     VAZGEÇ
                                 </button>
@@ -526,18 +520,22 @@ export default function CampaignsPage() {
 
             {/* Footer Style Adjustments */}
             <style jsx global>{`
-                .custom-scrollbar::-webkit-scrollbar {
-                    width: 6px;
+                ::-webkit-scrollbar {
+                    width: 5px;
+                    height: 5px;
                 }
-                .custom-scrollbar::-webkit-scrollbar-track {
+                ::-webkit-scrollbar-track {
                     background: transparent;
                 }
-                .custom-scrollbar::-webkit-scrollbar-thumb {
-                    background: #e2e8f0;
+                ::-webkit-scrollbar-thumb {
+                    background: #cbd5e1;
                     border-radius: 10px;
                 }
-                .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-                    background: #cbd5e1;
+                ::-webkit-scrollbar-thumb:hover {
+                    background: #94a3b8;
+                }
+                body {
+                    font-family: 'Plus Jakarta Sans', sans-serif;
                 }
             `}</style>
         </div>

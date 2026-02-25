@@ -118,7 +118,7 @@ export default function SuperAdminPlanlar() {
                 </div>
                 <button
                     onClick={() => handleOpenModal()}
-                    className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
+                    className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
                 >
                     <Plus size={22} strokeWidth={3} /> Yeni Paket Tanımla
                 </button>
@@ -128,7 +128,7 @@ export default function SuperAdminPlanlar() {
                 <div className="flex flex-col gap-10 min-w-0">
                     {loading ? (
                         <div className="bg-white rounded-[40px] p-40 text-center shadow-sm border border-gray-100">
-                            <Loader2 className="animate-spin text-[#ff7a21] mx-auto mb-6" size={56} />
+                            <Loader2 className="animate-spin text-[#ea580c] mx-auto mb-6" size={56} />
                             <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</p>
                         </div>
                     ) : plans.length === 0 ? (
@@ -138,7 +138,7 @@ export default function SuperAdminPlanlar() {
                             </div>
                             <h3 className="text-2xl font-black text-gray-900 mb-2">Henüz Paket Tanımlanmadı</h3>
                             <p className="text-gray-400 font-bold max-w-[320px] leading-relaxed italic">Satışa sunulacak paketleri tanımlayarak platformu aktif hale getirin.</p>
-                            <button onClick={() => handleOpenModal()} className="mt-8 text-[#ff7a21] font-black text-sm hover:translate-y-[-2px] transition-transform uppercase tracking-widest underline decoration-2 underline-offset-8">+ İlk Paketi Şimdi Tanımla</button>
+                            <button onClick={() => handleOpenModal()} className="mt-8 text-[#ea580c] font-black text-sm hover:translate-y-[-2px] transition-transform uppercase tracking-widest underline decoration-2 underline-offset-8">+ İlk Paketi Şimdi Tanımla</button>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
@@ -150,15 +150,15 @@ export default function SuperAdminPlanlar() {
                                     </div>
 
                                     {plan.code === 'pro' && (
-                                        <div className="absolute top-10 -left-14 rotate-[-45deg] bg-gradient-to-r from-[#ff7a21] to-[#ff9d54] text-white text-[10px] font-black px-16 py-2.5 shadow-xl shadow-orange-500/20 z-0 tracking-widest uppercase">POPÜLER</div>
+                                        <div className="absolute top-10 -left-14 rotate-[-45deg] bg-gradient-to-r from-[#ea580c] to-[#ff9d54] text-white text-[10px] font-black px-16 py-2.5 shadow-xl shadow-orange-500/20 z-0 tracking-widest uppercase">POPÜLER</div>
                                     )}
 
-                                    <div className={`w-16 h-16 rounded-[24px] flex items-center justify-center mb-10 shadow-lg ${plan.code === 'pro' ? 'bg-orange-50 text-[#ff7a21] shadow-orange-500/10' : 'bg-blue-50 text-blue-500 shadow-blue-500/10'} group-hover:rotate-6 transition-transform duration-500`}>
+                                    <div className={`w-16 h-16 rounded-[24px] flex items-center justify-center mb-10 shadow-lg ${plan.code === 'pro' ? 'bg-orange-50 text-[#ea580c] shadow-orange-500/10' : 'bg-blue-50 text-blue-500 shadow-blue-500/10'} group-hover:rotate-6 transition-transform duration-500`}>
                                         <Zap size={32} strokeWidth={2.5} />
                                     </div>
 
                                     <div className="mb-8">
-                                        <h3 className="text-3xl font-black text-gray-900 tracking-tight leading-none group-hover:text-[#ff7a21] transition-colors">{plan.name}</h3>
+                                        <h3 className="text-3xl font-black text-gray-900 tracking-tight leading-none group-hover:text-[#ea580c] transition-colors">{plan.name}</h3>
                                         <span className="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mt-3 block">CODE: {plan.code}</span>
                                     </div>
 
@@ -185,7 +185,7 @@ export default function SuperAdminPlanlar() {
 
                                     <button
                                         onClick={() => handleOpenModal(plan)}
-                                        className={`w-full py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all ${plan.code === 'pro' ? 'bg-gray-900 text-white shadow-2xl shadow-gray-900/20 hover:bg-[#ff7a21] hover:shadow-orange-500/30' : 'bg-gray-50 text-gray-400 border-2 border-gray-100 group-hover:bg-[#ff7a21] group-hover:text-white group-hover:border-[#ff7a21] group-hover:shadow-xl group-hover:shadow-orange-500/20'} hover:-translate-y-1 active:scale-95`}
+                                        className={`w-full py-5 rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all ${plan.code === 'pro' ? 'bg-gray-900 text-white shadow-2xl shadow-gray-900/20 hover:bg-[#ea580c] hover:shadow-orange-500/30' : 'bg-gray-50 text-gray-400 border-2 border-gray-100 group-hover:bg-[#ea580c] group-hover:text-white group-hover:border-[#ea580c] group-hover:shadow-xl group-hover:shadow-orange-500/20'} hover:-translate-y-1 active:scale-95`}
                                     >
                                         Yapılandır
                                     </button>
@@ -197,9 +197,9 @@ export default function SuperAdminPlanlar() {
 
                 <aside className="flex flex-col gap-10 xl:sticky xl:top-8 h-fit">
                     <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="flex items-center gap-4 mb-12 relative">
-                            <div className="w-2 h-10 bg-[#ff7a21] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
+                            <div className="w-2 h-10 bg-[#ea580c] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
                             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Platform Analizi</h3>
                         </div>
 
@@ -224,24 +224,24 @@ export default function SuperAdminPlanlar() {
                                 </div>
                             </div>
 
-                            <div className="bg-orange-500/5 rounded-3xl p-6 border-l-4 border-[#ff7a21]">
+                            <div className="bg-orange-600/5 rounded-3xl p-6 border-l-4 border-[#ea580c]">
                                 <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic">
                                     <span className="text-white not-italic block mb-2 text-xs font-black uppercase tracking-widest">Growth Analiz:</span>
-                                    Paket limitleri optimizasyonu sayesinde ortalama sepet tutarı bu çeyrekte <span className="text-[#ff7a21]">%15</span> artış gösterdi.
+                                    Paket limitleri optimizasyonu sayesinde ortalama sepet tutarı bu çeyrekte <span className="text-[#ea580c]">%15</span> artış gösterdi.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ff7a21] group hover:shadow-2xl hover:shadow-orange-500/5 transition-all">
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ea580c] group hover:shadow-2xl hover:shadow-orange-500/5 transition-all">
                         <div className="flex gap-6 items-start">
                             <div className="bg-orange-50 p-4 rounded-2xl shrink-0 border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm">
-                                <CreditCard size={28} className="text-[#ff7a21]" strokeWidth={2.5} />
+                                <CreditCard size={28} className="text-[#ea580c]" strokeWidth={2.5} />
                             </div>
                             <div>
                                 <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight mb-3">SaaS Motoru</h4>
                                 <p className="text-sm text-gray-500 leading-relaxed font-bold italic">
-                                    Paket kısıtlamaları faturalandırma motoruyla <span className="text-[#ff7a21] underline decoration-orange-200 underline-offset-4">tam entegredir</span>. Limit değişiklikleri mevcut işletmeleri gerçek zamanlı etkiler.
+                                    Paket kısıtlamaları faturalandırma motoruyla <span className="text-[#ea580c] underline decoration-orange-200 underline-offset-4">tam entegredir</span>. Limit değişiklikleri mevcut işletmeleri gerçek zamanlı etkiler.
                                 </p>
                             </div>
                         </div>
@@ -279,7 +279,7 @@ export default function SuperAdminPlanlar() {
                                     value={formData.name}
                                     placeholder="Örn: Growth Premier"
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -290,7 +290,7 @@ export default function SuperAdminPlanlar() {
                                     placeholder="growth_v1"
                                     disabled={!!editingPlan}
                                     onChange={(e) => setFormData({ ...formData, code: e.target.value })}
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none disabled:bg-gray-100 disabled:text-gray-400 cursor-not-allowed focus:border-[#ff7a21] transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none disabled:bg-gray-100 disabled:text-gray-400 cursor-not-allowed focus:border-[#ea580c] transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -301,7 +301,7 @@ export default function SuperAdminPlanlar() {
                                         type="number" required
                                         value={formData.price}
                                         onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) })}
-                                        className="w-full pl-14 pr-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all shadow-sm"
+                                        className="w-full pl-14 pr-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all shadow-sm"
                                     />
                                 </div>
                             </div>
@@ -311,7 +311,7 @@ export default function SuperAdminPlanlar() {
                                     type="number" required
                                     value={formData.branchLimit}
                                     onChange={(e) => setFormData({ ...formData, branchLimit: parseInt(e.target.value) })}
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all shadow-sm"
                                 />
                             </div>
                             <div className="space-y-3">
@@ -320,14 +320,14 @@ export default function SuperAdminPlanlar() {
                                     type="number" required
                                     value={formData.tableLimit}
                                     onChange={(e) => setFormData({ ...formData, tableLimit: parseInt(e.target.value) })}
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all shadow-sm"
+                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all shadow-sm"
                                 />
                             </div>
 
                             <div className="sm:col-span-2 mt-8">
                                 <button
                                     type="submit" disabled={isSaving}
-                                    className="w-full py-6 rounded-[32px] bg-gray-900 text-white font-black text-lg uppercase tracking-[0.2em] shadow-2xl shadow-gray-900/30 hover:bg-[#ff7a21] hover:shadow-orange-500/40 hover:-translate-y-1 active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-4"
+                                    className="w-full py-6 rounded-[32px] bg-gray-900 text-white font-black text-lg uppercase tracking-[0.2em] shadow-2xl shadow-gray-900/30 hover:bg-[#ea580c] hover:shadow-orange-500/40 hover:-translate-y-1 active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-4"
                                 >
                                     {isSaving ? <Loader2 size={32} className="animate-spin text-white" /> : <Save size={28} strokeWidth={3} />}
                                     {isSaving ? 'İşleniyor...' : editingPlan ? 'Yapılandırmayı Kaydet' : 'Yeni Paketi Aktifleştir'}

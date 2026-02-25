@@ -38,6 +38,7 @@ import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 
 import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export default function RestoranBilgileri() {
     const [loading, setLoading] = useState(false);
@@ -176,16 +177,7 @@ export default function RestoranBilgileri() {
         }
     };
 
-    if (pageLoading) {
-        return (
-            <div className="flex items-center justify-center h-screen bg-[#f8fafc]">
-                <div className="flex flex-col items-center gap-6">
-                    <div className="w-12 h-12 border-4 border-slate-100 border-t-slate-900 rounded-full animate-spin" />
-                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest">YÜKLENİYOR...</p>
-                </div>
-            </div>
-        );
-    }
+    if (pageLoading) return <LoadingScreen message="RESTORAN VERİLERİ OKUNUYOR" />;
 
     return (
         <div className="min-h-screen bg-[#f8fafc] flex flex-col">
@@ -196,56 +188,56 @@ export default function RestoranBilgileri() {
                         initial={{ opacity: 0, y: -20, x: '-50%' }}
                         animate={{ opacity: 1, y: 10 }}
                         exit={{ opacity: 0, y: -20 }}
-                        className={`fixed top-4 left-1/2 z-[9999] flex items-center gap-3 px-6 py-3 rounded-md shadow-xl backdrop-blur-md border ${notification.type === 'success' ? 'bg-slate-900 border-slate-700 text-white' : 'bg-rose-600 border-rose-500 text-white'}`}
+                        className={`fixed top-4 left-1/2 z-[9999] flex items-center gap-3 px-6 py-3 rounded-[6px] shadow-xl backdrop-blur-md border ${notification.type === 'success' ? 'bg-slate-900 border-slate-700 text-white' : 'bg-rose-600 border-rose-500 text-white'}`}
                     >
                         {notification.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
-                        <span className="text-[10px] font-black tracking-widest uppercase">{notification.message}</span>
+                        <span className="text-[11px] font-bold tracking-tight">{notification.message}</span>
                     </motion.div>
                 )}
             </AnimatePresence>
 
-            <div className="bg-white border-b border-slate-100 py-4 px-6 lg:px-8 relative z-30 shadow-sm w-full">
+            <div className="bg-white border-b border-slate-200 py-5 px-6 lg:px-8 relative z-30 w-full">
                 <div className="w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="flex items-start md:items-center gap-4 md:gap-6">
                         <MobileMenuToggle />
                         <div className="space-y-4">
                             {/* Breadcrumbs */}
-                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-widest">
                                 <Link href="/dashboard" className="hover:text-slate-900 transition-colors">PANEL</Link>
-                                <ChevronRight size={8} className="text-gray-300" />
+                                <ChevronRight size={8} className="text-slate-300" />
                                 <span className="text-slate-900">RESTORAN BİLGİLERİ</span>
                             </div>
 
                             <div className="flex items-center gap-4">
-                                <div className="w-12 h-12 bg-slate-900 rounded-md flex items-center justify-center shadow-lg">
-                                    <Store size={24} className="text-white" strokeWidth={2} />
+                                <div className="w-12 h-12 bg-slate-900 rounded-[6px] flex items-center justify-center shadow-lg">
+                                    <Store size={22} className="text-white" strokeWidth={2.5} />
                                 </div>
                                 <div className="space-y-0.5">
-                                    <h1 className="text-2xl font-black text-gray-900 tracking-tighter uppercase leading-none">RESTORAN PROFİLİ</h1>
+                                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight leading-none uppercase">Restoran Profili</h1>
                                     <div className="flex items-center gap-2">
-                                        <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">PROFİL YÖNETİMİ</span>
-                                        <div className="h-0.5 w-0.5 bg-gray-300 rounded-full" />
-                                        <span className="text-[9px] font-black text-slate-900 uppercase tracking-widest px-2 py-0.5 bg-slate-50 border border-slate-200 rounded-md">{formData.name || 'YENİ İŞLETME'}</span>
+                                        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-tight">PROFİL YÖNETİMİ</span>
+                                        <div className="h-0.5 w-0.5 bg-slate-200 rounded-full" />
+                                        <span className="text-[11px] font-bold text-slate-500 px-2 py-0.5 bg-slate-100 border border-slate-200 rounded-[4px]">{formData.name || 'YENİ İŞLETME'}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-3">
                             <button
                                 onClick={openLivePreview}
-                                className="flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-900 px-6 py-3 rounded-md text-[10px] font-black tracking-widest hover:border-slate-900 transition-all active:scale-95 uppercase"
+                                className="flex items-center justify-center gap-2 bg-white border border-slate-200 text-slate-900 px-5 py-3 rounded-[6px] text-[11px] font-bold tracking-tight hover:border-slate-900 transition-all active:scale-95 uppercase"
                             >
                                 <ExternalLink size={14} />
-                                CANLI ÖNİZLEME
+                                Canlı Önizleme
                             </button>
                             <button
                                 onClick={handleSubmit}
                                 disabled={loading}
-                                className="bg-slate-900 text-white px-6 py-3 rounded-md flex items-center gap-2 text-[10px] font-black tracking-widest hover:bg-orange-600 transition-all active:scale-95 shadow-md"
+                                className="bg-slate-900 text-white px-6 py-3 rounded-[6px] flex items-center gap-2 text-[11px] font-bold tracking-tight hover:bg-slate-800 transition-all active:scale-95 shadow-md shadow-slate-900/10 uppercase"
                             >
                                 {loading ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                                {loading ? 'KAYDEDİLİYOR...' : 'DEĞİŞİKLİKLERİ KAYDET'}
+                                {loading ? 'KAYDEDİLİYOR...' : 'KAYDET'}
                             </button>
                             <ProfileDropdown />
                         </div>
@@ -259,33 +251,33 @@ export default function RestoranBilgileri() {
                         {/* Left Column: Core Info */}
                         <div className="lg:col-span-8 space-y-8">
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
-                                className="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden"
+                                className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden"
                             >
-                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                     <div className="flex items-center gap-3">
-                                        <div className="bg-slate-900 text-white p-2 rounded-md">
-                                            <Store size={16} strokeWidth={2.5} />
+                                        <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                            <Store size={15} strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">TEMEL İŞLETME BİLGİLERİ</h3>
+                                        <h3 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">TEMEL İŞLETME BİLGİLERİ</h3>
                                     </div>
-                                    <div className="text-[10px] font-black text-slate-300 italic">01</div>
+                                    <div className="text-[9px] font-bold text-slate-300 tracking-widest">01</div>
                                 </div>
                                 <div className="p-6 space-y-6">
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] ml-1 flex items-center gap-2">
-                                                RESTORAN ADI <span className="text-orange-600">*</span>
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                                Restoran Adı <span className="text-orange-600 font-bold">*</span>
                                             </label>
-                                            <div className="flex gap-4">
+                                            <div className="flex gap-3">
                                                 <div
-                                                    className="w-12 h-12 rounded-none border border-slate-200 flex-shrink-0 cursor-pointer hover:bg-slate-50 transition-all flex items-center justify-center relative overflow-hidden group/color"
+                                                    className="w-11 h-11 rounded-[4px] border border-slate-200 flex-shrink-0 cursor-pointer hover:scale-105 transition-all flex items-center justify-center relative shadow-sm overflow-hidden group/color"
                                                     style={{ backgroundColor: restaurantColor }}
                                                     onClick={() => colorInputRef.current?.click()}
                                                 >
                                                     <div className="absolute inset-0 bg-black/0 group-hover/color:bg-black/10 transition-colors flex items-center justify-center">
-                                                        <Palette size={16} className="text-white opacity-0 group-hover/color:opacity-100 transition-opacity" />
+                                                        <Palette size={15} className="text-white opacity-0 group-hover/color:opacity-100 transition-opacity" />
                                                     </div>
                                                 </div>
                                                 <input
@@ -298,131 +290,131 @@ export default function RestoranBilgileri() {
                                                 <input
                                                     type="text" name="name" value={formData.name}
                                                     onChange={handleChange}
-                                                    className="flex-1 px-4 py-3 bg-white border border-slate-200 rounded-md text-[11px] font-bold text-gray-900 focus:border-slate-900 transition-all outline-none uppercase placeholder:text-gray-300"
-                                                    placeholder="İŞLETME ADINI GİRİNİZ"
+                                                    className="flex-1 px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                                    placeholder="İşletme adını giriniz"
                                                     required
                                                 />
                                             </div>
                                         </div>
-                                        <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                                                BAĞLANTI ADRESİ (SLUG) <span className="text-orange-600">*</span>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                                Bağlantı Adresi (Slug) <span className="text-orange-600 font-bold">*</span>
                                             </label>
                                             <div className="relative">
                                                 <input
                                                     type="text" name="slug" value={formData.slug}
                                                     onChange={handleChange}
                                                     onBlur={checkSlugAvailability}
-                                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-md text-[11px] font-bold tracking-widest focus:border-slate-900 transition-all outline-none lowercase"
+                                                    className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold tracking-tight focus:bg-white focus:border-slate-900 transition-all outline-none lowercase"
                                                     placeholder="restoran-adiniz"
                                                     required
                                                 />
                                                 <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                                                    {slugStatus === 'checking' && <Loader2 size={12} className="animate-spin text-gray-400" />}
+                                                    {slugStatus === 'checking' && <Loader2 size={12} className="animate-spin text-slate-400" />}
                                                     {slugStatus === 'available' && <CheckCircle2 size={12} className="text-emerald-500" />}
                                                     {slugStatus === 'taken' && <AlertCircle size={12} className="text-rose-500" />}
                                                 </div>
                                             </div>
-                                            <div className="flex items-center gap-2 px-6">
-                                                <Globe size={12} className="text-gray-300" />
-                                                <span className="text-[9px] font-black text-gray-300 uppercase tracking-widest">URL: MESADİJİTAL.COM/R/</span>
-                                                <span className="text-[9px] font-black text-orange-600 uppercase tracking-widest underline decoration-2 underline-offset-4 decoration-orange-100">{formData.slug || '...'}</span>
+                                            <div className="flex items-center gap-2 px-1">
+                                                <Globe size={11} className="text-slate-300" />
+                                                <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">URL: MESADİJİTAL.COM/R/</span>
+                                                <span className="text-[9px] font-bold text-orange-600 uppercase tracking-tighter underline decoration-1 underline-offset-4 decoration-orange-100">{formData.slug || '...'}</span>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-2">
-                                            <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">SLOGAN / ALT BAŞLIK</label>
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 text-xs">Slogan / Alt Başlık</label>
                                             <input
                                                 type="text" name="subtitle" value={formData.subtitle}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-md text-[11px] font-bold text-gray-900 focus:border-slate-900 transition-all outline-none uppercase placeholder:text-gray-300"
-                                                placeholder="LEZZETİN YENİ ADRESİ..."
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-slate-900 transition-all outline-none"
+                                                placeholder="Lezzetin yeni adresi..."
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">ÇALIŞMA SAATLERİ</label>
+                                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 text-xs">Çalışma Saatleri</label>
                                             <input
                                                 type="text" name="timing" value={formData.timing}
                                                 onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-md text-[11px] font-bold text-gray-900 focus:border-slate-900 transition-all outline-none uppercase placeholder:text-gray-300"
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-slate-900 transition-all outline-none"
                                                 placeholder="08:00 - 23:00"
                                             />
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">İŞLETME AÇIKLAMASI</label>
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 text-xs">İşletme Açıklaması</label>
                                         <textarea
                                             name="description" value={formData.description}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-4 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-orange-600 transition-all outline-none uppercase placeholder:text-gray-300 min-h-[120px] resize-none leading-relaxed"
-                                            placeholder="İŞLETMENİZ HAKKINDA BİLGİ VERİN..."
+                                            className="w-full px-4 py-4 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-medium text-slate-700 focus:bg-white focus:border-slate-900 transition-all outline-none placeholder:text-slate-300 min-h-[100px] resize-none leading-relaxed shadow-inner"
+                                            placeholder="İşletmeniz hakkında kısa bir bilgi verin..."
                                         />
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                                            <MapPin size={10} className="text-orange-600" /> ADRES BİLGİSİ
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2 text-xs">
+                                            <MapPin size={11} className="text-orange-600" /> Adres Bilgisi
                                         </label>
                                         <input
                                             type="text" name="address" value={formData.address}
                                             onChange={handleChange}
-                                            className="w-full px-4 py-3 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-orange-600 transition-all outline-none uppercase placeholder:text-gray-300"
-                                            placeholder="TAM ADRESİNİZİ GİRİNİZ"
+                                            className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-slate-900 transition-all outline-none"
+                                            placeholder="Tam adresinizi giriniz"
                                         />
                                     </div>
                                 </div>
                             </motion.div>
 
                             <motion.div
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
+                                className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden"
                             >
-                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                     <div className="flex items-center gap-3">
-                                        <div className="bg-slate-900 text-white p-2 rounded-none">
-                                            <Smartphone size={16} strokeWidth={2.5} />
+                                        <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                            <Smartphone size={15} strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">SOSYAL MEDYA & İLETİŞİM</h3>
+                                        <h3 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">SOSYAL MEDYA & İLETİŞİM</h3>
                                     </div>
-                                    <div className="text-[10px] font-black text-slate-300 italic">02</div>
+                                    <div className="text-[9px] font-bold text-slate-300 tracking-widest">02</div>
                                 </div>
                                 <div className="p-6 space-y-4">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                         <div className="space-y-2 group/social">
-                                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-pink-500">
-                                                <Instagram size={12} className="text-pink-200 group-focus-within/social:text-pink-500 transition-colors" /> INSTAGRAM
+                                            <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 group-focus-within/social:text-pink-500 transition-colors">
+                                                <Instagram size={11} className="text-slate-300 group-focus-within/social:text-pink-500 transition-colors" /> Instagram
                                             </div>
                                             <input type="text" name="instagram" value={formData.instagram} onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-pink-500 outline-none transition-all uppercase"
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-pink-500 outline-none transition-all"
                                                 placeholder="https://instagram.com/..." />
                                         </div>
                                         <div className="space-y-2 group/social">
-                                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-blue-600">
-                                                <Facebook size={12} className="text-blue-200 group-focus-within/social:text-blue-600 transition-colors" /> FACEBOOK
+                                            <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 group-focus-within/social:text-blue-600 transition-colors">
+                                                <Facebook size={11} className="text-slate-300 group-focus-within/social:text-blue-600 transition-colors" /> Facebook
                                             </div>
                                             <input type="text" name="facebook" value={formData.facebook} onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-blue-600 outline-none transition-all uppercase"
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-blue-600 outline-none transition-all"
                                                 placeholder="https://facebook.com/..." />
                                         </div>
                                         <div className="space-y-2 group/social">
-                                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-emerald-500">
-                                                <MessageCircle size={12} className="text-emerald-200 group-focus-within/social:text-emerald-500 transition-colors" /> WHATSAPP
+                                            <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 group-focus-within/social:text-emerald-500 transition-colors">
+                                                <MessageCircle size={11} className="text-slate-300 group-focus-within/social:text-emerald-500 transition-colors" /> WhatsApp
                                             </div>
                                             <input type="text" name="whatsapp" value={formData.whatsapp} onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-emerald-500 outline-none transition-all uppercase"
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-emerald-500 outline-none transition-all"
                                                 placeholder="+90 5XX XXX XX XX" />
                                         </div>
                                         <div className="space-y-2 group/social">
-                                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 transition-colors group-focus-within/social:text-gray-900">
-                                                <Globe size={12} className="text-slate-300 group-focus-within/social:text-gray-900 transition-colors" /> WEB SİTESİ
+                                            <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest ml-1 group-focus-within/social:text-slate-900 transition-colors">
+                                                <Globe size={11} className="text-slate-300 group-focus-within/social:text-slate-900 transition-colors" /> Web Sitesi
                                             </div>
                                             <input type="text" name="website" value={formData.website} onChange={handleChange}
-                                                className="w-full px-4 py-3 bg-white border border-slate-200 rounded-none text-[11px] font-bold text-gray-900 focus:border-gray-900 outline-none transition-all uppercase"
+                                                className="w-full px-4 py-2.5 bg-slate-50/50 border border-slate-200 rounded-[6px] text-xs font-bold text-slate-900 focus:bg-white focus:border-slate-900 outline-none transition-all"
                                                 placeholder="www.isletmeniz.com" />
                                         </div>
                                     </div>
@@ -434,54 +426,54 @@ export default function RestoranBilgileri() {
                         <div className="lg:col-span-4 space-y-10">
                             {/* Images Section */}
                             <motion.div
-                                initial={{ opacity: 0, x: 20 }}
+                                initial={{ opacity: 0, x: 10 }}
                                 animate={{ opacity: 1, x: 0 }}
-                                className="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden"
+                                className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden"
                             >
-                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                     <div className="flex items-center gap-3">
-                                        <div className="bg-slate-900 text-white p-2 rounded-md">
-                                            <ImageIcon size={16} strokeWidth={2.5} />
+                                        <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                            <ImageIcon size={15} strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">MATERYALLER</h3>
+                                        <h3 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">GÖRSEL MATERYALLER</h3>
                                     </div>
-                                    <Target size={14} className="text-slate-300" />
+                                    <Target size={14} className="text-slate-200" />
                                 </div>
                                 <div className="p-6 space-y-6">
                                     {/* Logo Upload */}
-                                    <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">KURUMSAL LOGO</label>
-                                        <div className="relative group/upload overflow-hidden bg-slate-50 border border-dashed border-slate-200 rounded-md p-4 text-center cursor-pointer hover:bg-slate-100 transition-all duration-300">
-                                            <div className="w-20 h-20 rounded-md bg-white mx-auto border border-slate-200 flex items-center justify-center overflow-hidden mb-4 relative">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">KURUMSAL LOGO</label>
+                                        <div className="relative group/upload overflow-hidden bg-slate-50 border border-dashed border-slate-200 rounded-[6px] p-5 text-center cursor-pointer hover:bg-slate-100 transition-all duration-300">
+                                            <div className="w-20 h-20 rounded-[4px] bg-white mx-auto border border-slate-100 flex items-center justify-center overflow-hidden mb-4 relative shadow-sm">
                                                 {logoPreview ? (
                                                     <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" />
                                                 ) : (
-                                                    <ImageIcon size={24} className="text-slate-100" />
+                                                    <ImageIcon size={24} className="text-slate-200" />
                                                 )}
                                             </div>
-                                            <label className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-md text-[9px] font-black tracking-widest cursor-pointer hover:bg-orange-600 transition-all">
-                                                <Upload size={12} /> GÜNCELLE
+                                            <label className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-[4px] text-[10px] font-bold tracking-tight cursor-pointer hover:bg-slate-800 transition-all shadow-md active:scale-95">
+                                                <Upload size={12} /> LOGO YÜKLE
                                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'logo')} />
                                             </label>
                                         </div>
                                     </div>
 
                                     {/* Cover Upload */}
-                                    <div className="space-y-2">
-                                        <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">KAPAK GÖRSELİ</label>
-                                        <div className="relative group/upload overflow-hidden bg-slate-50 border border-dashed border-slate-200 rounded-none p-4 text-center cursor-pointer hover:bg-slate-100 transition-all duration-300">
-                                            <div className="w-full h-20 rounded-none bg-white mx-auto border border-slate-200 flex items-center justify-center overflow-hidden mb-4 relative">
+                                    <div className="space-y-4">
+                                        <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">KAPAK GÖRSELİ</label>
+                                        <div className="relative group/upload overflow-hidden bg-slate-50 border border-dashed border-slate-200 rounded-[6px] p-5 text-center cursor-pointer hover:bg-slate-100 transition-all duration-300">
+                                            <div className="w-full h-24 rounded-[4px] bg-white mx-auto border border-slate-100 flex items-center justify-center overflow-hidden mb-4 relative shadow-sm">
                                                 {coverPreview ? (
                                                     <img src={coverPreview} alt="Cover" className="w-full h-full object-cover" />
                                                 ) : (
                                                     <div className="flex flex-col items-center gap-1">
-                                                        <ImageIcon size={20} className="text-slate-100" />
-                                                        <span className="text-[8px] font-bold text-slate-300">1200x400</span>
+                                                        <ImageIcon size={20} className="text-slate-200" />
+                                                        <span className="text-[9px] font-bold text-slate-300 uppercase tracking-tighter">1200x400 ÖNERİLİR</span>
                                                     </div>
                                                 )}
                                             </div>
-                                            <label className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-md text-[9px] font-black tracking-widest cursor-pointer hover:bg-orange-600 transition-all">
-                                                <Upload size={12} /> DEĞİŞTİR
+                                            <label className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-[4px] text-[10px] font-bold tracking-tight cursor-pointer hover:bg-slate-800 transition-all shadow-md active:scale-95">
+                                                <Upload size={12} /> GÖRSEL YÜKLE
                                                 <input type="file" accept="image/*" className="hidden" onChange={(e) => handleImageUpload(e, 'cover')} />
                                             </label>
                                         </div>
@@ -490,19 +482,19 @@ export default function RestoranBilgileri() {
                             </motion.div>
 
                             <motion.div
-                                initial={{ opacity: 0, x: 20 }}
+                                initial={{ opacity: 0, x: 10 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 transition={{ delay: 0.1 }}
-                                className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
+                                className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden"
                             >
-                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                                     <div className="flex items-center gap-3">
-                                        <div className="bg-slate-900 text-white p-2 rounded-none">
-                                            <Palette size={16} strokeWidth={2.5} />
+                                        <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                            <Palette size={15} strokeWidth={2.5} />
                                         </div>
-                                        <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">GÖRÜNÜM TEMASI</h3>
+                                        <h3 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">GÖRÜNÜM TEMASI</h3>
                                     </div>
-                                    <div className="text-[10px] font-black text-slate-300 italic">03</div>
+                                    <div className="text-[9px] font-bold text-slate-300 tracking-widest">03</div>
                                 </div>
                                 <div className="p-4 space-y-2">
                                     {AVAILABLE_THEMES.map((theme) => {
@@ -514,26 +506,28 @@ export default function RestoranBilgileri() {
                                             <motion.div
                                                 key={theme.key}
                                                 whileHover={!isLocked ? { x: 4 } : {}}
-                                                className={`relative p-3 rounded-none border transition-all cursor-pointer flex items-center gap-4 ${isActive ? 'border-slate-900 bg-slate-50' :
-                                                    isLocked ? 'border-slate-100 opacity-60 grayscale cursor-not-allowed' :
-                                                        'border-slate-200 hover:border-slate-400'
+                                                className={`relative p-3 rounded-[6px] border transition-all cursor-pointer flex items-center gap-3 ${isActive ? 'border-slate-900 bg-slate-50 shadow-sm' :
+                                                    isLocked ? 'border-slate-100 opacity-60 grayscale cursor-not-allowed bg-slate-50/30' :
+                                                        'border-slate-200 hover:border-slate-400 bg-white'
                                                     }`}
                                                 onClick={() => {
                                                     if (!isLocked) setSelectedTemplate(theme.key);
-                                                    else setNotification({ type: 'error', message: 'BU TEMA İÇİN PAKETİNİZİ YÜKSELTMELİSİNİZ' });
+                                                    else setNotification({ type: 'error', message: 'Bu tema için paketiniz yetersiz' });
                                                 }}
                                             >
-                                                <div className="w-12 h-12 rounded-none bg-white border border-slate-200 flex items-center justify-center text-xl">
+                                                <div className="w-10 h-10 rounded-[4px] bg-slate-50 border border-slate-100 flex items-center justify-center text-lg">
                                                     {theme.icon}
                                                 </div>
-                                                <div className="flex-1">
-                                                    <h4 className={`text-[10px] font-black uppercase tracking-widest ${isActive ? 'text-slate-900' : 'text-gray-900'}`}>{theme.name}</h4>
-                                                    <p className="text-[9px] font-bold text-gray-400 uppercase tracking-tight mt-1 truncate">{theme.desc}</p>
+                                                <div className="flex-1 overflow-hidden">
+                                                    <h4 className={`text-[9px] font-bold uppercase tracking-widest ${isActive ? 'text-slate-900' : 'text-slate-500'}`}>{theme.name}</h4>
+                                                    <p className="text-[9px] font-medium text-slate-400 tracking-tight mt-0.5 truncate uppercase">{theme.desc}</p>
                                                 </div>
                                                 {isLocked ? (
-                                                    <Lock size={12} className="text-slate-400" />
+                                                    <Lock size={12} className="text-slate-300 shrink-0" />
                                                 ) : isActive && (
-                                                    <CheckCircle2 size={12} className="text-slate-900" />
+                                                    <div className="bg-slate-900 text-white p-1 rounded-full shadow-md shrink-0">
+                                                        <CheckCircle2 size={10} />
+                                                    </div>
                                                 )}
                                             </motion.div>
                                         );
@@ -544,39 +538,39 @@ export default function RestoranBilgileri() {
                     </div>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="bg-white rounded-none shadow-sm border border-slate-200 overflow-hidden"
+                        className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden"
                     >
-                        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50/50">
                             <div className="flex items-center gap-3">
-                                <div className="bg-slate-900 text-white p-2 rounded-none">
-                                    <Settings2 size={16} strokeWidth={2.5} />
+                                <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                    <Settings2 size={15} strokeWidth={2.5} />
                                 </div>
-                                <h3 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">SİSTEM VE İZİN AYARLARI</h3>
+                                <h3 className="text-[10px] font-bold text-slate-900 uppercase tracking-widest">SİSTEM VE İZİN AYARLARI</h3>
                             </div>
-                            <div className="text-[10px] font-black text-slate-300 italic">04</div>
+                            <div className="text-[9px] font-bold text-slate-300 tracking-widest">04</div>
                         </div>
                         <div className="p-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                                 {[
-                                    { label: 'GARSON ÇAĞIRMA', name: 'allowCallWaiter', req: 'Garson Çağrı Sistemi', icon: <Activity size={12} /> },
-                                    { label: 'MASADA SİPARİŞ', name: 'allowOnTableOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Smartphone size={12} /> },
-                                    { label: 'GEL-AL SİPARİŞ', name: 'allowTakeawayOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <ShoppingBag size={12} /> },
-                                    { label: 'ODAYA SİPARİŞ', name: 'allowHotelOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Briefcase size={12} /> },
-                                    { label: 'ADRESE TESLİMAT', name: 'allowDeliveryOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <MapPin size={12} /> },
-                                    { label: 'ANLIK BİLDİRİM', name: 'sendOrderNotification', req: null, icon: <Activity size={12} /> },
+                                    { label: 'Garson Çağırma', name: 'allowCallWaiter', req: 'Garson Çağrı Sistemi', icon: <Activity size={12} /> },
+                                    { label: 'Masada Sipariş', name: 'allowOnTableOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Smartphone size={12} /> },
+                                    { label: 'Gel-Al Sipariş', name: 'allowTakeawayOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <ShoppingBag size={12} /> },
+                                    { label: 'Odaya Sipariş', name: 'allowHotelOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <Briefcase size={12} /> },
+                                    { label: 'Adrese Teslimat', name: 'allowDeliveryOrder', req: 'Gelişmiş Sipariş Yönetimi', icon: <MapPin size={12} /> },
+                                    { label: 'Anlık Bildirim', name: 'sendOrderNotification', req: null, icon: <Activity size={12} /> },
                                 ].map((s) => {
                                     const isLocked = s.req && !availableFeatures.includes(s.req) && !(s.req === 'Gelişmiş Sipariş Yönetimi' && availableFeatures.includes('Sipariş Alma'));
                                     return (
-                                        <div key={s.name} className={`space-y-3 p-4 rounded-none border transition-all ${isLocked ? 'bg-slate-50 border-slate-100 opacity-60' : 'bg-white border-slate-200 hover:border-slate-400'}`}>
+                                        <div key={s.name} className={`space-y-3 p-4 rounded-[6px] border transition-all ${isLocked ? 'bg-slate-50/50 border-slate-100 grayscale-[0.5] opacity-60' : 'bg-white border-slate-200 hover:border-slate-400 shadow-sm'}`}>
                                             <div className="flex items-center justify-between">
                                                 <div className="flex items-center gap-3">
-                                                    <div className={`p-2 rounded-md ${isLocked ? 'bg-slate-200 text-slate-400' : 'bg-slate-900 text-white shadow-sm'}`}>
+                                                    <div className={`p-1.5 rounded-[4px] ${isLocked ? 'bg-slate-200 text-slate-400' : 'bg-slate-900 text-white shadow-sm'}`}>
                                                         {s.icon}
                                                     </div>
-                                                    <span className="text-[9px] font-black tracking-widest text-gray-900 uppercase">{s.label}</span>
+                                                    <span className="text-[10px] font-bold tracking-tight text-slate-900 uppercase">{s.label}</span>
                                                 </div>
                                                 {isLocked && <Lock size={10} className="text-slate-400" />}
                                             </div>
@@ -586,11 +580,11 @@ export default function RestoranBilgileri() {
                                                     // @ts-ignore
                                                     value={isLocked ? "0" : formData[s.name]}
                                                     onChange={(e) => { if (!isLocked) handleChange(e); }}
-                                                    className={`w-full px-3 py-2 border rounded-none text-[9px] font-black uppercase tracking-widest outline-none transition-all appearance-none cursor-pointer ${isLocked ? 'bg-slate-100 border-slate-100 cursor-not-allowed text-slate-400' : 'bg-white border-slate-200 focus:border-slate-900'}`}
+                                                    className={`w-full px-3 py-1.5 border rounded-[4px] text-[10px] font-bold tracking-tight outline-none transition-all appearance-none cursor-pointer uppercase ${isLocked ? 'bg-slate-100 border-slate-100 cursor-not-allowed text-slate-400' : 'bg-white border-slate-200 focus:border-slate-900'}`}
                                                     disabled={!!isLocked}
                                                 >
-                                                    <option value="1">✓ AKTİF</option>
-                                                    <option value="0">✕ PASİF</option>
+                                                    <option value="1">✓ Aktif</option>
+                                                    <option value="0">✕ Pasif</option>
                                                 </select>
                                                 {!isLocked && <ChevronDown size={10} className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" />}
                                             </div>
@@ -598,20 +592,20 @@ export default function RestoranBilgileri() {
                                     );
                                 })}
 
-                                <div className="space-y-3 p-4 rounded-none border border-slate-200 bg-white hover:border-slate-400 transition-all group/charge">
+                                <div className="space-y-3 p-4 rounded-[6px] border border-slate-200 bg-white hover:border-slate-400 transition-all shadow-sm group/charge">
                                     <div className="flex items-center gap-3">
-                                        <div className="p-2 rounded-none bg-slate-900 text-white shadow-sm">
+                                        <div className="p-1.5 rounded-[4px] bg-slate-900 text-white shadow-sm">
                                             <DollarSign size={12} />
                                         </div>
-                                        <span className="text-[9px] font-black tracking-widest text-gray-900 uppercase">TESLİMAT ÜCRETİ</span>
+                                        <span className="text-[10px] font-bold tracking-tight text-slate-900 uppercase">Teslimat Ücreti</span>
                                     </div>
                                     <div className="relative">
                                         <input
                                             type="number" name="deliveryCharge"
                                             value={formData.deliveryCharge} onChange={handleChange}
-                                            className="w-full px-4 py-2 border border-slate-200 bg-white rounded-none text-[11px] font-bold text-gray-900 focus:border-slate-900 outline-none transition-all"
+                                            className="w-full px-4 py-1.5 border border-slate-200 bg-slate-50 rounded-[4px] text-[12px] font-bold text-slate-900 focus:bg-white focus:border-slate-900 outline-none transition-all"
                                         />
-                                        <span className="absolute right-4 top-1/2 -translate-y-1/2 text-[9px] font-black text-slate-300">₺</span>
+                                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-bold text-slate-300">₺</span>
                                     </div>
                                 </div>
                             </div>
@@ -620,16 +614,11 @@ export default function RestoranBilgileri() {
                 </form>
 
                 {/* Footer Section */}
-                <div className="w-full mx-auto mt-24 text-center space-y-6">
+                <div className="w-full mx-auto mt-20 text-center space-y-6">
                     <div className="flex items-center justify-center gap-4">
-                        <div className="h-px w-12 bg-gray-100" />
-                        <p className="text-[10px] font-black text-gray-300 uppercase tracking-[0.4em]">© {new Date().getFullYear()} QRlamenü — TÜM HAKLARI SAKLIDIR</p>
-                        <div className="h-px w-12 bg-gray-100" />
-                    </div>
-                    <div className="flex items-center justify-center gap-8 grayscale opacity-20 hover:opacity-100 hover:grayscale-0 transition-all duration-500">
-                        <Instagram size={20} className="cursor-pointer hover:text-pink-500 transition-colors" />
-                        <Facebook size={20} className="cursor-pointer hover:text-blue-600 transition-colors" />
-                        <Globe size={20} className="cursor-pointer hover:text-gray-900 transition-colors" />
+                        <div className="h-px w-10 bg-slate-200" />
+                        <p className="text-[9px] font-bold text-slate-300 uppercase tracking-[0.3em]">© {new Date().getFullYear()} QRlamenü — ENDÜSTRİYEL MENÜ YÖNETİM SİSTEMİ</p>
+                        <div className="h-px w-10 bg-slate-200" />
                     </div>
                 </div>
             </div>

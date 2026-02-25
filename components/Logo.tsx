@@ -24,13 +24,13 @@ const Logo = ({ size = 40, showText = true }) => {
                 <path
                     d="M15 70C15 70 20 40 50 40C80 40 85 70 85 70H15Z"
                     fill="url(#logo-grad-orange)"
-                    stroke="#ff7a21"
+                    stroke="#ea580c"
                     strokeWidth="1"
                 />
 
                 {/* Cloche Handle (Top Bit) */}
-                <circle cx="50" cy="35" r="6" fill="#ff7a21" />
-                <path d="M50 35V40" stroke="#ff7a21" strokeWidth="3" strokeLinecap="round" />
+                <circle cx="50" cy="35" r="6" fill="#ea580c" />
+                <path d="M50 35V40" stroke="#ea580c" strokeWidth="3" strokeLinecap="round" />
 
                 {/* QR Matrix Core Integration (Inside the Cloche) */}
                 <rect x="35" y="48" width="10" height="10" rx="2" fill="white" />
@@ -54,7 +54,7 @@ const Logo = ({ size = 40, showText = true }) => {
                 {/* Gradient Definition */}
                 <defs>
                     <linearGradient id="logo-grad-orange" x1="15" y1="40" x2="85" y2="70" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#ff7a21" />
+                        <stop stopColor="#ea580c" />
                         <stop offset="1" stopColor="#f59e0b" />
                     </linearGradient>
                 </defs>
@@ -71,7 +71,7 @@ const Logo = ({ size = 40, showText = true }) => {
                     }}
                 >
                     QRlamenü
-                    <span style={{ color: '#ff7a21' }}>.</span>
+                    <span style={{ color: '#ea580c' }}>.</span>
                 </span>
             )}
         </div>

@@ -157,7 +157,7 @@ export default function AdminlerPage() {
                 </div>
                 <button
                     onClick={handleOpenAdd}
-                    className="w-full lg:w-auto bg-slate-900 hover:bg-[#ff7a21] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95"
+                    className="w-full lg:w-auto bg-slate-900 hover:bg-[#ea580c] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95"
                 >
                     <UserPlus size={18} strokeWidth={2.5} /> Yeni Yetkili Tanımla
                 </button>
@@ -192,7 +192,7 @@ export default function AdminlerPage() {
                                         <tr>
                                             <td colSpan={5} className="py-32 text-center">
                                                 <div className="flex flex-col items-center gap-4">
-                                                    <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                                                    <Loader2 size={48} className="animate-spin text-[#ea580c]" />
                                                     <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Sistem Veritabanı Taranıyor...</p>
                                                 </div>
                                             </td>
@@ -217,14 +217,14 @@ export default function AdminlerPage() {
                                         <tr key={admin.id} className="group hover:bg-slate-50/50 transition-all border-b border-slate-50 last:border-0">
                                             <td className="px-8 py-7">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-14 h-14 rounded-2xl bg-slate-900 border-2 border-white flex items-center justify-center text-white text-lg font-black shrink-0 shadow-xl shadow-slate-900/10 group-hover:scale-110 group-hover:bg-[#ff7a21] transition-all duration-500">
+                                                    <div className="w-14 h-14 rounded-2xl bg-slate-900 border-2 border-white flex items-center justify-center text-white text-lg font-black shrink-0 shadow-xl shadow-slate-900/10 group-hover:scale-110 group-hover:bg-[#ea580c] transition-all duration-500">
                                                         {admin.name?.charAt(0) || admin.email.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <p className="font-black text-gray-900 truncate tracking-tight text-base group-hover:text-[#ff7a21] transition-colors">{admin.name || 'İsimsiz Yönetici'}</p>
+                                                        <p className="font-black text-gray-900 truncate tracking-tight text-base group-hover:text-[#ea580c] transition-colors">{admin.name || 'İsimsiz Yönetici'}</p>
                                                         <div className="flex items-center gap-2 mt-1">
                                                             <div className="bg-orange-100/50 p-1 rounded-md">
-                                                                <Mail size={12} className="text-[#ff7a21]" />
+                                                                <Mail size={12} className="text-[#ea580c]" />
                                                             </div>
                                                             <p className="text-xs font-bold text-slate-400 truncate">{admin.email}</p>
                                                         </div>
@@ -232,7 +232,7 @@ export default function AdminlerPage() {
                                                 </div>
                                             </td>
                                             <td className="px-8 py-7 hidden md:table-cell">
-                                                <span className={`text-[10px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest border shadow-sm ${admin.role === 'SUPER_ADMIN' ? 'bg-orange-50 text-orange-500 border-orange-100' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                                                <span className={`text-[10px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest border shadow-sm ${admin.role === 'SUPER_ADMIN' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
                                                     {admin.role}
                                                 </span>
                                             </td>
@@ -255,7 +255,7 @@ export default function AdminlerPage() {
                                                 <div className="flex justify-end gap-2.5 opacity-0 group-hover:opacity-100 transition-all">
                                                     <button
                                                         onClick={() => handleOpenEdit(admin)}
-                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-[#ff7a21] hover:border-orange-100 hover:shadow-lg hover:shadow-orange-500/10 transition-all active:scale-90"
+                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-[#ea580c] hover:border-orange-100 hover:shadow-lg hover:shadow-orange-500/10 transition-all active:scale-90"
                                                         title="Hesap Ayarları"
                                                     >
                                                         <Key size={16} strokeWidth={2.5} />
@@ -287,12 +287,12 @@ export default function AdminlerPage() {
                 {/* Right Sidebar */}
                 <div className="xl:sticky xl:top-8 flex flex-col gap-6">
                     <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
-                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ea580c]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-4 mb-8">
-                                <div className="bg-orange-500/10 p-3 rounded-2xl border border-orange-500/10">
-                                    <Shield size={24} className="text-[#ff7a21]" strokeWidth={3} />
+                                <div className="bg-orange-600/10 p-3 rounded-2xl border border-orange-600/10">
+                                    <Shield size={24} className="text-[#ea580c]" strokeWidth={3} />
                                 </div>
                                 <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Güvenlik Merkezi</h3>
                             </div>
@@ -327,7 +327,7 @@ export default function AdminlerPage() {
             {isModalOpen && (
                 <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-2xl flex items-center justify-center z-[1000] p-4 md:p-8">
                     <div className="bg-white w-full max-w-lg rounded-[48px] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in duration-300 overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff7a21]/5 rounded-bl-full -z-0"></div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#ea580c]/5 rounded-bl-full -z-0"></div>
 
                         <button
                             onClick={() => setIsModalOpen(false)}
@@ -338,7 +338,7 @@ export default function AdminlerPage() {
 
                         <div className="relative z-10 mb-10">
                             <div className="bg-orange-50 w-16 h-16 rounded-[24px] flex items-center justify-center mb-6 border-2 border-orange-100">
-                                <UserPlus size={32} className="text-[#ff7a21]" strokeWidth={2.5} />
+                                <UserPlus size={32} className="text-[#ea580c]" strokeWidth={2.5} />
                             </div>
                             <h3 className="text-3xl font-black text-gray-900 tracking-tight">
                                 {editingAdmin ? 'Yetki Güncelle' : 'Personel Tanımla'}
@@ -355,7 +355,7 @@ export default function AdminlerPage() {
                                     placeholder="Örn: Ahmet Yılmaz"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                 />
                             </div>
 
@@ -367,7 +367,7 @@ export default function AdminlerPage() {
                                     placeholder="eposta@qrlamenu.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                 />
                             </div>
 
@@ -381,7 +381,7 @@ export default function AdminlerPage() {
                                     placeholder={editingAdmin ? "Değiştirmek istemiyorsanız boş bırakın" : "En az 10 karakter..."}
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all"
+                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
                                 />
                             </div>
 
@@ -391,13 +391,13 @@ export default function AdminlerPage() {
                                     <select
                                         value={formData.role}
                                         onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] outline-none transition-all appearance-none cursor-pointer"
+                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all appearance-none cursor-pointer"
                                     >
                                         <option value="SUPER_ADMIN">SUPER_ADMIN (Tam Erişim)</option>
                                         <option value="ADMIN">ADMIN (Standart Panel)</option>
                                         <option value="VIEWER">VIEWER (Sadece İzleme)</option>
                                     </select>
-                                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#ff7a21]">
+                                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#ea580c]">
                                         <Shield size={20} />
                                     </div>
                                 </div>
@@ -415,7 +415,7 @@ export default function AdminlerPage() {
                                 <button
                                     type="submit"
                                     disabled={actionLoading}
-                                    className="flex-[1.5] px-8 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ff7a21] hover:shadow-orange-500/20 transition-all active:scale-90 flex items-center justify-center gap-3"
+                                    className="flex-[1.5] px-8 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ea580c] hover:shadow-orange-500/20 transition-all active:scale-90 flex items-center justify-center gap-3"
                                 >
                                     {actionLoading ? <Loader2 className="animate-spin" size={20} /> : (editingAdmin ? 'Güncelle' : 'Tanımla')}
                                 </button>

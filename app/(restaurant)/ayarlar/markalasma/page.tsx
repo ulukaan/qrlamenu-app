@@ -1,5 +1,4 @@
 "use client";
-
 import React, { useState, useEffect, useRef } from 'react';
 import {
     Palette,
@@ -18,9 +17,12 @@ import {
     Zap,
     PenTool,
     Activity,
+    ChevronRight,
 } from 'lucide-react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
+
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
 
 const THEMES = [
     {
@@ -29,7 +31,7 @@ const THEMES = [
         desc: 'Hızlı, sade ve temiz. Metne odaklanır.',
         icon: '⚡',
         preview: 'bg-white',
-        accent: '#ff7a21',
+        accent: '#ea580c',
         badge: 'Klasik'
     },
     {
@@ -82,7 +84,7 @@ const THEMES = [
 export default function BrandingPage() {
     const [loading, setLoading] = useState(false);
     const [pageLoading, setPageLoading] = useState(true);
-    const [primaryColor, setPrimaryColor] = useState('#ff7a21');
+    const [primaryColor, setPrimaryColor] = useState('#ea580c');
     const [selectedTheme, setSelectedTheme] = useState('LITE');
     const [fbPixelId, setFbPixelId] = useState('');
     const [gaTrackingId, setGaTrackingId] = useState('');
@@ -98,7 +100,7 @@ export default function BrandingPage() {
                 if (res.ok) {
                     const data = await res.json();
                     const s = data.settings || {};
-                    setPrimaryColor(s.primaryColor || s.restaurantColor || '#ff7a21');
+                    setPrimaryColor(s.primaryColor || s.restaurantColor || '#ea580c');
                     setSelectedTheme(data.theme || 'LITE');
                     setFbPixelId(s.fbPixelId || '');
                     setGaTrackingId(s.gaTrackingId || '');
@@ -144,179 +146,197 @@ export default function BrandingPage() {
     if (pageLoading) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <Loader2 className="animate-spin text-orange-500" size={40} />
+                <Loader2 className="animate-spin text-orange-600" size={40} />
             </div>
         );
     }
 
     return (
-        <div className="p-0 bg-[#f8fafc] min-h-screen">
-            <div className="p-8 md:p-12 lg:p-16">
-                <div className="max-w-6xl mx-auto space-y-10">
-
-                    {/* Header Section */}
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 pb-10 border-b-2 border-gray-100">
-                        <div className="space-y-2">
-                            <h1 className="text-4xl font-black text-gray-900 tracking-tighter">MARKALAŞMA & TEMA</h1>
-                            <p className="text-sm font-black text-gray-400 uppercase tracking-widest">MENÜNÜZÜ KİMLİĞİNİZE GÖRE ÖZELLEŞTİRİN</p>
+        <div className="min-h-screen bg-[#f8fafc] flex flex-col">
+            {/* Standard Header Area */}
+            <div className="bg-white border-b border-slate-100 py-4 px-6 lg:px-8 relative z-30 shadow-sm w-full">
+                <div className="w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="flex items-start md:items-center gap-4 md:gap-6">
+                        <MobileMenuToggle />
+                        <div className="space-y-4">
+                            {/* Breadcrumbs */}
+                            <div className="flex items-center gap-2 text-[9px] font-black text-gray-400 uppercase tracking-widest">
+                                <Link href="/dashboard" className="hover:text-slate-900 transition-colors">PANEL</Link>
+                                <ChevronRight size={8} className="text-gray-300" />
+                                <span className="text-slate-900">MARKALAŞMA</span>
+                            </div>
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-slate-900 rounded-md flex items-center justify-center shadow-lg">
+                                    <Palette size={24} className="text-white" strokeWidth={2} />
+                                </div>
+                                <div className="space-y-0.5">
+                                    <h1 className="text-2xl font-black text-gray-900 tracking-tighter uppercase leading-none">MARKALAŞMA & TEMA</h1>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">GÖRSEL KİMLİK</span>
+                                        <div className="h-0.5 w-0.5 bg-gray-300 rounded-full" />
+                                        <span className="text-[9px] font-black text-slate-900 uppercase tracking-widest px-2 py-0.5 bg-slate-50 border border-slate-200 rounded-md">AYARLAR</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <Link href="/dashboard" className="flex items-center gap-3 px-8 py-4 bg-white border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-500 hover:border-gray-900 hover:text-gray-900 shadow-sm transition-all group w-fit">
-                            <div className="w-2 h-2 rounded-full bg-gray-200 group-hover:bg-gray-900 transition-colors" />
+                        <Link href="/dashboard" className="flex items-center gap-3 px-6 py-3 bg-white border border-slate-200 rounded-md text-[10px] font-black text-gray-500 hover:border-slate-900 hover:text-gray-900 shadow-sm transition-all group w-fit uppercase tracking-widest">
                             VAZGEÇ
                         </Link>
                     </div>
-
-                    <form onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                        {/* Notification Toast */}
-                        <AnimatePresence>
-                            {notification && (
-                                <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
-                                    className={`fixed top-12 left-1/2 -translate-x-1/2 z-[100] px-8 py-5 rounded-[28px] shadow-2xl flex items-center gap-4 border-2 ${notification.type === 'success' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : 'bg-rose-50 text-rose-600 border-rose-100/50'}`}>
-                                    {notification.type === 'success' ? <CheckCircle2 size={24} strokeWidth={3} /> : <AlertCircle size={24} strokeWidth={3} />}
-                                    <span className="text-sm font-black tracking-tight">{notification.message.toUpperCase()}</span>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
-
-                        {/* LEFT COLUMN: Theme Selection */}
-                        <div className="lg:col-span-8 space-y-10">
-                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
-                                <div className="p-10 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/20">
-                                    <div className="flex items-center gap-4">
-                                        <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                            <Monitor size={20} strokeWidth={3} />
-                                        </div>
-                                        <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">GÖRÜNÜM TEMASI</h2>
-                                    </div>
-                                    <span className="bg-orange-50 text-[#ff7a21] text-[10px] font-black px-4 py-2 rounded-xl border border-orange-100 uppercase tracking-widest">
-                                        {THEMES.length} SEÇENEK
-                                    </span>
-                                </div>
-
-                                <div className="p-10 grid grid-cols-1 md:grid-cols-2 gap-6">
-                                    {THEMES.map(t => (
-                                        <button key={t.id} type="button" onClick={() => setSelectedTheme(t.id)}
-                                            className={`relative group rounded-[32px] overflow-hidden border-4 transition-all duration-500 text-left ${selectedTheme === t.id ? 'border-[#ff7a21] shadow-2xl shadow-orange-500/10 scale-[1.02]' : 'border-gray-50 grayscale hover:grayscale-0 hover:border-gray-200 hover:scale-[1.01]'}`}>
-
-                                            {/* Visual Preview */}
-                                            <div className={`h-40 ${t.preview} flex flex-col items-center justify-center relative overflow-hidden group-hover:grayscale-0 transition-all`}>
-                                                <div className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(circle at center, ${t.accent}, transparent)` }} />
-                                                <span className="text-5xl drop-shadow-2xl relative z-10 transition-transform duration-700 group-hover:scale-125">{t.icon}</span>
-
-                                                {/* Theme Badge */}
-                                                <div className="absolute bottom-4 left-4 flex items-center gap-2">
-                                                    <span className="text-[9px] font-black uppercase tracking-widest px-3 py-1.5 rounded-lg border-2" style={{ backgroundColor: `${t.accent}10`, color: t.accent, borderColor: `${t.accent}20` }}>
-                                                        {t.badge}
-                                                    </span>
-                                                </div>
-
-                                                {/* Selected Indicator */}
-                                                {selectedTheme === t.id && (
-                                                    <div className="absolute top-4 right-4 bg-[#ff7a21] text-white p-2 rounded-xl shadow-lg animate-in zoom-in duration-300">
-                                                        <CheckCircle2 size={16} strokeWidth={3} />
-                                                    </div>
-                                                )}
-                                            </div>
-
-                                            {/* Info Area */}
-                                            <div className="p-6 bg-white space-y-2">
-                                                <div className="font-black text-sm text-gray-900 tracking-tight flex items-center justify-between">
-                                                    {t.name.toUpperCase()}
-                                                    {selectedTheme === t.id && <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21]" />}
-                                                </div>
-                                                <p className="text-[10px] text-gray-400 font-bold leading-relaxed tracking-wide uppercase">
-                                                    {t.desc}
-                                                </p>
-                                            </div>
-                                        </button>
-                                    ))}
-                                </div>
-                                <div className="px-10 pb-10">
-                                    <div className="p-6 bg-orange-50 rounded-[24px] border border-orange-100/50 flex items-center gap-4">
-                                        <div className="p-3 bg-white rounded-xl shadow-sm">
-                                            <Code size={18} className="text-[#ff7a21]" strokeWidth={3} />
-                                        </div>
-                                        <p className="text-[10px] font-black text-orange-900/60 uppercase tracking-widest leading-relaxed italic">
-                                            "URL'NİZE <span className="text-orange-950">?theme=MODERN</span> EKLEYEREK TÜM TEMALARI ANINDA TEST EDEBİLİRSİNİZ."
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        {/* RIGHT COLUMN: Styling & Pixels */}
-                        <div className="lg:col-span-4 space-y-10">
-                            {/* Visual Identity */}
-                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
-                                <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/20">
-                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                        <Palette size={20} strokeWidth={3} />
-                                    </div>
-                                    <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">KİMLİK</h2>
-                                </div>
-                                <div className="p-8 space-y-6">
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1">TEMA ANA RENGİ</label>
-                                        <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-[28px] border-2 border-gray-100/50 group hover:border-[#ff7a21] transition-all">
-                                            <div onClick={() => colorInputRef.current?.click()} style={{ backgroundColor: primaryColor }} className="w-16 h-16 rounded-[20px] shadow-lg cursor-pointer border-4 border-white transition-transform active:scale-90" />
-                                            <div className="flex-1">
-                                                <input ref={colorInputRef} type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} className="hidden" />
-                                                <input type="text" value={primaryColor.toUpperCase()} onChange={(e) => setPrimaryColor(e.target.value)} className="w-full bg-transparent border-none text-lg font-black text-gray-900 outline-none uppercase tracking-tighter" />
-                                                <span className="text-[9px] font-black text-gray-400 uppercase tracking-widest">HEX KODU</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-relaxed italic text-center px-4">
-                                        BUTONLAR, İKONLAR VE ÖNE ÇIKAN TÜM ALANLAR BU RENGİ KULLANIR.
-                                    </p>
-                                </div>
-                            </div>
-
-                            {/* Tracking codes */}
-                            <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
-                                <div className="p-8 border-b-2 border-gray-50 flex items-center gap-4 bg-gray-50/20">
-                                    <div className="bg-blue-600 text-white p-3 rounded-2xl shadow-lg">
-                                        <Zap size={20} strokeWidth={3} />
-                                    </div>
-                                    <h2 className="text-sm font-black text-gray-900 uppercase tracking-widest">TAKİP & ANALİZ</h2>
-                                </div>
-                                <div className="p-8 space-y-8">
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 flex items-center gap-2">
-                                            <Facebook size={12} className="text-[#1877F2]" strokeWidth={3} /> FACEBOOK PIXEL ID
-                                        </label>
-                                        <input type="text" value={fbPixelId} onChange={(e) => setFbPixelId(e.target.value)} placeholder="0000000000" className="w-full bg-gray-50 border-2 border-gray-100 rounded-[24px] px-8 py-5 text-xs font-black text-gray-900 outline-none focus:border-blue-500 transition-all placeholder:text-gray-200" />
-                                    </div>
-                                    <div className="space-y-4">
-                                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest pl-1 flex items-center gap-2">
-                                            <Globe size={12} className="text-orange-500" strokeWidth={3} /> ANALYTICS ID (GA4)
-                                        </label>
-                                        <input type="text" value={gaTrackingId} onChange={(e) => setGaTrackingId(e.target.value)} placeholder="G-XXXXXXXXXX" className="w-full bg-gray-50 border-2 border-gray-100 rounded-[24px] px-8 py-5 text-xs font-black text-gray-900 outline-none focus:border-orange-500 transition-all placeholder:text-gray-200" />
-                                    </div>
-                                    <div className="p-6 bg-blue-50/50 rounded-[24px] border border-blue-100/50">
-                                        <p className="text-[10px] font-black text-blue-900/60 uppercase tracking-widest leading-loose">
-                                            TAKİP KODLARI MENÜ SAYFANIZA OTOMATİK ENTEGRE OLUR. DÖNÜŞÜMLERİ PANELİNİZDEN TAKİP EDEBİLİRSİNİZ.
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Actions Card */}
-                            <div className="bg-gray-900 rounded-[40px] p-10 shadow-2xl shadow-gray-400/20 space-y-8">
-                                <div className="space-y-4">
-                                    <h3 className="text-white text-xl font-black tracking-tight">KAYDETMEYE HAZIR MISINIZ?</h3>
-                                    <p className="text-gray-400 text-[10px] font-black uppercase tracking-widest leading-relaxed">
-                                        DEĞİŞİKLİKLER KAYDEDİLDİĞİ ANDA TÜM MÜŞTERİ MENÜLERİ GÜNCELLENECEKTİR.
-                                    </p>
-                                </div>
-                                <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-4 py-8 bg-[#ff7a21] text-white rounded-[32px] text-sm font-black uppercase tracking-widest shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 hover:scale-[1.03] active:scale-95 transition-all disabled:opacity-50">
-                                    {loading ? <Loader2 className="animate-spin" size={24} strokeWidth={3} /> : <Save size={24} strokeWidth={3} />}
-                                    {loading ? 'GÜNCELLENİYOR' : 'AYARLARI YAYINLA'}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                    <ProfileDropdown />
                 </div>
+            </div>
+
+            {/* Content Area */}
+            <div className="p-6 lg:p-8 flex-1 w-full mx-auto flex">
+                <form onSubmit={handleSubmit} className="w-full mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+                    {/* Notification Toast */}
+                    <AnimatePresence>
+                        {notification && (
+                            <motion.div initial={{ opacity: 0, y: -20, scale: 0.95 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }}
+                                className={`fixed top-12 left-1/2 -translate-x-1/2 z-[100] px-8 py-5 rounded-md shadow-2xl flex items-center gap-4 border-2 ${notification.type === 'success' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' : 'bg-rose-50 text-rose-600 border-rose-100/50'}`}>
+                                {notification.type === 'success' ? <CheckCircle2 size={24} strokeWidth={3} /> : <AlertCircle size={24} strokeWidth={3} />}
+                                <span className="text-sm font-black tracking-tight">{notification.message.toUpperCase()}</span>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {/* LEFT COLUMN: Theme Selection */}
+                    <div className="lg:col-span-8 space-y-10">
+                        <div className="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden">
+                            <div className="p-6 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                                <div className="flex items-center gap-4">
+                                    <div className="bg-slate-900 text-white p-2 rounded-md shadow-lg">
+                                        <Monitor size={18} strokeWidth={3} />
+                                    </div>
+                                    <h2 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">GÖRÜNÜM TEMASI</h2>
+                                </div>
+                                <span className="bg-orange-50 text-[#ea580c] text-[9px] font-black px-3 py-1.5 rounded-md border border-orange-100 uppercase tracking-widest">
+                                    {THEMES.length} SEÇENEK
+                                </span>
+                            </div>
+
+                            <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {THEMES.map(t => (
+                                    <button key={t.id} type="button" onClick={() => setSelectedTheme(t.id)}
+                                        className={`relative group rounded-md overflow-hidden border-2 transition-all duration-300 text-left ${selectedTheme === t.id ? 'border-[#ea580c] shadow-lg scale-[1.02]' : 'border-slate-100 grayscale hover:grayscale-0 hover:border-slate-300'}`}>
+
+                                        {/* Visual Preview */}
+                                        <div className={`h-40 ${t.preview} flex flex-col items-center justify-center relative overflow-hidden group-hover:grayscale-0 transition-all`}>
+                                            <div className="absolute inset-0 opacity-10" style={{ background: `radial-gradient(circle at center, ${t.accent}, transparent)` }} />
+                                            <span className="text-5xl drop-shadow-2xl relative z-10 transition-transform duration-700 group-hover:scale-125">{t.icon}</span>
+
+                                            {/* Theme Badge */}
+                                            <div className="absolute bottom-4 left-4 flex items-center gap-2">
+                                                <span className="text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded-md border" style={{ backgroundColor: `${t.accent}10`, color: t.accent, borderColor: `${t.accent}20` }}>
+                                                    {t.badge}
+                                                </span>
+                                            </div>
+
+                                            {/* Selected Indicator */}
+                                            {selectedTheme === t.id && (
+                                                <div className="absolute top-4 right-4 bg-[#ea580c] text-white p-1.5 rounded-md shadow-lg">
+                                                    <CheckCircle2 size={14} strokeWidth={3} />
+                                                </div>
+                                            )}
+                                        </div>
+
+                                        {/* Info Area */}
+                                        <div className="p-6 bg-white space-y-2">
+                                            <div className="font-black text-sm text-gray-900 tracking-tight flex items-center justify-between">
+                                                {t.name.toUpperCase()}
+                                                {selectedTheme === t.id && <div className="w-1.5 h-1.5 rounded-full bg-[#ea580c]" />}
+                                            </div>
+                                            <p className="text-[10px] text-gray-400 font-bold leading-relaxed tracking-wide uppercase">
+                                                {t.desc}
+                                            </p>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                            <div className="px-8 pb-8">
+                                <div className="p-4 bg-orange-50 rounded-md border border-orange-100 flex items-center gap-4">
+                                    <div className="p-2 bg-white rounded-md shadow-sm">
+                                        <Code size={16} className="text-[#ea580c]" strokeWidth={3} />
+                                    </div>
+                                    <p className="text-[9px] font-black text-orange-900 uppercase tracking-widest leading-relaxed">
+                                        URL'NİZE <span className="underline">?theme=MODERN</span> EKLEYEREK TÜM TEMALARI TEST EDEBİLİRSİNİZ.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* RIGHT COLUMN: Styling & Pixels */}
+                    <div className="lg:col-span-4 space-y-10">
+                        {/* Visual Identity */}
+                        <div className="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden">
+                            <div className="p-6 border-b border-slate-100 flex items-center gap-4 bg-slate-50">
+                                <div className="bg-slate-900 text-white p-2 rounded-md shadow-lg">
+                                    <Palette size={18} strokeWidth={3} />
+                                </div>
+                                <h2 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">KİMLİK</h2>
+                            </div>
+                            <div className="p-6 space-y-6">
+                                <div className="space-y-4">
+                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1">TEMA ANA RENGİ</label>
+                                    <div className="flex items-center gap-4 p-4 bg-slate-50 rounded-md border border-slate-200 group hover:border-slate-900 transition-all">
+                                        <div onClick={() => colorInputRef.current?.click()} style={{ backgroundColor: primaryColor }} className="w-12 h-12 rounded-md shadow-lg cursor-pointer border-2 border-white transition-transform active:scale-95" />
+                                        <div className="flex-1">
+                                            <input ref={colorInputRef} type="color" value={primaryColor} onChange={(e) => setPrimaryColor(e.target.value)} className="hidden" />
+                                            <input type="text" value={primaryColor.toUpperCase()} onChange={(e) => setPrimaryColor(e.target.value)} className="w-full bg-transparent border-none text-base font-black text-gray-900 outline-none uppercase tracking-widest" />
+                                            <span className="text-[8px] font-black text-gray-400 uppercase tracking-widest">HEX KODU</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Tracking codes */}
+                        <div className="bg-white rounded-md shadow-sm border border-slate-200 overflow-hidden">
+                            <div className="p-8 border-b border-slate-100 flex items-center gap-4 bg-slate-50">
+                                <div className="bg-blue-600 text-white p-2 rounded-md shadow-lg">
+                                    <Zap size={18} strokeWidth={3} />
+                                </div>
+                                <h2 className="text-[10px] font-black text-gray-900 uppercase tracking-widest">TAKİP & ANALİZ</h2>
+                            </div>
+                            <div className="p-6 space-y-6">
+                                <div className="space-y-4">
+                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                        <Facebook size={12} className="text-[#1877F2]" strokeWidth={3} /> FACEBOOK PIXEL ID
+                                    </label>
+                                    <input type="text" value={fbPixelId} onChange={(e) => setFbPixelId(e.target.value)} placeholder="0000000000" className="w-full bg-slate-50 border border-slate-200 rounded-md px-6 py-4 text-[11px] font-black text-slate-900 outline-none focus:border-blue-500 transition-all placeholder:text-slate-300" />
+                                </div>
+                                <div className="space-y-4">
+                                    <label className="text-[9px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                        <Globe size={12} className="text-orange-600" strokeWidth={3} /> ANALYTICS ID (GA4)
+                                    </label>
+                                    <input type="text" value={gaTrackingId} onChange={(e) => setGaTrackingId(e.target.value)} placeholder="G-XXXXXXXXXX" className="w-full bg-slate-50 border border-slate-200 rounded-md px-6 py-4 text-[11px] font-black text-slate-900 outline-none focus:border-orange-600 transition-all placeholder:text-slate-300" />
+                                </div>
+                                <div className="p-4 bg-blue-50 rounded-md border border-blue-100">
+                                    <p className="text-[9px] font-black text-blue-900 uppercase tracking-widest leading-relaxed">
+                                        TAKİP KODLARI MENÜ SAYFANIZA OTOMATİK ENTEGRE OLUR.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Actions Card */}
+                        <div className="bg-slate-900 rounded-md p-8 shadow-2xl shadow-slate-400/20 space-y-6">
+                            <div className="space-y-2">
+                                <h3 className="text-white text-lg font-black tracking-tight uppercase">KAYDETMEYE HAZIR MISINIZ?</h3>
+                                <p className="text-slate-400 text-[9px] font-black uppercase tracking-widest leading-relaxed">
+                                    TÜM MÜŞTERİ MENÜLERİ ANINDA GÜNCELLENECEKTİR.
+                                </p>
+                            </div>
+                            <button type="submit" disabled={loading} className="w-full flex items-center justify-center gap-4 py-6 bg-[#ea580c] text-white rounded-md text-[11px] font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:bg-orange-600 active:scale-95 transition-all disabled:opacity-50">
+                                {loading ? <Loader2 className="animate-spin" size={20} strokeWidth={3} /> : <Save size={20} strokeWidth={3} />}
+                                {loading ? 'GÜNCELLENİYOR' : 'AYARLARI YAYINLA'}
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     );

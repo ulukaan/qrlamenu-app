@@ -22,6 +22,8 @@ import {
     Search
 } from 'lucide-react';
 
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+
 interface OrderItem {
     name: string;
     quantity: number;
@@ -219,16 +221,16 @@ export default function OrdersClient() {
             PENDING: { bg: 'bg-rose-50', color: 'text-rose-600', border: 'border-rose-100', icon: AlertCircle, label: 'BEKLEYEN' },
             PREPARING: { bg: 'bg-blue-50', color: 'text-blue-600', border: 'border-blue-100', icon: ChefHat, label: 'HAZIRLANIYOR' },
             SERVED: { bg: 'bg-emerald-50', color: 'text-emerald-600', border: 'border-emerald-100', icon: Utensils, label: 'SERVİS EDİLDİ' },
-            COMPLETED: { bg: 'bg-gray-50', color: 'text-gray-600', border: 'border-gray-100', icon: CheckCircle2, label: 'TAMAMLANDI' },
-            CANCELLED: { bg: 'bg-rose-50', color: 'text-rose-600', border: 'border-rose-100', icon: XCircle, label: 'İPTAL' }
+            COMPLETED: { bg: 'bg-slate-50', color: 'text-slate-600', border: 'border-slate-100', icon: CheckCircle2, label: 'TAMAMLANDI' },
+            CANCELLED: { bg: 'bg-slate-100', color: 'text-slate-400', border: 'border-slate-200', icon: XCircle, label: 'İPTAL' }
         };
 
         const style = styles[status] || styles.COMPLETED;
         const Icon = style.icon;
 
         return (
-            <span className={`flex items-center gap-2 px-4 py-2 rounded-xl border-2 ${style.bg} ${style.color} ${style.border} text-[10px] font-black tracking-widest`}>
-                <Icon size={14} strokeWidth={3} />
+            <span className={`flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] border ${style.bg} ${style.color} ${style.border} text-[10px] font-bold tracking-tight shadow-sm`}>
+                <Icon size={13} strokeWidth={2.5} />
                 {style.label}
             </span>
         );
@@ -253,101 +255,110 @@ export default function OrdersClient() {
     return (
         <div className="p-0 bg-[#f8fafc] min-h-screen">
             {/* Elite Sub-Header / Filters */}
-            <div className="bg-white px-8 md:px-12 py-6 border-b-2 border-slate-50 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-8 sticky top-[-1px] z-30 shadow-sm shadow-slate-200/5 transition-all">
-                <div className="flex bg-gray-50 p-2 rounded-[24px] border-2 border-gray-100/50 w-full sm:w-auto">
-                    <button
-                        onClick={() => setActiveTab('orders')}
-                        className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-[18px] text-xs font-black tracking-widest transition-all ${activeTab === 'orders' ? 'bg-white text-gray-900 shadow-xl shadow-gray-200/50 scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                        <ShoppingBag size={18} strokeWidth={activeTab === 'orders' ? 3 : 2.5} />
-                        SİPARİŞLER
-                        {orders.filter(o => o.status === 'PENDING').length > 0 && (
-                            <span className="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full shadow-lg shadow-rose-500/20">
-                                {orders.filter(o => o.status === 'PENDING').length}
-                            </span>
-                        )}
-                    </button>
-                    <button
-                        onClick={() => setActiveTab('waiter')}
-                        className={`flex-1 sm:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-[18px] text-xs font-black tracking-widest transition-all ${activeTab === 'waiter' ? 'bg-white text-gray-900 shadow-xl shadow-gray-200/50 scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}
-                    >
-                        <Bell size={18} strokeWidth={activeTab === 'waiter' ? 3 : 2.5} />
-                        ÇAĞRILAR
-                        {waiterCalls.filter(c => c.status === 'PENDING').length > 0 && (
-                            <span className="bg-rose-500 text-white text-[9px] px-2 py-0.5 rounded-full shadow-lg shadow-rose-500/20">
-                                {waiterCalls.filter(c => c.status === 'PENDING').length}
-                            </span>
-                        )}
-                    </button>
-                </div>
+            <div className="bg-white px-6 py-4 border-b border-slate-200 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sticky top-[-1px] z-30 shadow-sm transition-all">
+                <div className="flex flex-col md:flex-row md:items-center gap-6 w-full lg:w-auto flex-1">
+                    <div className="flex items-center gap-4">
+                        <MobileMenuToggle />
+                        <div className="h-6 w-px bg-slate-200 hidden md:block" />
+                    </div>
 
-                {activeTab === 'orders' && (
-                    <div className="flex flex-wrap gap-4 items-center w-full xl:w-auto">
-                        <div className="relative group w-full sm:w-[240px]">
-                            <select
-                                value={statusFilter}
-                                onChange={(e) => setStatusFilter(e.target.value)}
-                                className="w-full bg-gray-50 border-2 border-gray-100 rounded-2xl px-6 py-3.5 text-xs font-black text-gray-900 appearance-none outline-none focus:border-[#ff7a21] transition-all cursor-pointer tracking-widest"
-                            >
-                                <option value="ALL">TÜM SİPARİŞLER</option>
-                                <option value="ACTIVE">AKTİF DURUMDAKİLER</option>
-                                <option value="COMPLETED">TAMAMLANANLAR</option>
-                                <option value="CANCELLED">İPTAL EDİLENLER</option>
-                            </select>
-                            <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-gray-300">
-                                <ChevronRight size={16} strokeWidth={3} className="rotate-90" />
-                            </div>
-                        </div>
-
+                    <div className="flex bg-slate-100 p-1 rounded-[6px] border border-slate-200 w-full sm:w-auto">
                         <button
-                            onClick={audioUnlocked ? () => setSoundEnabled(!soundEnabled) : unlockAudio}
-                            className={`flex items-center gap-3 px-6 py-3.5 rounded-2xl border-2 transition-all font-black text-[10px] tracking-widest ${soundEnabled ? 'bg-orange-50 border-orange-100 text-[#ff7a21] shadow-lg shadow-orange-500/5' : 'bg-gray-50 border-gray-100 text-gray-400 hover:bg-gray-100'}`}
+                            onClick={() => setActiveTab('orders')}
+                            className={`flex flex-1 sm:flex-none h-9 items-center justify-center gap-2 px-6 rounded-[4px] text-[11px] font-bold tracking-tight transition-all duration-200 ${activeTab === 'orders' ? 'bg-white text-slate-900 shadow-sm border border-slate-200' : 'text-slate-400 hover:text-slate-600'}`}
                         >
-                            <Volume2 size={18} strokeWidth={3} className={soundEnabled ? 'animate-pulse' : 'opacity-40'} />
-                            {!audioUnlocked ? 'SESİ AKTİF ET' : (soundEnabled ? 'SES AÇIK' : 'SES KAPALI')}
+                            <ShoppingBag size={14} />
+                            <span>SİPARİŞLER</span>
+                            {orders.filter(o => o.status === 'PENDING').length > 0 && (
+                                <span className="bg-rose-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold ml-1">
+                                    {orders.filter(o => o.status === 'PENDING').length}
+                                </span>
+                            )}
                         </button>
-
                         <button
-                            onClick={fetchData}
-                            className="bg-gray-900 text-white p-3.5 rounded-2xl hover:bg-[#ff7a21] transition-all shadow-xl shadow-gray-900/10 active:scale-95 group"
-                            title="Yenile"
+                            onClick={() => setActiveTab('waiter')}
+                            className={`flex flex-1 sm:flex-none h-9 items-center justify-center gap-2 px-6 rounded-[4px] text-[11px] font-bold tracking-tight transition-all duration-200 ${activeTab === 'waiter' ? 'bg-white text-slate-900 shadow-sm border border-slate-200' : 'text-slate-400 hover:text-slate-600'}`}
                         >
-                            <Activity size={20} className={loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'} strokeWidth={3} />
+                            <Bell size={14} />
+                            <span>ÇAĞRILAR</span>
+                            {waiterCalls.filter(c => c.status === 'PENDING').length > 0 && (
+                                <span className="bg-rose-600 text-white text-[9px] px-1.5 py-0.5 rounded-full font-bold ml-1">
+                                    {waiterCalls.filter(c => c.status === 'PENDING').length}
+                                </span>
+                            )}
                         </button>
                     </div>
-                )}
+
+                    {activeTab === 'orders' && (
+                        <div className="flex flex-wrap gap-2 items-center w-full lg:w-auto">
+                            <div className="relative w-full sm:w-[180px]">
+                                <select
+                                    value={statusFilter}
+                                    onChange={(e) => setStatusFilter(e.target.value)}
+                                    className="w-full h-9 bg-slate-50 border border-slate-200 rounded-[6px] pl-4 pr-10 py-0 text-[11px] font-bold text-slate-900 appearance-none outline-none focus:border-slate-400 transition-all cursor-pointer tracking-tight"
+                                >
+                                    <option value="ALL">FİLTRE: TÜMÜ</option>
+                                    <option value="ACTIVE">AKTİF</option>
+                                    <option value="COMPLETED">BİTENLER</option>
+                                    <option value="CANCELLED">İPTAL</option>
+                                </select>
+                                <ChevronRight size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none rotate-90" />
+                            </div>
+
+                            <button
+                                onClick={audioUnlocked ? () => setSoundEnabled(!soundEnabled) : unlockAudio}
+                                className={`flex items-center h-9 gap-2 px-4 rounded-[6px] border transition-all font-bold text-[11px] tracking-tight ${soundEnabled ? 'bg-emerald-50 border-emerald-100 text-emerald-600 shadow-sm' : 'bg-slate-50 border-slate-200 text-slate-400 hover:bg-slate-100'}`}
+                            >
+                                <Volume2 size={14} strokeWidth={2.5} className={soundEnabled ? 'animate-pulse' : 'opacity-40'} />
+                                {!audioUnlocked ? 'SESİ AKTİF ET' : (soundEnabled ? 'SES AÇIK' : 'SES KAPALI')}
+                            </button>
+
+                            <button
+                                onClick={fetchData}
+                                className="bg-slate-900 text-white h-9 w-9 flex items-center justify-center rounded-[6px] hover:bg-slate-800 transition-all shadow-sm active:scale-95 group"
+                                title="Yenile"
+                            >
+                                <Activity size={16} className={loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'} strokeWidth={2.5} />
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                <div className="flex justify-end ml-auto">
+                    <ProfileDropdown />
+                </div>
             </div>
 
-            <div className="p-8 md:p-12 lg:p-16">
+            <div className="p-6 md:p-8 lg:p-10">
                 {activeTab === 'orders' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-10">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 2xl:grid-cols-3 gap-6">
                         <AnimatePresence>
                             {filteredOrders.map((order) => (
                                 <motion.div
                                     key={order.id}
                                     layout
-                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    initial={{ opacity: 0, scale: 0.95 }}
                                     animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-                                    className={`bg-white rounded-[40px] shadow-sm border-2 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group overflow-hidden flex flex-col ${order.status === 'PENDING' ? 'border-orange-100 shadow-orange-500/5' : 'border-gray-50'}`}
+                                    exit={{ opacity: 0, scale: 0.95, transition: { duration: 0.2 } }}
+                                    className={`bg-white rounded-[6px] shadow-sm border transition-all hover:shadow-md group overflow-hidden flex flex-col ${order.status === 'PENDING' ? 'border-rose-200' : 'border-slate-200'}`}
                                 >
                                     {/* Card Header */}
-                                    <div className={`p-8 border-b-2 border-gray-50 flex justify-between items-center ${order.status === 'PENDING' ? 'bg-orange-50/30' : 'bg-white'}`}>
-                                        <div className="flex items-center gap-5">
-                                            <div className="bg-gray-900 text-white w-14 h-14 rounded-2xl flex flex-col items-center justify-center shadow-lg shadow-gray-900/20 group-hover:-rotate-6 transition-transform">
-                                                <span className="text-[10px] font-black opacity-50 leading-none">MASA</span>
-                                                <span className="text-xl font-black">{order.tableId || 'P'}</span>
+                                    <div className={`p-4 border-b border-slate-100 flex justify-between items-center ${order.status === 'PENDING' ? 'bg-rose-50/30' : 'bg-slate-50/50'}`}>
+                                        <div className="flex items-center gap-3">
+                                            <div className="bg-slate-900 text-white w-9 h-9 rounded-[4px] flex flex-col items-center justify-center shadow-sm">
+                                                <span className="text-[8px] font-bold opacity-60 leading-none">MASA</span>
+                                                <span className="text-sm font-bold">{order.tableId || 'P'}</span>
                                             </div>
                                             <div>
-                                                <div className="flex items-center gap-3 mb-1">
-                                                    <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">{order.tableId ? 'SİPARİŞ' : 'PAKET SİPARİŞ'}</span>
+                                                <div className="flex items-center gap-2 mb-0.5">
+                                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{order.tableId ? 'SİPARİŞ' : 'PAKET'}</span>
                                                     {(order as any).note?.toUpperCase().includes('EK SİPARİŞ') && (
-                                                        <span className="bg-purple-100 text-purple-600 text-[8px] font-black px-2 py-0.5 rounded-lg border border-purple-200 tracking-[0.2em] animate-pulse">🔔 EK</span>
+                                                        <span className="bg-amber-100 text-amber-700 text-[8px] font-bold px-1.5 py-0.5 rounded-[2px] border border-amber-200 tracking-tight animate-pulse ml-1">EK SİPARİŞ</span>
                                                     )}
                                                 </div>
-                                                <div className="flex items-center gap-2">
-                                                    <Clock size={12} className="text-[#ff7a21]" strokeWidth={3} />
-                                                    <span className="text-xs font-black text-gray-900 tracking-tight">{getElapsedTime(order.createdAt)}</span>
+                                                <div className="flex items-center gap-1.5">
+                                                    <Clock size={11} className="text-slate-400" />
+                                                    <span className="text-[11px] font-bold text-slate-600 tracking-tight">{getElapsedTime(order.createdAt)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -355,32 +366,32 @@ export default function OrdersClient() {
                                     </div>
 
                                     {/* Items Container */}
-                                    <div className="p-8 flex-1">
-                                        <div className="space-y-4 mb-8">
+                                    <div className="p-4 flex-1">
+                                        <div className="space-y-3 mb-6">
                                             {order.items && Object.values(order.items).map((item: any, idx: number) => (
                                                 <div key={idx} className="flex justify-between items-start group/item">
-                                                    <div className="flex gap-4 items-start">
-                                                        <div className="bg-orange-50 text-[#ff7a21] text-[11px] font-black w-7 h-7 flex items-center justify-center rounded-lg border border-orange-100 shrink-0">
+                                                    <div className="flex gap-3 items-start">
+                                                        <div className="bg-slate-100 text-slate-600 text-[10px] font-bold w-6 h-6 flex items-center justify-center rounded-[4px] border border-slate-200 shrink-0">
                                                             {item.quantity}
                                                         </div>
                                                         <div className="pt-0.5">
-                                                            <p className="text-sm font-black text-gray-800 tracking-tight leading-tight">{item.name}</p>
+                                                            <p className="text-[12px] font-bold text-slate-800 leading-tight">{item.name}</p>
                                                             {item.options && (
-                                                                <p className="text-[10px] text-gray-400 font-bold mt-1 uppercase italic">{item.options.join(', ')}</p>
+                                                                <p className="text-[10px] text-slate-400 font-medium mt-0.5 italic">{item.options.join(', ')}</p>
                                                             )}
                                                         </div>
                                                     </div>
-                                                    <span className="text-sm font-black text-gray-400 tracking-tighter">{(item.price * item.quantity).toFixed(2)}₺</span>
+                                                    <span className="text-[11px] font-bold text-slate-400 tracking-tight">{(item.price * item.quantity).toFixed(2)}₺</span>
                                                 </div>
                                             ))}
                                         </div>
 
                                         {(order as any).note && (
-                                            <div className="bg-rose-50/50 p-5 rounded-3xl border-2 border-rose-100 border-dashed group/note hover:bg-rose-50 transition-colors">
-                                                <p className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-2 flex items-center gap-2">
-                                                    <FileText size={12} strokeWidth={3} /> Müşteri Notu
+                                            <div className="bg-blue-50/50 p-3 rounded-[4px] border border-blue-100 border-dashed group/note hover:bg-blue-50 transition-colors">
+                                                <p className="text-[9px] font-bold text-blue-400 uppercase tracking-widest mb-1.5 flex items-center gap-1.5">
+                                                    <FileText size={10} /> Müşteri Notu
                                                 </p>
-                                                <p className="text-xs font-black text-rose-600/90 leading-relaxed italic">
+                                                <p className="text-[11px] font-medium text-blue-700 leading-relaxed italic">
                                                     "{(order as any).note}"
                                                 </p>
                                             </div>
@@ -388,49 +399,49 @@ export default function OrdersClient() {
                                     </div>
 
                                     {/* Action Footer */}
-                                    <div className="p-8 bg-gray-50 border-t-2 border-gray-100 space-y-6">
+                                    <div className="p-4 bg-slate-50 border-t border-slate-100 space-y-4">
                                         <div className="flex justify-between items-end">
-                                            <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Toplam Hesap</div>
-                                            <div className="text-3xl font-black text-gray-900 tracking-tighter">{order.totalAmount.toFixed(2)}<span className="text-base font-black text-gray-400 ml-1">₺</span></div>
+                                            <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Toplam Tutar</div>
+                                            <div className="text-xl font-bold text-slate-900 tracking-tight">{order.totalAmount.toFixed(2)}<span className="text-[12px] font-bold text-slate-400 ml-1">₺</span></div>
                                         </div>
 
-                                        <div className="flex gap-4">
+                                        <div className="flex gap-2">
                                             {order.status === 'PENDING' && (
                                                 <>
-                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95 shadow-sm">
-                                                        <Eye size={20} strokeWidth={3} />
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-2.5 rounded-[4px] bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:border-slate-900 transition-all shadow-sm">
+                                                        <Eye size={16} />
                                                     </button>
-                                                    <button onClick={() => updateOrderStatus(order.id, 'CANCELLED')} className="flex-1 py-4 px-6 rounded-2xl border-2 border-rose-100 text-rose-500 text-xs font-black uppercase tracking-widest hover:bg-rose-500 hover:text-white hover:border-rose-500 transition-all active:scale-95">İptal</button>
-                                                    <button onClick={() => updateOrderStatus(order.id, 'PREPARING')} className="flex-[2] py-4 px-6 rounded-2xl bg-[#ff7a21] text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 hover:scale-[1.05] active:scale-95 transition-all flex items-center justify-center gap-2">
-                                                        <ChefHat size={18} strokeWidth={3} /> Hazırla
+                                                    <button onClick={() => updateOrderStatus(order.id, 'CANCELLED')} className="flex-1 py-2.5 px-4 rounded-[4px] border border-rose-100 text-rose-500 text-[11px] font-bold uppercase tracking-tight hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all shadow-sm">İptal</button>
+                                                    <button onClick={() => updateOrderStatus(order.id, 'PREPARING')} className="flex-[2] py-2.5 px-4 rounded-[4px] bg-slate-900 text-white text-[11px] font-bold uppercase tracking-tight shadow-md hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                                                        <ChefHat size={16} /> Hazırla
                                                     </button>
                                                 </>
                                             )}
                                             {order.status === 'PREPARING' && (
                                                 <>
-                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95 shadow-sm">
-                                                        <Eye size={20} strokeWidth={3} />
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-2.5 rounded-[4px] bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:border-slate-900 transition-all shadow-sm">
+                                                        <Eye size={16} />
                                                     </button>
-                                                    <button onClick={() => updateOrderStatus(order.id, 'SERVED')} className="flex-1 py-4 px-6 rounded-2xl bg-emerald-500 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 hover:scale-[1.05] active:scale-95 transition-all flex items-center justify-center gap-3">
-                                                        <CheckCircle2 size={18} strokeWidth={3} /> Servis Edildi
+                                                    <button onClick={() => updateOrderStatus(order.id, 'SERVED')} className="flex-1 py-2.5 px-4 rounded-[4px] bg-emerald-600 text-white text-[11px] font-bold uppercase tracking-tight shadow-md hover:bg-emerald-700 transition-all flex items-center justify-center gap-2">
+                                                        <CheckCircle2 size={16} /> Servis Edildi
                                                     </button>
                                                 </>
                                             )}
                                             {['SERVED', 'COMPLETED', 'CANCELLED'].includes(order.status) && (
-                                                <div className="w-full flex gap-4 items-center">
-                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-4 rounded-2xl bg-white border-2 border-gray-200 text-gray-400 hover:text-gray-900 hover:border-gray-900 transition-all shadow-sm">
-                                                        <Eye size={20} strokeWidth={3} />
+                                                <div className="w-full flex gap-3 items-center">
+                                                    <button onClick={() => setViewReceiptOrder(order)} className="p-2.5 rounded-[4px] bg-white border border-slate-200 text-slate-400 hover:text-slate-900 hover:border-slate-900 transition-all shadow-sm">
+                                                        <Eye size={16} />
                                                     </button>
-                                                    <div className={`flex-1 flex flex-col items-center justify-center py-3 rounded-2xl border-2 italic font-black text-[10px] tracking-[0.25em] ${order.status === 'CANCELLED' ? 'bg-rose-50 border-rose-100 text-rose-500' : 'bg-emerald-50 border-emerald-100 text-emerald-500'}`}>
+                                                    <div className={`flex-1 flex flex-col items-center justify-center py-2 rounded-[4px] border italic font-bold text-[10px] tracking-tight ${order.status === 'CANCELLED' ? 'bg-rose-50 border-rose-100 text-rose-500' : 'bg-emerald-50 border-emerald-100 text-emerald-500'}`}>
                                                         {order.status === 'CANCELLED' ? '🔴 İPTAL' : '🟢 AKTİF'}
                                                     </div>
                                                     {order.status === 'SERVED' && (
-                                                        <button onClick={() => updateOrderStatus(order.id, 'COMPLETED')} className="p-4 rounded-2xl bg-gray-900 text-white hover:bg-black transition-all shadow-xl shadow-gray-400/20">
-                                                            <CheckCircle2 size={20} strokeWidth={3} />
+                                                        <button onClick={() => updateOrderStatus(order.id, 'COMPLETED')} className="p-2.5 rounded-[4px] bg-slate-900 text-white hover:bg-slate-800 transition-all shadow-md">
+                                                            <CheckCircle2 size={16} />
                                                         </button>
                                                     )}
-                                                    <button onClick={() => deleteOrder(order.id)} className="p-3 bg-rose-50 text-rose-400 rounded-xl hover:bg-rose-100 hover:text-rose-600 transition-colors">
-                                                        <Trash2 size={18} strokeWidth={3} />
+                                                    <button onClick={() => deleteOrder(order.id)} className="p-2.5 bg-rose-50 text-rose-400 rounded-[4px] hover:bg-rose-100 hover:text-rose-600 transition-colors border border-rose-100">
+                                                        <Trash2 size={16} />
                                                     </button>
                                                 </div>
                                             )}
@@ -443,7 +454,7 @@ export default function OrdersClient() {
                 )}
 
                 {activeTab === 'waiter' && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
                         {waiterCalls.filter(call => {
                             if (call.status !== 'COMPLETED') return true;
                             const ageInMs = new Date().getTime() - new Date(call.updatedAt || call.createdAt).getTime();
@@ -452,27 +463,27 @@ export default function OrdersClient() {
                             <motion.div
                                 key={call.id}
                                 layout
-                                initial={{ opacity: 0, scale: 0.8 }}
+                                initial={{ opacity: 0, scale: 0.95 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className={`bg-white rounded-[40px] p-10 shadow-sm border-2 text-center transition-all hover:scale-[1.02] ${call.status === 'PENDING' ? 'border-[#ff7a21] shadow-2xl shadow-orange-500/10' : 'border-gray-50'}`}
+                                className={`bg-white rounded-[6px] p-6 shadow-sm border transition-all hover:shadow-md text-center ${call.status === 'PENDING' ? 'border-amber-200 bg-amber-50/10' : 'border-slate-200'}`}
                             >
-                                <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2">MASA NUMARASI</div>
-                                <div className="text-7xl font-black text-gray-900 tracking-tighter mb-8 leading-none">{call.tableId}</div>
+                                <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1">MASA NUMARASI</div>
+                                <div className="text-4xl font-bold text-slate-900 tracking-tight mb-6 leading-none">{call.tableId}</div>
 
-                                <div className="flex items-center justify-center gap-2 mb-10 bg-rose-50/50 py-3 px-6 rounded-2xl border border-rose-100 inline-flex mx-auto">
-                                    <Clock size={16} className="text-rose-500 animate-pulse" strokeWidth={3} />
-                                    <span className="text-[11px] font-black text-rose-600 tracking-wide uppercase">{getElapsedTime(call.createdAt)}</span>
+                                <div className="flex items-center justify-center gap-1.5 mb-8 bg-rose-50/50 py-2 px-4 rounded-[4px] border border-rose-100 inline-flex mx-auto">
+                                    <Clock size={12} className="text-rose-500 animate-pulse" />
+                                    <span className="text-[10px] font-bold text-rose-600 tracking-tight uppercase">{getElapsedTime(call.createdAt)}</span>
                                 </div>
 
                                 {call.status === 'PENDING' ? (
                                     <button
                                         onClick={() => updateCallStatus(call.id, 'COMPLETED')}
-                                        className="w-full py-5 bg-[#ff7a21] text-white rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 shadow-xl shadow-orange-500/30 hover:shadow-orange-500/50 active:scale-95 transition-all"
+                                        className="w-full py-3 bg-slate-900 text-white rounded-[4px] font-bold uppercase tracking-tight text-[11px] flex items-center justify-center gap-2 shadow-md hover:bg-slate-800 active:scale-95 transition-all"
                                     >
-                                        <CheckCircle2 size={24} strokeWidth={3} /> İLGİLENİLDİ
+                                        <CheckCircle2 size={16} /> İLGİLENİLDİ
                                     </button>
                                 ) : (
-                                    <div className="w-full py-5 bg-gray-50 border-2 border-gray-100 text-gray-400 rounded-[24px] font-black uppercase tracking-[0.2em] text-[10px] italic">
+                                    <div className="w-full py-3 bg-slate-50 border border-slate-200 text-slate-400 rounded-[4px] font-bold uppercase tracking-tight text-[10px] italic">
                                         TAMAMLANDI
                                     </div>
                                 )}
@@ -482,65 +493,64 @@ export default function OrdersClient() {
                 )}
             </div>
 
-            {/* Elite Receipt Modal */}
             <AnimatePresence>
                 {viewReceiptOrder && (
-                    <div className="fixed inset-0 bg-gray-900/60 backdrop-blur-md z-[100] flex items-center justify-center p-6" onClick={() => setViewReceiptOrder(null)}>
+                    <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100] flex items-center justify-center p-4 lg:p-6" onClick={() => setViewReceiptOrder(null)}>
                         <motion.div
-                            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 50, scale: 0.95 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
                             onClick={e => e.stopPropagation()}
-                            className="bg-white rounded-[48px] w-full max-w-[440px] overflow-hidden shadow-2xl flex flex-col"
+                            className="bg-white rounded-[6px] w-full max-w-[400px] overflow-hidden shadow-2xl flex flex-col border border-slate-200"
                         >
-                            <div className="p-8 border-b-2 border-gray-50 flex justify-between items-center bg-gray-50/50">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                        <Printer size={20} strokeWidth={3} />
+                            <div className="p-4 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+                                <div className="flex items-center gap-3">
+                                    <div className="bg-slate-900 text-white p-2 rounded-[4px] shadow-sm">
+                                        <Printer size={16} />
                                     </div>
-                                    <h3 className="font-black text-gray-900 uppercase tracking-tight text-lg">Sipariş Fişi</h3>
+                                    <h3 className="font-bold text-slate-900 uppercase tracking-tight text-sm">Sipariş Fişi</h3>
                                 </div>
-                                <button onClick={() => setViewReceiptOrder(null)} className="w-12 h-12 rounded-2xl bg-white border-2 border-gray-100 flex items-center justify-center text-gray-400 hover:text-rose-500 hover:border-rose-100 transition-all active:scale-90 shadow-sm">
-                                    <XCircle size={24} strokeWidth={3} />
+                                <button onClick={() => setViewReceiptOrder(null)} className="w-8 h-8 rounded-[4px] bg-white border border-slate-200 flex items-center justify-center text-slate-400 hover:text-rose-500 hover:border-rose-200 transition-all active:scale-90 shadow-sm">
+                                    <XCircle size={18} />
                                 </button>
                             </div>
 
-                            <div id="receipt-content" className="p-10 text-gray-900 bg-white">
-                                <div className="text-center mb-10 border-b-4 border-gray-900 border-double pb-10">
-                                    <h2 className="text-3xl font-black tracking-tighter mb-4">MESA RESTORAN</h2>
-                                    <div className="text-xs font-black text-gray-400 space-y-2 uppercase tracking-widest">
+                            <div id="receipt-content" className="p-6 text-slate-900 bg-white">
+                                <div className="text-center mb-8 border-b-2 border-slate-900 border-dashed pb-8">
+                                    <h2 className="text-xl font-bold tracking-tight mb-2 uppercase">MESA RESTORAN</h2>
+                                    <div className="text-[10px] font-bold text-slate-400 space-y-1 uppercase tracking-widest">
                                         <div>Fiş No: #{(viewReceiptOrder.id || '').slice(-6).toUpperCase()}</div>
                                         <div>Tarih: {new Date(viewReceiptOrder.createdAt).toLocaleString('tr-TR')}</div>
                                     </div>
-                                    <div className="mt-8 bg-gray-900 text-white py-4 px-8 rounded-2xl inline-block text-xl font-black">
+                                    <div className="mt-6 bg-slate-900 text-white py-2 px-6 rounded-[4px] inline-block text-sm font-bold shadow-sm">
                                         {viewReceiptOrder.tableId ? `MASA ${viewReceiptOrder.tableId}` : 'PAKET SERVİS'}
                                     </div>
                                 </div>
 
-                                <div className="space-y-6 mb-12">
+                                <div className="space-y-4 mb-8">
                                     {viewReceiptOrder.items && Object.values(viewReceiptOrder.items).map((item: any, idx: number) => (
                                         <div key={idx} className="flex justify-between items-start gap-4">
                                             <div className="flex-1">
-                                                <div className="flex items-center gap-3">
-                                                    <span className="font-black text-lg">{item.quantity}x</span>
-                                                    <span className="font-black text-gray-800 tracking-tight uppercase text-sm leading-tight">{item.name}</span>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="font-bold text-sm">{item.quantity}x</span>
+                                                    <span className="font-bold text-slate-800 tracking-tight uppercase text-[12px] leading-tight">{item.name}</span>
                                                 </div>
                                                 {item.options && (
-                                                    <div className="text-[10px] font-bold text-gray-400 ml-9 mt-1 italic leading-none">{item.options.join(' / ')}</div>
+                                                    <div className="text-[9px] font-bold text-slate-400 ml-7 mt-0.5 italic leading-none">{item.options.join(' / ')}</div>
                                                 )}
                                             </div>
-                                            <span className="font-black text-gray-900 text-sm">{(item.price * item.quantity).toFixed(2)}₺</span>
+                                            <span className="font-bold text-slate-900 text-[12px]">{(item.price * item.quantity).toFixed(2)}₺</span>
                                         </div>
                                     ))}
                                 </div>
 
-                                <div className="border-t-4 border-gray-900 pt-8 flex justify-between items-end">
-                                    <div className="text-xs font-black text-gray-400 uppercase tracking-widest pb-1">Genel Toplam</div>
-                                    <div className="text-4xl font-black tracking-tighter leading-none">{viewReceiptOrder.totalAmount.toFixed(2)}₺</div>
+                                <div className="border-t-2 border-slate-900 pt-6 flex justify-between items-end">
+                                    <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pb-0.5">Genel Toplam</div>
+                                    <div className="text-3xl font-bold tracking-tight leading-none">{viewReceiptOrder.totalAmount.toFixed(2)}₺</div>
                                 </div>
                             </div>
 
-                            <div className="p-10 bg-gray-50 flex gap-4">
+                            <div className="p-4 bg-slate-50 flex gap-3 border-t border-slate-100">
                                 <button
                                     onClick={() => {
                                         const printContent = document.getElementById('receipt-content');
@@ -555,15 +565,15 @@ export default function OrdersClient() {
                                                                 body { font-family: 'Plus Jakarta Sans', sans-serif; padding: 20px; width: 80mm; margin: 0; background: white; }
                                                                 * { box-sizing: border-box; }
                                                                 .text-center { text-align: center; }
-                                                                .font-black { font-weight: 800; }
-                                                                .tracking-tighter { letter-spacing: -0.05em; }
+                                                                .font-bold { font-weight: 700; }
+                                                                .tracking-tight { letter-spacing: -0.02em; }
                                                                 .uppercase { text-transform: uppercase; }
-                                                                .text-4xl { font-size: 24pt; }
-                                                                .mb-10 { margin-bottom: 30pt; }
-                                                                .mt-8 { margin-top: 20pt; }
-                                                                .space-y-6 > * + * { margin-top: 15pt; }
+                                                                .text-3xl { font-size: 18pt; }
+                                                                .mb-8 { margin-bottom: 20pt; }
+                                                                .mt-6 { margin-top: 15pt; }
+                                                                .space-y-4 > * + * { margin-top: 10pt; }
                                                                 @media print { @page { margin: 0; size: 80mm auto; } body { width: 80mm; } }
-                                                                .receipt-box { border: 2px solid #000; padding: 20pt; border-radius: 10pt; }
+                                                                .receipt-box { border: 1px solid #000; padding: 15pt; border-radius: 4pt; }
                                                             </style>
                                                         </head>
                                                         <body>${printContent.innerHTML}</body>
@@ -574,11 +584,11 @@ export default function OrdersClient() {
                                             }
                                         }
                                     }}
-                                    className="flex-1 py-5 bg-gray-900 text-white rounded-[24px] font-black uppercase tracking-widest text-xs flex items-center justify-center gap-3 shadow-xl shadow-gray-900/20 active:scale-95 transition-all"
+                                    className="flex-1 py-3 bg-slate-900 text-white rounded-[4px] font-bold uppercase tracking-tight text-[11px] flex items-center justify-center gap-2 shadow-md hover:bg-slate-800 active:scale-95 transition-all"
                                 >
-                                    <Printer size={20} strokeWidth={3} /> YAZDIR
+                                    <Printer size={16} /> YAZDIR
                                 </button>
-                                <button onClick={() => setViewReceiptOrder(null)} className="flex-1 py-5 bg-white border-2 border-gray-200 text-gray-400 rounded-[24px] font-black uppercase tracking-widest text-[10px] hover:text-gray-900 hover:border-gray-900 transition-all active:scale-95">
+                                <button onClick={() => setViewReceiptOrder(null)} className="flex-1 py-3 bg-white border border-slate-200 text-slate-400 rounded-[4px] font-bold uppercase tracking-tight text-[11px] hover:text-slate-900 hover:border-slate-400 transition-all active:scale-95 shadow-sm">
                                     KAPAT
                                 </button>
                             </div>
@@ -588,5 +598,4 @@ export default function OrdersClient() {
             </AnimatePresence>
         </div>
     );
-
 }

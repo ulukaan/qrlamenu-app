@@ -38,11 +38,11 @@ export default function AuditLogPage() {
                 </div>
                 <div className="w-full xl:w-auto">
                     <div className="relative group">
-                        <Search size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ff7a21] transition-colors" />
+                        <Search size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ea580c] transition-colors" />
                         <input
                             type="text"
                             placeholder="Eylem, admin veya IP..."
-                            className="w-full xl:w-[480px] pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white/50 backdrop-blur-xl focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/10 outline-none transition-all font-bold text-gray-700 shadow-sm"
+                            className="w-full xl:w-[480px] pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white/50 backdrop-blur-xl focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 outline-none transition-all font-bold text-gray-700 shadow-sm"
                         />
                     </div>
                 </div>
@@ -54,12 +54,12 @@ export default function AuditLogPage() {
                     <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
                         <div className="px-10 py-8 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50/50 gap-6">
                             <div className="flex items-center gap-4">
-                                <div className="bg-white p-3 rounded-2xl border-2 border-gray-100 text-[#ff7a21] shadow-sm">
+                                <div className="bg-white p-3 rounded-2xl border-2 border-gray-100 text-[#ea580c] shadow-sm">
                                     <Database size={24} strokeWidth={2.5} />
                                 </div>
                                 <h3 className="text-xl font-black text-gray-900 tracking-tight">Olay Akışı</h3>
                             </div>
-                            <button className="w-full sm:w-auto px-8 py-3 rounded-xl bg-orange-50 text-[#ff7a21] text-[10px] font-black uppercase tracking-[0.2em] border-2 border-orange-100 hover:bg-[#ff7a21] hover:text-white transition-all active:scale-95 shadow-sm">
+                            <button className="w-full sm:w-auto px-8 py-3 rounded-xl bg-orange-50 text-[#ea580c] text-[10px] font-black uppercase tracking-[0.2em] border-2 border-orange-100 hover:bg-[#ea580c] hover:text-white transition-all active:scale-95 shadow-sm">
                                 DIŞA AKTAR (.CSV)
                             </button>
                         </div>
@@ -80,7 +80,7 @@ export default function AuditLogPage() {
                                         <tr>
                                             <td colSpan={5} className="py-40 text-center">
                                                 <div className="flex flex-col items-center gap-4">
-                                                    <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                                                    <Loader2 size={48} className="animate-spin text-[#ea580c]" />
                                                     <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Denetim Veritabanı Senkronize Ediliyor...</span>
                                                 </div>
                                             </td>
@@ -98,13 +98,13 @@ export default function AuditLogPage() {
                                         <tr key={log.id} className="group hover:bg-gray-50/50 transition-colors">
                                             <td className="px-10 py-8 whitespace-nowrap">
                                                 <div className="flex items-center gap-3 text-xs font-black text-gray-900 tabular-nums">
-                                                    <Clock size={16} className="text-gray-300 group-hover:text-[#ff7a21] transition-colors" strokeWidth={2.5} />
+                                                    <Clock size={16} className="text-gray-300 group-hover:text-[#ea580c] transition-colors" strokeWidth={2.5} />
                                                     {new Date(log.createdAt).toLocaleString('tr-TR', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: 'numeric' })}
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 border border-gray-200 group-hover:border-orange-200 group-hover:bg-orange-50 group-hover:text-[#ff7a21] transition-all shadow-sm">
+                                                    <div className="w-9 h-9 rounded-xl bg-gray-100 flex items-center justify-center text-gray-500 border border-gray-200 group-hover:border-orange-200 group-hover:bg-orange-50 group-hover:text-[#ea580c] transition-all shadow-sm">
                                                         <User size={16} strokeWidth={2.5} />
                                                     </div>
                                                     <span className="text-xs font-black text-gray-900 truncate max-w-[140px] leading-tight">{log.adminEmail || 'Sistem'}</span>
@@ -121,12 +121,12 @@ export default function AuditLogPage() {
                                             </td>
                                             <td className="px-10 py-8 max-w-xs xl:max-w-md">
                                                 <div className="flex items-center gap-3 group/info">
-                                                    <Info size={16} className="text-gray-200 shrink-0 group-hover/info:text-[#ff7a21] transition-colors" />
+                                                    <Info size={16} className="text-gray-200 shrink-0 group-hover/info:text-[#ea580c] transition-colors" />
                                                     <span className="text-xs text-gray-500 font-bold leading-relaxed italic truncate">{log.details}</span>
                                                 </div>
                                             </td>
                                             <td className="px-10 py-8 text-right">
-                                                <span className="font-mono text-[10px] font-black text-gray-400 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100 shadow-sm group-hover:border-orange-200 group-hover:text-[#ff7a21] transition-colors">{log.ipAddress || '127.0.0.1'}</span>
+                                                <span className="font-mono text-[10px] font-black text-gray-400 bg-gray-50 px-3 py-1.5 rounded-xl border border-gray-100 shadow-sm group-hover:border-orange-200 group-hover:text-[#ea580c] transition-colors">{log.ipAddress || '127.0.0.1'}</span>
                                             </td>
                                         </tr>
                                     ))}
@@ -139,18 +139,18 @@ export default function AuditLogPage() {
                 {/* Right Sidebar */}
                 <aside className="space-y-8 xl:sticky xl:top-8 xl:h-fit">
                     <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-[#ff7a21]/10 rounded-full blur-[80px] transition-transform duration-1000 group-hover:scale-125"></div>
+                        <div className="absolute -right-20 -bottom-20 w-72 h-72 bg-[#ea580c]/10 rounded-full blur-[80px] transition-transform duration-1000 group-hover:scale-125"></div>
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-5 mb-10">
-                                <div className="bg-orange-500/10 p-4 rounded-3xl border-2 border-orange-500/10 shadow-lg">
-                                    <Shield size={28} className="text-[#ff7a21]" strokeWidth={3} />
+                                <div className="bg-orange-600/10 p-4 rounded-3xl border-2 border-orange-600/10 shadow-lg">
+                                    <Shield size={28} className="text-[#ea580c]" strokeWidth={3} />
                                 </div>
                                 <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Bütünlük Koruması</h3>
                             </div>
 
                             <p className="text-sm font-bold text-slate-400 leading-relaxed italic mb-8">
-                                Audit logları salt-okunur olarak tutulur ve geriye dönük silinemez. Tüm kayıtlar <span className="text-white font-black underline decoration-[#ff7a21]/50 underline-offset-4">SHA-256</span> hash zinciri ile korunur.
+                                Audit logları salt-okunur olarak tutulur ve geriye dönük silinemez. Tüm kayıtlar <span className="text-white font-black underline decoration-[#ea580c]/50 underline-offset-4">SHA-256</span> hash zinciri ile korunur.
                             </p>
 
                             <div className="flex items-center gap-2 text-[10px] font-black text-emerald-400 uppercase tracking-widest bg-emerald-500/10 px-4 py-2 rounded-xl border border-emerald-500/20 w-fit">
@@ -162,13 +162,13 @@ export default function AuditLogPage() {
 
                     <div className="bg-white rounded-[40px] p-10 shadow-sm border border-gray-100">
                         <h4 className="text-[10px] font-black text-gray-900 uppercase tracking-[0.2em] mb-8 flex items-center gap-3">
-                            <Search size={16} className="text-[#ff7a21]" /> Hızlı Filtrele
+                            <Search size={16} className="text-[#ea580c]" /> Hızlı Filtrele
                         </h4>
                         <div className="space-y-8">
                             <div className="space-y-3">
                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Zaman Aralığı</label>
                                 <div className="relative">
-                                    <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-800 focus:bg-white focus:border-[#ff7a21] transition-all outline-none appearance-none cursor-pointer pr-12 shadow-sm">
+                                    <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-800 focus:bg-white focus:border-[#ea580c] transition-all outline-none appearance-none cursor-pointer pr-12 shadow-sm">
                                         <option>Son 24 Saat</option>
                                         <option>Son 7 Gün</option>
                                         <option>Son 30 Gün</option>
@@ -195,7 +195,7 @@ export default function AuditLogPage() {
 
                     <div className="bg-white rounded-[40px] p-8 shadow-sm border border-gray-100 hover:shadow-lg transition-all duration-300 group">
                         <div className="flex items-center gap-6">
-                            <div className="w-16 h-16 rounded-[24px] bg-orange-50 border-2 border-orange-100 flex items-center justify-center text-[#ff7a21] shadow-inner group-hover:scale-110 transition-transform">
+                            <div className="w-16 h-16 rounded-[24px] bg-orange-50 border-2 border-orange-100 flex items-center justify-center text-[#ea580c] shadow-inner group-hover:scale-110 transition-transform">
                                 <Database size={32} strokeWidth={2.5} />
                             </div>
                             <div>

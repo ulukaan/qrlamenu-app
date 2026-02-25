@@ -136,7 +136,7 @@ export default function EditRestaurantPage() {
     if (!tenant) return <div className="p-8">Restoran bulunamadı.</div>;
 
     const stats = [
-        { label: 'Ürün', value: tenant._count?.products || 0, icon: <UtensilsCrossed size={16} />, color: '#ff7a21' },
+        { label: 'Ürün', value: tenant._count?.products || 0, icon: <UtensilsCrossed size={16} />, color: '#ea580c' },
         { label: 'Kategori', value: tenant._count?.categories || 0, icon: <LayoutGrid size={16} />, color: '#3b82f6' },
         { label: 'Sipariş', value: tenant._count?.orders || 0, icon: <Package size={16} />, color: '#10b981' },
         { label: 'Yönetici', value: tenant._count?.users || 0, icon: <Users size={16} />, color: '#8b5cf6' },
@@ -150,7 +150,7 @@ export default function EditRestaurantPage() {
                     <button
                         onClick={() => router.back()}
                         style={{ width: '48px', height: '48px', border: '1px solid #e2e8f0', background: '#fff', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}
-                        className="hover:border-orange-500 hover:text-orange-500"
+                        className="hover:border-orange-600 hover:text-orange-600"
                     >
                         <ArrowLeft size={20} />
                     </button>
@@ -217,12 +217,12 @@ export default function EditRestaurantPage() {
 
                     {/* Quick Preview */}
                     <div className="card" style={{ border: 'none', padding: '32px', background: 'linear-gradient(135deg, #fff 0%, #fff7ed 100%)', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <h3 style={{ margin: '0 0 20px 0', fontSize: '0.8rem', fontWeight: '900', color: '#ff7a21', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Müşteri Deneyimi</h3>
+                        <h3 style={{ margin: '0 0 20px 0', fontSize: '0.8rem', fontWeight: '900', color: '#ea580c', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Müşteri Deneyimi</h3>
                         <p style={{ fontSize: '0.85rem', color: '#9a3412', marginBottom: '24px', fontWeight: '600', lineHeight: '1.5' }}>Restoran menüsünün müşteri tarafındaki görünümünü anlık olarak inceleyin.</p>
                         <a
                             href={`/r/${tenant.slug}`}
                             target="_blank"
-                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '16px', background: '#ff7a21', borderRadius: '14px', color: '#fff', fontWeight: '900', fontSize: '0.9rem', textDecoration: 'none', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.2)', transition: 'all 0.2s' }}
+                            style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '12px', padding: '16px', background: '#ea580c', borderRadius: '14px', color: '#fff', fontWeight: '900', fontSize: '0.9rem', textDecoration: 'none', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.2)', transition: 'all 0.2s' }}
                             className="hover:scale-105"
                         >
                             Menüyü Canlı İzle <ExternalLink size={18} />
@@ -305,7 +305,7 @@ export default function EditRestaurantPage() {
                     {/* Domain & Path Management */}
                     <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
-                            <div style={{ background: '#fff7ed', color: '#ff7a21', padding: '12px', borderRadius: '14px' }}>
+                            <div style={{ background: '#fff7ed', color: '#ea580c', padding: '12px', borderRadius: '14px' }}>
                                 <GlobeIcon size={24} />
                             </div>
                             <div>
@@ -323,7 +323,7 @@ export default function EditRestaurantPage() {
                                         type="text"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                        style={{ flex: 1, padding: '14px 0', background: 'transparent', border: 'none', fontSize: '1rem', fontWeight: '900', color: '#ff7a21', outline: 'none' }}
+                                        style={{ flex: 1, padding: '14px 0', background: 'transparent', border: 'none', fontSize: '1rem', fontWeight: '900', color: '#ea580c', outline: 'none' }}
                                     />
                                 </div>
                                 <p style={{ marginTop: '10px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '500' }}>* Sadece küçük harf, rakam ve tire (-) içerebilir.</p>
@@ -478,7 +478,7 @@ export default function EditRestaurantPage() {
                     {/* Admin Notes */}
                     <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
                         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <div style={{ background: '#fff7ed', color: '#ff7a21', padding: '10px', borderRadius: '12px' }}>
+                            <div style={{ background: '#fff7ed', color: '#ea580c', padding: '10px', borderRadius: '12px' }}>
                                 <FileText size={20} />
                             </div>
                             <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Sistem Notları</h3>
@@ -488,7 +488,7 @@ export default function EditRestaurantPage() {
                             style={{ width: '100%', height: '140px', padding: '16px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#f9fafb', fontSize: '0.9rem', outline: 'none', resize: 'none', color: '#4b5563', fontWeight: '500', lineHeight: '1.6' }}
                             className="focus:border-orange-400 focus:ring-4 focus:ring-orange-50"
                         ></textarea>
-                        <button style={{ marginTop: '16px', width: '100%', padding: '14px', borderRadius: '14px', background: '#fff', border: '1px solid #ff7a21', color: '#ff7a21', fontSize: '0.9rem', fontWeight: '900', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-orange-50">
+                        <button style={{ marginTop: '16px', width: '100%', padding: '14px', borderRadius: '14px', background: '#fff', border: '1px solid #ea580c', color: '#ea580c', fontSize: '0.9rem', fontWeight: '900', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-orange-50">
                             Notu Kaydet & Güncelle
                         </button>
                     </div>
@@ -505,7 +505,7 @@ export default function EditRestaurantPage() {
                             {[
                                 { title: 'Plan Güncellemesi', user: 'Samet Dursun', time: '2 saat önce', color: '#3b82f6' },
                                 { title: 'Restoran Doğrulandı', user: 'Sistem', time: 'Dün', color: '#10b981' },
-                                { title: 'Logo Değişikliği', user: 'Yönetici', time: '3 gün önce', color: '#ff7a21' }
+                                { title: 'Logo Değişikliği', user: 'Yönetici', time: '3 gün önce', color: '#ea580c' }
                             ].map((log, idx) => (
                                 <div key={idx} style={{ display: 'flex', gap: '14px' }}>
                                     <div style={{ minWidth: '10px', height: '10px', borderRadius: '50%', background: log.color, marginTop: '6px', boxShadow: `0 0 8px ${log.color}` }}></div>

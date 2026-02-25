@@ -69,7 +69,7 @@ export default function TableInputModal({
                                     value={tableId}
                                     onChange={(e) => setTableId(e.target.value)}
                                     placeholder="Örn: 5"
-                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-500 mb-4"
+                                    className="w-full bg-gray-50 border border-gray-200 rounded-xl px-4 py-3 text-lg font-bold text-center focus:outline-none focus:ring-2 focus:ring-orange-600 mb-4"
                                     autoFocus
                                 />
                                 <button

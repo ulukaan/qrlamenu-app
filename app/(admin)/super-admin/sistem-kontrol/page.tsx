@@ -74,7 +74,7 @@ export default function SystemControlPage() {
     if (loading && !data) {
         return (
             <div className="flex items-center justify-center min-h-[60vh]">
-                <RefreshCw className="animate-spin text-orange-500" size={32} />
+                <RefreshCw className="animate-spin text-orange-600" size={32} />
             </div>
         );
     }
@@ -85,7 +85,7 @@ export default function SystemControlPage() {
                 <AlertCircle className="mx-auto text-red-500 mb-4" size={48} />
                 <h2 className="text-xl font-bold text-slate-900 mb-2">Hata Oluştu</h2>
                 <p className="text-slate-500 mb-6">{error}</p>
-                <button onClick={fetchData} className="px-6 py-2 bg-orange-500 text-white rounded-xl font-bold">Tekrar Dene</button>
+                <button onClick={fetchData} className="px-6 py-2 bg-orange-600 text-white rounded-xl font-bold">Tekrar Dene</button>
             </div>
         );
     }
@@ -95,7 +95,7 @@ export default function SystemControlPage() {
             <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
                 <div className="max-w-4xl">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ff7a21] shadow-sm">
+                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ea580c] shadow-sm">
                             <Server size={28} strokeWidth={2.5} />
                         </div>
                         <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-none uppercase">
@@ -111,7 +111,7 @@ export default function SystemControlPage() {
                     </div>
                     <button
                         onClick={fetchData}
-                        className="flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 border border-slate-800 rounded-2xl text-xs font-black text-white hover:bg-[#ff7a21] hover:border-transparent transition-all shadow-xl shadow-slate-900/10 active:scale-95 group"
+                        className="flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 border border-slate-800 rounded-2xl text-xs font-black text-white hover:bg-[#ea580c] hover:border-transparent transition-all shadow-xl shadow-slate-900/10 active:scale-95 group"
                     >
                         <RefreshCw size={18} strokeWidth={3} className={`${loading ? 'animate-spin' : 'group-hover:rotate-180'} transition-transform duration-500`} />
                         VERİLERİ SENKRONİZE ET
@@ -131,7 +131,7 @@ export default function SystemControlPage() {
                         <div className="relative z-10">
                             <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-8">
                                 <h2 className="text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
+                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
                                     SUNUCU ÇEKİRDEK DURUMU (HOSTINGER VPS)
                                 </h2>
                                 <div className="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-white/5 rounded-xl border border-white/10">
@@ -143,7 +143,7 @@ export default function SystemControlPage() {
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
                                 <div className="space-y-4">
                                     <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                        <div className="w-1 h-3 bg-orange-500 rounded-full"></div> Node.js Runtıme
+                                        <div className="w-1 h-3 bg-orange-600 rounded-full"></div> Node.js Runtıme
                                     </p>
                                     <div>
                                         <p className="text-3xl font-black tracking-tighter leading-none mb-2">{data?.system?.nodeVersion}</p>
@@ -168,13 +168,13 @@ export default function SystemControlPage() {
                                         <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                                             <div className="w-1 h-3 bg-violet-500 rounded-full"></div> Bellek Optımırasyonu
                                         </p>
-                                        <span className="text-[#ff7a21] text-xl font-black leading-none tracking-tighter">%{data?.system?.memoryUsage?.percent}</span>
+                                        <span className="text-[#ea580c] text-xl font-black leading-none tracking-tighter">%{data?.system?.memoryUsage?.percent}</span>
                                     </div>
                                     <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden shadow-inner border border-white/5">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${data?.system?.memoryUsage?.percent}%` }}
-                                            className="h-full bg-gradient-to-r from-orange-500 via-orange-400 to-amber-300 shadow-[0_0_15px_rgba(249,115,22,0.4)]"
+                                            className="h-full bg-gradient-to-r from-orange-600 via-orange-400 to-amber-300 shadow-[0_0_15px_rgba(249,115,22,0.4)]"
                                         />
                                     </div>
                                     <p className="text-[10px] text-slate-600 font-black tracking-[0.1em] uppercase">
@@ -264,7 +264,7 @@ export default function SystemControlPage() {
                         </div>
                     </section>
 
-                    <section className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group">
+                    <section className="bg-gradient-to-br from-orange-600 to-orange-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group">
                         <div className="absolute top-0 right-0 p-4 opacity-10 transform group-hover:scale-110 transition-transform duration-500">
                             <AlertCircle size={80} />
                         </div>

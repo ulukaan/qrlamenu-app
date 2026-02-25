@@ -1,12 +1,13 @@
 import React from "react";
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"], variable: '--font-inter' });
+const plusJakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: '--font-plus-jakarta' });
 
 export const viewport: Viewport = {
     themeColor: '#ffffff', // Status bar ve SafeArea kısımları beyaz (veya sonradan light/dark duruma göre)
@@ -70,7 +71,7 @@ export default function RootLayout({
                     }}
                 />
             </head>
-            <body className={inter.className}>
+            <body className={`${plusJakarta.variable} ${inter.variable} ${plusJakarta.className} antialiased font-sans`}>
                 {children}
                 <SpeedInsights />
                 <Analytics />

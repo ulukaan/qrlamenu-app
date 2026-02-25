@@ -45,7 +45,7 @@ export default function SuperAdminRestoranlar() {
                     </p>
                 </div>
                 <Link href="/super-admin/restoranlar/yeni" className="w-full xl:w-auto">
-                    <button className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest">
+                    <button className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest">
                         <PlusCircle size={20} strokeWidth={3} /> Yeni İşletme Kaydı
                     </button>
                 </Link>
@@ -57,16 +57,16 @@ export default function SuperAdminRestoranlar() {
                     <section className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
                         <div className="px-10 py-8 border-b border-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-gray-50/50">
                             <h3 className="text-xl font-black text-gray-900 tracking-tight">
-                                Kayıtlı İşletmeler <span className="text-[#ff7a21] ml-3 text-xs bg-white border border-orange-100 px-3 py-1 rounded-full shadow-sm">({filteredTenants.length} Toplam)</span>
+                                Kayıtlı İşletmeler <span className="text-[#ea580c] ml-3 text-xs bg-white border border-orange-100 px-3 py-1 rounded-full shadow-sm">({filteredTenants.length} Toplam)</span>
                             </h3>
                             <div className="relative w-full md:w-96 group">
-                                <Search size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ff7a21] transition-colors" />
+                                <Search size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ea580c] transition-colors" />
                                 <input
                                     type="text"
                                     placeholder="İşletme adı veya sahip ara..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white text-sm font-bold text-gray-700 outline-none focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/10 transition-all placeholder:text-gray-400"
+                                    className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white text-sm font-bold text-gray-700 outline-none focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 transition-all placeholder:text-gray-400"
                                 />
                             </div>
                         </div>
@@ -87,7 +87,7 @@ export default function SuperAdminRestoranlar() {
                                         <tr>
                                             <td colSpan={5} className="py-40 text-center">
                                                 <div className="flex flex-col items-center gap-6">
-                                                    <Loader2 size={56} className="animate-spin text-[#ff7a21]" />
+                                                    <Loader2 size={56} className="animate-spin text-[#ea580c]" />
                                                     <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</span>
                                                 </div>
                                             </td>
@@ -111,7 +111,7 @@ export default function SuperAdminRestoranlar() {
                                                         {item.logoUrl ? <img src={item.logoUrl} alt="" className="w-full h-full object-cover" /> : <Store size={28} />}
                                                     </div>
                                                     <div>
-                                                        <p className="font-black text-gray-900 text-lg leading-tight group-hover:text-[#ff7a21] transition-colors">{item.name}</p>
+                                                        <p className="font-black text-gray-900 text-lg leading-tight group-hover:text-[#ea580c] transition-colors">{item.name}</p>
                                                         <p className="mt-2 text-[10px] text-gray-400 font-black bg-gray-100/50 px-2 py-0.5 rounded-md inline-block tracking-widest uppercase">ID: {item.id.substring(0, 8).toUpperCase()}</p>
                                                     </div>
                                                 </div>
@@ -140,7 +140,7 @@ export default function SuperAdminRestoranlar() {
                                             <td className="px-10 py-8 text-right">
                                                 <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
                                                     <Link href={`/super-admin/restoranlar/${item.id}`}>
-                                                        <button className="h-12 px-6 rounded-xl border-2 border-gray-100 bg-white text-gray-700 text-[10px] font-black flex items-center gap-3 hover:border-orange-200 hover:text-[#ff7a21] shadow-sm transition-all uppercase tracking-widest">
+                                                        <button className="h-12 px-6 rounded-xl border-2 border-gray-100 bg-white text-gray-700 text-[10px] font-black flex items-center gap-3 hover:border-orange-200 hover:text-[#ea580c] shadow-sm transition-all uppercase tracking-widest">
                                                             <Edit size={16} strokeWidth={3} /> Detay
                                                         </button>
                                                     </Link>
@@ -159,9 +159,9 @@ export default function SuperAdminRestoranlar() {
 
                 {/* Right Sidebar Column */}
                 <aside className="flex flex-col gap-10 xl:sticky xl:top-8 h-fit">
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ff7a21] group">
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ea580c] group">
                         <div className="flex items-center gap-4 mb-10">
-                            <div className="bg-orange-50 text-[#ff7a21] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform">
+                            <div className="bg-orange-50 text-[#ea580c] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform">
                                 <Filter size={24} strokeWidth={2.5} />
                             </div>
                             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-900">Akıllı Filtreleme</h3>
@@ -169,7 +169,7 @@ export default function SuperAdminRestoranlar() {
                         <div className="flex flex-col gap-8">
                             <div>
                                 <label className="block mb-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-1">Operasyonel Durum</label>
-                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all cursor-pointer shadow-sm">
+                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all cursor-pointer shadow-sm">
                                     <option>Tüm İşletmeler</option>
                                     <option>Sadece Aktifler</option>
                                     <option>Deneme Sürümü</option>
@@ -178,7 +178,7 @@ export default function SuperAdminRestoranlar() {
                             </div>
                             <div>
                                 <label className="block mb-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-1">Abonelik Paketi</label>
-                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ff7a21] transition-all cursor-pointer shadow-sm">
+                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all cursor-pointer shadow-sm">
                                     <option>Tüm Paketler</option>
                                     <option>Başlangıç</option>
                                     <option>Profesyonel</option>
@@ -186,14 +186,14 @@ export default function SuperAdminRestoranlar() {
                                     <option>Enterprise</option>
                                 </select>
                             </div>
-                            <button className="w-full py-5 bg-gray-900 text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-2xl shadow-gray-900/20 hover:bg-[#ff7a21] hover:shadow-orange-500/40 hover:-translate-y-1 transition-all mt-2">
+                            <button className="w-full py-5 bg-gray-900 text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-2xl shadow-gray-900/20 hover:bg-[#ea580c] hover:shadow-orange-500/40 hover:-translate-y-1 transition-all mt-2">
                                 Filtreleri Uygula
                             </button>
                         </div>
                     </div>
 
                     <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-10 -top-10 w-48 h-48 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="absolute -right-10 -top-10 w-48 h-48 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="flex items-center gap-4 mb-10 relative">
                             <div className="w-2 h-10 bg-emerald-400 rounded-full shadow-[0_0_20px_#10b981]"></div>
                             <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Ekosistem Analizi</h3>
@@ -210,7 +210,7 @@ export default function SuperAdminRestoranlar() {
                                     <span className="text-xl font-black group-hover/stat:scale-110 transition-transform">{tenants.filter(t => t.status === 'ACTIVE').length}</span>
                                 </div>
                                 <div className="flex justify-between items-center bg-white/5 p-5 rounded-[24px] border border-white/5 hover:bg-white/10 transition-colors group/stat">
-                                    <span className="text-[#ff7a21] text-[10px] font-black uppercase tracking-[0.2em]">Deneme Süreci</span>
+                                    <span className="text-[#ea580c] text-[10px] font-black uppercase tracking-[0.2em]">Deneme Süreci</span>
                                     <span className="text-xl font-black group-hover/stat:scale-110 transition-transform">{tenants.filter(t => t.status === 'TRIAL').length}</span>
                                 </div>
                             </div>

@@ -58,61 +58,61 @@ const Header = () => {
             <div className="relative" ref={dropdownRef}>
                 <button
                     onClick={() => setIsProfileOpen(!isProfileOpen)}
-                    className={`flex items-center gap-2 p-1.5 pr-3 rounded-full border transition-all duration-200 ${isProfileOpen
-                            ? 'bg-orange-50 border-orange-200 shadow-sm'
-                            : 'bg-white border-slate-200 hover:border-orange-200 hover:bg-slate-50'
+                    className={`flex items-center gap-3 p-1.5 pr-3 rounded-md border transition-all duration-200 ${isProfileOpen
+                        ? 'bg-slate-50 border-slate-900 shadow-sm'
+                        : 'bg-white border-slate-200 hover:border-slate-400'
                         }`}
                 >
-                    <div className="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-orange-600 overflow-hidden">
-                        <User size={20} />
+                    <div className="w-7 h-7 rounded-md bg-slate-900 flex items-center justify-center text-white overflow-hidden">
+                        <User size={14} />
                     </div>
-                    <div className="hidden sm:block text-left mr-1">
-                        <p className="text-xs font-bold text-slate-700 leading-tight truncate max-w-[120px]">
+                    <div className="hidden sm:block text-left">
+                        <p className="text-[10px] font-black text-slate-900 leading-tight truncate max-w-[120px] uppercase tracking-wider">
                             {user?.name || 'Yükleniyor...'}
                         </p>
                     </div>
-                    <ChevronDown size={14} className={`text-slate-400 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
+                    <ChevronDown size={12} className={`text-slate-400 transition-transform duration-200 ${isProfileOpen ? 'rotate-180' : ''}`} />
                 </button>
 
                 <AnimatePresence>
                     {isProfileOpen && (
                         <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 5, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.15, ease: "easeOut" }}
-                            className="absolute right-0 top-full w-64 bg-white rounded-xl shadow-xl border border-slate-100 overflow-hidden"
+                            initial={{ opacity: 0, y: 5 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: 5 }}
+                            transition={{ duration: 0.1 }}
+                            className="absolute right-0 top-[120%] w-56 bg-white rounded-md shadow-xl border border-slate-200 overflow-hidden"
                         >
                             {/* Dropdown Header */}
-                            <div className="p-4 bg-slate-50/50 border-b border-slate-100">
-                                <p className="text-sm font-bold text-slate-800">{user?.name}</p>
-                                <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+                            <div className="p-4 bg-slate-50 border-b border-slate-100">
+                                <p className="text-[10px] font-black text-slate-900 uppercase tracking-widest leading-none">{user?.name}</p>
+                                <p className="text-[9px] font-bold text-slate-400 truncate mt-1.5">{user?.email}</p>
                             </div>
 
                             {/* Dropdown Actions */}
-                            <div className="p-2">
+                            <div className="p-1">
                                 <Link
                                     href="/hesap-ayarlari"
                                     onClick={() => setIsProfileOpen(false)}
-                                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                                    className="flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors uppercase tracking-widest"
                                 >
-                                    <Settings size={18} />
+                                    <Settings size={14} />
                                     Hesap Ayarları
                                 </Link>
                                 <Link
                                     href="/restoran-bilgileri"
                                     onClick={() => setIsProfileOpen(false)}
-                                    className="flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-slate-600 hover:text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
+                                    className="flex items-center gap-3 px-3 py-2 text-[10px] font-black text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors uppercase tracking-widest"
                                 >
-                                    <Store size={18} />
+                                    <Store size={14} />
                                     Restoran Bilgileri
                                 </Link>
-                                <div className="h-px bg-slate-100 my-1 mx-2"></div>
+                                <div className="h-px bg-slate-100 my-1 mx-1"></div>
                                 <button
                                     onClick={handleLogout}
-                                    className="w-full flex items-center gap-3 px-3 py-2.5 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg transition-colors text-left"
+                                    className="w-full flex items-center gap-3 px-3 py-2 text-[10px] font-black text-red-600 hover:bg-red-50 rounded-md transition-colors text-left uppercase tracking-widest"
                                 >
-                                    <LogOut size={18} />
+                                    <LogOut size={14} />
                                     Çıkış Yap
                                 </button>
                             </div>

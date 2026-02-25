@@ -1,19 +1,22 @@
 "use client";
-
 import React, { useState, useEffect } from 'react';
 import {
     TrendingUp,
-    ShoppingBag,
-    Users,
-    DollarSign,
-    ArrowUpRight,
-    Package,
-    Calendar,
-    Loader2,
     RefreshCw,
+    Calendar,
+    ChevronDown,
+    ArrowUpRight,
+    ArrowDownRight,
+    Search,
+    Download,
+    Filter,
     Activity,
+    Clock,
+    Loader2
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
 import {
     LineChart,
     Line,
@@ -28,6 +31,8 @@ import {
     Bar,
     Cell
 } from 'recharts';
+import { StatCard as CompactStatCard } from '@/components/ui/stat-card';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export default function AnalyticsPage() {
     const [data, setData] = useState<any>(null);
@@ -54,274 +59,183 @@ export default function AnalyticsPage() {
         fetchData();
     }, []);
 
-    if (loading) {
-        return (
-            <div className="flex items-center justify-center min-h-[60vh]">
-                <Loader2 className="animate-spin text-orange-500" size={40} />
-            </div>
-        );
-    }
+    if (loading) return <LoadingScreen message="ANALİTİK VERİLERİ OKUNUYOR" />;
 
     const stats = data?.stats || {};
     const revenueData = data?.revenueChart || [];
     const topProducts = data?.topProducts || [];
 
-    const StatCard = ({ title, value, icon, iconBg, iconColor, trend }: any) => (
-        <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group flex flex-col gap-6">
-            <div className="flex justify-between items-start">
-                <div className={`w-16 h-16 rounded-[24px] ${iconBg} flex items-center justify-center shadow-lg shadow-gray-200 group-hover:scale-110 transition-transform`}>
-                    {React.cloneElement(icon, { size: 28, className: iconColor, strokeWidth: 2.5 })}
-                </div>
-                {trend && (
-                    <div className="flex items-center gap-1.5 px-4 py-2 bg-emerald-50 rounded-xl border border-emerald-100/50">
-                        <ArrowUpRight size={14} className="text-emerald-500" strokeWidth={3} />
-                        <span className="text-[10px] font-black text-emerald-600 tracking-wider font-mono">{trend}</span>
-                    </div>
-                )}
-            </div>
-            <div>
-                <h3 className="text-gray-400 font-bold uppercase text-[10px] tracking-[0.2em] mb-2">{title}</h3>
-                <p className="text-4xl font-black text-gray-900 tracking-tighter">{value}</p>
-            </div>
-        </div>
+    const StatCard = ({ title, value, trend }: any) => (
+        <CompactStatCard
+            title={title}
+            value={value}
+            subtitle={trend ? `Son 30 gün: ${trend}` : undefined}
+            statusLabel="Aktif"
+        />
     );
 
     return (
-        <div className="p-0 bg-[#f8fafc] min-h-screen">
-            {/* Header / Sub-Header Area */}
-            <div className="bg-white px-8 md:px-12 py-10 border-b-2 border-slate-50 relative z-30 shadow-sm shadow-slate-200/5 transition-all">
-                <div className="max-w-7xl mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-8">
-                    <div className="space-y-2">
-                        <h1 className="text-4xl font-black text-gray-900 tracking-tighter">ANALİTİK & RAPORLAR</h1>
-                        <p className="text-sm font-black text-gray-400 uppercase tracking-widest">RESTORAN PERFORMANSINIZI CANLI TAKİP EDİN</p>
+        <div className="px-6 py-8 bg-[#f8fafc] min-h-screen">
+            {/* Header Area */}
+            <div className="bg-white px-6 py-6 border-b-2 border-slate-50 relative z-30 transition-all mb-8 rounded-[6px] shadow-sm">
+                <div className="w-full mx-auto flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+                    <div className="space-y-1.5">
+                        <div className="flex items-center gap-3">
+                            <MobileMenuToggle />
+                            <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">Analitik & Raporlar</h1>
+                        </div>
+                        <p className="text-[13px] font-medium text-slate-500">Restoran performansınızı ve veri trendlerini analiz edin.</p>
                     </div>
                     <div className="flex flex-wrap items-center gap-4">
                         <button
                             onClick={fetchData}
                             disabled={refreshing}
-                            className="flex items-center gap-3 px-8 py-4 bg-gray-50 border-2 border-gray-100 rounded-[24px] text-xs font-black text-gray-500 hover:border-gray-900 hover:text-gray-900 shadow-sm transition-all group"
+                            className="flex items-center gap-2 h-9 px-4 bg-white border border-[#E2E8F0] rounded-[6px] text-[12px] font-semibold text-slate-600 hover:border-slate-300 shadow-sm transition-all group"
                         >
-                            <RefreshCw size={18} className={`${refreshing ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-700'}`} strokeWidth={3} />
+                            <RefreshCw size={14} className={`${refreshing ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-700'}`} strokeWidth={2.2} />
                             YENİLE
                         </button>
-                        <div className="bg-gray-900 text-white px-8 py-4 rounded-[24px] flex items-center gap-3 text-xs font-black tracking-widest shadow-xl shadow-gray-900/10 text-center">
-                            <Calendar size={18} strokeWidth={3} />
-                            SON 30 GÜN
-                        </div>
+                        <ProfileDropdown />
                     </div>
                 </div>
             </div>
 
-            <div className="p-8 md:p-12 lg:p-16">
-                <div className="max-w-7xl mx-auto space-y-12">
+            <div className="px-0">
+                <div className="w-full mx-auto space-y-8">
 
                     {/* Stats Grid */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
                         <StatCard
-                            title="Toplam Gelir"
+                            title="TOPLAM GELİR"
                             value={`${stats.totalRevenue?.toLocaleString('tr-TR')} ₺`}
-                            icon={<DollarSign />}
-                            iconBg="bg-orange-50"
-                            iconColor="text-orange-500"
                             trend="+12.5%"
                         />
                         <StatCard
-                            title="Toplam Sipariş"
+                            title="SİPARİŞ HACMİ"
                             value={stats.orderCount || 0}
-                            icon={<ShoppingBag />}
-                            iconBg="bg-blue-50"
-                            iconColor="text-blue-500"
                             trend="+8.2%"
                         />
                         <StatCard
-                            title="Aktif Siparişler"
-                            value={stats.activeOrders || 0}
-                            icon={<RefreshCw />}
-                            iconBg="bg-amber-50"
-                            iconColor="text-amber-500"
+                            title="ORT. SEPET"
+                            value={`${stats.avgOrderValue?.toFixed(2)} ₺`}
+                            trend="+5.1%"
                         />
                         <StatCard
-                            title="Ort. Sipariş Tutarı"
-                            value={`${stats.avgOrderValue?.toFixed(2)} ₺`}
-                            icon={<TrendingUp />}
-                            iconBg="bg-emerald-50"
-                            iconColor="text-emerald-500"
+                            title="MASA DOLULUĞU"
+                            value="%74"
+                            trend="+14%"
                         />
                     </div>
 
-                    {/* Main Charts & Side Info */}
-                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-                        {/* Revenue Area Chart */}
-                        <div className="lg:col-span-8 bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden flex flex-col">
-                            <div className="p-10 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/20">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                        <TrendingUp size={20} strokeWidth={3} />
+                    {/* Main Charts Row */}
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+                        {/* Revenue Trend */}
+                        <div className="lg:col-span-8 bg-white rounded-[6px] shadow-sm border border-slate-200/60 flex flex-col">
+                            <div className="px-4 py-4 border-b border-slate-50 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-9 h-9 bg-orange-50 text-orange-600 rounded-[4px] flex items-center justify-center border border-orange-100/50">
+                                        <TrendingUp size={18} />
                                     </div>
-                                    <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">GELİR ANALİZİ</h3>
+                                    <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Gelir Trendi</h3>
                                 </div>
-                                <select className="bg-white border-2 border-gray-100 rounded-xl px-4 py-2 text-[10px] font-black text-gray-500 outline-none focus:border-gray-900 transition-all uppercase tracking-widest cursor-pointer">
-                                    <option>GÜNLÜK</option>
-                                    <option>HAFTALIK</option>
-                                </select>
                             </div>
-                            <div className="p-10 flex-1">
-                                <div className="h-[400px] w-full mt-4">
+                            <div className="p-4">
+                                <div className="h-[280px] w-full">
                                     <ResponsiveContainer width="100%" height="100%">
                                         <AreaChart data={revenueData}>
                                             <defs>
-                                                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                                    <stop offset="5%" stopColor="#ff7a21" stopOpacity={0.2} />
+                                                <linearGradient id="colorRev" x1="0" y1="0" x2="0" y2="1">
+                                                    <stop offset="5%" stopColor="#ff7a21" stopOpacity={0.15} />
                                                     <stop offset="95%" stopColor="#ff7a21" stopOpacity={0} />
                                                 </linearGradient>
                                             </defs>
                                             <CartesianGrid strokeDasharray="8 8" vertical={false} stroke="#f1f5f9" />
-                                            <XAxis
-                                                dataKey="date"
-                                                axisLine={false}
-                                                tickLine={false}
-                                                tick={{ fill: '#94a3b8', fontWeight: 700, fontSize: 10 }}
-                                                tickFormatter={(val) => format(new Date(val), 'dd MMM').toUpperCase()}
-                                                dy={20}
-                                            />
-                                            <YAxis
-                                                axisLine={false}
-                                                tickLine={false}
-                                                tick={{ fill: '#94a3b8', fontWeight: 700, fontSize: 10 }}
-                                                tickFormatter={(val) => `${val}₺`}
-                                                dx={-10}
-                                            />
-                                            <Tooltip
-                                                contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.15)', padding: '20px' }}
-                                                labelStyle={{ color: '#94a3b8', fontWeight: 900, fontSize: '10px', textTransform: 'uppercase', marginBottom: '8px' }}
-                                                formatter={(val: any) => [`${val.toLocaleString('tr-TR')} ₺`, 'GELİR']}
-                                            />
-                                            <Area
-                                                type="monotone"
-                                                dataKey="amount"
-                                                stroke="#ff7a21"
-                                                strokeWidth={5}
-                                                fillOpacity={1}
-                                                fill="url(#colorRevenue)"
-                                                animationDuration={2000}
-                                            />
+                                            <XAxis dataKey="date" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} dy={10} tickFormatter={(val) => format(new Date(val), 'dd MMM').toUpperCase()} />
+                                            <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} dx={-10} tickFormatter={(val) => `${val}₺`} />
+                                            <Tooltip contentStyle={{ borderRadius: '6px', border: '1px solid #e2e8f0', padding: '12px' }} />
+                                            <Area type="monotone" dataKey="amount" stroke="#ff7a21" strokeWidth={3} fill="url(#colorRev)" />
                                         </AreaChart>
                                     </ResponsiveContainer>
                                 </div>
                             </div>
                         </div>
 
-                        {/* Top Products */}
-                        <div className="lg:col-span-4 bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden flex flex-col">
-                            <div className="p-10 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/20">
-                                <div className="flex items-center gap-4">
-                                    <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                        <Package size={20} strokeWidth={3} />
-                                    </div>
-                                    <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">EN ÇOK SATANLAR</h3>
-                                </div>
+                        {/* Top Products Compact */}
+                        <div className="lg:col-span-4 bg-white rounded-[6px] shadow-sm border border-slate-200/60 flex flex-col">
+                            <div className="px-4 py-4 border-b border-slate-50">
+                                <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Ürün Kırılımı</h3>
                             </div>
-                            <div className="p-10 flex-1 space-y-8">
-                                {topProducts.length === 0 ? (
-                                    <div className="text-center py-20">
-                                        <div className="w-20 h-20 bg-gray-50 rounded-[32px] flex items-center justify-center mx-auto mb-6">
-                                            <Package size={32} className="text-gray-200" strokeWidth={2.5} />
+                            <div className="p-4 space-y-4">
+                                {topProducts.slice(0, 5).map((prod: any, idx: number) => (
+                                    <div key={idx} className="space-y-2">
+                                        <div className="flex justify-between text-[10px] font-bold uppercase tracking-tight text-slate-500">
+                                            <span>{prod.name}</span>
+                                            <span>{prod.quantity} Satış</span>
                                         </div>
-                                        <p className="text-xs font-black text-gray-300 uppercase tracking-widest">HENÜZ VERİ BULUNMUYOR</p>
+                                        <div className="h-1.5 bg-slate-50 rounded-full overflow-hidden border border-slate-100/30">
+                                            <motion.div
+                                                initial={{ width: 0 }}
+                                                animate={{ width: `${(prod.quantity / topProducts[0].quantity) * 100}%` }}
+                                                transition={{ duration: 0.8, ease: "easeOut" }}
+                                                className="h-full bg-orange-500 rounded-full"
+                                            />
+                                        </div>
                                     </div>
-                                ) : (
-                                    topProducts.map((prod: any, idx: number) => (
-                                        <div key={idx} className="group relative text-left">
-                                            <div className="flex items-center gap-5">
-                                                <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center text-gray-400 font-black text-xs border-2 border-transparent group-hover:border-orange-100 group-hover:bg-orange-50 group-hover:text-orange-500 transition-all duration-300">
-                                                    #{idx + 1}
-                                                </div>
-                                                <div className="flex-1 min-w-0">
-                                                    <h4 className="font-black text-gray-900 truncate tracking-tight text-sm uppercase">{prod.name}</h4>
-                                                    <div className="flex items-center gap-3 mt-1.5">
-                                                        <span className="text-[10px] font-black text-gray-300 uppercase tracking-widest">{prod.quantity} ADET</span>
-                                                        <div className="w-1.5 h-1.5 bg-gray-100 rounded-full" />
-                                                        <span className="text-[10px] font-black text-orange-500 uppercase tracking-widest">{prod.revenue.toLocaleString('tr-TR')} ₺</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            {/* Progress bar background */}
-                                            <div className="h-1.5 w-full bg-gray-50 rounded-full mt-4 overflow-hidden border border-gray-100/30">
-                                                <motion.div
-                                                    initial={{ width: 0 }}
-                                                    animate={{ width: `${(prod.revenue / topProducts[0].revenue) * 100}%` }}
-                                                    transition={{ duration: 1.5, delay: idx * 0.1 }}
-                                                    className="h-full bg-gradient-to-r from-[#ff7a21] to-orange-400 rounded-full"
-                                                />
-                                            </div>
-                                        </div>
-                                    ))
-                                )}
-                            </div>
-                            <div className="px-10 pb-10 mt-auto">
-                                <button className="w-full py-5 bg-gray-50 text-gray-500 text-[10px] font-black uppercase tracking-[0.2em] rounded-[24px] border-2 border-gray-100 hover:bg-gray-900 hover:text-white hover:border-gray-900 transition-all active:scale-95">
-                                    TÜM LİSTEYİ GÖR
-                                </button>
+                                ))}
                             </div>
                         </div>
                     </div>
 
-                    {/* Recent Transactions */}
-                    <div className="bg-white rounded-[40px] shadow-sm border-2 border-gray-50 overflow-hidden">
-                        <div className="p-10 border-b-2 border-gray-50 flex items-center justify-between bg-gray-50/20">
-                            <div className="flex items-center gap-4">
-                                <div className="bg-gray-900 text-white p-3 rounded-2xl shadow-lg">
-                                    <ShoppingBag size={20} strokeWidth={3} />
-                                </div>
-                                <h3 className="text-sm font-black text-gray-900 uppercase tracking-widest">SON İŞLEMLER</h3>
+                    {/* Secondary Data Visualization */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Hourly Heatmap/Bar */}
+                        <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 flex flex-col overflow-hidden">
+                            <div className="px-4 py-4 border-b border-slate-50 flex items-center justify-between">
+                                <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Saatlik Yoğunluk</h3>
+                                <Clock size={16} className="text-slate-400" />
                             </div>
-                            <button
-                                onClick={() => window.open('/api/restaurant/analytics/export', '_blank')}
-                                className="px-6 py-3 bg-white border-2 border-gray-100 rounded-xl text-[10px] font-black text-gray-500 hover:text-orange-500 hover:border-orange-100 transition-all uppercase tracking-widest"
-                            >
-                                DIŞA AKTAR (CSV)
-                            </button>
+                            <div className="p-4">
+                                <div className="h-[220px] w-full">
+                                    <ResponsiveContainer width="100%" height="100%">
+                                        <BarChart data={stats.hourlyDensity || []}>
+                                            <CartesianGrid strokeDasharray="8 8" vertical={false} stroke="#f1f5f9" />
+                                            <XAxis dataKey="hour" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} />
+                                            <YAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} />
+                                            <Tooltip cursor={{ fill: '#f8fafc' }} contentStyle={{ borderRadius: '6px', border: '1px solid #e2e8f0' }} />
+                                            <Bar dataKey="count" fill="#ff7a21" radius={[2, 2, 0, 0]} />
+                                        </BarChart>
+                                    </ResponsiveContainer>
+                                </div>
+                            </div>
                         </div>
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-left">
-                                <thead>
-                                    <tr className="bg-gray-50/50">
-                                        <th className="px-10 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">İşlem ID</th>
-                                        <th className="px-10 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Masa</th>
-                                        <th className="px-10 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Tutar</th>
-                                        <th className="px-10 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Durum</th>
-                                        <th className="px-10 py-6 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Tarih</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y-2 divide-gray-50">
-                                    {(data?.recentOrders || []).slice(0, 8).map((order: any) => (
-                                        <tr key={order.id} className="hover:bg-gray-50/50 transition-colors group">
-                                            <td className="px-10 py-6 text-xs font-black text-gray-900 tracking-tighter">#{(order.id || '').slice(-6).toUpperCase()}</td>
-                                            <td className="px-10 py-6 text-xs font-bold text-gray-500 uppercase tracking-widest">MASA {order.tableId || '-'}</td>
-                                            <td className="px-10 py-6">
-                                                <span className="text-sm font-black text-gray-900 tracking-tight">{order.totalAmount} ₺</span>
-                                            </td>
-                                            <td className="px-10 py-6">
-                                                <span className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border-2 ${order.status === 'COMPLETED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100/50' :
-                                                    order.status === 'CANCELLED' ? 'bg-rose-50 text-rose-600 border-rose-100/50' : 'bg-blue-50 text-blue-600 border-blue-100/50'
-                                                    }`}>
-                                                    {order.status === 'COMPLETED' ? 'TAMAMLANDI' : order.status === 'CANCELLED' ? 'İPTAL' : 'AKTİF'}
-                                                </span>
-                                            </td>
-                                            <td className="px-10 py-6 text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                                                {format(new Date(order.createdAt), 'dd.MM HH:mm')}
-                                            </td>
-                                        </tr>
-                                    ))}
-                                    {(!data?.recentOrders || data.recentOrders.length === 0) && (
-                                        <tr>
-                                            <td colSpan={5} className="px-10 py-20 text-center text-left">
-                                                <p className="text-xs font-black text-gray-200 uppercase tracking-[0.3em]">HENÜZ İŞLEM BULUNMUYOR</p>
-                                            </td>
-                                        </tr>
-                                    )}
-                                </tbody>
-                            </table>
+
+                        {/* Recent Transactions Table */}
+                        <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 overflow-hidden flex flex-col">
+                            <div className="px-4 py-4 border-b border-slate-50 flex items-center justify-between">
+                                <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Kritik İşlemler</h3>
+                                <button className="text-[10px] font-bold text-slate-400 hover:text-orange-600 uppercase tracking-widest">Tümünü Gör</button>
+                            </div>
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-left">
+                                    <tbody className="divide-y divide-slate-50">
+                                        {(data?.recentOrders || []).slice(0, 5).map((order: any) => (
+                                            <tr key={order.id} className="hover:bg-slate-50/50 transition-colors">
+                                                <td className="px-4 py-3">
+                                                    <p className="text-[12px] font-bold text-slate-900">#{order.id.slice(-6).toUpperCase()}</p>
+                                                    <p className="text-[10px] text-slate-400 font-bold uppercase mt-0.5">Masa {order.tableId}</p>
+                                                </td>
+                                                <td className="px-4 py-3 text-right">
+                                                    <p className="text-[13px] font-bold text-slate-900">{order.totalAmount.toLocaleString('tr-TR')} ₺</p>
+                                                    <div className="flex items-center justify-end gap-1.5 mt-0.5">
+                                                        <div className="w-1 h-1 rounded-full bg-emerald-500" />
+                                                        <p className="text-[9px] text-emerald-600 font-bold uppercase tracking-widest">{order.status}</p>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

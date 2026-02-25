@@ -96,7 +96,7 @@ export default function SecuritySettingsPage() {
                                     {!s.persistent && (
                                         <button
                                             onClick={() => toggleSetting(s.id)}
-                                            className={`relative w-14 h-8 rounded-full transition-all duration-500 focus:outline-none ${s.active ? 'bg-[#ff7a21] shadow-lg shadow-orange-500/30' : 'bg-slate-200'}`}
+                                            className={`relative w-14 h-8 rounded-full transition-all duration-500 focus:outline-none ${s.active ? 'bg-[#ea580c] shadow-lg shadow-orange-500/30' : 'bg-slate-200'}`}
                                         >
                                             <div className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-500 shadow-sm ${s.active ? 'translate-x-6' : 'translate-x-0'}`} />
                                         </button>
@@ -122,10 +122,10 @@ export default function SecuritySettingsPage() {
                             <div className="p-8 rounded-[32px] bg-slate-50 border-2 border-slate-100">
                                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
                                     <span className="text-sm font-black text-gray-900 tracking-tight">Minimum Karakter Uzunluğu</span>
-                                    <span className="text-2xl font-black text-[#ff7a21] tabular-nums">{settings?.minPasswordLength || 12} Bit/Karakter</span>
+                                    <span className="text-2xl font-black text-[#ea580c] tabular-nums">{settings?.minPasswordLength || 12} Bit/Karakter</span>
                                 </div>
                                 <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-[#ff7a21] to-orange-400 shadow-[0_0_15px_rgba(255,122,33,0.3)] w-3/4 animate-pulse"></div>
+                                    <div className="h-full bg-gradient-to-r from-[#ea580c] to-orange-400 shadow-[0_0_15px_rgba(255,122,33,0.3)] w-3/4 animate-pulse"></div>
                                 </div>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
                                     <div className="flex items-center gap-3 px-6 py-4 bg-white rounded-2xl border-2 border-slate-100">
@@ -138,7 +138,7 @@ export default function SecuritySettingsPage() {
                                     </div>
                                 </div>
                             </div>
-                            <button className="px-10 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ff7a21] transition-all active:scale-95">
+                            <button className="px-10 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ea580c] transition-all active:scale-95">
                                 GÜVENLİK POLİTİKASINI GÜNCELLE
                             </button>
                         </div>

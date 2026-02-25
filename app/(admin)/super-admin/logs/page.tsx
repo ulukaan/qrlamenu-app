@@ -65,7 +65,7 @@ export default function LogsPage() {
                     <button className="flex-1 lg:flex-none flex items-center justify-center gap-3 px-6 py-3.5 rounded-2xl bg-white border-2 border-slate-100 text-slate-600 text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all active:scale-95 shadow-sm">
                         <Info size={18} strokeWidth={2.5} /> Rehber
                     </button>
-                    <button onClick={clearLogs} className="flex-1 lg:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl bg-[#ff7a21] text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 border border-orange-400/20 hover:bg-orange-600 transition-all active:scale-95">
+                    <button onClick={clearLogs} className="flex-1 lg:flex-none flex items-center justify-center gap-3 px-8 py-3.5 rounded-2xl bg-[#ea580c] text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-orange-500/20 border border-orange-400/20 hover:bg-orange-600 transition-all active:scale-95">
                         <Terminal size={18} strokeWidth={2.5} /> Terminali Temizle
                     </button>
                 </div>
@@ -100,7 +100,7 @@ export default function LogsPage() {
                         <div className="flex-1 overflow-y-auto custom-scrollbar font-mono text-xs md:text-sm leading-relaxed space-y-1.5 pr-4">
                             {loading ? (
                                 <div className="flex flex-col items-center justify-center h-full gap-8 py-20 text-slate-500">
-                                    <Loader2 size={56} className="animate-spin text-[#ff7a21]" />
+                                    <Loader2 size={56} className="animate-spin text-[#ea580c]" />
                                     <span className="text-[10px] font-black uppercase tracking-widest italic">Sistem Kayıtları Analiz Ediliyor...</span>
                                 </div>
                             ) : error ? (
@@ -126,8 +126,8 @@ export default function LogsPage() {
                                         </div>
                                     ))}
                                     <div className="flex items-center gap-4 p-4 mt-6 animate-pulse">
-                                        <div className="w-2 h-5 bg-[#ff7a21]"></div>
-                                        <span className="text-[10px] font-black text-[#ff7a21] uppercase tracking-[0.2em]">Gerçek zamanlı veri akışı bekleniyor...</span>
+                                        <div className="w-2 h-5 bg-[#ea580c]"></div>
+                                        <span className="text-[10px] font-black text-[#ea580c] uppercase tracking-[0.2em]">Gerçek zamanlı veri akışı bekleniyor...</span>
                                     </div>
                                 </>
                             )}
@@ -140,7 +140,7 @@ export default function LogsPage() {
                     <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
                         <h3 className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-8">Sistem Sağlığı</h3>
                         <div className="space-y-4">
-                            <div className="group flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border-2 border-slate-50 hover:bg-white hover:border-[#ff7a21]/20 transition-all duration-500">
+                            <div className="group flex items-center gap-4 p-5 rounded-3xl bg-slate-50 border-2 border-slate-50 hover:bg-white hover:border-[#ea580c]/20 transition-all duration-500">
                                 <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-500 border border-emerald-100">
                                     <CheckCircle size={22} strokeWidth={2.5} />
                                 </div>
@@ -176,12 +176,12 @@ export default function LogsPage() {
                     </div>
 
                     <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/40 relative overflow-hidden group">
-                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ea580c]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-4 mb-8">
-                                <div className="bg-orange-500/10 p-3 rounded-2xl border border-orange-500/10">
-                                    <Shield size={24} className="text-[#ff7a21]" strokeWidth={3} />
+                                <div className="bg-orange-600/10 p-3 rounded-2xl border border-orange-600/10">
+                                    <Shield size={24} className="text-[#ea580c]" strokeWidth={3} />
                                 </div>
                                 <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 font-black">Güvenlik Durumu</h3>
                             </div>

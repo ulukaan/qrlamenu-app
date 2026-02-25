@@ -29,7 +29,7 @@ type OrderStep = 'idle' | 'cart' | 'type' | 'confirm' | 'success';
 type OrderType = 'TABLE' | 'TAKEAWAY' | 'HOTEL' | 'DELIVERY';
 
 const ORDER_TYPE_CONFIG: Record<OrderType, { icon: any; label: string; desc: string; color: string }> = {
-    TABLE: { icon: MapPin, label: 'Masada Sipariş', desc: 'Masanıza servis edilir', color: '#ff7a21' },
+    TABLE: { icon: MapPin, label: 'Masada Sipariş', desc: 'Masanıza servis edilir', color: '#ea580c' },
     TAKEAWAY: { icon: Package, label: 'Gel-Al', desc: 'Hazır olunca sizi ararız', color: '#8b5cf6' },
     HOTEL: { icon: Hotel, label: 'Odaya Servis', desc: 'Oda numaranızı girin', color: '#0891b2' },
     DELIVERY: { icon: Truck, label: 'Adrese Teslimat', desc: 'Adresinize teslim ederiz', color: '#16a34a' },
@@ -460,7 +460,7 @@ export default function MenuClient({ restaurant, defaultTheme }: MenuClientProps
     return (
         <Suspense fallback={
             <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: '16px', background: '#f9fafb' }}>
-                <Loader2 style={{ width: 32, height: 32, color: '#ff7a21', animation: 'spin 1s linear infinite' }} />
+                <Loader2 style={{ width: 32, height: 32, color: '#ea580c', animation: 'spin 1s linear infinite' }} />
                 <style>{`@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}`}</style>
                 <p style={{ color: '#6b7280', fontWeight: '600' }}>Menü Yükleniyor...</p>
             </div>

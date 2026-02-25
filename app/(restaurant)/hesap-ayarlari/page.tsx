@@ -19,8 +19,19 @@ import {
     CheckCircle2,
     Loader2,
     CreditCard,
+    Smartphone,
+    ShoppingBag,
+    Briefcase,
+    Settings2,
+    ChevronDown,
+    Languages,
+    MessageCircle,
 } from 'lucide-react';
 import Link from 'next/link';
+import { motion, AnimatePresence } from 'framer-motion';
+
+import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 // Currency list
 const CURRENCIES = [
@@ -278,423 +289,463 @@ export default function HesapAyarlari() {
         }
     };
 
-    // ===== Styles =====
-    const pageStyle: React.CSSProperties = { padding: '0' };
-    const headerStyle: React.CSSProperties = {
-        display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '1rem'
-    };
-    const cardStyle: React.CSSProperties = {
-        background: '#fff', borderRadius: '14px', border: '1px solid #e8ecf1',
-        overflow: 'hidden', marginBottom: '20px',
-    };
-    const cardHeaderStyle: React.CSSProperties = {
-        padding: '14px 20px', borderBottom: '1px solid #f0f1f3',
-        display: 'flex', alignItems: 'center', gap: '10px', background: '#fafbfc',
-    };
-    const cardTitleStyle: React.CSSProperties = {
-        margin: 0, fontSize: '0.95rem', fontWeight: 700, color: '#1a1a2e',
-    };
-    const cardBodyStyle: React.CSSProperties = { padding: '20px' };
-    const gridStyle: string = "grid grid-cols-1 md:grid-cols-2 gap-4";
-    const fieldStyle: React.CSSProperties = { marginBottom: '0' };
-    const labelStyle: React.CSSProperties = {
-        display: 'block', fontSize: '0.82rem', fontWeight: 700, color: '#444',
-        marginBottom: '6px',
-    };
-    const inputStyle: React.CSSProperties = {
-        width: '100%', padding: '10px 14px', border: '1px solid #e0e0e0',
-        borderRadius: '8px', fontSize: '0.85rem', outline: 'none',
-        background: '#fafafa', boxSizing: 'border-box', transition: 'border 0.2s',
-    };
-    const selectStyle: React.CSSProperties = {
-        ...inputStyle, cursor: 'pointer',
-    };
-    const btnStyle: React.CSSProperties = {
-        display: 'inline-flex', alignItems: 'center', gap: '8px',
-        padding: '11px 24px', borderRadius: '8px', border: 'none',
-        background: '#ff6e01', color: '#fff', fontWeight: 700,
-        fontSize: '0.85rem', cursor: 'pointer', transition: 'all 0.2s',
-    };
-    const noticeStyle: React.CSSProperties = {
-        background: '#fff8f0', border: '1px solid #ffe0b2', borderRadius: '10px',
-        padding: '14px 18px', marginBottom: '20px', fontSize: '0.84rem',
-        color: '#b45309', display: 'flex', alignItems: 'center', gap: '10px',
-        lineHeight: 1.5,
-    };
-    const inputIconWrap: React.CSSProperties = {
-        position: 'relative',
-    };
-    const iconStyle: React.CSSProperties = {
-        position: 'absolute', left: '12px', top: '50%',
-        transform: 'translateY(-50%)', color: '#bbb', pointerEvents: 'none',
-    };
-    const inputWithIconStyle: React.CSSProperties = {
-        ...inputStyle, paddingLeft: '38px',
-    };
-    const smallTextStyle: React.CSSProperties = {
-        fontSize: '0.72rem', color: '#999', marginTop: '4px',
-    };
-    const errorTextStyle: React.CSSProperties = {
-        fontSize: '0.78rem', color: '#ef4444', marginTop: '6px',
-        display: 'flex', alignItems: 'center', gap: '4px',
-    };
-    const multiSelectWrap: React.CSSProperties = {
-        display: 'flex', flexWrap: 'wrap', gap: '6px', maxHeight: '120px',
-        overflowY: 'auto', padding: '8px', border: '1px solid #e0e0e0',
-        borderRadius: '8px', background: '#fafafa',
-    };
-    const chipStyle = (active: boolean): React.CSSProperties => ({
-        display: 'inline-flex', alignItems: 'center', gap: '4px',
-        padding: '4px 10px', borderRadius: '6px', fontSize: '0.75rem',
-        fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s',
-        border: active ? '1px solid #ff6e01' : '1px solid #e0e0e0',
-        background: active ? 'rgba(255,110,1,0.08)' : '#fff',
-        color: active ? '#ff6e01' : '#666',
-    });
-    const notificationStyle = (type: string): React.CSSProperties => ({
-        position: 'fixed', top: '20px', right: '20px',
-        padding: '14px 20px', borderRadius: '10px', zIndex: 9999,
-        display: 'flex', alignItems: 'center', gap: '10px',
-        fontSize: '0.85rem', fontWeight: 600, boxShadow: '0 4px 20px rgba(0,0,0,0.12)',
-        background: type === 'success' ? '#f0fdf4' : '#fef2f2',
-        color: type === 'success' ? '#16a34a' : '#dc2626',
-        border: `1px solid ${type === 'success' ? '#bbf7d0' : '#fecaca'}`,
-        animation: 'slideIn 0.3s ease-out',
-    });
+    // Component styles are now handled via Tailwind CSS
 
-    if (loading) {
-        return (
-            <div style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                height: '100vh', background: '#f8f9fb',
-            }}>
-                <Loader2 size={32} style={{ animation: 'spin 1s linear infinite', color: '#ff6e01' }} />
-                <style>{`@keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }`}</style>
-            </div>
-        );
-    }
+    if (loading) return <LoadingScreen message="HESAP AYARLARI HAZIRLANIYOR" />;
 
     return (
-        <div style={pageStyle}>
+        <div className="min-h-screen bg-[#f8fafc] flex flex-col">
             {/* Notification */}
-            {notification && (
-                <div style={notificationStyle(notification.type)}>
-                    {notification.type === 'success'
-                        ? <CheckCircle2 size={18} />
-                        : <AlertCircle size={18} />}
-                    {notification.message}
-                </div>
-            )}
+            <AnimatePresence>
+                {notification && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20, x: '-50%' }}
+                        animate={{ opacity: 1, y: 10 }}
+                        exit={{ opacity: 0, y: -20 }}
+                        className={`fixed top-4 left-1/2 z-[9999] flex items-center gap-3 px-6 py-3 rounded-[6px] shadow-xl backdrop-blur-md border ${notification.type === 'success' ? 'bg-slate-900 border-slate-700 text-white' : 'bg-rose-600 border-rose-500 text-white'}`}
+                    >
+                        {notification.type === 'success' ? <CheckCircle2 size={16} /> : <AlertCircle size={16} />}
+                        <span className="text-[11px] font-bold tracking-tight">{notification.message}</span>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
-            {/* Header */}
-            <div style={headerStyle}>
-                <h1 style={{ fontSize: '1.5rem', fontWeight: '500', color: '#333', margin: 0 }}>Hesap Ayarları</h1>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#666', fontSize: '0.9rem' }}>
-                    <Link href="/dashboard" style={{ color: '#666', textDecoration: 'none' }}>Geri</Link>
-                    <span>›</span>
-                    <span>Hesap Ayarları</span>
+            {/* Header Area */}
+            <div className="bg-white border-b border-slate-100 py-4 px-6 lg:px-8 relative z-30 shadow-sm w-full">
+                <div className="w-full mx-auto flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div className="flex items-start md:items-center gap-4 md:gap-6">
+                        <MobileMenuToggle />
+                        <div className="space-y-4">
+                            {/* Breadcrumbs */}
+                            <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 tracking-tight">
+                                <Link href="/dashboard" className="hover:text-slate-900 transition-colors uppercase">Panel</Link>
+                                <ChevronRight size={8} className="text-slate-300" />
+                                <span className="text-slate-900 uppercase">Hesap Ayarları</span>
+                            </div>
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-12 h-12 bg-slate-900 rounded-[6px] flex items-center justify-center shadow-lg">
+                                    <User size={24} className="text-white" strokeWidth={2} />
+                                </div>
+                                <div className="space-y-0.5">
+                                    <h1 className="text-2xl font-bold text-slate-900 tracking-tight leading-none">Hesap ve Fatura</h1>
+                                    <div className="flex items-center gap-2">
+                                        <span className="text-[11px] font-bold text-slate-400 tracking-tight">Profil Yönetimi</span>
+                                        <div className="h-0.5 w-0.5 bg-slate-200 rounded-full" />
+                                        <span className="text-[11px] font-bold text-slate-900 px-2 py-0.5 bg-slate-50 border border-slate-200 rounded-[4px]">Ayarlar</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ProfileDropdown />
                 </div>
             </div>
 
-            <div className="px-4 md:px-8 pb-12">
+            <div className="p-6 lg:p-8 flex-1 w-full mx-auto space-y-8">
                 {/* Notice */}
-                <div style={noticeStyle}>
-                    <AlertCircle size={18} style={{ flexShrink: 0 }} />
-                    <span>
-                        <strong>Önemli Not:</strong> Plan yükseltme yapabilmek için lütfen aşağıda yer alan fatura detaylarını doldurunuz.
-                        Doldurduysanız{' '}
-                        <Link href="/uyelik-planlari" style={{ color: '#ff6e01', fontWeight: 700, textDecoration: 'none' }}>
-                            ÜYELİK PLAN AYARLARI İÇİN TIKLAYIN
-                        </Link>
-                    </span>
+                <div className="bg-emerald-50 border border-emerald-100 rounded-[6px] p-4 flex items-center gap-4 shadow-sm group">
+                    <div className="w-10 h-10 bg-emerald-100 rounded-[4px] flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110">
+                        <AlertCircle size={20} />
+                    </div>
+                    <p className="text-[12px] font-bold text-emerald-900 leading-relaxed">
+                        <span className="text-emerald-600 uppercase tracking-widest">Önemli Not:</span> Plan yükseltme yapabilmek için lütfen aşağıda yer alan fatura detaylarını doldurunuz.
+                        Doldurduysanız <Link href="/uyelik-planlari" className="text-slate-900 underline decoration-emerald-200 underline-offset-4 hover:decoration-emerald-400 transition-all font-black">ÜYELİK PLAN AYARLARI İÇİN TIKLAYIN</Link>
+                    </p>
                 </div>
 
                 {/* ========== HESAP AYARLARI ========== */}
-                <div style={cardStyle}>
-                    <div style={cardHeaderStyle}>
-                        <Settings size={18} color="#ff6e01" />
-                        <h3 style={cardTitleStyle}>Hesap Ayarları</h3>
+                <div className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                <Settings size={16} strokeWidth={2.5} />
+                            </div>
+                            <h3 className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Hesap Ayarları</h3>
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-300 italic">01</div>
                     </div>
-                    <div style={cardBodyStyle}>
-                        <div className={gridStyle}>
+                    <div className="p-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             {/* Username */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Kullanıcı Adı *</label>
-                                <div style={inputIconWrap}>
-                                    <User size={15} style={iconStyle} />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Kullanıcı Adı <span className="text-orange-600">*</span></label>
+                                <div className="relative">
+                                    <User size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                     <input type="text" value={username}
                                         onChange={e => setUsername(e.target.value)}
-                                        style={inputWithIconStyle} placeholder="Kullanıcı adı" />
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Kullanıcı adı" />
                                 </div>
                             </div>
 
                             {/* Email */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>E-Mail Adresiniz *</label>
-                                <div style={inputIconWrap}>
-                                    <Mail size={15} style={iconStyle} />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">E-Mail Adresiniz <span className="text-orange-600">*</span></label>
+                                <div className="relative">
+                                    <Mail size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                     <input type="email" value={email}
                                         onChange={e => setEmail(e.target.value)}
-                                        style={inputWithIconStyle} placeholder="E-posta adresi" />
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="E-posta adresi" />
                                 </div>
                             </div>
 
                             {/* Password */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Yeni Şifre</label>
-                                <div style={inputIconWrap}>
-                                    <Lock size={15} style={iconStyle} />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Yeni Şifre</label>
+                                <div className="relative">
+                                    <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                     <input type="password" value={password}
                                         onChange={e => handlePasswordChange(e.target.value)}
-                                        style={inputWithIconStyle} placeholder="Yeni şifre (boş bırakın değiştirmek istemiyorsanız)" />
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Yeni şifre (boş bırakın)" />
                                 </div>
                             </div>
 
                             {/* Confirm Password */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Şifreyi Onayla</label>
-                                <div style={inputIconWrap}>
-                                    <Lock size={15} style={iconStyle} />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Şifreyi Onayla</label>
+                                <div className="relative">
+                                    <Lock size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                     <input type="password" value={confirmPassword}
                                         onChange={e => handleConfirmPasswordChange(e.target.value)}
-                                        style={inputWithIconStyle} placeholder="Şifreyi tekrar girin" />
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Şifreyi tekrar girin" />
                                 </div>
                             </div>
                         </div>
 
                         {/* Password error */}
                         {passwordError && (
-                            <div style={errorTextStyle}>
+                            <div className="text-[11px] font-bold text-rose-600 flex items-center gap-1.5 mt-2 ml-1 animate-in fade-in slide-in-from-top-1">
                                 <AlertCircle size={13} /> {passwordError}
                             </div>
                         )}
 
-                        <div className={gridStyle} style={{ marginTop: '16px' }}>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                             {/* Phone */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Telefon</label>
-                                <div style={inputIconWrap}>
-                                    <Phone size={15} style={iconStyle} />
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Telefon Numarası</label>
+                                <div className="relative">
+                                    <Phone size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                     <input type="text" value={phone}
                                         onChange={e => setPhone(e.target.value)}
-                                        style={inputWithIconStyle} placeholder="+90 5xx xxx xx xx" />
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="5XX XXX XX XX" />
                                 </div>
                             </div>
 
                             {/* Currency */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Para Birimi</label>
-                                <select value={currency} onChange={e => setCurrency(e.target.value)} style={selectStyle}>
-                                    {CURRENCIES.map(c => (
-                                        <option key={c.value} value={c.value}>{c.label}</option>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Para Birimi</label>
+                                <div className="relative">
+                                    <DollarSign size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                                    <select value={currency}
+                                        onChange={e => setCurrency(e.target.value)}
+                                        className="w-full pl-10 pr-10 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none appearance-none cursor-pointer">
+                                        {CURRENCIES.map(c => (
+                                            <option key={c.value} value={c.value}>{c.label}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                            <button
+                                onClick={saveAccount}
+                                disabled={saving}
+                                className="bg-slate-900 text-white px-8 py-3 rounded-[6px] flex items-center gap-2 text-[11px] font-bold tracking-tight hover:bg-orange-600 transition-all active:scale-95 shadow-md shadow-slate-900/10"
+                            >
+                                {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                                {saving ? 'Kaydediliyor...' : 'Hesap Bilgilerini Kaydet'}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                {/* ========== MENÜ VARSAYILAN AYARLARI ========== */}
+                <div className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-slate-900 text-white p-2 rounded-[4px]">
+                                <LayoutGrid size={16} strokeWidth={2.5} />
+                            </div>
+                            <h3 className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Menü Varsayılan Ayarları</h3>
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-300 italic">02</div>
+                    </div>
+                    <div className="p-6 space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            {/* Layout Selection */}
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Menü Görünüm Modu</label>
+                                <div className="grid grid-cols-3 gap-3">
+                                    {[
+                                        { value: 'grid', label: 'IZGARA' },
+                                        { value: 'list', label: 'LİSTE' },
+                                        { value: 'both', label: 'HER İKİSİ' },
+                                    ].map((opt) => (
+                                        <button
+                                            key={opt.value}
+                                            onClick={() => setMenuLayout(opt.value)}
+                                            className={`py-3 px-2 rounded-[6px] border text-[10px] font-bold transition-all uppercase tracking-widest ${menuLayout === opt.value
+                                                ? 'bg-slate-900 border-slate-900 text-white shadow-md'
+                                                : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'
+                                                }`}
+                                        >
+                                            {opt.label}
+                                        </button>
                                     ))}
-                                </select>
-                                <div style={smallTextStyle}>Bu para birimi menüde kullanılacaktır.</div>
+                                </div>
+                                <p className="text-[10px] text-slate-400 font-bold tracking-tight ml-1 italic opacity-60">* Müşterilerinize sunulacak ön tanımlı liste görünümü.</p>
                             </div>
 
-                            {/* Menu Layout */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Menü Düzeni</label>
-                                <select value={menuLayout} onChange={e => setMenuLayout(e.target.value)} style={selectStyle}>
-                                    <option value="both">Her İki Düzen</option>
-                                    <option value="grid">Izgara Düzeni</option>
-                                    <option value="list">Liste Düzeni</option>
-                                </select>
+                            {/* Popup Selector */}
+                            <div className="space-y-4">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Dil Seçici Pop-up</label>
+                                <div className="flex items-center gap-4 bg-slate-50 p-4 rounded-[6px] border border-slate-100 group">
+                                    <div className={`p-2 rounded-[4px] transition-colors ${languageSelectorPopup ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-200 text-slate-400'}`}>
+                                        <Globe size={16} />
+                                    </div>
+                                    <div className="flex-1">
+                                        <h4 className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Pop-up Gösterimi</h4>
+                                        <p className="text-[10px] text-slate-400 font-bold tracking-tight">Giriş anında dil seçimi sorulsun mu?</p>
+                                    </div>
+                                    <button
+                                        onClick={() => setLanguageSelectorPopup(!languageSelectorPopup)}
+                                        className={`w-12 h-6 rounded-full relative transition-all duration-300 focus:outline-none ${languageSelectorPopup ? 'bg-emerald-500' : 'bg-slate-300'}`}
+                                    >
+                                        <div className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all duration-300 ${languageSelectorPopup ? 'left-7' : 'left-1'}`} />
+                                    </button>
+                                </div>
                             </div>
+                        </div>
 
-                            {/* Default Language */}
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Varsayılan Dil</label>
+                        {/* Language Selection */}
+                        <div className="space-y-4">
+                            <div className="flex items-center justify-between border-b border-slate-100 pb-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                                    <Languages size={14} className="text-slate-900" /> Aktif Menü Dilleri
+                                </label>
+                                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{menuLanguages.length} Dil Seçildi</span>
+                            </div>
+                            <div className="flex flex-wrap gap-2 p-4 bg-slate-50 border border-slate-100 rounded-[6px] max-h-[160px] overflow-y-auto custom-scrollbar">
+                                {LANGUAGES.map((lang) => {
+                                    const active = menuLanguages.includes(lang.value);
+                                    return (
+                                        <button
+                                            key={lang.value}
+                                            onClick={() => handleLanguageToggle(lang.value)}
+                                            className={`px-3 py-1.5 rounded-[4px] text-[10px] font-bold transition-all border ${active
+                                                ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                                                : 'bg-white border-slate-200 text-slate-400 hover:border-slate-300'
+                                                }`}
+                                        >
+                                            {lang.label}
+                                        </button>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Default Language Selector */}
+                        <div className="space-y-2 max-w-xs">
+                            <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Varsayılan Dil</label>
+                            <div className="relative">
+                                <Globe size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
                                 <select value={defaultMenuLanguage}
                                     onChange={e => setDefaultMenuLanguage(e.target.value)}
-                                    style={selectStyle}>
-                                    {LANGUAGES.map(l => (
+                                    className="w-full pl-10 pr-10 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none appearance-none cursor-pointer">
+                                    {LANGUAGES.filter(l => menuLanguages.includes(l.value) || l.value === 'tr').map(l => (
                                         <option key={l.value} value={l.value}>{l.label}</option>
                                     ))}
                                 </select>
+                                <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" />
                             </div>
                         </div>
 
-                        {/* Menu Languages Multi-select */}
-                        <div style={{ marginTop: '16px' }}>
-                            <label style={labelStyle}>Menü Dilleri</label>
-                            <div style={multiSelectWrap}>
-                                {LANGUAGES.map(l => (
-                                    <span key={l.value}
-                                        onClick={() => handleLanguageToggle(l.value)}
-                                        style={chipStyle(menuLanguages.includes(l.value))}>
-                                        {l.label}
-                                    </span>
-                                ))}
-                            </div>
-                            <div style={smallTextStyle}>Çoklu dil menüsü için birden fazla seçenek seçin.</div>
-                        </div>
-
-                        {/* Language Popup */}
-                        <div className={gridStyle} style={{ marginTop: '16px' }}>
-                            <div style={fieldStyle}>
-                                <label style={labelStyle}>Menü Açılmadan Dil Seçimi İstensin Mi?</label>
-                                <select value={languageSelectorPopup ? '1' : '0'}
-                                    onChange={e => setLanguageSelectorPopup(e.target.value === '1')}
-                                    style={selectStyle}>
-                                    <option value="0">Hayır</option>
-                                    <option value="1">Evet</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        {/* Save button */}
-                        <div style={{ marginTop: '20px' }}>
-                            <button onClick={saveAccount} disabled={saving} style={{
-                                ...btnStyle,
-                                opacity: saving ? 0.7 : 1,
-                            }}>
-                                {saving ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={15} />}
-                                {saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
+                        <div className="pt-6 border-t border-slate-100 flex justify-end">
+                            <button
+                                onClick={saveAccount}
+                                disabled={saving}
+                                className="bg-slate-900 text-white px-8 py-3 rounded-[6px] flex items-center gap-2 text-[11px] font-bold tracking-tight hover:bg-orange-600 transition-all active:scale-95 shadow-md shadow-slate-900/10"
+                            >
+                                {saving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                                {saving ? 'Kaydediliyor...' : 'Menü Ayarlarını Kaydet'}
                             </button>
                         </div>
                     </div>
                 </div>
 
                 {/* ========== FATURA DETAYLARI ========== */}
-                <div style={cardStyle}>
-                    <div style={cardHeaderStyle}>
-                        <CreditCard size={18} color="#ff6e01" />
-                        <h3 style={cardTitleStyle}>Fatura Detayları</h3>
-                        <span style={{ fontSize: '0.72rem', color: '#999', marginLeft: 'auto' }}>
-                            Plan Yükseltme Yapabilmek İçin Lütfen Doldurunuz
-                        </span>
-                    </div>
-                    <div style={cardBodyStyle}>
-                        {/* Notice */}
-                        <div style={{
-                            ...noticeStyle, marginBottom: '16px',
-                            background: '#f0f7ff', border: '1px solid #bfdbfe', color: '#1d4ed8',
-                        }}>
-                            <FileText size={16} style={{ flexShrink: 0 }} />
-                            Bu detaylar fatura ve ödemelerde kullanılacaktır.
-                        </div>
-
-                        {/* Billing Type */}
-                        <div style={{ marginBottom: '16px' }}>
-                            <label style={labelStyle}>Tür</label>
-                            <select value={billingType} onChange={e => setBillingType(e.target.value)} style={selectStyle}>
-                                <option value="personal">Bireysel</option>
-                                <option value="business">Kurumsal</option>
-                            </select>
-                        </div>
-
-                        {/* Personal: TC Kimlik */}
-                        {billingType === 'personal' && (
-                            <div style={{ marginBottom: '16px' }}>
-                                <label style={labelStyle}>TC Kimlik No *</label>
-                                <input type="text" value={billingTcNo}
-                                    onChange={e => setBillingTcNo(e.target.value)}
-                                    style={inputStyle} placeholder="TC Kimlik numaranız" />
+                <div className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                    <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+                        <div className="flex items-center gap-3">
+                            <div className="bg-emerald-600 text-white p-2 rounded-[4px]">
+                                <CreditCard size={16} strokeWidth={2.5} />
                             </div>
-                        )}
+                            <h3 className="text-[11px] font-bold text-slate-900 uppercase tracking-widest">Fatura Detayları</h3>
+                        </div>
+                        <div className="text-[10px] font-bold text-slate-300 italic">03</div>
+                    </div>
+                    <div className="p-6">
+                        {/* Notice */}
+                        <div className="bg-blue-50 border border-blue-100 rounded-[6px] p-4 flex items-center gap-4 mb-6 shadow-sm group">
+                            <div className="w-10 h-10 bg-blue-100 rounded-[4px] flex items-center justify-center text-blue-600 transition-transform group-hover:scale-110">
+                                <FileText size={18} />
+                            </div>
+                            <div className="flex-1">
+                                <p className="text-[12px] font-bold text-blue-900 leading-relaxed uppercase tracking-widest">Bilgi</p>
+                                <p className="text-[11px] font-bold text-blue-600 tracking-tight">Bu detaylar fatura ve ödemelerde kullanılacaktır.</p>
+                            </div>
+                        </div>
 
-                        {/* Business fields */}
-                        {billingType === 'business' && (
-                            <React.Fragment>
-                                <div style={{ marginBottom: '16px' }}>
-                                    <label style={labelStyle}>Firma Adı *</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Billing Type */}
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Fatura Türü</label>
+                                <div className="relative">
+                                    <select value={billingType}
+                                        onChange={e => setBillingType(e.target.value)}
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none appearance-none cursor-pointer">
+                                        <option value="personal">Bireysel</option>
+                                        <option value="business">Kurumsal</option>
+                                    </select>
+                                    <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" />
+                                </div>
+                            </div>
+
+                            {/* Personal: TC Kimlik */}
+                            {billingType === 'personal' && (
+                                <div className="space-y-2 animate-in fade-in slide-in-from-left-2 duration-300">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">TC Kimlik No <span className="text-orange-600">*</span></label>
+                                    <input type="text" value={billingTcNo}
+                                        onChange={e => setBillingTcNo(e.target.value)}
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="TC Kimlik numaranız" />
+                                </div>
+                            )}
+
+                            {/* Business: Company Name */}
+                            {billingType === 'business' && (
+                                <div className="space-y-2 animate-in fade-in slide-in-from-left-2 duration-300">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Firma Adı <span className="text-orange-600">*</span></label>
                                     <input type="text" value={billingCompanyName}
                                         onChange={e => setBillingCompanyName(e.target.value)}
-                                        style={inputStyle} placeholder="Firma adı" />
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Firma adı" />
                                 </div>
-                                <div className={gridStyle}>
-                                    <div style={{ marginBottom: '16px' }}>
-                                        <label style={labelStyle}>Vergi Dairesi *</label>
-                                        <input type="text" value={billingTaxDaire}
-                                            onChange={e => setBillingTaxDaire(e.target.value)}
-                                            style={inputStyle} placeholder="Vergi dairesi" />
-                                    </div>
-                                    <div style={{ marginBottom: '16px' }}>
-                                        <label style={labelStyle}>Vergi Numarası *</label>
-                                        <input type="text" value={billingTaxId}
-                                            onChange={e => setBillingTaxId(e.target.value)}
-                                            style={inputStyle} placeholder="Vergi numarası" />
-                                    </div>
+                            )}
+                        </div>
+
+                        {/* Business Tax Info */}
+                        {billingType === 'business' && (
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6 animate-in fade-in slide-in-from-bottom-2 duration-300">
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Vergi Dairesi <span className="text-orange-600">*</span></label>
+                                    <input type="text" value={billingTaxDaire}
+                                        onChange={e => setBillingTaxDaire(e.target.value)}
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Vergi dairesi" />
                                 </div>
-                            </React.Fragment>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Vergi Numarası <span className="text-orange-600">*</span></label>
+                                    <input type="text" value={billingTaxId}
+                                        onChange={e => setBillingTaxId(e.target.value)}
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Vergi numarası" />
+                                </div>
+                            </div>
                         )}
 
-                        {/* Common fields */}
-                        <div style={{ marginBottom: '16px' }}>
-                            <label style={labelStyle}>Ad & Soyad *</label>
-                            <div style={inputIconWrap}>
-                                <User size={15} style={iconStyle} />
-                                <input type="text" value={billingName}
-                                    onChange={e => setBillingName(e.target.value)}
-                                    style={inputWithIconStyle} placeholder="Ad ve soyad" />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                            {/* Billing Name */}
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Ad & Soyad <span className="text-orange-600">*</span></label>
+                                <div className="relative">
+                                    <User size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                                    <input type="text" value={billingName}
+                                        onChange={e => setBillingName(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Ad ve soyad" />
+                                </div>
+                            </div>
+
+                            {/* Billing Address */}
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Fatura Adresi <span className="text-orange-600">*</span></label>
+                                <div className="relative">
+                                    <MapPin size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300" />
+                                    <input type="text" value={billingAddress}
+                                        onChange={e => setBillingAddress(e.target.value)}
+                                        className="w-full pl-10 pr-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                        placeholder="Tam adres" />
+                                </div>
                             </div>
                         </div>
 
-                        <div style={{ marginBottom: '16px' }}>
-                            <label style={labelStyle}>Adres *</label>
-                            <div style={inputIconWrap}>
-                                <MapPin size={15} style={iconStyle} />
-                                <input type="text" value={billingAddress}
-                                    onChange={e => setBillingAddress(e.target.value)}
-                                    style={inputWithIconStyle} placeholder="Tam adres" />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-4">
-                            <div>
-                                <label style={labelStyle}>İl *</label>
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-6">
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">İl <span className="text-orange-600">*</span></label>
                                 <input type="text" value={billingCity}
                                     onChange={e => setBillingCity(e.target.value)}
-                                    style={inputStyle} placeholder="İl" />
+                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                    placeholder="İl" />
                             </div>
-                            <div>
-                                <label style={labelStyle}>İlçe *</label>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">İlçe <span className="text-orange-600">*</span></label>
                                 <input type="text" value={billingState}
                                     onChange={e => setBillingState(e.target.value)}
-                                    style={inputStyle} placeholder="İlçe" />
+                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                    placeholder="İlçe" />
                             </div>
-                            <div>
-                                <label style={labelStyle}>Posta Kodu *</label>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Posta Kodu <span className="text-orange-600">*</span></label>
                                 <input type="text" value={billingZipcode}
                                     onChange={e => setBillingZipcode(e.target.value)}
-                                    style={inputStyle} placeholder="34000" />
+                                    className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none placeholder:text-slate-300"
+                                    placeholder="34XXX" />
+                            </div>
+                            <div className="space-y-2">
+                                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest ml-1">Ülke <span className="text-orange-600">*</span></label>
+                                <div className="relative">
+                                    <select value={billingCountry}
+                                        onChange={e => setBillingCountry(e.target.value)}
+                                        className="w-full px-4 py-3 bg-white border border-slate-200 rounded-[6px] text-[12px] font-bold text-slate-900 focus:border-slate-900 transition-all outline-none appearance-none cursor-pointer">
+                                        {COUNTRIES.map(c => (
+                                            <option key={c.value} value={c.value}>{c.label}</option>
+                                        ))}
+                                    </select>
+                                    <ChevronDown size={14} className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-300 pointer-events-none" />
+                                </div>
                             </div>
                         </div>
 
-                        <div style={{ marginBottom: '16px' }}>
-                            <label style={labelStyle}>Ülke *</label>
-                            <select value={billingCountry}
-                                onChange={e => setBillingCountry(e.target.value)}
-                                style={selectStyle}>
-                                {COUNTRIES.map(c => (
-                                    <option key={c.value} value={c.value}>{c.label}</option>
-                                ))}
-                            </select>
+                        <div className="mt-8 pt-6 border-t border-slate-100 flex justify-end">
+                            <button
+                                onClick={saveBilling}
+                                disabled={savingBilling}
+                                className="bg-slate-900 text-white px-8 py-3 rounded-[6px] flex items-center gap-2 text-[11px] font-bold tracking-tight hover:bg-emerald-600 transition-all active:scale-95 shadow-md shadow-slate-900/10"
+                            >
+                                {savingBilling ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
+                                {savingBilling ? 'Kaydediliyor...' : 'Fatura Bilgilerini Kaydet'}
+                            </button>
                         </div>
+                    </div>
+                </div>
 
-                        {/* Save Billing */}
-                        <button onClick={saveBilling} disabled={savingBilling} style={{
-                            ...btnStyle,
-                            opacity: savingBilling ? 0.7 : 1,
-                        }}>
-                            {savingBilling ? <Loader2 size={15} style={{ animation: 'spin 1s linear infinite' }} /> : <Save size={15} />}
-                            {savingBilling ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}
-                        </button>
+                {/* Footer Section */}
+                <div className="w-full mx-auto py-12 text-center">
+                    <div className="flex items-center justify-center gap-4">
+                        <div className="h-px w-12 bg-slate-100" />
+                        <p className="text-[10px] font-bold text-slate-300 uppercase tracking-[0.4em]">© {new Date().getFullYear()} QRlamenü — Tüm Hakları Saklıdır</p>
+                        <div className="h-px w-12 bg-slate-100" />
                     </div>
                 </div>
             </div>
-
-            {/* Footer */}
-            <div style={{ textAlign: 'center', padding: '16px 24px', color: '#bbb', fontSize: '0.75rem' }}>
-                {new Date().getFullYear()} QRlamenü — Tüm Hakları Saklıdır.
-            </div>
-
-            {/* Keyframe & responsive */}
-            <style>{`
-                @keyframes spin { from { transform: rotate(0deg) } to { transform: rotate(360deg) } }
-                @keyframes slideIn { from { transform: translateX(100%); opacity:0 } to { transform: translateX(0); opacity:1 } }
-            `}</style>
         </div>
     );
 }

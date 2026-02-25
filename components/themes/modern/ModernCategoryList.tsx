@@ -30,7 +30,7 @@ const ModernCategoryList: React.FC<ModernCategoryListProps> = ({ categories, act
                             {isActive && (
                                 <motion.div
                                     layoutId="activeCategory"
-                                    className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-500 rounded-2xl -z-10 shadow-lg shadow-orange-500/20"
+                                    className="absolute inset-0 bg-gradient-to-r from-orange-600 to-orange-600 rounded-2xl -z-10 shadow-lg shadow-orange-500/20"
                                     transition={{ type: "spring", stiffness: 300, damping: 30 }}
                                 />
                             )}

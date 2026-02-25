@@ -77,7 +77,7 @@ export default function NewThemePage() {
                             placeholder="Örn: MODERN, OCEAN, DARK"
                             value={formData.key}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none uppercase"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none uppercase"
                         />
                         <p className="text-xs text-gray-500 mt-1">Kod içinde kullanılacak benzersiz anahtar. Büyük harf ve İngilizce karakter kullanın.</p>
                     </div>
@@ -91,7 +91,7 @@ export default function NewThemePage() {
                             placeholder="Örn: Modern Tema"
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 
@@ -103,7 +103,7 @@ export default function NewThemePage() {
                             placeholder="Tema hakkında kısa bilgi..."
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         ></textarea>
                     </div>
 
@@ -115,7 +115,7 @@ export default function NewThemePage() {
                             placeholder="https://example.com/image.png"
                             value={formData.previewUrl}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 
@@ -127,7 +127,7 @@ export default function NewThemePage() {
                                 name="isPremium"
                                 checked={formData.isPremium}
                                 onChange={handleChange}
-                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
                             />
                             <label htmlFor="isPremium" className="text-sm font-medium text-gray-700">Premium Tema</label>
                         </div>
@@ -139,7 +139,7 @@ export default function NewThemePage() {
                                 name="isActive"
                                 checked={formData.isActive}
                                 onChange={handleChange}
-                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
                             />
                             <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Aktif</label>
                         </div>
@@ -152,7 +152,7 @@ export default function NewThemePage() {
                             name="order"
                             value={formData.order}
                             onChange={handleChange}
-                            className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 

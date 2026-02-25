@@ -52,11 +52,11 @@ export default function SupportPage() {
                 </div>
                 <div className="w-full lg:w-auto">
                     <div className="relative group">
-                        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#ff7a21] transition-colors" />
+                        <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-[#ea580c] transition-colors" />
                         <input
                             type="text"
                             placeholder="Ad, e-posta veya mesaj..."
-                            className="w-full lg:w-[320px] pl-12 pr-6 py-3.5 rounded-2xl border-2 border-slate-50 bg-white text-sm font-black text-gray-900 focus:border-[#ff7a21] outline-none transition-all shadow-sm"
+                            className="w-full lg:w-[320px] pl-12 pr-6 py-3.5 rounded-2xl border-2 border-slate-50 bg-white text-sm font-black text-gray-900 focus:border-[#ea580c] outline-none transition-all shadow-sm"
                         />
                     </div>
                 </div>
@@ -79,7 +79,7 @@ export default function SupportPage() {
                     <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
                         {loading ? (
                             <div className="py-32 text-center">
-                                <Loader2 className="animate-spin text-[#ff7a21] mx-auto" size={48} />
+                                <Loader2 className="animate-spin text-[#ea580c] mx-auto" size={48} />
                                 <p className="mt-6 text-xs font-black text-slate-400 uppercase tracking-widest">Veriler Senkronize Ediliyor...</p>
                             </div>
                         ) : error ? (
@@ -97,10 +97,10 @@ export default function SupportPage() {
                                 {leads.map((msg, idx) => (
                                     <div key={msg.id} className={`group p-6 md:p-8 flex flex-col md:flex-row gap-6 md:gap-8 items-start transition-all relative ${msg.status === 'PENDING' ? 'bg-white' : 'bg-slate-50/30'}`}>
                                         {msg.status === 'PENDING' && (
-                                            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#ff7a21] rounded-r-full"></div>
+                                            <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-[#ea580c] rounded-r-full"></div>
                                         )}
 
-                                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg transition-all duration-500 overflow-hidden relative ${msg.status === 'PENDING' ? 'bg-[#ff7a21] text-white shadow-orange-500/20' : 'bg-slate-100 text-slate-400 shadow-none'}`}>
+                                        <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-lg transition-all duration-500 overflow-hidden relative ${msg.status === 'PENDING' ? 'bg-[#ea580c] text-white shadow-orange-500/20' : 'bg-slate-100 text-slate-400 shadow-none'}`}>
                                             <MessageSquare size={24} strokeWidth={2.5} className="relative z-10" />
                                             {msg.status === 'PENDING' && <div className="absolute inset-0 bg-gradient-to-br from-orange-400 to-orange-600 opacity-50"></div>}
                                         </div>
@@ -111,7 +111,7 @@ export default function SupportPage() {
                                                     <h4 className="text-lg font-black text-gray-900 tracking-tight">{msg.name}</h4>
                                                     <div className="flex flex-wrap gap-4 mt-2">
                                                         <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                                                            <Mail size={12} className="text-[#ff7a21]" /> {msg.email}
+                                                            <Mail size={12} className="text-[#ea580c]" /> {msg.email}
                                                         </div>
                                                         {msg.phone && (
                                                             <div className="flex items-center gap-2 text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
@@ -148,7 +148,7 @@ export default function SupportPage() {
                                                 {msg.status === 'PENDING' && (
                                                     <button
                                                         onClick={() => updateLeadStatus(msg.id, 'CONTACTED')}
-                                                        className="px-8 py-2.5 rounded-xl bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest shadow-xl shadow-slate-900/10 hover:bg-[#ff7a21] hover:shadow-orange-500/20 transition-all"
+                                                        className="px-8 py-2.5 rounded-xl bg-slate-900 text-white text-[11px] font-black uppercase tracking-widest shadow-xl shadow-slate-900/10 hover:bg-[#ea580c] hover:shadow-orange-500/20 transition-all"
                                                     >
                                                         Çözüldü Olarak İşaretle
                                                     </button>
@@ -165,19 +165,19 @@ export default function SupportPage() {
                 {/* Right Sidebar Metrics */}
                 <div className="xl:sticky xl:top-8 flex flex-col gap-6">
                     <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
-                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ff7a21]/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
+                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ea580c]/10 rounded-full blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
 
                         <div className="relative z-10">
                             <div className="flex items-center gap-4 mb-8">
-                                <div className="bg-orange-500/10 p-3 rounded-2xl">
-                                    <MessageSquare size={24} className="text-[#ff7a21]" strokeWidth={3} />
+                                <div className="bg-orange-600/10 p-3 rounded-2xl">
+                                    <MessageSquare size={24} className="text-[#ea580c]" strokeWidth={3} />
                                 </div>
                                 <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">İş Yükü</h3>
                             </div>
 
                             <div className="flex items-end gap-3 mb-2">
                                 <span className="text-6xl font-black tracking-tighter leading-none">{leads.filter(l => l.status === 'PENDING').length}</span>
-                                <span className="text-orange-500 text-xs font-black uppercase tracking-widest mb-2">TALEP</span>
+                                <span className="text-orange-600 text-xs font-black uppercase tracking-widest mb-2">TALEP</span>
                             </div>
                             <p className="text-xs font-bold text-slate-400 italic mb-10">Aktif aksiyon bekleyen bilet sayısı.</p>
 
@@ -219,7 +219,7 @@ export default function SupportPage() {
                             {[
                                 { label: 'Web Portalı', count: '82%', icon: <Globe size={14} />, color: 'text-blue-500', bg: 'bg-blue-50' },
                                 { label: 'Mobile App', count: '12%', icon: <Smartphone size={14} />, color: 'text-violet-500', bg: 'bg-violet-50' },
-                                { label: 'E-Posta', count: '6%', icon: <Mail size={14} />, color: 'text-orange-500', bg: 'bg-orange-50' }
+                                { label: 'E-Posta', count: '6%', icon: <Mail size={14} />, color: 'text-orange-600', bg: 'bg-orange-50' }
                             ].map((channel, idx) => (
                                 <div key={idx} className="flex justify-between items-center p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:bg-white hover:shadow-lg hover:shadow-slate-100 transition-all group/item cursor-default">
                                     <div className="flex items-center gap-3">

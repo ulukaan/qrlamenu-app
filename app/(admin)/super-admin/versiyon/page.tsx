@@ -31,7 +31,7 @@ export default function VersionManagementPage() {
             <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
                 <div className="max-w-4xl">
                     <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ff7a21] shadow-sm">
+                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ea580c] shadow-sm">
                             <GitBranch size={28} strokeWidth={2.5} />
                         </div>
                         <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-none uppercase">
@@ -40,7 +40,7 @@ export default function VersionManagementPage() {
                     </div>
                     <p className="text-slate-500 text-sm md:text-base font-bold leading-relaxed">Platform güncellemelerini, modül çekirdek versiyonlarını ve roll-out stratejilerini kontrol edin.</p>
                 </div>
-                <button className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-5 rounded-[24px] font-black text-sm flex items-center justify-center gap-3 shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all group">
+                <button className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-5 rounded-[24px] font-black text-sm flex items-center justify-center gap-3 shadow-2xl shadow-orange-500/30 hover:scale-[1.02] active:scale-95 transition-all group">
                     <UploadCloud size={22} strokeWidth={3} className="group-hover:-translate-y-1 transition-transform" />
                     YENİ SÜRÜM YAYINLA
                 </button>
@@ -55,9 +55,9 @@ export default function VersionManagementPage() {
                         </div>
 
                         {/* Glassmorphism Accents */}
-                        <div className="absolute top-[-10%] left-[20%] w-[300px] h-[300px] bg-[#ff7a21]/10 blur-[100px] rounded-full"></div>
+                        <div className="absolute top-[-10%] left-[20%] w-[300px] h-[300px] bg-[#ea580c]/10 blur-[100px] rounded-full"></div>
 
-                        <div className="w-28 h-28 rounded-[36px] bg-white/5 text-[#ff7a21] flex items-center justify-center shrink-0 border border-white/10 shadow-2xl shadow-black/50 relative z-10 backdrop-blur-xl">
+                        <div className="w-28 h-28 rounded-[36px] bg-white/5 text-[#ea580c] flex items-center justify-center shrink-0 border border-white/10 shadow-2xl shadow-black/50 relative z-10 backdrop-blur-xl">
                             <GitBranch size={56} strokeWidth={2.5} />
                         </div>
 
@@ -86,7 +86,7 @@ export default function VersionManagementPage() {
                     <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden flex flex-col group">
                         <div className="p-10 border-b border-slate-50 bg-white flex items-center justify-between">
                             <h3 className="text-xl font-black text-slate-900 tracking-tight uppercase flex items-center gap-3">
-                                <Package size={24} strokeWidth={2.5} className="text-[#ff7a21]" />
+                                <Package size={24} strokeWidth={2.5} className="text-[#ea580c]" />
                                 Modül Kütüphanesi & Bağımlılıklar
                             </h3>
                             <div className="px-4 py-1.5 bg-slate-50 rounded-xl border border-slate-100">
@@ -97,7 +97,7 @@ export default function VersionManagementPage() {
                             {loading ? (
                                 <div className="flex flex-col items-center gap-8 py-24">
                                     <div className="relative">
-                                        <div className="w-20 h-20 rounded-full border-4 border-slate-50 border-t-[#ff7a21] animate-spin"></div>
+                                        <div className="w-20 h-20 rounded-full border-4 border-slate-50 border-t-[#ea580c] animate-spin"></div>
                                         <Package size={32} className="absolute inset-0 m-auto text-slate-200 animate-pulse" />
                                     </div>
                                     <span className="font-black text-slate-400 text-xs tracking-[0.2em] uppercase">MODÜLLER ANALİZ EDİLİYOR...</span>
@@ -107,7 +107,7 @@ export default function VersionManagementPage() {
                             ) : config?.modules?.map((row: any, i: number) => (
                                 <div key={i} className="group/row flex flex-col sm:flex-row justify-between items-start sm:items-center py-8 border-b last:border-0 border-slate-50 hover:bg-slate-50/50 rounded-2xl px-6 transition-all duration-300">
                                     <div className="flex items-center gap-6 mb-4 sm:mb-0">
-                                        <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl border border-slate-200 flex items-center justify-center transition-all duration-300 group-hover/row:scale-110 group-hover/row:bg-white group-hover/row:text-[#ff7a21] group-hover/row:shadow-lg">
+                                        <div className="w-14 h-14 bg-slate-100 text-slate-400 rounded-2xl border border-slate-200 flex items-center justify-center transition-all duration-300 group-hover/row:scale-110 group-hover/row:bg-white group-hover/row:text-[#ea580c] group-hover/row:shadow-lg">
                                             <Package size={24} strokeWidth={2.5} />
                                         </div>
                                         <div>

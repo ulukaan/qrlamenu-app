@@ -49,7 +49,7 @@ export default function SystemSettingsPage() {
 
     if (loading) return (
         <div className="flex flex-col items-center justify-center min-h-[400px] gap-6">
-            <Loader2 size={56} className="animate-spin text-[#ff7a21]" />
+            <Loader2 size={56} className="animate-spin text-[#ea580c]" />
             <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Sistem Konfigürasyonu Yükleniyor...</p>
         </div>
     );
@@ -65,7 +65,7 @@ export default function SystemSettingsPage() {
             </div>
             <button
                 onClick={() => window.location.reload()}
-                className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-gray-200 hover:bg-[#ff7a21] hover:shadow-orange-500/20 active:scale-95 transition-all"
+                className="bg-gray-900 text-white px-10 py-4 rounded-2xl font-black text-xs uppercase tracking-widest shadow-xl shadow-gray-200 hover:bg-[#ea580c] hover:shadow-orange-500/20 active:scale-95 transition-all"
             >
                 Yeniden Dene
             </button>
@@ -87,7 +87,7 @@ export default function SystemSettingsPage() {
                 <button
                     onClick={handleSave}
                     disabled={saving}
-                    className="w-full xl:w-auto bg-[#ff7a21] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-70 uppercase tracking-widest"
+                    className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-70 uppercase tracking-widest"
                 >
                     {saving ? <Loader2 size={20} className="animate-spin" strokeWidth={3} /> : <Save size={20} strokeWidth={3} />}
                     {saving ? 'Güncelleniyor...' : 'Konfigürasyonu Kaydet'}
@@ -108,7 +108,7 @@ export default function SystemSettingsPage() {
                     {/* Platform Kimliği & İletişim */}
                     <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 transition-all hover:shadow-2xl hover:shadow-gray-200/40 group">
                         <div className="flex items-center gap-5 mb-10">
-                            <div className="bg-orange-50 text-[#ff7a21] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm shadow-orange-500/5">
+                            <div className="bg-orange-50 text-[#ea580c] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm shadow-orange-500/5">
                                 <Globe size={24} strokeWidth={3} />
                             </div>
                             <div>
@@ -124,19 +124,19 @@ export default function SystemSettingsPage() {
                                     type="text"
                                     value={settings.platformTitle}
                                     onChange={(e) => setSettings({ ...settings, platformTitle: e.target.value })}
-                                    className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
+                                    className="w-full px-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
                                     placeholder="Örn: QRLA Menü SaaS"
                                 />
                             </div>
                             <div className="flex flex-col gap-3">
                                 <label className="text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-2">Destek E-Posta</label>
                                 <div className="relative group/input">
-                                    <Mail className="absolute left-7 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within/input:text-[#ff7a21] transition-colors" size={20} strokeWidth={2.5} />
+                                    <Mail className="absolute left-7 top-1/2 -translate-y-1/2 text-gray-300 group-focus-within/input:text-[#ea580c] transition-colors" size={20} strokeWidth={2.5} />
                                     <input
                                         type="email"
                                         value={settings.contactEmail}
                                         onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-                                        className="w-full pl-16 pr-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
+                                        className="w-full pl-16 pr-7 py-4.5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/5 outline-none transition-all placeholder:text-gray-300 shadow-sm"
                                         placeholder="support@domain.com"
                                     />
                                 </div>
@@ -275,9 +275,9 @@ export default function SystemSettingsPage() {
                 {/* Backup Widget */}
                 <aside className="xl:sticky xl:top-8 flex flex-col gap-10">
                     <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-500/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="flex items-center gap-5 mb-10 relative">
-                            <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-[#ff7a21] shadow-xl shadow-orange-500/5 group-hover:rotate-6 transition-transform">
+                            <div className="bg-white/5 p-4 rounded-2xl border border-white/10 text-[#ea580c] shadow-xl shadow-orange-500/5 group-hover:rotate-6 transition-transform">
                                 <Save size={28} strokeWidth={3} />
                             </div>
                             <div>
@@ -295,24 +295,24 @@ export default function SystemSettingsPage() {
                                 <div className="text-2xl font-black text-white tracking-tight">Bugün, 04:00 AM</div>
                             </div>
 
-                            <div className="bg-orange-500/5 rounded-[32px] p-6 border-l-4 border-[#ff7a21]">
+                            <div className="bg-orange-600/5 rounded-[32px] p-6 border-l-4 border-[#ea580c]">
                                 <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic">
                                     <span className="text-white not-italic block mb-2 text-xs font-black uppercase tracking-widest">Altyapı Güvenliği:</span>
-                                    Tüm veriler <span className="text-[#ff7a21]">AES-256</span> standartlarında şifrelenerek AWS S3 (FRA1) üzerine anlık yedeklenmektedir.
+                                    Tüm veriler <span className="text-[#ea580c]">AES-256</span> standartlarında şifrelenerek AWS S3 (FRA1) üzerine anlık yedeklenmektedir.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ff7a21] group hover:shadow-2xl hover:shadow-orange-500/5 transition-all">
+                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ea580c] group hover:shadow-2xl hover:shadow-orange-500/5 transition-all">
                         <div className="flex gap-6 items-start">
                             <div className="bg-orange-50 p-4 rounded-2xl shrink-0 border-2 border-orange-100 group-hover:rotate-12 transition-transform shadow-sm">
-                                <Shield size={28} className="text-[#ff7a21]" strokeWidth={3} />
+                                <Shield size={28} className="text-[#ea580c]" strokeWidth={3} />
                             </div>
                             <div>
                                 <h4 className="text-lg font-black text-gray-900 uppercase tracking-tight mb-3">Teknik Not</h4>
                                 <p className="text-sm text-gray-500 leading-relaxed font-bold italic">
-                                    Bu penceredeki değişiklikler <span className="text-[#ff7a21] underline decoration-orange-200 underline-offset-4 font-black">global ölçekte</span> tüm işletme ve kullanıcı süreçlerini etkiler.
+                                    Bu penceredeki değişiklikler <span className="text-[#ea580c] underline decoration-orange-200 underline-offset-4 font-black">global ölçekte</span> tüm işletme ve kullanıcı süreçlerini etkiler.
                                 </p>
                             </div>
                         </div>

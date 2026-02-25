@@ -94,16 +94,16 @@ export default function TrialManagementPage() {
                 </div>
                 <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
                     <div className="relative w-full sm:w-80 group">
-                        <Search size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ff7a21] transition-colors" />
+                        <Search size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ea580c] transition-colors" />
                         <input
                             type="text"
                             placeholder="İşletme adı ara..."
-                            className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white/50 backdrop-blur-xl focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/10 outline-none transition-all font-bold text-gray-700 shadow-sm"
+                            className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white/50 backdrop-blur-xl focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 outline-none transition-all font-bold text-gray-700 shadow-sm"
                         />
                     </div>
                     <button
                         onClick={fetchTrials}
-                        className="p-4 rounded-2xl bg-white border-2 border-gray-100 text-gray-500 hover:text-[#ff7a21] hover:border-orange-200 hover:shadow-lg transition-all active:scale-95 group"
+                        className="p-4 rounded-2xl bg-white border-2 border-gray-100 text-gray-500 hover:text-[#ea580c] hover:border-orange-200 hover:shadow-lg transition-all active:scale-95 group"
                     >
                         <RefreshCcw size={22} className={`${loading ? 'animate-spin' : ''} group-hover:rotate-180 transition-transform duration-500`} />
                     </button>
@@ -122,7 +122,7 @@ export default function TrialManagementPage() {
                                 <p className="text-emerald-500 text-xs font-black uppercase tracking-wider">Canlı Süreç</p>
                             </div>
                         </div>
-                        <div className="bg-orange-50 p-5 rounded-3xl text-[#ff7a21] group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
+                        <div className="bg-orange-50 p-5 rounded-3xl text-[#ea580c] group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
                             <Clock size={32} strokeWidth={2.5} />
                         </div>
                     </div>
@@ -179,7 +179,7 @@ export default function TrialManagementPage() {
                                         <tr>
                                             <td colSpan={4} className="py-32 text-center">
                                                 <div className="flex flex-col items-center gap-4">
-                                                    <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                                                    <Loader2 size={48} className="animate-spin text-[#ea580c]" />
                                                     <span className="text-gray-400 font-bold tracking-tight">Veriler Senkronize Ediliyor...</span>
                                                 </div>
                                             </td>
@@ -198,9 +198,9 @@ export default function TrialManagementPage() {
                                         return (
                                             <tr key={row.id} className="hover:bg-gray-50/50 transition-colors group">
                                                 <td className="px-10 py-8">
-                                                    <div className="text-lg font-black text-gray-900 leading-tight group-hover:text-[#ff7a21] transition-colors">{row.name}</div>
+                                                    <div className="text-lg font-black text-gray-900 leading-tight group-hover:text-[#ea580c] transition-colors">{row.name}</div>
                                                     <div className="text-xs text-gray-400 font-bold mt-1.5 uppercase tracking-widest">
-                                                        Kurumsal ID: <span className="text-[#ff7a21]">#{row.id.substring(0, 8).toUpperCase()}</span>
+                                                        Kurumsal ID: <span className="text-[#ea580c]">#{row.id.substring(0, 8).toUpperCase()}</span>
                                                     </div>
                                                 </td>
                                                 <td className="px-10 py-8">
@@ -226,13 +226,13 @@ export default function TrialManagementPage() {
                                                                 setSelectedTenant(row);
                                                                 setModalOpen(true);
                                                             }}
-                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-600 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ff7a21] transition-all"
+                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-600 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ea580c] transition-all"
                                                         >
                                                             <Calendar size={14} strokeWidth={3} /> Uzat
                                                         </button>
                                                         <button
                                                             onClick={() => handleUpdate(row.id, { status: 'ACTIVE' })}
-                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ff7a21] text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
+                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ea580c] text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
                                                         >
                                                             <ArrowRightCircle size={14} strokeWidth={3} /> Onayla
                                                         </button>
@@ -250,7 +250,7 @@ export default function TrialManagementPage() {
                 {/* Right Sidebar */}
                 <aside className="space-y-8 xl:sticky xl:top-8 xl:h-fit">
                     <div className="bg-[#0f172a] p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-500/10 blur-[50px] rounded-full group-hover:scale-150 transition-transform duration-700"></div>
+                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-600/10 blur-[50px] rounded-full group-hover:scale-150 transition-transform duration-700"></div>
 
                         <div className="relative z-10 flex items-center gap-4 mb-10">
                             <div className="bg-emerald-500/20 p-3 rounded-2xl">
@@ -272,7 +272,7 @@ export default function TrialManagementPage() {
                             <div className="h-px bg-white/5"></div>
 
                             <div className="flex gap-5">
-                                <div className="mt-1 bg-orange-500/20 p-1.5 rounded-lg h-fit">
+                                <div className="mt-1 bg-orange-600/20 p-1.5 rounded-lg h-fit">
                                     <CheckCircle size={14} className="text-orange-400" />
                                 </div>
                                 <p className="text-sm font-bold text-slate-400 leading-relaxed">
@@ -284,7 +284,7 @@ export default function TrialManagementPage() {
 
                     <div className="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 flex gap-6 items-start">
                         <div className="bg-orange-50 p-4 rounded-3xl border-2 border-orange-100 shrink-0">
-                            <AlertCircle size={24} className="text-[#ff7a21]" strokeWidth={2.5} />
+                            <AlertCircle size={24} className="text-[#ea580c]" strokeWidth={2.5} />
                         </div>
                         <div>
                             <h4 className="text-lg font-black text-gray-900 tracking-tight mb-2">Otomatik Kısıtlama</h4>
@@ -308,12 +308,12 @@ export default function TrialManagementPage() {
                         </button>
 
                         <div className="mb-10">
-                            <div className="w-16 h-16 bg-orange-50 text-[#ff7a21] rounded-[24px] flex items-center justify-center mb-8 shadow-inner">
+                            <div className="w-16 h-16 bg-orange-50 text-[#ea580c] rounded-[24px] flex items-center justify-center mb-8 shadow-inner">
                                 <Calendar size={32} strokeWidth={2.5} />
                             </div>
                             <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-3">Süre Uzatımı</h3>
                             <p className="text-gray-500 font-medium text-lg leading-relaxed">
-                                <span className="text-[#ff7a21] font-black underline underline-offset-4">{selectedTenant?.name}</span> işletmesi için deneme süresini güncelleyin.
+                                <span className="text-[#ea580c] font-black underline underline-offset-4">{selectedTenant?.name}</span> işletmesi için deneme süresini güncelleyin.
                             </p>
                         </div>
 
@@ -331,7 +331,7 @@ export default function TrialManagementPage() {
                                             type="button"
                                             onClick={() => setExtendDays(opt.value)}
                                             className={`py-5 rounded-3xl font-black text-sm uppercase tracking-widest border-2 transition-all shadow-sm ${extendDays === opt.value
-                                                    ? 'bg-orange-50 border-[#ff7a21] text-[#ff7a21] shadow-orange-500/10'
+                                                    ? 'bg-orange-50 border-[#ea580c] text-[#ea580c] shadow-orange-500/10'
                                                     : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
                                                 }`}
                                         >
@@ -349,7 +349,7 @@ export default function TrialManagementPage() {
                                         required
                                         value={customDate}
                                         onChange={(e) => setCustomDate(e.target.value)}
-                                        className="w-full px-8 py-5 rounded-3xl border-2 border-gray-100 bg-gray-50 focus:border-[#ff7a21] focus:ring-4 focus:ring-orange-500/10 outline-none transition-all font-black text-gray-700"
+                                        className="w-full px-8 py-5 rounded-3xl border-2 border-gray-100 bg-gray-50 focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 outline-none transition-all font-black text-gray-700"
                                     />
                                 </div>
                             )}
@@ -357,7 +357,7 @@ export default function TrialManagementPage() {
                             <button
                                 type="submit"
                                 disabled={isSaving}
-                                className="w-full py-6 rounded-[30px] bg-[#ff7a21] hover:bg-orange-600 text-white font-black text-lg tracking-tight shadow-2xl shadow-orange-500/30 active:scale-95 disabled:opacity-70 transition-all flex items-center justify-center gap-3 mt-8"
+                                className="w-full py-6 rounded-[30px] bg-[#ea580c] hover:bg-orange-600 text-white font-black text-lg tracking-tight shadow-2xl shadow-orange-500/30 active:scale-95 disabled:opacity-70 transition-all flex items-center justify-center gap-3 mt-8"
                             >
                                 {isSaving ? <Loader2 size={24} className="animate-spin" /> : <Save size={24} />}
                                 Değişiklikleri Onayla ve Kaydet

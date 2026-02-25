@@ -7,6 +7,7 @@ import {
     ChevronRight,
     TrendingUp
 } from 'lucide-react';
+import Link from 'next/link';
 import dynamic from 'next/dynamic';
 
 // Dynamically import Recharts to avoid SSR mismatch affecting global CSS loading
@@ -22,32 +23,8 @@ const RechartsTooltip = dynamic(() => import('recharts').then(mod => mod.Tooltip
 const RechartsResponsiveContainer = dynamic(() => import('recharts').then(mod => mod.ResponsiveContainer), { ssr: false });
 
 import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
-
-type StatCardProps = {
-    title: string;
-    value: string;
-    subtitle?: string;
-    statusLabel?: string;
-};
-
-const StatCard: React.FC<StatCardProps> = ({ title, value, subtitle, statusLabel = 'Aktif' }) => (
-    <div className="bg-white border border-gray-200 rounded-md p-4 flex flex-col gap-1.5 min-h-[96px]">
-        <div className="flex items-center justify-between">
-            <h3 className="text-[11px] font-medium text-gray-600 tracking-wide">{title}</h3>
-            <span className="text-[11px] font-medium text-emerald-600">
-                {statusLabel}
-            </span>
-        </div>
-        <div className="mt-1">
-            <p className="text-3xl font-semibold text-gray-900 leading-tight">{value}</p>
-            {subtitle && (
-                <p className="mt-0.5 text-[11px] text-gray-500">
-                    {subtitle}
-                </p>
-            )}
-        </div>
-    </div>
-);
+import { StatCard } from '@/components/ui/stat-card';
+import { LoadingScreen } from '@/components/ui/loading-screen';
 
 export default function Dashboard() {
     const [stats, setStats] = React.useState<{
@@ -104,166 +81,188 @@ export default function Dashboard() {
 
     const isSuperAdminView = !loading && stats.orderCount === 0 && stats.categoryCount === 0;
 
-    if (loading) return (
-        <div className="flex flex-col items-center justify-center min-h-[500px] gap-6">
-            <Activity size={56} className="animate-spin text-[#ff7a21]" />
-            <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Analiz Ediliyor...</p>
-        </div>
-    );
+    if (loading) return <LoadingScreen message="GÖSTERGE PANELİ YÜKLENİYOR" />;
 
     return (
-        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header Area */}
-            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
-                <div className="max-w-3xl">
-                    <div className="flex flex-col md:flex-row md:items-center gap-4 mb-2">
-                        <MobileMenuToggle />
-                        <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                            Gösterge Paneli
-                        </h2>
+            <header className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">
+                        <span>PANEL</span>
+                        <ChevronRight size={8} className="text-slate-300" />
+                        <span className="text-slate-900">GÖSTERGE PANELİ</span>
                     </div>
-                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
-                        Restoranınızın performansını, sipariş hacmini ve müşteri etkileşimlerini gerçek zamanlı izleyin.
-                    </p>
+                    <div className="flex items-center gap-3">
+                        <MobileMenuToggle />
+                        <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">
+                            Genel Bakış
+                        </h1>
+                    </div>
+                    <p className="text-[13px] font-medium text-slate-500">Restoranınızın bugünkü performansına hızlıca göz atın.</p>
                 </div>
-                <div className="flex flex-wrap items-center gap-4">
-                    <div className="flex items-center gap-4 bg-gray-50 px-8 py-4 rounded-[28px] border-2 border-gray-100">
-                        <div className="w-10 h-10 bg-orange-50 rounded-2xl flex items-center justify-center text-[#ea580c]">
-                            <TrendingUp size={20} strokeWidth={3} />
-                        </div>
-                        <div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none mb-1.5">Durum</p>
-                            <p className="text-sm font-black text-gray-900 leading-none">Canlı Takip Aktif</p>
-                        </div>
+                <div className="flex items-center gap-4">
+                    <div className="hidden lg:flex bg-white h-9 px-4 rounded-[6px] border border-slate-200 items-center gap-3 shadow-sm transition-all hover:border-slate-300">
+                        <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                        <p className="text-[12px] font-bold text-slate-900 leading-none">Canlı Takip Aktif</p>
                     </div>
                     <ProfileDropdown />
                 </div>
             </header>
 
+            <div className="h-px bg-slate-200/60 w-full mb-10" />
+
             {isSuperAdminView && (
-                <div className="mb-12 p-8 bg-blue-50 border-2 border-blue-100 rounded-[32px] flex items-start gap-6 animate-in fade-in slide-in-from-top-4 duration-500">
-                    <div className="bg-blue-500 text-white w-12 h-12 rounded-2xl flex items-center justify-center shrink-0 shadow-lg shadow-blue-500/20">
-                        <Activity size={24} strokeWidth={3} />
+                <div className="mb-10 p-6 bg-blue-50/50 border border-blue-100 rounded-[6px] flex items-start gap-5">
+                    <div className="bg-slate-900 text-white w-10 h-10 rounded-[4px] flex items-center justify-center shrink-0 shadow-lg shadow-slate-900/10">
+                        <Activity size={20} strokeWidth={2.5} />
                     </div>
                     <div>
-                        <h4 className="text-blue-900 font-black text-lg mb-1 tracking-tight">Süper Admin Görünümü</h4>
-                        <p className="text-blue-700/70 font-medium leading-relaxed italic">
-                            Şu anda bir restoran seçili değil. Restoran verilerini görmek için Yönetici Panelinden bir restoran seçerek "Yönet" diyebilirsiniz.
+                        <h4 className="text-slate-900 font-bold text-[14px] uppercase tracking-tight">Süper Admin Görünümü</h4>
+                        <p className="text-slate-500 font-medium text-[12px] mt-1">
+                            Şu anda bir restoran seçili değil. Restoran verileri için bir restoran seçerek "Yönet" diyebilirsiniz.
                         </p>
                     </div>
                 </div>
             )}
 
             <div
-                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 mb-10 lg:mb-12"
-                style={{ color: 'rgba(15, 23, 42, 1)' }}
+                className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mb-8"
             >
                 <StatCard
-                    title="Bekleyen Siparişler"
+                    title="BEKLEYEN SİPARİŞLER"
                     value={stats.pendingOrders.toString()}
-                    subtitle="Son 24 saat"
+                    subtitle="Hemen aksiyon bekliyor"
+                    statusLabel="KRİTİK"
                 />
                 <StatCard
-                    title="Toplam Siparişler"
+                    title="TOPLAM SİPARİŞLER"
                     value={stats.orderCount.toString()}
-                    subtitle="Tüm zamanlar"
+                    subtitle="Bu ayki performans"
                 />
                 <StatCard
-                    title="Menü Kategorileri"
+                    title="AKTİF KATEGORİLER"
                     value={stats.categoryCount.toString()}
-                    subtitle="Aktif kategori sayısı"
+                    subtitle="Menü çeşitliliği"
+                />
+                <StatCard
+                    title="QR TARAMALARI"
+                    value={stats.scanCount.toString()}
+                    subtitle="Müşteri etkileşimi"
                 />
             </div>
 
-            <div className="grid grid-cols-1 gap-12">
-                <div className="bg-white rounded-[40px] p-10 md:p-12 shadow-sm border-2 border-gray-50 flex flex-col min-h-[500px]">
-                    <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-6 mb-12 border-b-2 border-gray-50 pb-10">
-                        <div className="flex items-center gap-5">
-                            <div className="bg-orange-50 text-[#ff7a21] p-4 rounded-2xl border-2 border-orange-100">
-                                <TrendingUp size={24} strokeWidth={3} />
-                            </div>
-                            <div>
-                                <h2 className="text-2xl font-black text-gray-900 tracking-tight">Performans Analizi</h2>
-                                <p className="text-xs text-gray-400 font-bold uppercase tracking-[0.2em] mt-1.5">Son 7 Günlük Trend</p>
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+                <div className="lg:col-span-8 space-y-6">
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 flex flex-col overflow-hidden">
+                        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 px-4 py-4 border-b border-slate-50">
+                            <div className="flex items-center gap-4">
+                                <div className="w-9 h-9 bg-orange-50 text-orange-600 rounded-[4px] flex items-center justify-center border border-orange-100/50">
+                                    <TrendingUp size={18} strokeWidth={2.5} />
+                                </div>
+                                <div>
+                                    <h2 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Performans Analizi</h2>
+                                    <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-0.5">Son 7 Günlük Trafik</p>
+                                </div>
                             </div>
                         </div>
-                        <div className="flex gap-4">
-                            <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl">
-                                <div className="w-2 h-2 rounded-full bg-[#ff7a21]"></div>
-                                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Taramalar</span>
-                            </div>
-                            <div className="flex items-center gap-2 bg-gray-50 px-4 py-2 rounded-xl">
-                                <div className="w-2 h-2 rounded-full bg-[#10b981]"></div>
-                                <span className="text-[10px] font-black text-gray-500 uppercase tracking-widest">Siparişler</span>
-                            </div>
+
+                        <div className="p-4 flex-1 w-full relative">
+                            {stats.monthlyScans && stats.monthlyScans.length > 0 ? (
+                                <div className="h-[300px] w-full">
+                                    <RechartsResponsiveContainer width="100%" height="100%">
+                                        <RechartsLineChart data={stats.monthlyScans} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                            <RechartsCartesianGrid strokeDasharray="8 8" vertical={false} stroke="#f1f5f9" />
+                                            <RechartsXAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} dy={10} />
+                                            <RechartsYAxis axisLine={false} tickLine={false} tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700 }} dx={-5} />
+                                            <RechartsTooltip contentStyle={{ borderRadius: '6px', border: '1px solid #e2e8f0', padding: '12px' }} />
+                                            <RechartsLine type="monotone" dataKey="scans" name="Taramalar" stroke="#ff7a21" strokeWidth={3} dot={{ r: 3, fill: '#ff7a21', strokeWidth: 2, stroke: '#fff' }} />
+                                            <RechartsLine type="monotone" dataKey="orders" name="Siparişler" stroke="#10b981" strokeWidth={3} dot={{ r: 3, fill: '#10b981', strokeWidth: 2, stroke: '#fff' }} />
+                                        </RechartsLineChart>
+                                    </RechartsResponsiveContainer>
+                                </div>
+                            ) : (
+                                <div className="inset-0 flex flex-col items-center justify-center gap-4 py-16">
+                                    <BarChart2 size={32} className="text-slate-200" />
+                                    <p className="text-slate-400 font-bold uppercase text-[10px] tracking-widest">Henüz veri seti yok</p>
+                                </div>
+                            )}
                         </div>
                     </div>
 
-                    <div className="flex-1 w-full relative">
-                        {stats.monthlyScans && stats.monthlyScans.length > 0 ? (
-                            <div className="h-[400px] w-full">
-                                <RechartsResponsiveContainer width="100%" height="100%">
-                                    <RechartsLineChart data={stats.monthlyScans} margin={{ top: 20, right: 30, left: 0, bottom: 20 }}>
-                                        <defs>
-                                            <linearGradient id="colorScans" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#ff7a21" stopOpacity={0.1} />
-                                                <stop offset="95%" stopColor="#ff7a21" stopOpacity={0} />
-                                            </linearGradient>
-                                        </defs>
-                                        <RechartsCartesianGrid strokeDasharray="6 6" vertical={false} stroke="#f1f5f9" />
-                                        <RechartsXAxis
-                                            dataKey="name"
-                                            axisLine={false}
-                                            tickLine={false}
-                                            tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
-                                            dy={20}
-                                        />
-                                        <RechartsYAxis
-                                            axisLine={false}
-                                            tickLine={false}
-                                            tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 700 }}
-                                            dx={-10}
-                                        />
-                                        <RechartsTooltip
-                                            contentStyle={{
-                                                borderRadius: '24px',
-                                                border: 'none',
-                                                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)',
-                                                padding: '20px',
-                                                backgroundColor: '#ffffff'
-                                            }}
-                                            itemStyle={{ fontWeight: 900, fontSize: '13px', padding: '4px 0' }}
-                                            labelStyle={{ color: '#94a3b8', fontWeight: 900, fontSize: '10px', textTransform: 'uppercase', marginBottom: '8px' }}
-                                        />
-                                        <RechartsLine
-                                            type="monotone"
-                                            dataKey="scans"
-                                            name="QR Taramaları"
-                                            stroke="#ff7a21"
-                                            strokeWidth={4}
-                                            dot={{ r: 6, fill: '#ff7a21', strokeWidth: 4, stroke: '#fff' }}
-                                            activeDot={{ r: 8, strokeWidth: 0 }}
-                                        />
-                                        <RechartsLine
-                                            type="monotone"
-                                            dataKey="orders"
-                                            name="Siparişler"
-                                            stroke="#10b981"
-                                            strokeWidth={4}
-                                            dot={{ r: 6, fill: '#10b981', strokeWidth: 4, stroke: '#fff' }}
-                                            activeDot={{ r: 8, strokeWidth: 0 }}
-                                        />
-                                    </RechartsLineChart>
-                                </RechartsResponsiveContainer>
-                            </div>
-                        ) : (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 group">
-                                <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center text-gray-200 group-hover:scale-110 transition-transform duration-500 border-2 border-dashed border-gray-100">
-                                    <BarChart2 size={40} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 overflow-hidden">
+                        <div className="px-4 py-4 border-b border-slate-50 flex items-center justify-between">
+                            <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Hızlı Özet</h3>
+                            <button className="text-[10px] font-bold text-orange-600 hover:text-orange-700 uppercase tracking-widest">Tüm Raporu Gör</button>
+                        </div>
+                        <div className="p-0">
+                            <table className="w-full text-left">
+                                <thead className="bg-slate-50/50">
+                                    <tr>
+                                        <th className="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Kategori</th>
+                                        <th className="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Sipariş</th>
+                                        <th className="px-4 py-3 text-[10px] font-bold text-slate-400 uppercase tracking-widest">Gelir</th>
+                                    </tr>
+                                </thead>
+                                <tbody className="divide-y divide-slate-50">
+                                    <tr className="hover:bg-slate-50/30 transition-colors">
+                                        <td className="px-4 py-3 text-[12px] font-bold text-slate-800">Ana Yemekler</td>
+                                        <td className="px-4 py-3 text-[12px] font-semibold text-slate-500">24 Adet</td>
+                                        <td className="px-4 py-3 text-[12px] font-bold text-slate-900">4,850 ₺</td>
+                                    </tr>
+                                    <tr className="hover:bg-slate-50/30 transition-colors">
+                                        <td className="px-4 py-3 text-[12px] font-bold text-slate-800">İçecekler</td>
+                                        <td className="px-4 py-3 text-[12px] font-semibold text-slate-500">42 Adet</td>
+                                        <td className="px-4 py-3 text-[12px] font-bold text-slate-900">1,240 ₺</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="lg:col-span-4 space-y-6">
+                    {/* Actions Widget */}
+                    <div className="bg-slate-900 rounded-[6px] shadow-lg p-6 text-white">
+                        <h3 className="text-[14px] font-bold uppercase tracking-tight mb-4">Hızlı İşlemler</h3>
+                        <div className="grid grid-cols-1 gap-2">
+                            <Link href="/menu-ekle" className="flex items-center justify-between h-10 px-4 bg-white/10 hover:bg-white/15 rounded-[6px] transition-all group">
+                                <span className="text-[12px] font-bold tracking-tight">Menü Düzenle</span>
+                                <ChevronRight size={14} className="text-white/40 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                            <Link href="/qr-olusturucu" className="flex items-center justify-between h-10 px-4 bg-white/10 hover:bg-white/15 rounded-[6px] transition-all group">
+                                <span className="text-[12px] font-bold tracking-tight">QR Üret</span>
+                                <ChevronRight size={14} className="text-white/40 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                            <Link href="/kampanyalar" className="flex items-center justify-between h-10 px-4 bg-white/10 hover:bg-white/15 rounded-[6px] transition-all group">
+                                <span className="text-[12px] font-bold tracking-tight">Yeni Kampanya</span>
+                                <ChevronRight size={14} className="text-white/40 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
+                    </div>
+
+                    {/* Notification Widget */}
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 p-6">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Bildirimler</h3>
+                            <span className="w-5 h-5 bg-orange-100 text-orange-600 text-[10px] font-bold flex items-center justify-center rounded-full">3</span>
+                        </div>
+                        <div className="space-y-4">
+                            <div className="flex gap-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
+                                <div>
+                                    <p className="text-[12px] font-bold text-slate-800 leading-tight">Abonelik yenilenecek</p>
+                                    <p className="text-[11px] text-slate-400 mt-1">Son 4 gün</p>
                                 </div>
-                                <p className="text-gray-400 font-black uppercase text-[10px] tracking-widest italic">Henüz yeterli veri seti oluşmadı</p>
                             </div>
-                        )}
+                            <div className="flex gap-3">
+                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-1.5" />
+                                <div>
+                                    <p className="text-[12px] font-bold text-slate-800 leading-tight">Masa 4: Yeni sipariş</p>
+                                    <p className="text-[11px] text-slate-400 mt-1">2 dakika önce</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -127,7 +127,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                             required
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 
@@ -138,7 +138,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                             rows={3}
                             value={formData.description}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         ></textarea>
                     </div>
 
@@ -149,7 +149,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                             name="previewUrl"
                             value={formData.previewUrl}
                             onChange={handleChange}
-                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 
@@ -161,7 +161,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                                 name="isPremium"
                                 checked={formData.isPremium}
                                 onChange={handleChange}
-                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
                             />
                             <label htmlFor="isPremium" className="text-sm font-medium text-gray-700">Premium Tema</label>
                         </div>
@@ -173,7 +173,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                                 name="isActive"
                                 checked={formData.isActive}
                                 onChange={handleChange}
-                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-500"
+                                className="w-4 h-4 text-orange-600 border-gray-300 rounded focus:ring-orange-600"
                             />
                             <label htmlFor="isActive" className="text-sm font-medium text-gray-700">Aktif</label>
                         </div>
@@ -186,7 +186,7 @@ export default function EditThemePage({ params }: { params: { id: string } }) {
                             name="order"
                             value={formData.order}
                             onChange={handleChange}
-                            className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-500 focus:border-orange-500 outline-none"
+                            className="w-24 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-orange-600 focus:border-orange-600 outline-none"
                         />
                     </div>
 

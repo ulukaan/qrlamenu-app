@@ -53,7 +53,7 @@ export default function SuperAdminDashboard() {
     if (loading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-[80vh] gap-4">
-                <Loader2 size={48} className="animate-spin text-[#ff7a21]" />
+                <Loader2 size={48} className="animate-spin text-[#ea580c]" />
                 <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Sistem Verileri Senkronize Ediliyor...</p>
             </div>
         );
@@ -72,7 +72,7 @@ export default function SuperAdminDashboard() {
     }
 
     const stats = [
-        { title: 'Toplam Restoran', value: data.totalRestaurants, icon: <Store size={22} />, color: '#ff7a21', trend: '+12%' },
+        { title: 'Toplam Restoran', value: data.totalRestaurants, icon: <Store size={22} />, color: '#ea580c', trend: '+12%' },
         { title: 'Aktif Premium', value: data.activePremium, icon: <CreditCard size={22} />, color: '#4caf50', trend: '+5%' },
         { title: 'Toplam Üye', value: data.totalUsers, icon: <Users size={22} />, color: '#2196f3', trend: '+24%' },
         { title: 'Aylık Gelir', value: `₺${data.monthlyRevenue.toLocaleString('tr-TR')}`, icon: <TrendingUp size={22} />, color: '#9c27b0', trend: '+18%' },
@@ -96,7 +96,7 @@ export default function SuperAdminDashboard() {
                     </div>
                     <button
                         onClick={() => router.push('/super-admin/restoranlar/yeni')}
-                        className="flex-1 sm:flex-initial bg-[#ff7a21] text-white px-5 py-2.5 rounded-xl text-sm font-black shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
+                        className="flex-1 sm:flex-initial bg-[#ea580c] text-white px-5 py-2.5 rounded-xl text-sm font-black shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
                     >
                         Yeni Restoran Kaydı
                     </button>
@@ -114,7 +114,7 @@ export default function SuperAdminDashboard() {
                                     <div className="w-1.5 h-1.5 rounded-full" style={{ background: stat.color }}></div>
                                     <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest leading-none">{stat.title}</p>
                                 </div>
-                                <h3 className="m-0 text-3xl font-black text-gray-900 tracking-tighter leading-none group-hover:text-[#ff7a21] transition-colors">{stat.value}</h3>
+                                <h3 className="m-0 text-3xl font-black text-gray-900 tracking-tighter leading-none group-hover:text-[#ea580c] transition-colors">{stat.value}</h3>
                                 <div className="mt-4 flex items-center gap-1.5">
                                     <div className={`flex items-center px-2 py-1 rounded-lg text-[10px] font-black tracking-widest ${stat.trend.startsWith('+') ? 'bg-emerald-50 text-emerald-500 shadow-sm shadow-emerald-500/10' : 'bg-rose-50 text-rose-500 shadow-sm shadow-rose-500/10'}`}>
                                         {stat.trend.startsWith('+') ? <ArrowUpRight size={12} strokeWidth={3} /> : <ArrowDownRight size={12} strokeWidth={3} />}
@@ -144,7 +144,7 @@ export default function SuperAdminDashboard() {
                         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
                             <div className="flex items-center gap-3">
                                 <div className="bg-[#fff7ed] p-2 rounded-xl">
-                                    <TrendingUp size={20} className="text-[#ff7a21]" />
+                                    <TrendingUp size={20} className="text-[#ea580c]" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-black text-gray-900 tracking-tight">Finansal Gelir Analizi</h3>
@@ -152,7 +152,7 @@ export default function SuperAdminDashboard() {
                                 </div>
                             </div>
                             <div className="flex items-center gap-2 px-3.5 py-1.5 bg-[#f8fafc] rounded-lg border border-slate-100">
-                                <div className="w-1.5 h-1.5 rounded-full bg-[#ff7a21] shadow-[0_0_8px_rgba(255,122,33,0.5)]"></div>
+                                <div className="w-1.5 h-1.5 rounded-full bg-[#ea580c] shadow-[0_0_8px_rgba(255,122,33,0.5)]"></div>
                                 <span className="text-[10px] text-slate-600 font-extrabold uppercase tracking-wider">Canlı Senkronizasyon</span>
                             </div>
                         </div>
@@ -161,8 +161,8 @@ export default function SuperAdminDashboard() {
                                 <AreaChart data={data.revenueHistory}>
                                     <defs>
                                         <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                                            <stop offset="5%" stopColor="#ff7a21" stopOpacity={0.15} />
-                                            <stop offset="95%" stopColor="#ff7a21" stopOpacity={0} />
+                                            <stop offset="5%" stopColor="#ea580c" stopOpacity={0.15} />
+                                            <stop offset="95%" stopColor="#ea580c" stopOpacity={0} />
                                         </linearGradient>
                                     </defs>
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
@@ -171,9 +171,9 @@ export default function SuperAdminDashboard() {
                                     <Tooltip
                                         contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 25px 50px -12px rgba(0,0,0,0.15)', padding: '16px' }}
                                         itemStyle={{ fontSize: '0.9rem', fontWeight: '900', color: '#111827' }}
-                                        cursor={{ stroke: '#ff7a21', strokeWidth: 1, strokeDasharray: '5 5' }}
+                                        cursor={{ stroke: '#ea580c', strokeWidth: 1, strokeDasharray: '5 5' }}
                                     />
-                                    <Area type="monotone" dataKey="value" stroke="#ff7a21" strokeWidth={5} fillOpacity={1} fill="url(#colorRevenue)" dot={{ r: 4, fill: '#fff', stroke: '#ff7a21', strokeWidth: 2 }} activeDot={{ r: 6, fill: '#ff7a21', stroke: '#fff', strokeWidth: 3 }} />
+                                    <Area type="monotone" dataKey="value" stroke="#ea580c" strokeWidth={5} fillOpacity={1} fill="url(#colorRevenue)" dot={{ r: 4, fill: '#fff', stroke: '#ea580c', strokeWidth: 2 }} activeDot={{ r: 6, fill: '#ea580c', stroke: '#fff', strokeWidth: 3 }} />
                                 </AreaChart>
                             </ResponsiveContainer>
                         </div>
@@ -183,7 +183,7 @@ export default function SuperAdminDashboard() {
                     <div className="bg-white rounded-[40px] overflow-hidden shadow-sm border border-slate-100 flex flex-col">
                         <div className="p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between border-b border-slate-50 gap-4">
                             <div className="flex items-center gap-3">
-                                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ff7a21]">
+                                <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ea580c]">
                                     <Activity size={24} strokeWidth={2.5} />
                                 </div>
                                 <div>
@@ -193,7 +193,7 @@ export default function SuperAdminDashboard() {
                             </div>
                             <button
                                 onClick={() => router.push('/super-admin/restoranlar')}
-                                className="bg-slate-900 text-white font-black text-[10px] px-6 py-3 rounded-xl hover:bg-[#ff7a21] transition-all uppercase tracking-widest shadow-lg shadow-slate-900/10 active:scale-95"
+                                className="bg-slate-900 text-white font-black text-[10px] px-6 py-3 rounded-xl hover:bg-[#ea580c] transition-all uppercase tracking-widest shadow-lg shadow-slate-900/10 active:scale-95"
                             >
                                 Tümünü Yönet
                             </button>
@@ -213,11 +213,11 @@ export default function SuperAdminDashboard() {
                                         <tr key={idx} className="group hover:bg-slate-50/50 transition-all">
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center gap-4">
-                                                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-xs font-black text-slate-400 group-hover:bg-[#ff7a21] group-hover:text-white transition-all shadow-sm">
+                                                    <div className="w-10 h-10 rounded-xl bg-white border border-slate-100 flex items-center justify-center text-xs font-black text-slate-400 group-hover:bg-[#ea580c] group-hover:text-white transition-all shadow-sm">
                                                         {res.name.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div>
-                                                        <div className="text-sm font-black text-gray-900 group-hover:text-[#ff7a21] transition-colors">{res.name}</div>
+                                                        <div className="text-sm font-black text-gray-900 group-hover:text-[#ea580c] transition-colors">{res.name}</div>
                                                         <div className="text-[10px] text-slate-400 font-bold mt-0.5 flex items-center gap-1">
                                                             <div className="w-1 h-1 rounded-full bg-slate-200"></div>
                                                             {res.city || 'İstanbul'} • Türkiye

@@ -81,7 +81,7 @@ export default function SlugYonetimi() {
                 <div style={{ display: 'flex', gap: '16px' }}>
                     <button
                         style={{
-                            background: '#ff7a21',
+                            background: '#ea580c',
                             color: '#fff',
                             padding: '14px 32px',
                             borderRadius: '16px',
@@ -131,7 +131,7 @@ export default function SlugYonetimi() {
                                     {loading ? (
                                         <tr>
                                             <td colSpan={5} style={{ padding: '100px', textAlign: 'center' }}>
-                                                <RefreshCw size={32} className="animate-spin" style={{ margin: '0 auto', color: '#ff7a21' }} />
+                                                <RefreshCw size={32} className="animate-spin" style={{ margin: '0 auto', color: '#ea580c' }} />
                                             </td>
                                         </tr>
                                     ) : error ? (
@@ -149,7 +149,7 @@ export default function SlugYonetimi() {
                                                 <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '700' }}>ID: {row.id.substring(0, 12).toUpperCase()}</div>
                                             </td>
                                             <td style={{ padding: '24px 32px' }}>
-                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#ff7a21', fontSize: '0.9rem', fontWeight: '900', background: '#fff7f2', padding: '8px 16px', borderRadius: '12px', border: '1px solid #ffe0cc' }}>
+                                                <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: '#ea580c', fontSize: '0.9rem', fontWeight: '900', background: '#fff7f2', padding: '8px 16px', borderRadius: '12px', border: '1px solid #ffe0cc' }}>
                                                     <Globe size={16} strokeWidth={2.5} /> /r/{row.slug}
                                                 </div>
                                             </td>
@@ -208,7 +208,7 @@ export default function SlugYonetimi() {
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(255,255,255,0.03)', padding: '20px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
                                 <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#94a3b8' }}>Özel Domain</span>
-                                <span style={{ fontSize: '1.5rem', fontWeight: '900', color: '#ff7a21' }}>{tenants.filter(t => t.customDomain).length}</span>
+                                <span style={{ fontSize: '1.5rem', fontWeight: '900', color: '#ea580c' }}>{tenants.filter(t => t.customDomain).length}</span>
                             </div>
                             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'rgba(16, 185, 129, 0.05)', padding: '20px', borderRadius: '20px', border: '1px solid rgba(16, 185, 129, 0.1)' }}>
                                 <span style={{ fontSize: '0.85rem', fontWeight: '700', color: '#94a3b8' }}>Aktif SSL</span>
@@ -220,7 +220,7 @@ export default function SlugYonetimi() {
                     <div className="card" style={{ border: 'none', padding: '32px', borderRadius: '28px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
                         <div style={{ display: 'flex', gap: '16px', alignItems: 'flex-start' }}>
                             <div style={{ background: '#fff7ed', padding: '12px', borderRadius: '16px' }}>
-                                <Shield size={24} color="#ff7a21" strokeWidth={2.5} />
+                                <Shield size={24} color="#ea580c" strokeWidth={2.5} />
                             </div>
                             <div>
                                 <h4 style={{ margin: '0 0 10px 0', fontSize: '1.1rem', fontWeight: '900', color: '#111827' }}>SSL & Güvenlik</h4>
@@ -248,7 +248,7 @@ export default function SlugYonetimi() {
 
                             <div style={{ marginBottom: '40px' }}>
                                 <div style={{ width: '64px', height: '64px', background: '#fff7ed', borderRadius: '20px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '24px' }}>
-                                    <Globe size={32} color="#ff7a21" strokeWidth={2.5} />
+                                    <Globe size={32} color="#ea580c" strokeWidth={2.5} />
                                 </div>
                                 <h3 style={{ fontSize: '1.75rem', fontWeight: '900', color: '#111827', margin: 0, letterSpacing: '-0.04em' }}>Erişim Ayarları</h3>
                                 <p style={{ color: '#64748b', fontWeight: '600', marginTop: '8px' }}>{editingTenant.name} için bağlantı bilgilerini güncelle.</p>
