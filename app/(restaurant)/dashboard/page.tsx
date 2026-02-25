@@ -66,20 +66,17 @@ export default function Dashboard() {
                 const userData = await userRes.json();
 
                 if (userData.user.role === 'SUPER_ADMIN') {
-                    setStats({
-                        orderCount: 0,
-                        categoryCount: 0,
-                        pendingOrders: 0,
-                        scanCount: 0,
-                        recentNotifications: [],
-                        tenantId: ''
-                    });
+                    setStats(prev => ({ ...prev, tenantId: '' }));
                     setLoading(false);
                     return;
                 }
 
                 const tenantId = userData.user.tenantId;
-                const statsRes = await fetch(`/api/restaurant/stats?tenantId=${tenantId}`);
+                // Parallelize stats fetch with potential other init calls
+                const [statsRes] = await Promise.all([
+                    fetch(`/api/restaurant/stats?tenantId=${tenantId}`)
+                ]);
+
                 const statsData = await statsRes.json();
 
                 if (statsData && typeof statsData.orderCount === 'number') {
@@ -172,14 +169,13 @@ export default function Dashboard() {
                         <span className="text-slate-900">GÖSTERGE PANELİ</span>
                     </div>
                     <div className="flex items-center gap-3">
-                        <MobileMenuToggle />
                         <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">
                             Genel Bakış
                         </h1>
                     </div>
                     <p className="text-[13px] font-medium text-slate-500">Restoranınızın bugünkü performansına hızlıca göz atın.</p>
                 </div>
-                <div className="flex items-center gap-4">
+                <div className="hidden lg:flex items-center gap-4">
                     <div className="hidden lg:flex bg-white h-9 px-4 rounded-[6px] border border-slate-200 items-center gap-3 shadow-sm transition-all hover:border-slate-300">
                         <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                         <p className="text-[12px] font-bold text-slate-900 leading-none">Canlı Takip Aktif</p>

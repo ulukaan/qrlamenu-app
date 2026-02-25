@@ -256,7 +256,6 @@ export default function MenuEkle() {
             <div className="bg-white px-4 lg:px-8 py-6 border-b border-slate-200 relative z-30 w-full transition-all">
                 <div className="w-full mx-auto flex flex-col xl:flex-row xl:items-center justify-between gap-8">
                     <div className="flex items-start md:items-center gap-4 md:gap-8">
-                        <MobileMenuToggle />
                         <div className="space-y-4">
                             <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">
                                 <Link href="/dashboard" className="hover:text-slate-900 transition-colors">PANEL</Link>

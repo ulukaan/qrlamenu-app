@@ -127,34 +127,7 @@ function LoginForm() {
                         </div>
                     </form>
 
-                    <div className="mt-6 flex flex-col items-center gap-4 text-[15px]">
-                        <div className="w-full grid grid-cols-2 gap-3">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setEmail("restoran@qrlamenu.com");
-                                    setPassword("123");
-                                    setTimeout(() => document.getElementById('login-btn')?.click(), 50);
-                                }}
-                                className="w-full py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all flex justify-center items-center gap-2 text-[13px] shadow-sm"
-                            >
-                                <User size={16} className="text-slate-400" />
-                                Restoran (Local)
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setEmail("admin@qrlamenu.com");
-                                    setPassword("admin");
-                                    setTimeout(() => document.getElementById('login-btn')?.click(), 50);
-                                }}
-                                className="w-full py-2.5 px-3 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 hover:border-indigo-300 transition-all flex justify-center items-center gap-2 text-[13px] shadow-sm"
-                            >
-                                <User size={16} className="text-indigo-400" />
-                                Süper Admin (Local)
-                            </button>
-                        </div>
-                        <div className="h-[1px] w-full bg-slate-100 my-1"></div>
+                    <div className="mt-8 flex flex-col items-center gap-4 text-[15px]">
                         <a href="/sifremi-unuttum" className="text-slate-600 hover:text-[#ea580c] transition-colors font-medium">
                             Parolanızı mı unuttunuz?
                         </a>

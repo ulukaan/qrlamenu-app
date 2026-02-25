@@ -258,9 +258,8 @@ export default function OrdersClient() {
             {/* Elite Sub-Header / Filters */}
             <div className="bg-white px-6 py-4 border-b border-slate-200 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 sticky top-[-1px] z-30 shadow-sm transition-all">
                 <div className="flex flex-col md:flex-row md:items-center gap-6 w-full lg:w-auto flex-1">
-                    <div className="flex items-center gap-4">
-                        <MobileMenuToggle />
-                        <div className="h-6 w-px bg-slate-200 hidden md:block" />
+                    <div className="hidden lg:flex justify-end ml-auto">
+                        <ProfileDropdown />
                     </div>
 
                     <div className="flex bg-slate-100 p-1 rounded-[6px] border border-slate-200 w-full sm:w-auto">
@@ -325,7 +324,7 @@ export default function OrdersClient() {
                     )}
                 </div>
 
-                <div className="flex justify-end ml-auto">
+                <div className="hidden lg:flex justify-end ml-auto">
                     <ProfileDropdown />
                 </div>
             </div>

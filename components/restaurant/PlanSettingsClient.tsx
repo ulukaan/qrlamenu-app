@@ -50,7 +50,6 @@ export default function PlanSettingsClient({ currentPlan, allPlans, tenantName }
                 <div className="w-full mx-auto">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                         <div className="flex items-start md:items-center gap-4 md:gap-6">
-                            <MobileMenuToggle />
                             <div className="space-y-4">
                                 {/* Breadcrumbs */}
                                 <div className="flex items-center gap-2 text-[9px] font-bold text-slate-400 uppercase tracking-widest">
@@ -91,7 +90,9 @@ export default function PlanSettingsClient({ currentPlan, allPlans, tenantName }
                                 </button>
                             </div>
                         </div>
-                        <ProfileDropdown />
+                        <div className="hidden lg:flex">
+                            <ProfileDropdown />
+                        </div>
                     </div>
                 </div>
             </div>
