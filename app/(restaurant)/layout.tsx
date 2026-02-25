@@ -19,7 +19,7 @@ export default async function RestaurantLayout({
     const session = token ? await validateSession(token) : null;
 
     if (!session) {
-        redirect('/login?reason=session_required');
+        redirect('/login');
     }
 
     return (

@@ -16,7 +16,7 @@ export default async function SuperAdminLayout({
     const session = token ? await validateSession(token) : null;
 
     if (!session || session.role !== 'SUPER_ADMIN') {
-        redirect('/login?reason=admin_required');
+        redirect('/login');
     }
 
     return (

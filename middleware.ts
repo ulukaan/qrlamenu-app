@@ -146,8 +146,6 @@ export function middleware(req: NextRequest) {
                 return NextResponse.json({ error: 'Unauthorized - Oturum gerekli' }, { status: 401 });
             }
             const loginUrl = new URL('/login', req.url);
-            loginUrl.searchParams.set('redirect', pathname);
-            loginUrl.searchParams.set('reason', 'unauthorized');
             return NextResponse.redirect(loginUrl);
         }
         // Token var ama bu kullanıcının gerçekten SUPER_ADMIN olup olmadığını
@@ -174,7 +172,6 @@ export function middleware(req: NextRequest) {
             return NextResponse.next();
         }
         const loginUrl = new URL('/login', req.url);
-        loginUrl.searchParams.set('redirect', pathname);
         return NextResponse.redirect(loginUrl);
     }
 
