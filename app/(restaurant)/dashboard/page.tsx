@@ -74,7 +74,7 @@ export default function Dashboard() {
                 const tenantId = userData.user.tenantId;
                 // Parallelize stats fetch with potential other init calls
                 const [statsRes] = await Promise.all([
-                    fetch(`/api/restaurant/stats?tenantId=${tenantId}`)
+                    fetch(`/api/restaurant/stats?tenantId=${tenantId}`, { cache: 'no-store' })
                 ]);
 
                 const statsData = await statsRes.json();

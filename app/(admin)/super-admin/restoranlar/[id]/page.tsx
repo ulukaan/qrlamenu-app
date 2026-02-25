@@ -32,8 +32,8 @@ export default function EditRestaurantPage() {
             try {
                 setLoading(true);
                 const [tenantRes, plansRes] = await Promise.all([
-                    fetch(`/api/admin/tenants/${id}`),
-                    fetch('/api/admin/plans')
+                    fetch(`/api/admin/tenants/${id}`, { cache: 'no-store' }),
+                    fetch('/api/admin/plans', { cache: 'no-store' })
                 ]);
 
                 if (!tenantRes.ok) throw new Error('Restoran bulunamadı');
