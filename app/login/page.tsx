@@ -113,6 +113,7 @@ function LoginForm() {
 
                         <div className="pt-2">
                             <button
+                                id="login-btn"
                                 type="submit"
                                 disabled={loading}
                                 className="w-full flex justify-center items-center gap-2 rounded-xl bg-[#ea580c] py-3.5 px-4 text-[17px] font-semibold text-white hover:bg-[#e0681b] active:bg-[#cc5a14] focus:outline-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-sm"
@@ -127,18 +128,33 @@ function LoginForm() {
                     </form>
 
                     <div className="mt-6 flex flex-col items-center gap-4 text-[15px]">
-                        <button
-                            type="button"
-                            onClick={() => {
-                                setEmail("restoran@qrlamenu.com");
-                                setPassword("123");
-                            }}
-                            className="w-full py-3 px-4 rounded-xl border-2 border-slate-100 bg-slate-50 text-slate-600 font-bold hover:bg-slate-100 transition-all flex items-center justify-center gap-2 group"
-                        >
-                            <User size={18} className="text-slate-400 group-hover:text-slate-600" />
-                            Demo Hesabı ile Giriş Yap
-                        </button>
-                        <div className="h-[1px] w-full bg-slate-100 my-2"></div>
+                        <div className="w-full grid grid-cols-2 gap-3">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setEmail("restoran@qrlamenu.com");
+                                    setPassword("123");
+                                    setTimeout(() => document.getElementById('login-btn')?.click(), 50);
+                                }}
+                                className="w-full py-2.5 px-3 rounded-xl border border-slate-200 bg-white text-slate-700 font-semibold hover:bg-slate-50 hover:border-slate-300 transition-all flex justify-center items-center gap-2 text-[13px] shadow-sm"
+                            >
+                                <User size={16} className="text-slate-400" />
+                                Restoran (Local)
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setEmail("admin@qrlamenu.com");
+                                    setPassword("admin");
+                                    setTimeout(() => document.getElementById('login-btn')?.click(), 50);
+                                }}
+                                className="w-full py-2.5 px-3 rounded-xl border border-indigo-200 bg-indigo-50 text-indigo-700 font-semibold hover:bg-indigo-100 hover:border-indigo-300 transition-all flex justify-center items-center gap-2 text-[13px] shadow-sm"
+                            >
+                                <User size={16} className="text-indigo-400" />
+                                Süper Admin (Local)
+                            </button>
+                        </div>
+                        <div className="h-[1px] w-full bg-slate-100 my-1"></div>
                         <a href="/sifremi-unuttum" className="text-slate-600 hover:text-[#ea580c] transition-colors font-medium">
                             Parolanızı mı unuttunuz?
                         </a>

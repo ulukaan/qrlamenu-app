@@ -91,30 +91,30 @@ export default function SystemControlPage() {
     }
 
     return (
-        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
-            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+        <div className="px-6 py-8 w-full max-w-full">
+            <header className="mb-8 flex flex-col xl:flex-row justify-between items-start xl:items-center gap-4">
                 <div className="max-w-4xl">
-                    <div className="flex items-center gap-4 mb-4">
-                        <div className="w-12 h-12 rounded-2xl bg-orange-50 flex items-center justify-center text-[#ea580c] shadow-sm">
-                            <Server size={28} strokeWidth={2.5} />
+                    <div className="flex items-center gap-3 mb-1">
+                        <div className="w-8 h-8 rounded-[6px] bg-slate-100 flex items-center justify-center text-slate-700 shadow-sm border border-slate-200">
+                            <Server size={18} />
                         </div>
-                        <h1 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tight leading-none uppercase">
+                        <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">
                             Sistem Kontrol Merkezi
                         </h1>
                     </div>
-                    <p className="text-slate-500 text-sm md:text-base font-bold leading-relaxed">Platform altyapı sağlığı, dağıtık veritabanı istatistikleri ve gerçek zamanlı sunucu performansı analitiği.</p>
+                    <p className="text-[13px] text-slate-500 font-medium">Platform altyapı sağlığı ve sunucu performansı analitiği.</p>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4 w-full xl:w-auto">
-                    <div className="px-6 py-4 bg-white border border-slate-100 rounded-2xl flex items-center gap-3 shadow-sm group">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></div>
-                        <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest whitespace-nowrap">Otomatik Tarama Aktif</span>
+                <div className="flex flex-col sm:flex-row items-center gap-3 w-full xl:w-auto">
+                    <div className="h-9 px-3 bg-white border border-slate-200 rounded-[6px] flex items-center gap-2 shadow-sm">
+                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
+                        <span className="text-[11px] font-bold text-slate-500 uppercase tracking-widest whitespace-nowrap">Otomatik Tarama</span>
                     </div>
                     <button
                         onClick={fetchData}
-                        className="flex items-center justify-center gap-3 px-8 py-4 bg-slate-900 border border-slate-800 rounded-2xl text-xs font-black text-white hover:bg-[#ea580c] hover:border-transparent transition-all shadow-xl shadow-slate-900/10 active:scale-95 group"
+                        className="w-full sm:w-auto flex items-center justify-center gap-2 h-9 px-4 bg-slate-900 border border-slate-800 rounded-[6px] text-[13px] font-semibold text-white hover:bg-slate-800 transition-colors shadow-sm"
                     >
-                        <RefreshCw size={18} strokeWidth={3} className={`${loading ? 'animate-spin' : 'group-hover:rotate-180'} transition-transform duration-500`} />
-                        VERİLERİ SENKRONİZE ET
+                        <RefreshCw size={14} className={`${loading ? 'animate-spin' : ''}`} />
+                        SENKRONİZE ET
                     </button>
                 </div>
             </header>
@@ -122,63 +122,63 @@ export default function SystemControlPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
                 {/* 1. SUNUCU SAĞLIĞI (CPU, RAM, UPTIME) */}
-                <div className="lg:col-span-2 space-y-8">
-                    <section className="bg-slate-900 rounded-[40px] p-10 md:p-12 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
-                        <div className="absolute -right-10 -bottom-10 opacity-[0.03] transition-transform duration-1000 group-hover:scale-110 group-hover:-rotate-12">
-                            <Cpu size={400} strokeWidth={1} />
+                <div className="lg:col-span-2 space-y-6">
+                    <section className="bg-slate-900 rounded-[6px] p-6 md:p-8 text-white shadow-sm border border-slate-800 relative overflow-hidden">
+                        <div className="absolute -right-10 -bottom-10 opacity-5">
+                            <Cpu size={250} strokeWidth={1} />
                         </div>
 
                         <div className="relative z-10">
-                            <div className="flex items-center justify-between mb-12 border-b border-white/5 pb-8">
-                                <h2 className="text-[10px] font-black tracking-[0.2em] text-slate-500 uppercase flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-orange-600 shadow-[0_0_10px_rgba(249,115,22,0.8)]"></div>
-                                    SUNUCU ÇEKİRDEK DURUMU (HOSTINGER VPS)
+                            <div className="flex items-center justify-between mb-8 border-b border-slate-800 pb-5">
+                                <h2 className="text-[11px] font-bold tracking-widest text-slate-400 uppercase flex items-center gap-2">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500"></div>
+                                    SUNUCU ÇEKİRDEK DURUMU
                                 </h2>
-                                <div className="hidden sm:flex items-center gap-2 px-4 py-1.5 bg-white/5 rounded-xl border border-white/10">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                                    <span className="text-[9px] font-black text-slate-400 tracking-widest uppercase">UPTIME %99.98</span>
+                                <div className="hidden sm:flex items-center gap-2 px-3 py-1 bg-slate-800 rounded-[4px] border border-slate-700">
+                                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                    <span className="text-[10px] font-bold text-slate-300 tracking-widest uppercase">UPTIME %99.98</span>
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
-                                <div className="space-y-4">
-                                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                        <div className="w-1 h-3 bg-orange-600 rounded-full"></div> Node.js Runtıme
+                            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                <div className="space-y-3">
+                                    <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                        <div className="w-1 h-3 bg-indigo-500 rounded-[2px]"></div> Node.js Runtıme
                                     </p>
                                     <div>
-                                        <p className="text-3xl font-black tracking-tighter leading-none mb-2">{data?.system?.nodeVersion}</p>
-                                        <div className="flex items-center gap-2 text-emerald-400 text-[9px] font-black tracking-[0.15em] bg-emerald-400/10 w-fit px-3 py-1 rounded-lg border border-emerald-400/20">
+                                        <p className="text-2xl font-bold tracking-tight mb-2">{data?.system?.nodeVersion}</p>
+                                        <div className="flex items-center gap-1.5 text-emerald-400 text-[10px] font-bold tracking-widest bg-emerald-400/10 w-fit px-2 py-0.5 rounded-[4px] border border-emerald-400/20">
                                             LTS STABLE
                                         </div>
                                     </div>
                                 </div>
-                                <div className="space-y-4 md:border-l md:border-white/5 md:pl-12">
-                                    <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                        <div className="w-1 h-3 bg-blue-500 rounded-full"></div> Aktıf Çalışma Süresı
+                                <div className="space-y-3 md:border-l md:border-slate-800 md:pl-8">
+                                    <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                        <div className="w-1 h-3 bg-amber-500 rounded-[2px]"></div> Aktıf Çalışma Süresı
                                     </p>
                                     <div>
-                                        <p className="text-3xl font-black tracking-tighter leading-none mb-2">{formatUptime(data?.system?.uptime)}</p>
-                                        <div className="text-slate-400 text-[9px] font-black tracking-[0.15em] flex items-center gap-1.5 bg-white/5 w-fit px-3 py-1 rounded-lg border border-white/10 uppercase">
-                                            <Clock size={10} /> Kesintisiz Erişim
+                                        <p className="text-2xl font-bold tracking-tight mb-2">{formatUptime(data?.system?.uptime)}</p>
+                                        <div className="text-slate-300 text-[10px] font-bold tracking-widest flex items-center gap-1.5 bg-slate-800 w-fit px-2 py-0.5 rounded-[4px] border border-slate-700 uppercase">
+                                            <Clock size={12} /> Kesintisiz Erişim
                                         </div>
                                     </div>
                                 </div>
-                                <div className="space-y-4 md:border-l md:border-white/5 md:pl-12">
+                                <div className="space-y-3 md:border-l md:border-slate-800 md:pl-8">
                                     <div className="flex justify-between items-end mb-1">
-                                        <p className="text-slate-500 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                            <div className="w-1 h-3 bg-violet-500 rounded-full"></div> Bellek Optımırasyonu
+                                        <p className="text-slate-400 text-[11px] font-bold uppercase tracking-widest flex items-center gap-2">
+                                            <div className="w-1 h-3 bg-rose-500 rounded-[2px]"></div> Bellek Optımırasyonu
                                         </p>
-                                        <span className="text-[#ea580c] text-xl font-black leading-none tracking-tighter">%{data?.system?.memoryUsage?.percent}</span>
+                                        <span className="text-rose-400 text-[16px] font-bold tracking-tight">%{data?.system?.memoryUsage?.percent}</span>
                                     </div>
-                                    <div className="h-2.5 w-full bg-white/5 rounded-full overflow-hidden shadow-inner border border-white/5">
+                                    <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden border border-slate-700">
                                         <motion.div
                                             initial={{ width: 0 }}
                                             animate={{ width: `${data?.system?.memoryUsage?.percent}%` }}
-                                            className="h-full bg-gradient-to-r from-orange-600 via-orange-400 to-amber-300 shadow-[0_0_15px_rgba(249,115,22,0.4)]"
+                                            className="h-full bg-rose-500"
                                         />
                                     </div>
-                                    <p className="text-[10px] text-slate-600 font-black tracking-[0.1em] uppercase">
-                                        {formatBytes(data?.system?.memoryUsage?.total - data?.system?.memoryUsage?.free)} <span className="text-slate-700 italic">USED</span> / {formatBytes(data?.system?.memoryUsage?.total)} <span className="text-slate-700 italic">TOTAL</span>
+                                    <p className="text-[10px] text-slate-500 font-bold tracking-wider uppercase">
+                                        {formatBytes(data?.system?.memoryUsage?.total - data?.system?.memoryUsage?.free)} <span className="text-slate-600">USED</span> / {formatBytes(data?.system?.memoryUsage?.total)} <span className="text-slate-600">TOTAL</span>
                                     </p>
                                 </div>
                             </div>
@@ -186,36 +186,33 @@ export default function SystemControlPage() {
                     </section>
 
                     {/* 2. VERİTABANI İSTATİSTİKLERİ */}
-                    <section className="bg-white rounded-[40px] border border-slate-100 p-10 md:p-12 shadow-sm flex flex-col group">
-                        <div className="flex items-center justify-between mb-10 border-b border-slate-50 pb-8">
-                            <h2 className="text-[10px] font-black tracking-[0.2em] text-slate-400 uppercase flex items-center gap-3">
-                                <Database size={16} strokeWidth={2.5} className="group-hover:rotate-12 transition-transform duration-500" />
-                                VERİTABANI VARLIK DAĞILIMI (ENTITY ANALYTICS)
+                    <section className="bg-white rounded-[6px] border border-slate-200 p-6 md:p-8 shadow-sm flex flex-col">
+                        <div className="flex items-center justify-between mb-8 border-b border-slate-100 pb-5">
+                            <h2 className="text-[11px] font-bold tracking-widest text-slate-500 uppercase flex items-center gap-2">
+                                <Database size={14} className="text-slate-400" />
+                                VERİTABANI VARLIK DAĞILIMI
                             </h2>
-                            <div className="px-4 py-1.5 bg-slate-50 rounded-xl border border-slate-100">
-                                <span className="text-[9px] font-black text-slate-400 tracking-widest uppercase">PostgreSQL Cloud</span>
+                            <div className="px-3 py-1 bg-slate-50 rounded-[4px] border border-slate-200">
+                                <span className="text-[10px] font-bold text-slate-500 tracking-widest uppercase">PostgreSQL Cloud</span>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {data?.db?.map((item: any, idx: number) => {
                                 const Icon = iconMap[item.icon] || Database;
                                 return (
-                                    <motion.div
+                                    <div
                                         key={idx}
-                                        whileHover={{ y: -5, scale: 1.02 }}
-                                        className="p-8 rounded-3xl border border-slate-50 hover:border-slate-200 bg-slate-50/50 hover:bg-white flex flex-col items-center text-center transition-all duration-300 cursor-default group/card hover:shadow-xl hover:shadow-slate-200/40"
+                                        className="p-5 rounded-[6px] border border-slate-200 bg-slate-50 flex flex-col items-center text-center hover:bg-white hover:border-slate-300 transition-colors"
                                     >
                                         <div
-                                            className="w-14 h-14 rounded-2xl flex items-center justify-center mb-5 shadow-sm border border-white relative overflow-hidden transition-all duration-300 group-hover/card:scale-110"
-                                            style={{ backgroundColor: `${item.color}08`, color: item.color }}
+                                            className="w-10 h-10 rounded-[6px] flex items-center justify-center mb-3 bg-white border border-slate-200 shadow-sm"
                                         >
-                                            <div className="absolute inset-0 opacity-20" style={{ backgroundColor: item.color }}></div>
-                                            <Icon size={28} strokeWidth={2.5} className="relative z-10" />
+                                            <Icon size={20} className="text-slate-600" />
                                         </div>
-                                        <p className="text-3xl font-black text-slate-900 tracking-tighter leading-none mb-2">{item.count}</p>
-                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">{item.name}</p>
-                                    </motion.div>
+                                        <p className="text-[20px] font-bold text-slate-900 tracking-tight leading-none mb-1.5">{item.count}</p>
+                                        <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{item.name}</p>
+                                    </div>
                                 );
                             })}
                         </div>
@@ -224,55 +221,55 @@ export default function SystemControlPage() {
 
                 {/* 3. YAN PANEL (HIZLI LİNKLER & ARAÇLAR) */}
                 <aside className="space-y-6">
-                    <section className="bg-white rounded-3xl border border-slate-100 p-6 shadow-sm">
-                        <h2 className="text-[11px] font-black tracking-widest text-slate-400 uppercase border-b border-slate-100 pb-3 mb-5">HIZLI ERİŞİM ARAÇLARI</h2>
+                    <section className="bg-white rounded-[6px] border border-slate-200 p-5 shadow-sm">
+                        <h2 className="text-[11px] font-bold tracking-widest text-slate-500 uppercase border-b border-slate-100 pb-3 mb-4">Hızlı Erişim Araçları</h2>
 
-                        <div className="space-y-3">
+                        <div className="space-y-2">
                             <a
                                 href="https://hpanel.hostinger.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-between p-3 bg-orange-50 text-orange-700 rounded-xl group transition-all hover:bg-orange-100 hover:shadow-sm text-xs font-bold no-underline border border-orange-100/50"
+                                className="flex items-center justify-between p-3 bg-white border border-slate-200 text-slate-700 rounded-[6px] hover:bg-slate-50 transition-colors text-[12px] font-semibold no-underline"
                             >
                                 <span className="flex items-center gap-2.5">
-                                    <Globe size={16} /> Hostinger Panel
+                                    <Globe size={14} className="text-indigo-600" /> Hostinger Panel
                                 </span>
-                                <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-all text-orange-400" />
+                                <ExternalLink size={14} className="text-slate-400" />
                             </a>
                             <a
                                 href="https://github.com/ulukaan/qrlamenu.com"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 text-white rounded-xl group transition-all hover:bg-black hover:shadow-md text-xs font-bold no-underline"
+                                className="flex items-center justify-between p-3 bg-slate-900 border border-slate-800 text-white rounded-[6px] hover:bg-slate-800 transition-colors text-[12px] font-semibold no-underline"
                             >
                                 <span className="flex items-center gap-2.5">
-                                    <Github size={16} /> GitHub Repository
+                                    <Github size={14} /> GitHub Repository
                                 </span>
-                                <ExternalLink size={14} className="opacity-0 group-hover:opacity-100 transition-all text-slate-400" />
+                                <ExternalLink size={14} className="text-slate-400" />
                             </a>
-                            <div className="p-4 bg-slate-50/80 rounded-xl border border-slate-100 mt-2">
-                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5"><Activity size={10} /> SİSTEM DURUMU</p>
-                                <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-100 mb-2 shadow-sm">
-                                    <span className="text-xs font-bold text-slate-700">Production Mode</span>
-                                    <span className="px-2 py-0.5 bg-green-100/80 border border-green-200 text-green-700 text-[9px] font-black rounded-md tracking-wider">AKTİF</span>
+                            <div className="p-4 bg-slate-50 rounded-[6px] border border-slate-200 mt-4 space-y-3">
+                                <p className="text-[10px] font-bold text-slate-500 uppercase tracking-widest flex items-center gap-1.5"><Activity size={12} /> SİSTEM BİLGİSİ</p>
+                                <div className="flex items-center justify-between bg-white px-3 h-8 rounded-[4px] border border-slate-200 shadow-sm">
+                                    <span className="text-[12px] font-semibold text-slate-700">Production Mode</span>
+                                    <span className="text-emerald-600 text-[10px] font-bold tracking-wider">AKTİF</span>
                                 </div>
-                                <div className="flex items-center justify-between bg-white px-3 py-2 rounded-lg border border-slate-100 shadow-sm">
-                                    <span className="text-xs font-bold text-slate-700">WAF Güvenlik</span>
-                                    <span className="px-2 py-0.5 bg-blue-100/80 border border-blue-200 text-blue-700 text-[9px] font-black rounded-md tracking-wider">KORUMADA</span>
+                                <div className="flex items-center justify-between bg-white px-3 h-8 rounded-[4px] border border-slate-200 shadow-sm">
+                                    <span className="text-[12px] font-semibold text-slate-700">WAF Güvenlik</span>
+                                    <span className="text-indigo-600 text-[10px] font-bold tracking-wider">KORUMADA</span>
                                 </div>
                             </div>
                         </div>
                     </section>
 
-                    <section className="bg-gradient-to-br from-orange-600 to-orange-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden group">
-                        <div className="absolute top-0 right-0 p-4 opacity-10 transform group-hover:scale-110 transition-transform duration-500">
-                            <AlertCircle size={80} />
+                    <section className="bg-indigo-50 border border-indigo-100 rounded-[6px] p-5 flex gap-4 items-start shadow-sm">
+                        <div className="bg-indigo-100 p-2 rounded-[4px] text-indigo-600 mt-0.5 shrink-0">
+                            <AlertCircle size={18} />
                         </div>
-                        <div className="relative z-10">
-                            <h3 className="text-base font-black mb-1.5 tracking-tight">Yardıma mı ihtiyacınız var?</h3>
-                            <p className="text-orange-100/90 text-[11px] font-semibold mb-5 leading-relaxed tracking-wide">Sistemle ilgili teknik veya altyapısal olağandışı bir sorun mu yaşıyorsunuz?</p>
-                            <button className="w-full py-3 bg-white hover:bg-slate-50 text-orange-600 rounded-xl font-black text-xs shadow-xl shadow-orange-900/20 active:scale-95 transition-all uppercase tracking-widest hover:-translate-y-0.5 border border-white">
-                                DESTEK TALEBİ AÇ
+                        <div>
+                            <h3 className="text-[13px] font-bold text-indigo-900 mb-1">Teknik Destek</h3>
+                            <p className="text-indigo-700 text-[12px] font-medium leading-relaxed mb-3">Sistemle ilgili altyapısal olağandışı bir durum tespit ederseniz, kayıt açabilirsiniz.</p>
+                            <button className="h-8 px-3 bg-white hover:bg-indigo-50 border border-indigo-200 text-indigo-700 rounded-[4px] font-bold text-[11px] uppercase tracking-wider transition-colors shadow-sm">
+                                Destek Talebi Aç
                             </button>
                         </div>
                     </section>

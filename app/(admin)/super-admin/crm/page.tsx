@@ -100,151 +100,139 @@ export default function CRMPage() {
     };
 
     return (
-        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header */}
-            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
-                <div className="max-w-3xl">
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                        CRM & Müşteri İlişkileri
-                    </h2>
-                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
-                        Potansiyel müşteri akışını yönetin, görüşme notlarını takip edin ve dönüşüm oranlarını analiz edin.
-                    </p>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+                <div>
+                    <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">CRM Müşteri Yönetimi</h1>
+                    <p className="text-[12px] text-slate-500 mt-1 font-medium bg-slate-100 px-2 py-0.5 rounded-[4px] inline-block mb-0 uppercase tracking-widest">Aday Akışı ve Dönüşüm Analizi</p>
                 </div>
-                <div className="w-full xl:w-auto">
+                <div className="w-full sm:w-auto">
                     <button
                         onClick={() => setIsAddModalOpen(true)}
-                        className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest"
+                        className="w-full sm:w-auto h-9 px-4 rounded-[6px] border border-slate-200 bg-white text-slate-700 font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm"
                     >
-                        <Plus size={20} strokeWidth={3} /> Yeni Lead Tanımla
+                        <Plus size={16} /> Yeni Aday Kaydı
                     </button>
                 </div>
-            </header>
+            </div>
 
             {/* Quick Stats Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
                 {[
-                    { label: 'Toplam Aday', value: stats.total, icon: Users, color: 'text-blue-500', bg: 'bg-blue-50', border: 'border-blue-100', shadow: 'hover:shadow-blue-500/5' },
-                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-100', shadow: 'hover:shadow-orange-500/5' },
-                    { label: 'Dönüşüm Oranı', value: `%${stats.conversionRate}`, icon: TrendingUp, color: 'text-emerald-500', bg: 'bg-emerald-50', border: 'border-emerald-100', shadow: 'hover:shadow-emerald-500/5' },
-                    { label: 'Dönüşenler', value: stats.converted, icon: CheckCircle2, color: 'text-violet-500', bg: 'bg-violet-50', border: 'border-violet-100', shadow: 'hover:shadow-violet-500/5' }
+                    { label: 'Toplam Aday', value: stats.total, icon: Users, color: 'text-indigo-600', bg: 'bg-indigo-50', border: 'border-indigo-100' },
+                    { label: 'Bekleyenler', value: stats.pending, icon: Calendar, color: 'text-amber-600', bg: 'bg-amber-50', border: 'border-amber-100' },
+                    { label: 'Dönüşüm Oranı', value: `%${stats.conversionRate}`, icon: TrendingUp, color: 'text-emerald-600', bg: 'bg-emerald-50', border: 'border-emerald-100' },
+                    { label: 'Dönüşenler', value: stats.converted, icon: CheckCircle2, color: 'text-slate-700', bg: 'bg-slate-100', border: 'border-slate-200' }
                 ].map((stat, i) => (
-                    <div key={i} className={`group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl ${stat.shadow} transition-all duration-500 border-2 border-transparent hover:border-gray-100 relative overflow-hidden`}>
-                        <div className="relative z-10 flex justify-between items-start">
-                            <div>
-                                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">{stat.label}</p>
-                                <h3 className="text-4xl font-black text-gray-900 tracking-tighter leading-none">{loading ? '...' : stat.value}</h3>
-                            </div>
-                            <div className={`${stat.bg} ${stat.color} p-5 rounded-3xl border ${stat.border} group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                                <stat.icon size={28} strokeWidth={2.5} />
-                            </div>
+                    <div key={i} className="bg-white p-5 rounded-[6px] shadow-sm border border-slate-200 hover:border-slate-300 transition-colors flex items-center justify-between">
+                        <div>
+                            <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-1">{stat.label}</p>
+                            <h3 className="text-[24px] font-bold text-slate-900 tracking-tight leading-none">{loading ? '...' : stat.value}</h3>
+                        </div>
+                        <div className={`${stat.bg} ${stat.color} w-10 h-10 rounded-[6px] border ${stat.border} flex items-center justify-center`}>
+                            <stat.icon size={20} />
                         </div>
                     </div>
                 ))}
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-12 items-start">
-                <div className="space-y-10 min-w-0">
-                    <div className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-                        <div className="px-10 py-8 border-b border-gray-50 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-gray-50/50 gap-6">
-                            <div className="flex items-center gap-4">
-                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Lead Akışı</h3>
-                                <span className="bg-white border-2 border-gray-100 px-4 py-1.5 rounded-full text-[10px] font-black text-gray-400 tracking-widest uppercase shadow-sm">
-                                    {filteredLeads.length} KAYIT
+            <div className="h-px bg-slate-200/60 w-full mb-8" />
+
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_300px] gap-8 items-start">
+                <div className="space-y-6 min-w-0">
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                        <div className="px-5 py-4 border-b border-slate-200 flex flex-col sm:flex-row justify-between items-start sm:items-center bg-slate-50 gap-4">
+                            <div className="flex items-center gap-3">
+                                <h3 className="text-[15px] font-bold text-slate-900 tracking-tight">Potansiyel Aday Akışı</h3>
+                                <span className="bg-white border border-slate-200 px-2 py-0.5 rounded-[4px] text-[11px] font-bold text-slate-500 tracking-widest uppercase">
+                                    {filteredLeads.length} Aday
                                 </span>
                             </div>
                         </div>
 
-                        <div className="p-10">
+                        <div className="p-5">
                             {loading ? (
-                                <div className="py-40 text-center">
-                                    <Loader2 className="animate-spin text-[#ea580c] mx-auto mb-6" size={48} />
-                                    <p className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</p>
+                                <div className="py-20 text-center">
+                                    <Loader2 className="animate-spin text-slate-400 mx-auto mb-4" size={32} />
+                                    <p className="text-slate-500 font-semibold text-[13px]">Veriler yükleniyor...</p>
                                 </div>
                             ) : error ? (
-                                <div className="p-10 text-center font-black text-rose-500 bg-rose-50 rounded-[32px] border-2 border-rose-100">{error}</div>
+                                <div className="p-6 text-center text-[13px] font-semibold text-rose-600 bg-rose-50 rounded-[6px] border border-rose-200">{error}</div>
                             ) : filteredLeads.length === 0 ? (
-                                <div className="py-40 text-center flex flex-col items-center justify-center">
-                                    <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center mb-8 text-gray-200 border-2 border-gray-100 shadow-inner">
-                                        <Users size={48} strokeWidth={1} />
+                                <div className="py-20 text-center flex flex-col items-center justify-center">
+                                    <div className="w-16 h-16 bg-slate-50 rounded-[6px] flex items-center justify-center mb-4 text-slate-400 border border-slate-200">
+                                        <Users size={24} />
                                     </div>
-                                    <h4 className="text-xl font-black text-gray-900 mb-2">Eşleşen Kayıt Bulunamadı</h4>
-                                    <p className="text-gray-400 font-bold max-w-[320px] leading-relaxed italic">Seçili filtrelere uygun potansiyel müşteri kaydı mevcut değil.</p>
+                                    <h4 className="text-[15px] font-bold text-slate-900 mb-2">Aday Bulunamadı</h4>
+                                    <p className="text-slate-500 text-[13px] font-medium max-w-[280px]">Mevcut filtre kriterlerine uygun bir müşteri adayı bulunmuyor.</p>
                                 </div>
                             ) : (
-                                <div className="space-y-8">
+                                <div className="space-y-4">
                                     {filteredLeads.map((lead) => (
-                                        <div key={lead.id} className="group relative bg-white rounded-[40px] border-2 border-gray-50 p-8 md:p-10 hover:shadow-2xl hover:shadow-gray-200/40 transition-all duration-500 overflow-hidden hover:border-orange-100">
-                                            {/* Glow Effect */}
-                                            <div className="absolute -left-10 -top-10 w-40 h-40 bg-gray-50 rounded-full blur-[60px] opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+                                        <div key={lead.id} className="bg-white rounded-[6px] border border-slate-200 p-5 hover:border-slate-300 hover:shadow-sm transition-all flex flex-col lg:flex-row gap-5 items-start">
 
-                                            <div className="relative flex flex-col lg:flex-row gap-10 items-start">
-                                                <div className="w-16 h-16 bg-gray-900 text-white rounded-3xl flex items-center justify-center shrink-0 shadow-xl shadow-gray-900/20 group-hover:bg-[#ea580c] group-hover:shadow-orange-500/30 group-hover:rotate-6 transition-all duration-500">
-                                                    <Users size={28} strokeWidth={1.5} />
+                                            <div className="w-10 h-10 bg-slate-100 text-slate-500 rounded-[6px] border border-slate-200 flex items-center justify-center shrink-0">
+                                                <Users size={18} />
+                                            </div>
+
+                                            <div className="flex-1 w-full flex flex-col gap-4">
+                                                <div className="flex flex-col sm:flex-row justify-between items-start gap-4">
+                                                    <div>
+                                                        <h4 className="text-[15px] font-bold text-slate-900 flex items-center gap-2">
+                                                            {lead.name}
+                                                            {lead.restaurant && <span className="text-slate-500 font-medium px-2 py-0.5 bg-slate-50 rounded-[4px] border border-slate-200 text-[12px]">{lead.restaurant}</span>}
+                                                        </h4>
+                                                        <div className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-500 uppercase tracking-widest mt-1.5">
+                                                            <Calendar size={12} className="text-slate-400" />
+                                                            {new Date(lead.createdAt).toLocaleDateString('tr-TR', { day: '2-digit', month: 'short', year: 'numeric' })}
+                                                        </div>
+                                                    </div>
+
+                                                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                                                        <select
+                                                            value={lead.status}
+                                                            onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
+                                                            className={`w-full sm:w-36 text-[11px] font-bold px-3 h-8 rounded-[4px] border transition-all cursor-pointer outline-none shadow-sm ${lead.status === 'CONVERTED' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' :
+                                                                lead.status === 'PENDING' ? 'bg-amber-50 text-amber-700 border-amber-200' :
+                                                                    lead.status === 'CONTACTED' ? 'bg-blue-50 text-blue-700 border-blue-200' :
+                                                                        'bg-slate-50 text-slate-600 border-slate-200'
+                                                                }`}
+                                                        >
+                                                            <option value="PENDING">BEKLEMEDE</option>
+                                                            <option value="CONTACTED">GÖRÜŞÜLDÜ</option>
+                                                            <option value="CONVERTED">DÖNÜŞTÜ</option>
+                                                            <option value="LOST">KAYBEDİLDİ</option>
+                                                        </select>
+                                                        <button
+                                                            onClick={() => handleDeleteLead(lead.id)}
+                                                            className="w-8 h-8 flex items-center justify-center border border-rose-200 bg-white hover:bg-rose-50 text-rose-500 rounded-[4px] transition-colors shrink-0 shadow-sm"
+                                                            title="Sil"
+                                                        >
+                                                            <Trash2 size={14} />
+                                                        </button>
+                                                    </div>
                                                 </div>
 
-                                                <div className="flex-1 space-y-8 w-full">
-                                                    <div className="flex flex-col sm:flex-row justify-between items-start gap-6">
-                                                        <div>
-                                                            <h4 className="text-2xl font-black text-gray-900 tracking-tight flex flex-wrap items-center gap-3">
-                                                                {lead.name}
-                                                                {lead.restaurant && <span className="text-gray-400 font-black text-sm px-3 py-1 bg-gray-50 rounded-lg border border-gray-100">/ {lead.restaurant}</span>}
-                                                            </h4>
-                                                            <div className="flex items-center gap-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] mt-3">
-                                                                <Calendar size={14} className="text-[#ea580c]" />
-                                                                KAYIT: {new Date(lead.createdAt).toLocaleDateString('tr-TR', { day: '2-digit', month: 'long', year: 'numeric' })}
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="flex items-center gap-4 w-full sm:w-auto">
-                                                            <div className="relative flex-1 sm:flex-none">
-                                                                <select
-                                                                    value={lead.status}
-                                                                    onChange={(e) => handleUpdateStatus(lead.id, e.target.value)}
-                                                                    className={`w-full sm:w-48 text-[10px] font-black px-6 py-3 rounded-xl uppercase tracking-widest border-2 transition-all cursor-pointer outline-none appearance-none text-center shadow-sm ${lead.status === 'CONVERTED' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-emerald-500/5' :
-                                                                            lead.status === 'PENDING' ? 'bg-orange-50 text-[#ea580c] border-orange-100 shadow-orange-500/5' :
-                                                                                'bg-gray-50 text-gray-500 border-gray-100'
-                                                                        }`}
-                                                                >
-                                                                    <option value="PENDING">BEKLEMEDE</option>
-                                                                    <option value="CONTACTED">GÖRÜŞÜLDÜ</option>
-                                                                    <option value="CONVERTED">DÖNÜŞTÜ</option>
-                                                                    <option value="LOST">KAYBEDİLDİ</option>
-                                                                </select>
-                                                            </div>
-                                                            <button
-                                                                onClick={() => handleDeleteLead(lead.id)}
-                                                                className="w-12 h-12 flex items-center justify-center border-2 border-rose-50 bg-rose-50 text-rose-500 rounded-xl hover:bg-rose-500 hover:text-white transition-all shrink-0 shadow-sm"
-                                                            >
-                                                                <Trash2 size={18} />
-                                                            </button>
-                                                        </div>
-                                                    </div>
-
-                                                    <div className="bg-gray-50/50 rounded-3xl p-6 border-2 border-gray-50 group-hover:border-orange-50 group-hover:bg-white transition-all">
-                                                        <p className="text-sm text-gray-600 font-bold leading-relaxed italic border-l-4 border-orange-200 pl-6 py-1">
-                                                            {lead.notes || 'Görüşme notu bulunmuyor.'}
+                                                {lead.notes && (
+                                                    <div className="bg-slate-50 rounded-[4px] p-3 border border-slate-200">
+                                                        <p className="text-[12px] text-slate-600 font-medium leading-relaxed">
+                                                            {lead.notes}
                                                         </p>
                                                     </div>
+                                                )}
 
-                                                    <div className="flex flex-wrap gap-4">
-                                                        {lead.email && (
-                                                            <div className="flex items-center gap-4 text-xs font-black text-gray-700 bg-gray-50 px-5 py-3 rounded-2xl group/link cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border-2 border-transparent hover:border-gray-100">
-                                                                <div className="bg-orange-100 p-2 rounded-xl text-[#ea580c] group-hover/link:rotate-12 transition-transform shadow-sm">
-                                                                    <Mail size={16} strokeWidth={2.5} />
-                                                                </div>
-                                                                {lead.email}
-                                                            </div>
-                                                        )}
-                                                        {lead.phone && (
-                                                            <div className="flex items-center gap-4 text-xs font-black text-gray-700 bg-gray-50 px-5 py-3 rounded-2xl group/link cursor-pointer hover:bg-white hover:shadow-xl hover:shadow-gray-200/50 transition-all border-2 border-transparent hover:border-gray-100">
-                                                                <div className="bg-emerald-100 p-2 rounded-xl text-emerald-600 group-hover/link:scale-110 transition-transform shadow-sm">
-                                                                    <Phone size={16} strokeWidth={2.5} />
-                                                                </div>
-                                                                {lead.phone}
-                                                            </div>
-                                                        )}
-                                                    </div>
+                                                <div className="flex flex-wrap gap-2">
+                                                    {lead.email && (
+                                                        <div className="flex items-center gap-2 text-[12px] font-semibold text-slate-600 bg-white px-3 h-7 rounded-[4px] border border-slate-200 hover:bg-slate-50 transition-colors">
+                                                            <Mail size={12} className="text-slate-400" /> {lead.email}
+                                                        </div>
+                                                    )}
+                                                    {lead.phone && (
+                                                        <div className="flex items-center gap-2 text-[12px] font-semibold text-slate-600 bg-white px-3 h-7 rounded-[4px] border border-slate-200 hover:bg-slate-50 transition-colors">
+                                                            <Phone size={12} className="text-slate-400" /> {lead.phone}
+                                                        </div>
+                                                    )}
                                                 </div>
                                             </div>
                                         </div>
@@ -255,26 +243,30 @@ export default function CRMPage() {
                     </div>
                 </div>
 
-                <aside className="xl:sticky xl:top-8 flex flex-col gap-10">
-                    <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-20 -top-20 w-56 h-56 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
+                <aside className="xl:sticky xl:top-8 flex flex-col gap-6">
+                    <div className="bg-slate-900 rounded-[6px] p-6 text-white shadow-sm border border-slate-800">
                         <div className="relative">
-                            <div className="flex items-center gap-4 mb-10">
-                                <div className="w-1.5 h-10 bg-[#ea580c] rounded-full shadow-[0_0_20px_rgba(255,122,33,0.5)]"></div>
-                                <h3 className="text-xs font-black uppercase tracking-[0.3em] text-slate-500">Kategori Filtresi</h3>
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="bg-slate-800 text-slate-400 p-2 rounded-[4px]">
+                                    <Filter size={18} />
+                                </div>
+                                <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Kategori Filtresi</h3>
                             </div>
 
-                            <div className="space-y-4">
+                            <div className="flex flex-col gap-2">
                                 {[
                                     { id: 'ALL', label: 'Bütün Potansiyeller' },
                                     { id: 'PENDING', label: 'Bekleyen Adaylar' },
                                     { id: 'CONVERTED', label: 'Dönüşen İşletmeler' },
-                                    { id: 'LOST', label: 'Arşivlenmiş' }
+                                    { id: 'LOST', label: 'Arşivlenmiş Kayıtlar' }
                                 ].map((filter) => (
                                     <button
                                         key={filter.id}
                                         onClick={() => setActiveFilter(filter.id)}
-                                        className={`w-full p-5 rounded-[24px] text-[11px] font-black uppercase tracking-[0.15em] text-left transition-all duration-300 border-2 ${activeFilter === filter.id ? 'bg-[#ea580c] border-[#ea580c] text-white shadow-xl shadow-orange-500/20 scale-[1.02]' : 'bg-white/5 border-white/5 text-slate-400 hover:bg-white/10 hover:text-white'}`}
+                                        className={`w-full px-4 h-11 rounded-[6px] text-[12px] font-semibold text-left transition-colors border ${activeFilter === filter.id
+                                            ? 'bg-slate-800 border-slate-700 text-white'
+                                            : 'bg-transparent border-transparent text-slate-400 hover:bg-slate-800/50 hover:text-white'
+                                            }`}
                                     >
                                         {filter.label}
                                     </button>
@@ -283,17 +275,15 @@ export default function CRMPage() {
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-emerald-500 group hover:shadow-2xl hover:shadow-emerald-500/5 transition-all">
-                        <div className="flex gap-6 items-start">
-                            <div className="bg-emerald-50 text-emerald-500 p-4 rounded-[24px] shrink-0 border-2 border-emerald-100 group-hover:rotate-6 transition-transform">
-                                <TrendingUp size={28} strokeWidth={2.5} />
-                            </div>
-                            <div>
-                                <h4 className="text-lg font-black text-gray-900 mb-3 tracking-tight">Dönüşüm Rehberi</h4>
-                                <p className="text-sm text-gray-500 leading-relaxed font-bold italic">
-                                    Potansiyel adaylara <span className="text-emerald-500 font-black underline decoration-emerald-200 underline-offset-4">ilk 24 saat</span> içinde dönüş yapmak, satış şansını %65'e kadar artırır.
-                                </p>
-                            </div>
+                    <div className="bg-emerald-50 rounded-[6px] p-5 border border-emerald-200 shadow-sm flex gap-4 items-start">
+                        <div className="bg-emerald-100 p-2 rounded-[4px] shrink-0 text-emerald-600 mt-0.5">
+                            <TrendingUp size={18} />
+                        </div>
+                        <div>
+                            <h4 className="text-[13px] font-bold text-emerald-900 mb-1">Dönüşüm Rehberi</h4>
+                            <p className="text-[12px] text-emerald-700 font-medium leading-relaxed">
+                                Potansiyel adaylara <span className="font-bold underline">ilk 24 saat</span> içinde dönüş yapmak, satış/dönüşüm şansını ortalama %65'e kadar artırır.
+                            </p>
                         </div>
                     </div>
                 </aside>
@@ -301,89 +291,92 @@ export default function CRMPage() {
 
             {/* Add Lead Modal */}
             {isAddModalOpen && (
-                <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 md:p-12">
-                    <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-2xl animate-in fade-in duration-500" onClick={() => setIsAddModalOpen(false)} />
-                    <div className="relative w-full max-w-3xl bg-white rounded-[50px] p-10 md:p-16 shadow-2xl animate-in zoom-in duration-500 border-2 border-gray-100">
+                <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+                    <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm animate-in fade-in duration-200" onClick={() => setIsAddModalOpen(false)} />
+                    <div className="relative w-full max-w-lg bg-white rounded-[6px] p-6 shadow-xl animate-in zoom-in-95 duration-200 border border-slate-200 flex flex-col max-h-[90vh]">
                         <button
                             onClick={() => setIsAddModalOpen(false)}
-                            className="absolute top-10 right-10 w-14 h-14 flex items-center justify-center bg-gray-50 text-gray-400 rounded-2xl hover:bg-rose-50 hover:text-rose-500 transition-all font-black border-2 border-transparent hover:border-rose-100 shadow-sm"
+                            className="absolute top-6 right-6 w-8 h-8 rounded-[4px] bg-white border border-slate-200 text-slate-500 flex items-center justify-center hover:bg-slate-50 hover:text-slate-900 transition-colors shadow-sm"
                         >
-                            <X size={28} />
+                            <X size={16} />
                         </button>
 
-                        <div className="mb-12">
-                            <div className="w-20 h-20 bg-gray-900 text-white rounded-[32px] flex items-center justify-center mb-8 shadow-2xl shadow-gray-900/20">
-                                <Plus size={40} strokeWidth={3} />
+                        <div className="mb-6 flex items-center gap-4">
+                            <div className="w-10 h-10 bg-indigo-50 text-indigo-600 rounded-[6px] border border-indigo-100 flex items-center justify-center shrink-0">
+                                <Plus size={20} />
                             </div>
-                            <h3 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight">Yeni Lead Tanımla</h3>
-                            <p className="text-gray-400 font-bold mt-2 text-lg italic">Satış sürecini başlatmak için aday bilgilerini sisteme kaydedin.</p>
+                            <div>
+                                <h3 className="text-[16px] font-bold text-slate-900 tracking-tight leading-tight">Yeni Potansiyel Aday Ekle</h3>
+                                <p className="text-[12px] text-slate-500 font-medium">Sisteme yeni bir müşteri adayı tanımlayın.</p>
+                            </div>
                         </div>
 
-                        <form onSubmit={handleAddLead} className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Yetkili Ad Soyad</label>
+                        <form onSubmit={handleAddLead} className="grid grid-cols-1 md:grid-cols-2 gap-5 overflow-y-auto pr-2 pb-2">
+                            <div className="md:col-span-2">
+                                <label className="block text-[12px] font-bold text-slate-700 mb-2">Yetkili Ad Soyad</label>
                                 <input
                                     required
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                     placeholder="Örn: Ahmet Yılmaz"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
+                                    className="w-full h-10 px-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 />
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">İşletme / Restoran</label>
+                            <div>
+                                <label className="block text-[12px] font-bold text-slate-700 mb-2">İşletme / Restoran Adı</label>
                                 <input
                                     type="text"
                                     value={formData.restaurant}
                                     onChange={(e) => setFormData({ ...formData, restaurant: e.target.value })}
                                     placeholder="Örn: Gurme Burger"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
+                                    className="w-full h-10 px-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 />
                             </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">İletişim E-Posta</label>
-                                <input
-                                    type="email"
-                                    value={formData.email}
-                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    placeholder="örnek@mail.com"
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
-                                />
-                            </div>
-                            <div className="space-y-3">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Telefon Numarası</label>
+                            <div>
+                                <label className="block text-[12px] font-bold text-slate-700 mb-2">Telefon Numarası</label>
                                 <input
                                     type="text"
                                     value={formData.phone}
                                     onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                                     placeholder="05..."
-                                    className="w-full px-8 py-5 rounded-2xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all shadow-sm"
+                                    className="w-full h-10 px-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
                                 />
                             </div>
-                            <div className="md:col-span-2 space-y-3">
-                                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-2">Görüşme Detayları / Notlar</label>
+                            <div className="md:col-span-2">
+                                <label className="block text-[12px] font-bold text-slate-700 mb-2">İletişim E-Posta Adresi</label>
+                                <input
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    placeholder="ornek@posta.com"
+                                    className="w-full h-10 px-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                                />
+                            </div>
+                            <div className="md:col-span-2">
+                                <label className="block text-[12px] font-bold text-slate-700 mb-2">Görüşme Notları / Çıktılar</label>
                                 <textarea
                                     rows={4}
                                     value={formData.notes}
                                     onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                                     placeholder="İlk görüşme çıktılarını not alın..."
-                                    className="w-full px-8 py-5 rounded-3xl border-2 border-gray-50 bg-gray-50 text-base font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all resize-none shadow-sm"
+                                    className="w-full p-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-medium text-slate-900 outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all resize-none"
                                 />
                             </div>
-                            <button
-                                type="submit"
-                                disabled={isSaving}
-                                className="md:col-span-2 mt-6 bg-gray-900 text-white py-6 rounded-[32px] font-black text-xl flex items-center justify-center gap-4 shadow-2xl shadow-gray-900/30 hover:bg-[#ea580c] hover:shadow-orange-500/30 hover:scale-[1.02] active:scale-95 disabled:opacity-70 transition-all uppercase tracking-widest"
-                            >
-                                {isSaving ? <Loader2 className="animate-spin" size={28} /> : <Check size={28} strokeWidth={4} />}
-                                {isSaving ? 'İşleniyor...' : 'Aday Kaydını Onayla'}
-                            </button>
+
+                            <div className="md:col-span-2 mt-4">
+                                <button
+                                    type="submit" disabled={isSaving}
+                                    className="w-full h-10 rounded-[6px] bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[13px] shadow-sm flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
+                                >
+                                    {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} strokeWidth={2.5} />}
+                                    {isSaving ? 'Kaydediliyor...' : 'Adayı Kaydet'}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
             )}
         </div>
     );
-
 }

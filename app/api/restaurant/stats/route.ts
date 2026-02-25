@@ -10,9 +10,19 @@ export async function GET(request: Request) {
     const tenantId = getTenantId(request);
 
     try {
-        const [categoryCount, pendingOrders] = await Promise.all([
+        const [categoryCount, pendingOrders, recentOrders, recentCalls] = await Promise.all([
             prisma.category.count({ where: { tenantId } }),
-            prisma.order.count({ where: { tenantId, status: 'PENDING' } })
+            prisma.order.count({ where: { tenantId, status: 'PENDING' } }),
+            prisma.order.findMany({
+                where: { tenantId },
+                orderBy: { createdAt: 'desc' },
+                take: 5
+            }),
+            prisma.waiterCall.findMany({
+                where: { tenantId },
+                orderBy: { createdAt: 'desc' },
+                take: 5
+            })
         ]);
 
         // Son 7 günün istatistiklerini DailyStat'tan hesapla (Gerçek Veri)
@@ -62,7 +72,23 @@ export async function GET(request: Request) {
             categoryCount,
             pendingOrders,
             scanCount: totalStatInfo._sum.orderCount || 0, // Geçici
-            monthlyScans: monthlyScans
+            monthlyScans: monthlyScans,
+            recentNotifications: [
+                ...recentOrders.map(o => ({
+                    id: o.id,
+                    type: 'ORDER',
+                    title: `Masa ${o.tableId || 'P'}: Yeni Sipariş`,
+                    time: o.createdAt,
+                    status: o.status
+                })),
+                ...recentCalls.map(c => ({
+                    id: c.id,
+                    type: 'WAITER_CALL',
+                    title: `Masa ${c.tableId}: Garson Çağrısı`,
+                    time: c.createdAt,
+                    status: c.status
+                }))
+            ].sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime()).slice(0, 5)
         });
     } catch (error) {
         console.error('Stats Error:', error);

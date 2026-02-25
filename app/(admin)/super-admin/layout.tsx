@@ -1,6 +1,5 @@
 import React from "react";
 import SuperAdminSidebar from "@/components/SuperAdminSidebar";
-import Header from "@/components/Header";
 import { SidebarProvider } from "@/components/SidebarContext";
 
 export default function SuperAdminLayout({
@@ -10,11 +9,10 @@ export default function SuperAdminLayout({
 }) {
     return (
         <SidebarProvider>
-            <div className="flex min-h-screen w-full bg-[#f8f9fb]">
+            <div className="flex bg-[#f8fafc]" style={{ height: '100dvh', width: '100%' }}>
                 <SuperAdminSidebar />
-                <main className="main-content flex-1 flex flex-col min-h-screen">
-                    <Header />
-                    <div className="flex-1 overflow-y-auto w-full">
+                <main className="main-content relative flex flex-col flex-1 h-full overflow-hidden">
+                    <div className="flex-1 overflow-y-auto relative z-0 w-full" id="admin-scroll-area">
                         {children}
                     </div>
                 </main>

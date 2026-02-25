@@ -143,58 +143,50 @@ export default function EditRestaurantPage() {
     ];
 
     return (
-        <div style={{ padding: '2rem 3rem', width: '100%', maxWidth: '100%' }}>
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Header */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '3rem' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '24px' }}>
+            <div className="flex items-start md:items-center justify-between gap-6 mb-10">
+                <div className="flex items-center gap-4">
                     <button
                         onClick={() => router.back()}
-                        style={{ width: '48px', height: '48px', border: '1px solid #e2e8f0', background: '#fff', borderRadius: '14px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#64748b', transition: 'all 0.2s', boxShadow: '0 4px 6px -1px rgba(0,0,0,0.05)' }}
-                        className="hover:border-orange-600 hover:text-orange-600"
+                        className="w-10 h-10 border border-slate-200 bg-white rounded-[6px] flex items-center justify-center text-slate-500 hover:border-slate-300 hover:text-slate-900 shadow-sm transition-all"
                     >
-                        <ArrowLeft size={20} />
+                        <ArrowLeft size={18} />
                     </button>
                     <div>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '8px' }}>
-                            <h1 style={{ margin: 0, fontSize: '1.85rem', fontWeight: '900', color: '#111827', letterSpacing: '-0.04em' }}>{tenant.name}</h1>
-                            <span style={{
-                                padding: '6px 14px',
-                                borderRadius: '10px',
-                                fontSize: '0.75rem',
-                                fontWeight: '900',
-                                background: tenant.status === 'ACTIVE' ? '#ecfdf5' : '#fff1f2',
-                                color: tenant.status === 'ACTIVE' ? '#10b981' : '#f43f5e',
-                                textTransform: 'uppercase',
-                                border: '1px solid currentColor',
-                                boxShadow: `0 0 10px ${tenant.status === 'ACTIVE' ? 'rgba(16, 185, 129, 0.1)' : 'rgba(244, 63, 94, 0.1)'}`
-                            }}>
-                                {tenant.status === 'ACTIVE' ? 'SİSTEMDE AKTİF' : 'ASIKYA ALINDI'}
+                        <div className="flex items-center gap-3 mb-2">
+                            <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">{tenant.name}</h1>
+                            <span className={`
+                                px-2.5 py-1 rounded-[4px] text-[10px] font-bold uppercase border
+                                ${tenant.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-500 border-rose-100'}
+                            `}>
+                                {tenant.status === 'ACTIVE' ? 'SİSTEMDE AKTİF' : 'ASKIYA ALINDI'}
                             </span>
                         </div>
-                        <p style={{ margin: 0, fontSize: '0.85rem', color: '#94a3b8', fontWeight: '700', fontFamily: 'monospace', background: '#f8fafc', padding: '4px 10px', borderRadius: '6px', display: 'inline-block' }}>GLOBAL ID: {tenant.id.toUpperCase()}</p>
+                        <p className="text-[11px] font-medium text-slate-500 uppercase tracking-widest bg-slate-100 px-2 py-0.5 rounded-[4px] inline-block mb-0">GLOBAL ID: {tenant.id.substring(0, 8).toUpperCase()}</p>
                     </div>
                 </div>
-                <div style={{ display: 'flex', gap: '14px' }}>
+                <div className="flex flex-col sm:flex-row items-center gap-3">
                     <button
                         onClick={handleDelete}
                         disabled={deleting}
-                        style={{ padding: '14px 24px', borderRadius: '14px', border: '1px solid #f43f5e', background: '#fff', color: '#f43f5e', fontWeight: '900', fontSize: '0.9rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '10px', transition: 'all 0.2s' }}
-                        className="hover:bg-rose-50"
+                        className="w-full sm:w-auto h-9 px-4 rounded-[6px] border border-rose-200 bg-white text-rose-500 font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-rose-50 transition-all shadow-sm"
                     >
-                        {deleting ? <Loader2 size={18} className="animate-spin" /> : <Trash2 size={18} />}
+                        {deleting ? <Loader2 size={16} className="animate-spin" /> : <Trash2 size={16} />}
                         İşletmeyi Kalıcı Sil
                     </button>
                     <button
                         onClick={handleSave}
                         disabled={saving}
-                        className="btn-primary"
-                        style={{ padding: '14px 32px', borderRadius: '14px', fontWeight: '900', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '12px', boxShadow: '0 10px 15px -3px rgba(255, 122, 33, 0.3)' }}
+                        className="w-full sm:w-auto h-9 px-4 rounded-[6px] bg-slate-900 text-white font-semibold text-[13px] flex items-center justify-center gap-2 hover:bg-slate-800 transition-all shadow-sm"
                     >
-                        {saving ? <Loader2 size={20} className="animate-spin" /> : <Save size={20} />}
+                        {saving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
                         {saving ? 'Veriler İşleniyor...' : 'Konfigürasyonu Güncelle'}
                     </button>
                 </div>
             </div>
+
+            <div className="h-px bg-slate-200/60 w-full mb-10" />
 
             <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr_340px] gap-10">
                 {/* Left Sidebar: Stats & Preview */}
@@ -240,58 +232,54 @@ export default function EditRestaurantPage() {
                 </div>
 
                 {/* Middle: Core Form Sections */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="flex flex-col gap-6">
                     {/* General Info */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
-                            <div style={{ background: '#eff6ff', color: '#3b82f6', padding: '12px', borderRadius: '14px' }}>
-                                <ShieldCheck size={24} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                <ShieldCheck size={20} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827' }}>Kimlik & İletişim</h3>
-                                <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Temel işletme tanımları ve sahip bilgileri.</p>
+                                <h3 className="text-[15px] font-bold text-slate-900 tracking-tight">Kimlik & İletişim</h3>
+                                <p className="text-[12px] font-medium text-slate-500 mt-0.5">Temel işletme tanımları ve sahip bilgileri.</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div style={{ gridColumn: 'span 2' }}>
-                                <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Restoran Kamu Adı</label>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                            <div className="md:col-span-2">
+                                <label className="block mb-2 text-[12px] font-bold text-slate-700">Restoran Kamu Adı</label>
                                 <input
                                     type="text"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fcfcfc', fontSize: '1rem', outline: 'none', fontWeight: '800', color: '#111827' }}
-                                    className="focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                                    className="w-full h-10 px-4 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all"
                                 />
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Sorumlu E-posta</label>
-                                <div style={{ display: 'flex', gap: '10px' }}>
+                                <label className="block mb-2 text-[12px] font-bold text-slate-700">Sorumlu E-posta</label>
+                                <div className="flex gap-2">
                                     <input
                                         type="email"
                                         value={formData.ownerEmail}
                                         onChange={(e) => setFormData({ ...formData, ownerEmail: e.target.value })}
-                                        style={{ flex: 1, padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fcfcfc', fontSize: '0.95rem', outline: 'none', fontWeight: '700', color: '#111827' }}
-                                        className="focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                                        className="flex-1 h-10 px-4 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all"
                                     />
                                     <button
                                         type="button"
                                         onClick={handleResetOwnerPassword}
                                         title="Şifre Sıfırlama Talimatı Gönder"
-                                        style={{ width: '52px', border: '1px solid #e2e8f0', borderRadius: '14px', background: '#fff', cursor: 'pointer', color: '#64748b', transition: 'all 0.2s', display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-                                        className="hover:border-blue-500 hover:text-blue-500 hover:bg-blue-50"
+                                        className="w-10 h-10 border border-slate-200 rounded-[6px] bg-white text-slate-500 hover:border-slate-400 hover:text-slate-900 transition-colors flex items-center justify-center shrink-0"
                                     >
-                                        <LockIcon size={20} />
+                                        <LockIcon size={16} />
                                     </button>
                                 </div>
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Yayın Statüsü</label>
+                                <label className="block mb-2 text-[12px] font-bold text-slate-700">Yayın Statüsü</label>
                                 <select
                                     value={formData.status}
                                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fcfcfc', fontSize: '0.95rem', fontWeight: '900', outline: 'none', color: '#111827', cursor: 'pointer' }}
-                                    className="focus:border-blue-500 focus:ring-4 focus:ring-blue-50"
+                                    className="w-full h-10 px-3 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all appearance-none cursor-pointer"
                                 >
                                     <option value="ACTIVE">PLATFORMDA AKTİF</option>
                                     <option value="SUSPENDED">ASKIYA ALINDI / PASİF</option>
@@ -303,66 +291,65 @@ export default function EditRestaurantPage() {
                     </div>
 
                     {/* Domain & Path Management */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
-                            <div style={{ background: '#fff7ed', color: '#ea580c', padding: '12px', borderRadius: '14px' }}>
-                                <GlobeIcon size={24} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center gap-4 mb-6">
+                            <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                <GlobeIcon size={20} />
                             </div>
                             <div>
-                                <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827' }}>Bağlantı Ayarları</h3>
-                                <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>URL yapılandırması ve özel alan adları.</p>
+                                <h3 className="text-[15px] font-bold text-slate-900 tracking-tight">Bağlantı Ayarları</h3>
+                                <p className="text-[12px] font-medium text-slate-500 mt-0.5">URL yapılandırması ve özel alan adları.</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                             <div>
-                                <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Platform URL (Slug)</label>
-                                <div style={{ display: 'flex', alignItems: 'center', background: '#f8fafc', border: '1px solid #e2e8f0', borderRadius: '14px', padding: '0 18px', transition: 'all 0.2s' }} className="focus-within:border-orange-400 focus-within:ring-4 focus-within:ring-orange-50">
-                                    <span style={{ fontSize: '0.85rem', color: '#94a3b8', fontWeight: '800', marginRight: '6px' }}>qrlamenu.com/r/</span>
+                                <label className="block mb-2 text-[12px] font-bold text-slate-700">Platform URL (Slug)</label>
+                                <div className="flex items-center border border-slate-200 rounded-[6px] h-10 px-4 bg-slate-50 focus-within:border-slate-400 focus-within:ring-1 focus-within:ring-slate-400 transition-all overflow-hidden">
+                                    <span className="text-[13px] text-slate-500 font-semibold mr-1 shrink-0">qrlamenu.com/r/</span>
                                     <input
                                         type="text"
                                         value={formData.slug}
                                         onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
-                                        style={{ flex: 1, padding: '14px 0', background: 'transparent', border: 'none', fontSize: '1rem', fontWeight: '900', color: '#ea580c', outline: 'none' }}
+                                        className="w-full bg-transparent border-none text-[13px] font-semibold text-slate-900 outline-none placeholder:text-slate-400"
                                     />
                                 </div>
-                                <p style={{ marginTop: '10px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '500' }}>* Sadece küçük harf, rakam ve tire (-) içerebilir.</p>
+                                <p className="mt-1.5 text-[11px] text-slate-400 font-medium">* Sadece küçük harf, rakam ve tire (-) içerebilir.</p>
                             </div>
                             <div>
-                                <label style={{ display: 'block', marginBottom: '10px', fontSize: '0.85rem', fontWeight: '900', color: '#374151' }}>Özel Alan Adı</label>
+                                <label className="block mb-2 text-[12px] font-bold text-slate-700">Özel Alan Adı</label>
                                 <input
                                     type="text"
                                     placeholder="restoranadi.com"
                                     value={formData.customDomain}
                                     onChange={(e) => setFormData({ ...formData, customDomain: e.target.value })}
-                                    style={{ width: '100%', padding: '14px 18px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#fcfcfc', fontSize: '0.95rem', fontWeight: '800', outline: 'none', color: '#111827' }}
-                                    className="focus:border-orange-400 focus:ring-4 focus:ring-orange-50"
+                                    className="w-full h-10 px-4 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-900 outline-none focus:border-slate-400 focus:ring-1 focus:ring-slate-400 transition-all placeholder:text-slate-400"
                                 />
-                                <p style={{ marginTop: '10px', fontSize: '0.75rem', color: '#94a3b8', fontWeight: '500' }}>İşletmenin kendi alan adını buraya yönlendirebilirsiniz.</p>
+                                <p className="mt-1.5 text-[11px] text-slate-400 font-medium">İşletmenin kendi alan adını buraya yönlendirebilirsiniz.</p>
                             </div>
                         </div>
                     </div>
 
                     {/* Subscription & Trial */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                <div style={{ background: '#f5f3ff', color: '#8b5cf6', padding: '12px', borderRadius: '14px' }}>
-                                    <CreditCard size={24} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-4">
+                                <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                    <CreditCard size={20} />
                                 </div>
                                 <div>
-                                    <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827' }}>Lisans & Abonelik</h3>
-                                    <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Aktif hizmet paketi ve kullanım limitleri.</p>
+                                    <h3 className="text-[15px] font-bold text-slate-900 tracking-tight">Lisans & Abonelik</h3>
+                                    <p className="text-[12px] font-medium text-slate-500 mt-0.5">Aktif hizmet paketi ve kullanım limitleri.</p>
                                 </div>
                             </div>
                             {formData.status === 'TRIAL' && (
-                                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', background: '#8b5cf6', padding: '10px 16px', borderRadius: '12px', color: '#fff' }}>
-                                    <label style={{ fontSize: '0.8rem', fontWeight: '900' }}>TRIAL BİTİŞ:</label>
+                                <div className="flex items-center gap-2 bg-amber-50 px-3 py-1.5 rounded-[4px] border border-amber-200 text-amber-700">
+                                    <label className="text-[10px] font-bold uppercase tracking-wider">TRIAL BİTİŞ:</label>
                                     <input
                                         type="date"
                                         value={formData.trialExpiresAt}
                                         onChange={(e) => setFormData({ ...formData, trialExpiresAt: e.target.value })}
-                                        style={{ padding: '4px 8px', borderRadius: '8px', border: 'none', background: 'rgba(255,255,255,0.15)', fontSize: '0.85rem', fontWeight: '900', color: '#fff', outline: 'none' }}
+                                        className="bg-transparent border-none text-[11px] font-bold text-amber-900 outline-none w-24"
                                     />
                                 </div>
                             )}
@@ -373,29 +360,23 @@ export default function EditRestaurantPage() {
                                 <div
                                     key={plan.id}
                                     onClick={() => setFormData({ ...formData, planId: plan.id })}
-                                    style={{
-                                        padding: '24px',
-                                        borderRadius: '20px',
-                                        border: '2px solid',
-                                        borderColor: formData.planId === plan.id ? '#8b5cf6' : '#f1f5f9',
-                                        background: formData.planId === plan.id ? '#f5f3ff' : '#fff',
-                                        cursor: 'pointer',
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        position: 'relative',
-                                        boxShadow: formData.planId === plan.id ? '0 10px 15px -3px rgba(139, 92, 246, 0.2)' : 'none'
-                                    }}
-                                    className="plan-selector-hover"
+                                    className={`
+                                        p-5 rounded-[6px] border cursor-pointer transition-all relative flex flex-col items-center text-center
+                                        ${formData.planId === plan.id ? 'border-slate-900 bg-slate-50 shadow-sm' : 'border-slate-200 bg-white hover:border-slate-300 hover:bg-slate-50/50'}
+                                    `}
                                 >
                                     {formData.planId === plan.id && (
-                                        <div style={{ position: 'absolute', top: '16px', right: '16px', color: '#8b5cf6' }}>
-                                            <ShieldCheck size={22} />
+                                        <div className="absolute top-3 right-3 text-slate-900">
+                                            <ShieldCheck size={18} />
                                         </div>
                                     )}
-                                    <div style={{ fontSize: '0.75rem', fontWeight: '900', color: '#64748b', textTransform: 'uppercase', marginBottom: '10px', letterSpacing: '0.05em' }}>{plan.name}</div>
-                                    <div style={{ fontSize: '1.4rem', fontWeight: '900', color: '#111827', marginBottom: '12px' }}>₺{plan.price}<span style={{ fontSize: '0.8rem', color: '#94a3b8', fontWeight: '600' }}> /ay</span></div>
-                                    <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: '700', lineHeight: '1.6' }}>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#8b5cf6' }} /> {plan.branchLimit} Şube Yetkisi</div>
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#8b5cf6' }} /> {plan.tableLimit} Masa Limiti</div>
+                                    <div className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-3">{plan.name}</div>
+                                    <div className="text-xl font-bold text-slate-900 mb-5 flex items-end gap-1">
+                                        ₺{plan.price}<span className="text-[12px] text-slate-500 font-semibold mb-1">/ay</span>
+                                    </div>
+                                    <div className="text-[11px] font-semibold text-slate-700 w-full flex flex-col gap-2">
+                                        <div className="flex items-center justify-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> {plan.branchLimit} Şube Yetkisi</div>
+                                        <div className="flex items-center justify-center gap-2"><div className="w-1.5 h-1.5 rounded-full bg-slate-400" /> {plan.tableLimit} Masa Limiti</div>
                                     </div>
                                 </div>
                             ))}
@@ -403,15 +384,15 @@ export default function EditRestaurantPage() {
                     </div>
 
                     {/* Theme Customization */}
-                    <div className="card" style={{ border: 'none', padding: '40px', background: '#fff', boxShadow: '0 10px 15px -3px rgba(0,0,0,0.05)' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
-                                <div style={{ background: '#f0fdf4', color: '#10b981', padding: '12px', borderRadius: '14px' }}>
-                                    <LayoutGrid size={24} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center justify-between mb-6">
+                            <div className="flex items-center gap-4">
+                                <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                    <LayoutGrid size={20} />
                                 </div>
                                 <div>
-                                    <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '900', color: '#111827' }}>Görünüm & Tema</h3>
-                                    <p style={{ margin: '4px 0 0', fontSize: '0.85rem', color: '#64748b', fontWeight: '500' }}>Aktif kullanılan arayüz şablonu.</p>
+                                    <h3 className="text-[15px] font-bold text-slate-900 tracking-tight">Görünüm & Tema</h3>
+                                    <p className="text-[12px] font-medium text-slate-500 mt-0.5">Aktif kullanılan arayüz şablonu.</p>
                                 </div>
                             </div>
                         </div>
@@ -421,27 +402,21 @@ export default function EditRestaurantPage() {
                                 <div
                                     key={key}
                                     onClick={() => setFormData({ ...formData, theme: key })}
-                                    style={{
-                                        cursor: 'pointer',
-                                        borderRadius: '18px',
-                                        border: '2px solid',
-                                        borderColor: formData.theme === key ? '#10b981' : '#f1f5f9',
-                                        overflow: 'hidden',
-                                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                                        boxShadow: formData.theme === key ? '0 10px 15px -3px rgba(16, 185, 129, 0.15)' : 'none'
-                                    }}
-                                    className="theme-selector-hover"
+                                    className={`
+                                        cursor-pointer rounded-[6px] border overflow-hidden transition-all relative
+                                        ${formData.theme === key ? 'border-emerald-500 shadow-sm' : 'border-slate-200 hover:border-slate-300'}
+                                    `}
                                 >
-                                    <div style={{ height: '90px', background: '#f9fafb', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
-                                        <span style={{ fontSize: '2rem', fontWeight: '900', color: config.colors.primary, filter: 'drop-shadow(0 4px 6px rgba(0,0,0,0.1))' }}>{key[0].toUpperCase()}</span>
+                                    <div className="h-20 bg-slate-50 flex items-center justify-center relative border-b border-slate-100">
+                                        <span className="text-[20px] font-bold" style={{ color: config.colors.primary }}>{key[0].toUpperCase()}</span>
                                         {formData.theme === key && (
-                                            <div style={{ position: 'absolute', bottom: '10px', right: '10px', width: '24px', height: '24px', borderRadius: '50%', background: '#10b981', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 10px rgba(16,185,129,0.3)' }}>
-                                                <ShieldCheck size={14} />
+                                            <div className="absolute bottom-2 right-2 w-5 h-5 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-sm">
+                                                <ShieldCheck size={12} />
                                             </div>
                                         )}
                                     </div>
-                                    <div style={{ padding: '14px', textAlign: 'center', background: '#fff' }}>
-                                        <div style={{ fontSize: '0.75rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.05em' }}>{config.name}</div>
+                                    <div className="p-3 text-center bg-white">
+                                        <div className="text-[11px] font-bold text-slate-700 uppercase tracking-wider">{config.name}</div>
                                     </div>
                                 </div>
                             ))}
@@ -450,73 +425,74 @@ export default function EditRestaurantPage() {
                 </div>
 
                 {/* Right Panel: Management & Logs */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+                <div className="flex flex-col gap-6">
                     {/* Subscription Status Card */}
-                    <div className="card" style={{ border: 'none', padding: '32px', background: 'linear-gradient(135deg, #1e293b 0%, #0f172a 100%)', color: '#fff', boxShadow: '0 15px 25px -5px rgba(0,0,0,0.2)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-                            <div style={{ background: 'rgba(139, 92, 246, 0.2)', color: '#a78bfa', padding: '10px', borderRadius: '12px' }}>
-                                <CreditCard size={20} />
+                    <div className="bg-slate-900 rounded-[6px] p-6 border border-slate-800 text-white shadow-sm">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-slate-800 text-slate-400 p-2 rounded-[4px]">
+                                <CreditCard size={18} />
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '900', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#94a3b8' }}>Abonelik Özeti</h3>
+                            <h3 className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Abonelik Özeti</h3>
                         </div>
-                        <div style={{ marginBottom: '32px' }}>
-                            <div style={{ fontSize: '0.8rem', color: '#94a3b8', marginBottom: '8px', fontWeight: '700' }}>MEVCUT LİSANS PAKETİ</div>
-                            <div style={{ fontSize: '1.5rem', fontWeight: '900', color: '#fff', letterSpacing: '-0.02em' }}>{tenant.plan?.name || 'BELİRSİZ PLAN'}</div>
+                        <div className="mb-6">
+                            <div className="text-[10px] text-slate-500 font-bold mb-1 tracking-wider uppercase">MEVCUT LİSANS PAKETİ</div>
+                            <div className="text-xl font-bold text-white tracking-tight">{tenant.plan?.name || 'BELİRSİZ PLAN'}</div>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '18px' }}>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                                <span style={{ color: '#94a3b8', fontWeight: '600' }}>Platform Durumu:</span>
-                                <span style={{ fontWeight: '900', color: tenant.status === 'ACTIVE' ? '#4ade80' : '#f87171' }}>{tenant.status === 'ACTIVE' ? 'SİSTEMDE AKTİF' : 'ERİŞİM KISITLI'}</span>
+                        <div className="flex flex-col gap-4 border-t border-slate-800 pt-5">
+                            <div className="flex justify-between items-center text-[12px]">
+                                <span className="text-slate-400 font-semibold">Platform Durumu:</span>
+                                <span className={`font-bold ${tenant.status === 'ACTIVE' ? 'text-emerald-400' : 'text-rose-400'}`}>
+                                    {tenant.status === 'ACTIVE' ? 'SİSTEMDE AKTİF' : 'ERİŞİM KISITLI'}
+                                </span>
                             </div>
-                            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.9rem' }}>
-                                <span style={{ color: '#94a3b8', fontWeight: '600' }}>Kayıt Tarihi:</span>
-                                <span style={{ fontWeight: '900' }}>{new Date(tenant.createdAt).toLocaleDateString('tr-TR')}</span>
+                            <div className="flex justify-between items-center text-[12px]">
+                                <span className="text-slate-400 font-semibold">Kayıt Tarihi:</span>
+                                <span className="font-bold text-white">{new Date(tenant.createdAt).toLocaleDateString('tr-TR')}</span>
                             </div>
                         </div>
                     </div>
 
                     {/* Admin Notes */}
-                    <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <div style={{ background: '#fff7ed', color: '#ea580c', padding: '10px', borderRadius: '12px' }}>
-                                <FileText size={20} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center gap-3 mb-5">
+                            <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                <FileText size={18} />
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em' }}>Sistem Notları</h3>
+                            <h3 className="text-[13px] font-bold text-slate-900 tracking-tight">Sistem Notları</h3>
                         </div>
                         <textarea
                             placeholder="Bu işletme hakkında dahili yönetici notları ekleyin..."
-                            style={{ width: '100%', height: '140px', padding: '16px', borderRadius: '14px', border: '1px solid #e2e8f0', background: '#f9fafb', fontSize: '0.9rem', outline: 'none', resize: 'none', color: '#4b5563', fontWeight: '500', lineHeight: '1.6' }}
-                            className="focus:border-orange-400 focus:ring-4 focus:ring-orange-50"
+                            className="w-full h-32 p-4 rounded-[6px] border border-slate-200 bg-slate-50 text-[13px] font-medium text-slate-700 outline-none resize-none focus:border-slate-400 focus:bg-white transition-all placeholder:text-slate-400"
                         ></textarea>
-                        <button style={{ marginTop: '16px', width: '100%', padding: '14px', borderRadius: '14px', background: '#fff', border: '1px solid #ea580c', color: '#ea580c', fontSize: '0.9rem', fontWeight: '900', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:bg-orange-50">
-                            Notu Kaydet & Güncelle
+                        <button className="mt-4 w-full h-9 rounded-[6px] bg-slate-100 hover:bg-slate-200 text-slate-700 text-[12px] font-bold transition-colors border border-slate-200">
+                            Notu Kaydet
                         </button>
                     </div>
 
                     {/* Activity Log Simulation */}
-                    <div className="card" style={{ border: 'none', padding: '32px', background: '#fff', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)' }}>
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-                            <div style={{ background: '#eff6ff', color: '#3b82f6', padding: '10px', borderRadius: '12px' }}>
-                                <History size={20} />
+                    <div className="bg-white rounded-[6px] p-6 border border-slate-200 shadow-sm">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-slate-50 text-slate-600 p-2 rounded-[4px] border border-slate-100">
+                                <History size={18} />
                             </div>
-                            <h3 style={{ margin: 0, fontSize: '0.9rem', fontWeight: '900', color: '#111827', textTransform: 'uppercase', letterSpacing: '0.1em' }}>İşlem Günlüğü</h3>
+                            <h3 className="text-[13px] font-bold text-slate-900 tracking-tight">İşlem Günlüğü</h3>
                         </div>
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+                        <div className="flex flex-col gap-5">
                             {[
-                                { title: 'Plan Güncellemesi', user: 'Samet Dursun', time: '2 saat önce', color: '#3b82f6' },
-                                { title: 'Restoran Doğrulandı', user: 'Sistem', time: 'Dün', color: '#10b981' },
-                                { title: 'Logo Değişikliği', user: 'Yönetici', time: '3 gün önce', color: '#ea580c' }
+                                { title: 'Plan Güncellemesi', user: 'Samet Dursun', time: '2 saat önce', color: 'bg-blue-500' },
+                                { title: 'Restoran Doğrulandı', user: 'Sistem', time: 'Dün', color: 'bg-emerald-500' },
+                                { title: 'Logo Değişikliği', user: 'Yönetici', time: '3 gün önce', color: 'bg-orange-500' }
                             ].map((log, idx) => (
-                                <div key={idx} style={{ display: 'flex', gap: '14px' }}>
-                                    <div style={{ minWidth: '10px', height: '10px', borderRadius: '50%', background: log.color, marginTop: '6px', boxShadow: `0 0 8px ${log.color}` }}></div>
+                                <div key={idx} className="flex gap-4">
+                                    <div className={`w-2 h-2 rounded-full mt-1.5 shrink-0 ${log.color}`} />
                                     <div>
-                                        <div style={{ fontSize: '0.9rem', fontWeight: '900', color: '#111827' }}>{log.title}</div>
-                                        <div style={{ fontSize: '0.75rem', color: '#94a3b8', fontWeight: '600', marginTop: '2px' }}>{log.time} · {log.user}</div>
+                                        <div className="text-[13px] font-bold text-slate-900 leading-tight">{log.title}</div>
+                                        <div className="text-[11px] font-medium text-slate-500 mt-0.5">{log.time} · {log.user}</div>
                                     </div>
                                 </div>
                             ))}
                         </div>
-                        <button style={{ marginTop: '24px', width: '100%', background: 'none', border: '1px dashed #cbd5e1', borderRadius: '12px', padding: '12px', fontSize: '0.8rem', color: '#94a3b8', fontWeight: '900', cursor: 'pointer', transition: 'all 0.2s' }} className="hover:border-blue-400 hover:text-blue-500">
+                        <button className="mt-6 w-full h-9 border border-slate-200 border-dashed rounded-[6px] text-[12px] font-bold text-slate-500 hover:text-slate-900 hover:border-slate-400 hover:bg-slate-50 transition-colors">
                             Tüm Sistem Kayıtlarını İncele
                         </button>
                     </div>

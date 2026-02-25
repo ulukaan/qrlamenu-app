@@ -148,131 +148,128 @@ export default function AdminlerPage() {
     };
 
     return (
-        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header Area */}
-            <div className="mb-8 md:mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-                <div className="max-w-3xl">
-                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Sistem Yetkili Yönetimi</h2>
-                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium">Platform kontrol panelini yöneten, yüksek yetkili yönetici ve denetçi hesapları.</p>
+            <div className="mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div>
+                    <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">Sistem Yetkili Yönetimi</h1>
+                    <p className="text-[13px] text-slate-500 mt-1 font-medium">Platform kontrol panelini yöneten, yüksek yetkili yönetici ve denetçi hesapları.</p>
                 </div>
                 <button
                     onClick={handleOpenAdd}
-                    className="w-full lg:w-auto bg-slate-900 hover:bg-[#ea580c] text-white px-8 py-3.5 rounded-2xl font-black text-sm flex items-center justify-center gap-3 transition-all shadow-xl shadow-slate-900/10 hover:shadow-orange-500/20 active:scale-95"
+                    className="h-9 px-4 rounded-[6px] bg-slate-900 text-white font-semibold text-[13px] hover:bg-slate-800 transition-colors flex items-center gap-2 shadow-sm w-full lg:w-auto justify-center"
                 >
-                    <UserPlus size={18} strokeWidth={2.5} /> Yeni Yetkili Tanımla
+                    <UserPlus size={14} /> <span>Yeni Yetkili Tanımla</span>
                 </button>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 items-start">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start">
                 <div className="space-y-6">
                     {/* Admin List Card */}
-                    <div className="bg-white rounded-[40px] shadow-sm border border-slate-100 overflow-hidden">
-                        <div className="p-8 border-b border-slate-50 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-white/50 backdrop-blur-sm">
-                            <div className="flex items-center gap-4">
-                                <h3 className="text-lg font-black text-gray-900 tracking-tight">Yetkili Personel Listesi</h3>
-                                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest bg-slate-50 px-3 py-1 rounded-xl border border-slate-100">
-                                    TOPLAM {admins.length} KAYIT
-                                </span>
-                            </div>
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                        <div className="px-5 py-4 border-b border-slate-200 bg-slate-50 flex items-center justify-between">
+                            <h3 className="text-[14px] font-semibold text-slate-900 tracking-tight flex items-center gap-2">
+                                <Shield size={16} className="text-slate-500" />
+                                Yetkili Personel Listesi
+                            </h3>
+                            <span className="text-[11px] font-bold text-slate-500 bg-white border border-slate-200 px-2 py-0.5 rounded-[4px] uppercase tracking-widest">
+                                Toplam {admins.length} Kayıt
+                            </span>
                         </div>
 
                         <div className="overflow-x-auto custom-scrollbar">
-                            <table className="w-full border-collapse">
-                                <thead className="bg-slate-50/50">
+                            <table className="w-full border-collapse text-left text-[13px]">
+                                <thead className="bg-white border-b border-slate-200 text-slate-500">
                                     <tr>
-                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Kimlik & İletişim</th>
-                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hidden md:table-cell">Rol / Erişim</th>
-                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">Durum</th>
-                                        <th className="px-8 py-5 text-left text-[10px] font-black text-slate-400 uppercase tracking-[0.15em] hidden lg:table-cell">Kayıt</th>
-                                        <th className="px-8 py-5 text-right text-[10px] font-black text-slate-400 uppercase tracking-[0.15em]">İşlem</th>
+                                        <th className="px-5 py-3 font-semibold w-[35%]">Kimlik & İletişim</th>
+                                        <th className="px-5 py-3 font-semibold w-[20%] hidden md:table-cell">Rol / Erişim</th>
+                                        <th className="px-5 py-3 font-semibold w-[15%]">Durum</th>
+                                        <th className="px-5 py-3 font-semibold w-[15%] hidden lg:table-cell">Kayıt</th>
+                                        <th className="px-5 py-3 font-semibold w-[15%] text-right">İşlem</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-slate-50">
+                                <tbody className="divide-y divide-slate-100">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={5} className="py-32 text-center">
-                                                <div className="flex flex-col items-center gap-4">
-                                                    <Loader2 size={48} className="animate-spin text-[#ea580c]" />
-                                                    <p className="text-xs font-black text-slate-400 uppercase tracking-widest">Sistem Veritabanı Taranıyor...</p>
+                                            <td colSpan={5} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-3">
+                                                    <Loader2 size={24} className="animate-spin text-indigo-500" />
+                                                    <span className="font-medium text-slate-500 text-[13px]">Veriler yükleniyor...</span>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : error ? (
                                         <tr>
-                                            <td colSpan={5} className="p-12 text-center">
-                                                <div className="bg-rose-50 p-6 rounded-3xl border border-rose-100 text-rose-500 font-black text-sm">{error}</div>
+                                            <td colSpan={5} className="py-16 text-center">
+                                                <div className="text-rose-500 font-medium text-[13px]">{error}</div>
                                             </td>
                                         </tr>
                                     ) : admins.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="py-32 text-center">
-                                                <div className="w-20 h-20 bg-slate-50 rounded-3xl flex items-center justify-center mx-auto mb-6 text-slate-200">
-                                                    <Shield size={40} />
+                                            <td colSpan={5} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-3">
+                                                    <div className="text-slate-400">
+                                                        <Shield size={32} />
+                                                    </div>
+                                                    <h4 className="text-[14px] font-semibold text-slate-900">Kayıtlı Yetkili Bulunamadı</h4>
+                                                    <span className="text-slate-500 font-medium text-[13px]">Yeni bir personel tanımlayabilirsiniz.</span>
                                                 </div>
-                                                <h4 className="text-lg font-black text-gray-900 mb-2">Henüz Personel Bulunmuyor</h4>
-                                                <p className="text-sm font-bold text-slate-400 max-w-[280px] mx-auto leading-relaxed italic">Platform yönetimini paylaştıracak ekip üyelerini tanımlayın.</p>
                                             </td>
                                         </tr>
                                     ) : admins.map((admin) => (
-                                        <tr key={admin.id} className="group hover:bg-slate-50/50 transition-all border-b border-slate-50 last:border-0">
-                                            <td className="px-8 py-7">
-                                                <div className="flex items-center gap-4">
-                                                    <div className="w-14 h-14 rounded-2xl bg-slate-900 border-2 border-white flex items-center justify-center text-white text-lg font-black shrink-0 shadow-xl shadow-slate-900/10 group-hover:scale-110 group-hover:bg-[#ea580c] transition-all duration-500">
+                                        <tr key={admin.id} className="group hover:bg-slate-50 transition-colors">
+                                            <td className="px-5 py-4">
+                                                <div className="flex items-center gap-3">
+                                                    <div className="w-10 h-10 rounded-[4px] bg-slate-900 border border-slate-800 flex items-center justify-center text-white text-[14px] font-bold shrink-0 transition-colors group-hover:bg-indigo-600 group-hover:border-indigo-500">
                                                         {admin.name?.charAt(0) || admin.email.charAt(0).toUpperCase()}
                                                     </div>
                                                     <div className="min-w-0">
-                                                        <p className="font-black text-gray-900 truncate tracking-tight text-base group-hover:text-[#ea580c] transition-colors">{admin.name || 'İsimsiz Yönetici'}</p>
-                                                        <div className="flex items-center gap-2 mt-1">
-                                                            <div className="bg-orange-100/50 p-1 rounded-md">
-                                                                <Mail size={12} className="text-[#ea580c]" />
-                                                            </div>
-                                                            <p className="text-xs font-bold text-slate-400 truncate">{admin.email}</p>
-                                                        </div>
+                                                        <p className="font-semibold text-slate-900 truncate group-hover:text-indigo-600 transition-colors">{admin.name || 'İsimsiz Yönetici'}</p>
+                                                        <p className="text-[11px] text-slate-500 truncate mt-0.5">{admin.email}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-7 hidden md:table-cell">
-                                                <span className={`text-[10px] font-black px-3 py-1.5 rounded-xl uppercase tracking-widest border shadow-sm ${admin.role === 'SUPER_ADMIN' ? 'bg-orange-50 text-orange-600 border-orange-100' : 'bg-slate-100 text-slate-400 border-slate-200'}`}>
+                                            <td className="px-5 py-4 hidden md:table-cell">
+                                                <span className={`text-[10px] font-bold px-2 py-0.5 rounded-[4px] uppercase tracking-widest border ${admin.role === 'SUPER_ADMIN' ? 'bg-indigo-50 text-indigo-600 border-indigo-200' : 'bg-slate-50 text-slate-500 border-slate-200'}`}>
                                                     {admin.role}
                                                 </span>
                                             </td>
-                                            <td className="px-8 py-7">
+                                            <td className="px-5 py-4">
                                                 <button
                                                     onClick={() => handleStatusToggle(admin)}
-                                                    className={`group/status flex items-center gap-2.5 px-4 py-2 rounded-xl border-2 transition-all hover:scale-[1.02] active:scale-95 ${admin.emailVerified ? 'bg-emerald-50 text-emerald-500 border-emerald-50' : 'bg-amber-50 text-amber-500 border-amber-50'}`}
+                                                    className={`flex items-center gap-1.5 px-2 py-1 rounded-[4px] border transition-colors ${admin.emailVerified ? 'bg-emerald-50 text-emerald-600 border-emerald-200 hover:bg-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-200 hover:bg-amber-100'}`}
                                                 >
-                                                    <div className={`w-2 h-2 rounded-full ${admin.emailVerified ? 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-amber-500'}`}></div>
-                                                    <span className="text-[10px] font-black uppercase tracking-widest">{admin.emailVerified ? 'AKTİF' : 'BEKLEMEDE'}</span>
+                                                    <div className={`w-1.5 h-1.5 rounded-full ${admin.emailVerified ? 'bg-emerald-500' : 'bg-amber-500'}`}></div>
+                                                    <span className="text-[10px] font-bold uppercase tracking-widest">{admin.emailVerified ? 'Aktif' : 'Beklemede'}</span>
                                                 </button>
                                             </td>
-                                            <td className="px-8 py-7 hidden lg:table-cell">
-                                                <div className="flex items-center gap-2 text-xs font-bold text-slate-400">
-                                                    <div className="w-1.5 h-1.5 rounded-full bg-slate-200"></div>
+                                            <td className="px-5 py-4 hidden lg:table-cell">
+                                                <div className="text-[12px] font-medium text-slate-500">
                                                     {new Date(admin.createdAt).toLocaleDateString('tr-TR')}
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-7 text-right">
-                                                <div className="flex justify-end gap-2.5 opacity-0 group-hover:opacity-100 transition-all">
+                                            <td className="px-5 py-4 text-right">
+                                                <div className="flex justify-end gap-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity">
                                                     <button
                                                         onClick={() => handleOpenEdit(admin)}
-                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-[#ea580c] hover:border-orange-100 hover:shadow-lg hover:shadow-orange-500/10 transition-all active:scale-90"
+                                                        className="w-8 h-8 flex items-center justify-center rounded-[4px] text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 transition-colors"
                                                         title="Hesap Ayarları"
                                                     >
-                                                        <Key size={16} strokeWidth={2.5} />
+                                                        <Key size={14} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleResetPassword(admin)}
-                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-white border border-slate-100 text-slate-400 hover:text-indigo-500 hover:border-indigo-100 hover:shadow-lg hover:shadow-indigo-500/10 transition-all active:scale-90"
+                                                        className="w-8 h-8 flex items-center justify-center rounded-[4px] text-slate-400 hover:text-amber-600 hover:bg-amber-50 transition-colors"
                                                         title="Şifre Sıfırla"
                                                     >
-                                                        <Lock size={16} strokeWidth={2.5} />
+                                                        <Lock size={14} />
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(admin.id, admin.name)}
-                                                        className="w-10 h-10 flex items-center justify-center rounded-xl bg-rose-50 border border-rose-100 text-rose-300 hover:text-white hover:bg-rose-500 hover:border-rose-500 hover:shadow-lg hover:shadow-rose-500/20 transition-all active:scale-90"
+                                                        className="w-8 h-8 flex items-center justify-center rounded-[4px] text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
                                                         title="Sil"
                                                     >
-                                                        <X size={16} strokeWidth={3} />
+                                                        <X size={14} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -286,36 +283,34 @@ export default function AdminlerPage() {
 
                 {/* Right Sidebar */}
                 <div className="xl:sticky xl:top-8 flex flex-col gap-6">
-                    <div className="bg-slate-900 rounded-[40px] p-8 text-white shadow-2xl shadow-slate-900/20 relative overflow-hidden group">
-                        <div className="absolute -right-20 -bottom-20 w-64 h-64 bg-[#ea580c]/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-110"></div>
-
+                    <div className="bg-slate-900 rounded-[6px] p-6 text-white shadow-sm border border-slate-800 relative overflow-hidden">
                         <div className="relative z-10">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div className="bg-orange-600/10 p-3 rounded-2xl border border-orange-600/10">
-                                    <Shield size={24} className="text-[#ea580c]" strokeWidth={3} />
+                            <div className="flex items-center gap-3 mb-6">
+                                <div className="bg-slate-800 p-2 rounded-[4px] border border-slate-700">
+                                    <Shield size={16} className="text-indigo-400" />
                                 </div>
-                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">Güvenlik Merkezi</h3>
+                                <h3 className="text-[12px] font-bold uppercase tracking-widest text-slate-300">Güvenlik Merkezi</h3>
                             </div>
 
-                            <p className="text-sm font-medium text-slate-400 leading-relaxed mb-8">
-                                Sistemdeki yöneticilerin tamamı <span className="text-white font-black italic">2FA Politikası</span> ve <span className="text-white font-black italic">Denetim Günlüğü</span> doğrulamasına tabidir. Platform üzerindeki her işlem izlenmektedir.
+                            <p className="text-[12px] font-medium text-slate-400 leading-relaxed mb-6">
+                                Sistemdeki yöneticilerin tamamı <span className="text-white font-semibold">2FA Politikası</span> ve <span className="text-white font-semibold">Denetim Günlüğü</span> doğrulamasına tabidir.
                             </p>
 
-                            <button className="w-full bg-white/5 hover:bg-white/10 border border-white/5 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all backdrop-blur-sm">
-                                Güvenlik Loglarını İncele
+                            <button className="w-full bg-slate-800 hover:bg-slate-700 border border-slate-700 h-9 rounded-[4px] text-[11px] font-bold uppercase tracking-widest transition-colors">
+                                Logları İncele
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
-                        <div className="flex items-start gap-4">
-                            <div className="bg-indigo-50 p-3 rounded-2xl border border-indigo-100">
-                                <Lock size={20} className="text-indigo-500" strokeWidth={2.5} />
+                    <div className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-200">
+                        <div className="flex items-start gap-3">
+                            <div className="bg-slate-50 p-2 rounded-[4px] border border-slate-100 shrink-0 mt-0.5">
+                                <Lock size={16} className="text-slate-500" />
                             </div>
                             <div>
-                                <h4 className="text-xs font-black text-gray-900 uppercase tracking-widest mb-2">Erişim Koruması</h4>
-                                <p className="text-[11px] text-slate-400 font-bold leading-relaxed italic">
-                                    Tanımlanan yöneticiler e-posta onayını tamamlamadan ve merkezi veritabanı eşleşmesi gerçekleşmeden panele erişim sağlayamazlar.
+                                <h4 className="text-[13px] font-bold text-slate-900 uppercase tracking-widest mb-1">Erişim Koruması</h4>
+                                <p className="text-[12px] text-slate-500 font-medium leading-relaxed">
+                                    Tanımlanan yöneticiler e-posta onayı ve yetkilendirme sistemi eşleşmesi gerçekleşmeden panele giremezler.
                                 </p>
                             </div>
                         </div>
@@ -325,99 +320,90 @@ export default function AdminlerPage() {
 
             {/* Admin Modal */}
             {isModalOpen && (
-                <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-2xl flex items-center justify-center z-[1000] p-4 md:p-8">
-                    <div className="bg-white w-full max-w-lg rounded-[48px] p-8 md:p-12 shadow-2xl relative animate-in fade-in zoom-in duration-300 overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#ea580c]/5 rounded-bl-full -z-0"></div>
-
+                <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4">
+                    <div className="bg-white w-full max-w-[500px] rounded-[8px] p-6 shadow-xl relative animate-in zoom-in-95 duration-200 border border-slate-200">
                         <button
                             onClick={() => setIsModalOpen(false)}
-                            className="absolute top-8 right-8 p-3 rounded-2xl bg-slate-50 text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all active:scale-95"
+                            className="absolute top-4 right-4 p-2 rounded-[4px] text-slate-400 hover:bg-slate-100 hover:text-slate-600 transition-colors"
                         >
-                            <X size={20} strokeWidth={3} />
+                            <X size={20} />
                         </button>
 
-                        <div className="relative z-10 mb-10">
-                            <div className="bg-orange-50 w-16 h-16 rounded-[24px] flex items-center justify-center mb-6 border-2 border-orange-100">
-                                <UserPlus size={32} className="text-[#ea580c]" strokeWidth={2.5} />
-                            </div>
-                            <h3 className="text-3xl font-black text-gray-900 tracking-tight">
+                        <div className="mb-6">
+                            <h3 className="text-[18px] font-bold text-slate-900 tracking-tight">
                                 {editingAdmin ? 'Yetki Güncelle' : 'Personel Tanımla'}
                             </h3>
-                            <p className="text-gray-400 mt-2 font-bold italic">Yönetici kimlik ve erişim düzeyini yapılandırın.</p>
+                            <p className="text-[13px] text-slate-500 mt-1 font-medium">Yönetici kimlik ve erişim düzeyini yapılandırın.</p>
                         </div>
 
-                        <form onSubmit={handleAction} className="space-y-8 relative z-10">
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Tam Personel İsmi</label>
+                        <form onSubmit={handleAction} className="space-y-4">
+                            <div className="space-y-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Tam Personel İsmi</label>
                                 <input
                                     type="text"
                                     required
                                     placeholder="Örn: Ahmet Yılmaz"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
+                                    className="w-full px-3 py-2 rounded-[6px] border border-slate-200 bg-white text-[13px] font-medium text-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Kurumsal E-posta</label>
+                            <div className="space-y-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Kurumsal E-posta</label>
                                 <input
                                     type="email"
                                     required
-                                    placeholder="eposta@qrlamenu.com"
+                                    placeholder="eposta@sirket.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
+                                    className="w-full px-3 py-2 rounded-[6px] border border-slate-200 bg-white text-[13px] font-medium text-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">
-                                    {editingAdmin ? 'Şifre Revizyonu (Opsiyonel)' : 'Panel Giriş Şifresi'}
+                            <div className="space-y-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">
+                                    {editingAdmin ? 'Şifre Değişimi (Opsiyonel)' : 'Panele Giriş Şifresi'}
                                 </label>
                                 <input
                                     type="password"
                                     required={!editingAdmin}
-                                    placeholder={editingAdmin ? "Değiştirmek istemiyorsanız boş bırakın" : "En az 10 karakter..."}
+                                    placeholder={editingAdmin ? "Değiştirmeyecekseniz boş bırakın" : "En az 8 karakter..."}
                                     value={formData.password}
                                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                    className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all"
+                                    className="w-full px-3 py-2 rounded-[6px] border border-slate-200 bg-white text-[13px] font-medium text-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all placeholder:text-slate-400"
                                 />
                             </div>
 
-                            <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Yetki Seviyesi</label>
-                                <div className="relative group">
-                                    <select
-                                        value={formData.role}
-                                        onChange={(e) => setFormData({ ...formData, role: e.target.value })}
-                                        className="w-full px-6 py-4 rounded-2xl border-2 border-slate-50 bg-slate-50 text-sm font-black text-gray-900 focus:bg-white focus:border-[#ea580c] outline-none transition-all appearance-none cursor-pointer"
-                                    >
-                                        <option value="SUPER_ADMIN">SUPER_ADMIN (Tam Erişim)</option>
-                                        <option value="ADMIN">ADMIN (Standart Panel)</option>
-                                        <option value="VIEWER">VIEWER (Sadece İzleme)</option>
-                                    </select>
-                                    <div className="absolute right-6 top-1/2 -translate-y-1/2 pointer-events-none text-slate-400 group-focus-within:text-[#ea580c]">
-                                        <Shield size={20} />
-                                    </div>
-                                </div>
+                            <div className="space-y-1.5">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Yetki Seviyesi</label>
+                                <select
+                                    value={formData.role}
+                                    onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                                    className="w-full px-3 py-2 rounded-[6px] border border-slate-200 bg-white text-[13px] font-medium text-slate-900 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all"
+                                >
+                                    <option value="SUPER_ADMIN">SUPER_ADMIN (Tam Erişim)</option>
+                                    <option value="ADMIN">ADMIN (Standart Panel)</option>
+                                    <option value="VIEWER">VIEWER (Sadece İzleme)</option>
+                                </select>
                             </div>
 
-                            <div className="pt-6 flex flex-col sm:flex-row gap-4">
+                            <div className="pt-4 flex gap-3">
                                 <button
                                     type="button"
                                     disabled={actionLoading}
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 px-8 py-4 rounded-2xl bg-slate-50 text-slate-400 text-xs font-black uppercase tracking-widest hover:bg-slate-100 transition-all active:scale-95"
+                                    className="flex-1 py-2 rounded-[6px] border border-slate-200 text-slate-700 font-semibold text-[13px] hover:bg-slate-50 transition-colors"
                                 >
-                                    Vazgeç
+                                    İptal
                                 </button>
                                 <button
                                     type="submit"
                                     disabled={actionLoading}
-                                    className="flex-[1.5] px-8 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ea580c] hover:shadow-orange-500/20 transition-all active:scale-90 flex items-center justify-center gap-3"
+                                    className="flex-1 bg-slate-900 text-white py-2 rounded-[6px] font-semibold text-[13px] hover:bg-slate-800 disabled:opacity-70 transition-colors flex items-center justify-center gap-2"
                                 >
-                                    {actionLoading ? <Loader2 className="animate-spin" size={20} /> : (editingAdmin ? 'Güncelle' : 'Tanımla')}
+                                    {actionLoading ? <Loader2 className="animate-spin" size={16} /> : null}
+                                    {actionLoading ? 'İşleniyor...' : (editingAdmin ? 'Kaydet' : 'Tanımla')}
                                 </button>
                             </div>
                         </form>

@@ -25,6 +25,16 @@ const RechartsResponsiveContainer = dynamic(() => import('recharts').then(mod =>
 import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
 import { StatCard } from '@/components/ui/stat-card';
 import { LoadingScreen } from '@/components/ui/loading-screen';
+import { getPusherClient } from '@/lib/pusher-client';
+import { formatTime, formatSmartDate } from '@/lib/date-utils';
+
+interface Notification {
+    id: string;
+    type: 'ORDER' | 'WAITER_CALL' | 'SYSTEM' | 'TICKET';
+    title: string;
+    time: string | Date;
+    status: string;
+}
 
 export default function Dashboard() {
     const [stats, setStats] = React.useState<{
@@ -33,11 +43,15 @@ export default function Dashboard() {
         pendingOrders: number;
         scanCount: number;
         monthlyScans?: any[];
+        recentNotifications: Notification[];
+        tenantId: string;
     }>({
         orderCount: 0,
         categoryCount: 0,
         pendingOrders: 0,
-        scanCount: 0
+        scanCount: 0,
+        recentNotifications: [] as Notification[],
+        tenantId: ''
     });
     const [loading, setLoading] = React.useState(true);
 
@@ -56,7 +70,9 @@ export default function Dashboard() {
                         orderCount: 0,
                         categoryCount: 0,
                         pendingOrders: 0,
-                        scanCount: 0
+                        scanCount: 0,
+                        recentNotifications: [],
+                        tenantId: ''
                     });
                     setLoading(false);
                     return;
@@ -67,7 +83,10 @@ export default function Dashboard() {
                 const statsData = await statsRes.json();
 
                 if (statsData && typeof statsData.orderCount === 'number') {
-                    setStats(statsData);
+                    setStats({
+                        ...statsData,
+                        tenantId: tenantId
+                    });
                 }
             } catch (error) {
                 console.error('Data fetch error:', error);
@@ -78,6 +97,65 @@ export default function Dashboard() {
 
         fetchDashboardData();
     }, []);
+
+    // Pusher Real-time Integration
+    React.useEffect(() => {
+        const pusher = getPusherClient();
+        if (!pusher || !stats.tenantId) return;
+
+        const channel = pusher.subscribe(`restaurant-${stats.tenantId}`);
+
+        const handleNewNotification = (data: any, type: Notification['type']) => {
+            setStats(prev => {
+                let title = '';
+                if (type === 'ORDER') title = `Masa ${data.tableId || 'P'}: Yeni Sipariş`;
+                else if (type === 'WAITER_CALL') title = `Masa ${data.tableId}: Garson Çağrısı`;
+                else if (type === 'TICKET') title = `Yeni Destek Mesajı`;
+
+                const newNotification: Notification = {
+                    id: data.id || (data.message && data.message.id) || Math.random().toString(),
+                    type: type,
+                    title: title,
+                    time: new Date(),
+                    status: 'PENDING'
+                };
+
+                // Add to list and keep only last 5
+                const updatedList = [newNotification, ...prev.recentNotifications]
+                    .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i) // Deduplicate
+                    .sort((a, b) => new Date(b.time).getTime() - new Date(a.time).getTime())
+                    .slice(0, 5);
+
+                return {
+                    ...prev,
+                    recentNotifications: updatedList,
+                    pendingOrders: type === 'ORDER' ? prev.pendingOrders + 1 : prev.pendingOrders
+                };
+            });
+        };
+
+        channel.bind('new-order', (data: any) => handleNewNotification(data, 'ORDER'));
+        channel.bind('new-waiter-call', (data: any) => handleNewNotification(data, 'WAITER_CALL'));
+        channel.bind('new-message', (data: any) => handleNewNotification(data, 'TICKET'));
+        channel.bind('update-order-count', fetchData); // Fetch fresh stats on count update
+
+        return () => {
+            pusher.unsubscribe(`restaurant-${stats.tenantId}`);
+        };
+    }, [stats.tenantId]);
+
+    const fetchData = async () => {
+        if (!stats.tenantId) return;
+        try {
+            const res = await fetch(`/api/restaurant/stats?tenantId=${stats.tenantId}`);
+            const data = await res.json();
+            if (data && typeof data.orderCount === 'number') {
+                setStats(prev => ({ ...prev, ...data }));
+            }
+        } catch (error) {
+            console.error('Refresh error:', error);
+        }
+    };
 
     const isSuperAdminView = !loading && stats.orderCount === 0 && stats.categoryCount === 0;
 
@@ -241,27 +319,36 @@ export default function Dashboard() {
                         </div>
                     </div>
 
-                    {/* Notification Widget */}
-                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 p-6">
+                    <div className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 p-6 min-h-[300px]">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-[14px] font-bold text-slate-900 uppercase tracking-tight">Bildirimler</h3>
-                            <span className="w-5 h-5 bg-orange-100 text-orange-600 text-[10px] font-bold flex items-center justify-center rounded-full">3</span>
+                            <span className="w-5 h-5 bg-orange-100 text-orange-600 text-[10px] font-bold flex items-center justify-center rounded-full">
+                                {stats.recentNotifications.length}
+                            </span>
                         </div>
                         <div className="space-y-4">
-                            <div className="flex gap-3">
-                                <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
-                                <div>
-                                    <p className="text-[12px] font-bold text-slate-800 leading-tight">Abonelik yenilenecek</p>
-                                    <p className="text-[11px] text-slate-400 mt-1">Son 4 gün</p>
+                            {stats.recentNotifications.length === 0 ? (
+                                <div className="py-12 text-center">
+                                    <p className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Henüz bildirim yok</p>
                                 </div>
-                            </div>
-                            <div className="flex gap-3">
-                                <div className="w-1.5 h-1.5 rounded-full bg-orange-500 shrink-0 mt-1.5" />
-                                <div>
-                                    <p className="text-[12px] font-bold text-slate-800 leading-tight">Masa 4: Yeni sipariş</p>
-                                    <p className="text-[11px] text-slate-400 mt-1">2 dakika önce</p>
-                                </div>
-                            </div>
+                            ) : (
+                                stats.recentNotifications.map((noti) => (
+                                    <div key={noti.id} className="flex gap-3 group animate-in slide-in-from-right-4 duration-300">
+                                        <div className={`w-1.5 h-1.5 rounded-full shrink-0 mt-1.5 ${noti.type === 'ORDER' ? 'bg-orange-500' :
+                                            noti.type === 'WAITER_CALL' ? 'bg-rose-500' :
+                                                'bg-emerald-500'
+                                            }`} />
+                                        <div className="flex-1">
+                                            <p className="text-[12px] font-bold text-slate-800 leading-tight group-hover:text-slate-900 transition-colors">
+                                                {noti.title}
+                                            </p>
+                                            <p className="text-[10px] text-slate-400 font-bold uppercase tracking-tight mt-1">
+                                                {formatSmartDate(noti.time)}
+                                            </p>
+                                        </div>
+                                    </div>
+                                ))
+                            )}
                         </div>
                     </div>
                 </div>

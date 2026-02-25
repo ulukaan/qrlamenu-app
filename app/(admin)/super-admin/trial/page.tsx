@@ -81,160 +81,150 @@ export default function TrialManagementPage() {
     };
 
     return (
-        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header Area */}
-            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
+            <div className="mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
                 <div>
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                        Trial (Deneme) Yönetimi
-                    </h2>
-                    <p className="text-gray-500 mt-3 text-lg font-medium max-w-3xl leading-relaxed">
-                        Sistemdeki deneme sürecindeki işletmeleri, süre aşımlarını ve müşteri dönüşüm potansiyelini analiz edin.
-                    </p>
+                    <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">Trial (Deneme) Yönetimi</h1>
+                    <p className="text-[13px] text-slate-500 mt-1 font-medium">Sistemdeki deneme sürecindeki işletmeleri, süre aşımlarını ve müşteri dönüşüm potansiyelini analiz edin.</p>
                 </div>
-                <div className="flex flex-col sm:flex-row items-center gap-4 w-full xl:w-auto">
-                    <div className="relative w-full sm:w-80 group">
-                        <Search size={22} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ea580c] transition-colors" />
+                <div className="flex items-center gap-3 w-full lg:w-auto">
+                    <div className="relative w-full sm:w-64">
+                        <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
                         <input
                             type="text"
                             placeholder="İşletme adı ara..."
-                            className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white/50 backdrop-blur-xl focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 outline-none transition-all font-bold text-gray-700 shadow-sm"
+                            className="w-full pl-9 pr-3 py-1.5 h-9 rounded-[6px] border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-[13px] text-slate-700 bg-white"
                         />
                     </div>
                     <button
                         onClick={fetchTrials}
-                        className="p-4 rounded-2xl bg-white border-2 border-gray-100 text-gray-500 hover:text-[#ea580c] hover:border-orange-200 hover:shadow-lg transition-all active:scale-95 group"
+                        className="h-9 px-3 rounded-[6px] bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition-colors flex items-center justify-center shrink-0 shadow-sm"
                     >
-                        <RefreshCcw size={22} className={`${loading ? 'animate-spin' : ''} group-hover:rotate-180 transition-transform duration-500`} />
+                        <RefreshCcw size={16} className={`${loading ? 'animate-spin' : ''}`} />
                     </button>
-                </div>
-            </header>
-
-            {/* Premium Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-                <div className="group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl hover:shadow-orange-500/5 transition-all duration-500 border-2 border-transparent hover:border-orange-100 relative overflow-hidden">
-                    <div className="relative z-10 flex justify-between items-start">
-                        <div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Aktif Trial</p>
-                            <h3 className="text-5xl font-black text-gray-900 tracking-tighter leading-none mb-4">{loading ? '...' : stats.activeCount}</h3>
-                            <div className="flex items-center gap-2">
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <p className="text-emerald-500 text-xs font-black uppercase tracking-wider">Canlı Süreç</p>
-                            </div>
-                        </div>
-                        <div className="bg-orange-50 p-5 rounded-3xl text-[#ea580c] group-hover:scale-110 group-hover:rotate-6 transition-all duration-500">
-                            <Clock size={32} strokeWidth={2.5} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="group bg-white p-8 rounded-[40px] shadow-sm hover:shadow-2xl hover:shadow-rose-500/5 transition-all duration-500 border-2 border-transparent hover:border-rose-100 relative overflow-hidden">
-                    <div className="relative z-10 flex justify-between items-start">
-                        <div>
-                            <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-3">Kritik (48 Saat)</p>
-                            <h3 className="text-5xl font-black text-rose-500 tracking-tighter leading-none mb-4">{loading ? '...' : stats.urgentCount}</h3>
-                            <p className="text-rose-500/80 text-xs font-black uppercase tracking-wider">Acil Aksiyon Gerekli</p>
-                        </div>
-                        <div className="bg-rose-50 p-5 rounded-3xl text-rose-500 group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500">
-                            <AlertCircle size={32} strokeWidth={2.5} />
-                        </div>
-                    </div>
-                </div>
-
-                <div className="group bg-[#0f172a] p-8 rounded-[40px] shadow-2xl shadow-blue-500/20 transition-all duration-500 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 w-48 h-48 bg-emerald-500/10 blur-[60px] rounded-full translate-x-1/2 -translate-y-1/2 group-hover:scale-150 transition-transform duration-700"></div>
-                    <div className="relative z-10 flex justify-between items-start text-white">
-                        <div>
-                            <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Tahmini Dönüşüm</p>
-                            <h3 className="text-5xl font-black tracking-tighter leading-none mb-5">%{stats.conversion}</h3>
-                            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 text-emerald-400 text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
-                                <Zap size={12} fill="currentColor" /> <span>Trend Yukarı</span>
-                            </div>
-                        </div>
-                        <div className="bg-white/5 p-5 rounded-3xl text-emerald-400 border border-white/10 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                            <Zap size={32} strokeWidth={2.5} />
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-12">
-                <div className="space-y-8 min-w-0">
-                    <section className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-                        <div className="px-10 py-8 border-bottom border-gray-50 flex justify-between items-center bg-gray-50/50">
-                            <h3 className="text-xl font-black text-gray-900 tracking-tight">Deneme Süreci İzleme Merkezi</h3>
+            {/* Corporate Stats Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div className="bg-white p-5 rounded-[6px] shadow-sm border border-slate-200">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-2 bg-indigo-50 text-indigo-600 rounded-[4px]">
+                            <Clock size={20} />
+                        </div>
+                        <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-[4px] bg-emerald-50 border border-emerald-100">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                            <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-widest">Canlı Süreç</span>
+                        </div>
+                    </div>
+                    <h3 className="text-[28px] font-bold text-slate-900 tracking-tight leading-none mb-1">{loading ? '...' : stats.activeCount}</h3>
+                    <p className="text-[12px] font-medium text-slate-500">Aktif Deneme Hesabı</p>
+                </div>
+
+                <div className="bg-white p-5 rounded-[6px] shadow-sm border border-slate-200">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-2 bg-rose-50 text-rose-600 rounded-[4px]">
+                            <AlertCircle size={20} />
+                        </div>
+                        <span className="text-[10px] font-bold text-rose-600 bg-rose-50 border border-rose-100 px-2 py-0.5 rounded-[4px] uppercase tracking-widest">Acil Aksiyon</span>
+                    </div>
+                    <h3 className="text-[28px] font-bold text-slate-900 tracking-tight leading-none mb-1">{loading ? '...' : stats.urgentCount}</h3>
+                    <p className="text-[12px] font-medium text-slate-500">Kritik (Son 48 Saat)</p>
+                </div>
+
+                <div className="bg-slate-900 p-5 rounded-[6px] shadow-sm border border-slate-800 text-white">
+                    <div className="flex justify-between items-start mb-4">
+                        <div className="p-2 bg-slate-800 text-emerald-400 rounded-[4px]">
+                            <Zap size={20} />
+                        </div>
+                        <div className="flex items-center gap-1 px-2 py-0.5 rounded-[4px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                            <Zap size={10} fill="currentColor" />
+                            <span className="text-[10px] font-bold uppercase tracking-widest">Trend Yukarı</span>
+                        </div>
+                    </div>
+                    <h3 className="text-[28px] font-bold tracking-tight leading-none mb-1">%{stats.conversion}</h3>
+                    <p className="text-[12px] font-medium text-slate-400">Tahmini Dönüşüm</p>
+                </div>
+            </div>
+
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6">
+                <div className="space-y-6 min-w-0">
+                    <section className="bg-white rounded-[6px] shadow-sm border border-slate-200 overflow-hidden">
+                        <div className="px-5 py-4 border-b border-slate-200 flex justify-between items-center bg-slate-50">
+                            <h3 className="text-[14px] font-semibold text-slate-900 tracking-tight">Deneme Süreci İzleme Merkezi</h3>
                         </div>
                         <div className="overflow-x-auto">
-                            <table className="w-full border-collapse">
+                            <table className="w-full text-left text-[13px]">
                                 <thead>
-                                    <tr className="bg-gray-50/50">
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">İşletme Profili</th>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Bitiş Tarihi</th>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Durum</th>
-                                        <th className="px-10 py-6 text-right text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Yönetim</th>
+                                    <tr className="border-b border-slate-200 text-slate-500 bg-white">
+                                        <th className="px-5 py-3 font-semibold w-1/3">İşletme Profili</th>
+                                        <th className="px-5 py-3 font-semibold">Bitiş Tarihi</th>
+                                        <th className="px-5 py-3 font-semibold">Durum</th>
+                                        <th className="px-5 py-3 font-semibold text-right">Yönetim</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-50">
+                                <tbody className="divide-y divide-slate-100">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={4} className="py-32 text-center">
-                                                <div className="flex flex-col items-center gap-4">
-                                                    <Loader2 size={48} className="animate-spin text-[#ea580c]" />
-                                                    <span className="text-gray-400 font-bold tracking-tight">Veriler Senkronize Ediliyor...</span>
+                                            <td colSpan={4} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-3">
+                                                    <Loader2 size={24} className="animate-spin text-indigo-500" />
+                                                    <span className="text-slate-500 font-medium text-[13px]">Veriler senkronize ediliyor...</span>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : trials.length === 0 ? (
                                         <tr>
-                                            <td colSpan={4} className="py-32 text-center">
-                                                <div className="flex flex-col items-center gap-6 text-gray-200">
-                                                    <Clock size={80} strokeWidth={1} />
-                                                    <span className="text-gray-400 font-bold text-lg">Trial kaydı bulunmuyor.</span>
+                                            <td colSpan={4} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-3 text-slate-400">
+                                                    <Clock size={40} strokeWidth={1.5} />
+                                                    <span className="font-medium text-[13px]">Trial kaydı bulunmuyor.</span>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : trials.map((row) => {
                                         const daysLeft = calculateDaysLeft(row.trialExpiresAt);
                                         return (
-                                            <tr key={row.id} className="hover:bg-gray-50/50 transition-colors group">
-                                                <td className="px-10 py-8">
-                                                    <div className="text-lg font-black text-gray-900 leading-tight group-hover:text-[#ea580c] transition-colors">{row.name}</div>
-                                                    <div className="text-xs text-gray-400 font-bold mt-1.5 uppercase tracking-widest">
-                                                        Kurumsal ID: <span className="text-[#ea580c]">#{row.id.substring(0, 8).toUpperCase()}</span>
+                                            <tr key={row.id} className="hover:bg-slate-50 transition-colors group">
+                                                <td className="px-5 py-4">
+                                                    <div className="font-semibold text-slate-900 group-hover:text-indigo-600 transition-colors">{row.name}</div>
+                                                    <div className="text-[11px] text-slate-500 mt-0.5">
+                                                        ID: <span className="font-mono">{row.id.substring(0, 8)}</span>
                                                     </div>
                                                 </td>
-                                                <td className="px-10 py-8">
-                                                    <div className="text-gray-700 font-black tracking-tight mb-1">
-                                                        {new Date(row.trialExpiresAt).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long', year: 'numeric' })}
+                                                <td className="px-5 py-4">
+                                                    <div className="font-medium text-slate-900">
+                                                        {new Date(row.trialExpiresAt).toLocaleDateString('tr-TR', { day: '2-digit', month: '2-digit', year: 'numeric' })}
                                                     </div>
-                                                    <div className={`text-[10px] font-black uppercase tracking-wider ${daysLeft <= 3 ? 'text-rose-500' : 'text-gray-400'}`}>
-                                                        {daysLeft === 0 ? 'Bugün Sona Eriyor' : `${daysLeft} GÜN KALDI`}
+                                                    <div className={`text-[11px] font-semibold mt-0.5 ${daysLeft <= 3 ? 'text-rose-600' : 'text-slate-500'}`}>
+                                                        {daysLeft === 0 ? 'Bugün Sona Eriyor' : `${daysLeft} Gün Kaldı`}
                                                     </div>
                                                 </td>
-                                                <td className="px-10 py-8">
-                                                    <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border-2 ${daysLeft <= 0
-                                                            ? 'bg-rose-50 text-rose-500 border-rose-100'
-                                                            : 'bg-emerald-50 text-emerald-600 border-emerald-100'
+                                                <td className="px-5 py-4">
+                                                    <span className={`inline-flex items-center px-2 py-0.5 rounded-[4px] text-[10px] font-bold uppercase tracking-widest border ${daysLeft <= 0
+                                                        ? 'bg-rose-50 text-rose-600 border-rose-200'
+                                                        : 'bg-emerald-50 text-emerald-600 border-emerald-200'
                                                         }`}>
-                                                        {daysLeft <= 0 ? 'SÜRESİ DOLDU' : 'DENEME SÜRÜMÜ'}
+                                                        {daysLeft <= 0 ? 'Süresi Doldu' : 'Deneme'}
                                                     </span>
                                                 </td>
-                                                <td className="px-10 py-8 text-right">
-                                                    <div className="flex justify-end gap-3 translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                                                <td className="px-5 py-4 text-right">
+                                                    <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                                                         <button
                                                             onClick={() => {
                                                                 setSelectedTenant(row);
                                                                 setModalOpen(true);
                                                             }}
-                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white border-2 border-gray-100 text-gray-600 font-black text-[10px] uppercase tracking-widest hover:border-orange-200 hover:text-[#ea580c] transition-all"
+                                                            className="flex items-center gap-1.5 h-8 px-3 rounded-[4px] bg-white border border-slate-200 text-slate-600 font-semibold text-[11px] hover:bg-slate-50 hover:text-indigo-600 transition-colors shadow-sm"
                                                         >
-                                                            <Calendar size={14} strokeWidth={3} /> Uzat
+                                                            Uzat
                                                         </button>
                                                         <button
                                                             onClick={() => handleUpdate(row.id, { status: 'ACTIVE' })}
-                                                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#ea580c] text-white font-black text-[10px] uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all"
+                                                            className="flex items-center gap-1.5 h-8 px-3 rounded-[4px] bg-slate-900 text-white font-semibold text-[11px] hover:bg-slate-800 transition-colors shadow-sm"
                                                         >
-                                                            <ArrowRightCircle size={14} strokeWidth={3} /> Onayla
+                                                            Onayla
                                                         </button>
                                                     </div>
                                                 </td>
@@ -248,48 +238,47 @@ export default function TrialManagementPage() {
                 </div>
 
                 {/* Right Sidebar */}
-                <aside className="space-y-8 xl:sticky xl:top-8 xl:h-fit">
-                    <div className="bg-[#0f172a] p-10 rounded-[40px] text-white shadow-2xl relative overflow-hidden group">
-                        <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-orange-600/10 blur-[50px] rounded-full group-hover:scale-150 transition-transform duration-700"></div>
-
-                        <div className="relative z-10 flex items-center gap-4 mb-10">
-                            <div className="bg-emerald-500/20 p-3 rounded-2xl">
-                                <Zap size={24} className="text-emerald-400" strokeWidth={2.5} />
+                <aside className="space-y-6 xl:sticky xl:top-8 xl:h-fit">
+                    <div className="bg-slate-900 p-6 rounded-[6px] text-white shadow-sm border border-slate-800 relative overflow-hidden">
+                        <div className="relative z-10 flex items-center gap-3 mb-5">
+                            <div className="bg-slate-800 p-2 rounded-[4px] text-emerald-400">
+                                <Zap size={18} />
                             </div>
-                            <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">Dönüşüm Rehberi</h3>
+                            <h3 className="text-[11px] font-bold uppercase tracking-widest text-slate-300">Dönüşüm Rehberi</h3>
                         </div>
 
-                        <div className="space-y-10 relative z-10">
-                            <div className="flex gap-5">
-                                <div className="mt-1 bg-emerald-500/20 p-1.5 rounded-lg h-fit">
-                                    <CheckCircle size={14} className="text-emerald-400" />
+                        <div className="space-y-5 relative z-10">
+                            <div className="flex gap-3">
+                                <div className="mt-0.5 text-emerald-400 shrink-0">
+                                    <CheckCircle size={16} />
                                 </div>
-                                <p className="text-sm font-bold text-slate-400 leading-relaxed">
-                                    Sürecin <span className="text-white font-black underline decoration-emerald-500/50 underline-offset-4">7. gününde</span> atılan mesajlar dönüşümü %24 artırır.
+                                <p className="text-[12px] font-medium text-slate-300 leading-relaxed">
+                                    Sürecin <span className="text-white font-semibold">7. gününde</span> atılan mesajlar dönüşümü %24 artırır.
                                 </p>
                             </div>
 
-                            <div className="h-px bg-white/5"></div>
+                            <div className="h-px bg-slate-800"></div>
 
-                            <div className="flex gap-5">
-                                <div className="mt-1 bg-orange-600/20 p-1.5 rounded-lg h-fit">
-                                    <CheckCircle size={14} className="text-orange-400" />
+                            <div className="flex gap-3">
+                                <div className="mt-0.5 text-indigo-400 shrink-0">
+                                    <CheckCircle size={16} />
                                 </div>
-                                <p className="text-sm font-bold text-slate-400 leading-relaxed">
-                                    <span className="text-orange-400 font-black tracking-widest uppercase">WELCOME30</span> promosyon kodu ile son gün dönüşümlerini tetikleyin.
+                                <p className="text-[12px] font-medium text-slate-300 leading-relaxed">
+                                    <span className="text-white font-mono bg-slate-800 px-1 py-0.5 rounded mr-1 text-[10px]">WLC30</span>
+                                    kodu ile son gün dönüşümlerini tetikleyin.
                                 </p>
                             </div>
                         </div>
                     </div>
 
-                    <div className="bg-white p-10 rounded-[40px] shadow-sm border border-gray-100 flex gap-6 items-start">
-                        <div className="bg-orange-50 p-4 rounded-3xl border-2 border-orange-100 shrink-0">
-                            <AlertCircle size={24} className="text-[#ea580c]" strokeWidth={2.5} />
+                    <div className="bg-rose-50 p-6 rounded-[6px] shadow-sm border border-rose-100 flex gap-4 items-start">
+                        <div className="bg-rose-100 p-2 rounded-[4px] shrink-0 text-rose-600">
+                            <AlertCircle size={20} />
                         </div>
                         <div>
-                            <h4 className="text-lg font-black text-gray-900 tracking-tight mb-2">Otomatik Kısıtlama</h4>
-                            <p className="text-sm font-medium text-gray-500 leading-relaxed">
-                                Süresi dolan restoranlar <span className="text-rose-500 font-black tracking-tight">+7 gün tolerans</span> sonunda askıya alınır.
+                            <h4 className="text-[13px] font-bold text-rose-900 mb-1">Otomatik Kısıtlama</h4>
+                            <p className="text-[12px] font-medium text-rose-700 leading-relaxed">
+                                Süresi dolan işletmeler <span className="font-semibold">+7 gün</span> tolerans sonunda otomatik askıya alınır.
                             </p>
                         </div>
                     </div>
@@ -298,29 +287,26 @@ export default function TrialManagementPage() {
 
             {/* Extend Trial Modal */}
             {modalOpen && (
-                <div className="fixed inset-0 bg-gray-900/40 backdrop-blur-xl flex items-center justify-center z-[1000] p-4">
-                    <div className="bg-white p-12 rounded-[50px] w-full max-w-[600px] shadow-2xl relative animate-in fade-in zoom-in duration-300">
+                <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-sm flex items-center justify-center z-[1000] p-4">
+                    <div className="bg-white p-8 rounded-[8px] w-full max-w-[500px] shadow-xl relative animate-in fade-in zoom-in-95 duration-200">
                         <button
                             onClick={() => setModalOpen(false)}
-                            className="absolute top-8 right-8 w-12 h-12 rounded-2xl bg-gray-50 text-gray-400 flex items-center justify-center hover:bg-rose-50 hover:text-rose-500 transition-all border border-gray-100"
+                            className="absolute top-4 right-4 p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 rounded-[4px] transition-colors"
                         >
-                            <X size={24} />
+                            <X size={20} />
                         </button>
 
-                        <div className="mb-10">
-                            <div className="w-16 h-16 bg-orange-50 text-[#ea580c] rounded-[24px] flex items-center justify-center mb-8 shadow-inner">
-                                <Calendar size={32} strokeWidth={2.5} />
-                            </div>
-                            <h3 className="text-3xl font-black text-gray-900 tracking-tight mb-3">Süre Uzatımı</h3>
-                            <p className="text-gray-500 font-medium text-lg leading-relaxed">
-                                <span className="text-[#ea580c] font-black underline underline-offset-4">{selectedTenant?.name}</span> işletmesi için deneme süresini güncelleyin.
+                        <div className="mb-6">
+                            <h3 className="text-[18px] font-bold text-slate-900 tracking-tight">Süre Uzatımı</h3>
+                            <p className="text-[13px] text-slate-500 mt-1">
+                                <span className="font-semibold text-slate-700">{selectedTenant?.name}</span> için deneme süresi ayarlaması.
                             </p>
                         </div>
 
-                        <form onSubmit={handleExtend} className="space-y-8">
-                            <div className="space-y-4">
-                                <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-2">Uzatma Aralığı Seçin</label>
-                                <div className="grid grid-cols-3 gap-4">
+                        <form onSubmit={handleExtend} className="space-y-6">
+                            <div className="space-y-3">
+                                <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Uzatma Aralığı</label>
+                                <div className="grid grid-cols-3 gap-3">
                                     {[
                                         { label: '+7 Gün', value: '7' },
                                         { label: '+15 Gün', value: '15' },
@@ -330,9 +316,9 @@ export default function TrialManagementPage() {
                                             key={opt.value}
                                             type="button"
                                             onClick={() => setExtendDays(opt.value)}
-                                            className={`py-5 rounded-3xl font-black text-sm uppercase tracking-widest border-2 transition-all shadow-sm ${extendDays === opt.value
-                                                    ? 'bg-orange-50 border-[#ea580c] text-[#ea580c] shadow-orange-500/10'
-                                                    : 'bg-white border-gray-100 text-gray-400 hover:border-gray-300'
+                                            className={`py-2 rounded-[4px] font-semibold text-[13px] border transition-all ${extendDays === opt.value
+                                                ? 'bg-indigo-50 border-indigo-200 text-indigo-700'
+                                                : 'bg-white border-slate-200 text-slate-600 hover:border-slate-300'
                                                 }`}
                                         >
                                             {opt.label}
@@ -342,31 +328,39 @@ export default function TrialManagementPage() {
                             </div>
 
                             {extendDays === 'custom' && (
-                                <div className="space-y-4 animate-in slide-in-from-top-4 duration-500">
-                                    <label className="text-xs font-black text-gray-400 uppercase tracking-widest pl-2">Yeni Bitiş Tarihi</label>
+                                <div className="space-y-2 animate-in slide-in-from-top-2 duration-300">
+                                    <label className="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Yeni Bitiş Tarihi</label>
                                     <input
                                         type="date"
                                         required
                                         value={customDate}
                                         onChange={(e) => setCustomDate(e.target.value)}
-                                        className="w-full px-8 py-5 rounded-3xl border-2 border-gray-100 bg-gray-50 focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 outline-none transition-all font-black text-gray-700"
+                                        className="w-full px-3 py-2 rounded-[6px] border border-slate-200 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none transition-all text-[13px] text-slate-700 bg-white"
                                     />
                                 </div>
                             )}
 
-                            <button
-                                type="submit"
-                                disabled={isSaving}
-                                className="w-full py-6 rounded-[30px] bg-[#ea580c] hover:bg-orange-600 text-white font-black text-lg tracking-tight shadow-2xl shadow-orange-500/30 active:scale-95 disabled:opacity-70 transition-all flex items-center justify-center gap-3 mt-8"
-                            >
-                                {isSaving ? <Loader2 size={24} className="animate-spin" /> : <Save size={24} />}
-                                Değişiklikleri Onayla ve Kaydet
-                            </button>
+                            <div className="pt-4 flex gap-3">
+                                <button
+                                    type="button"
+                                    onClick={() => setModalOpen(false)}
+                                    className="flex-1 py-2.5 rounded-[6px] border border-slate-200 text-slate-700 font-semibold text-[13px] hover:bg-slate-50 transition-colors"
+                                >
+                                    İptal
+                                </button>
+                                <button
+                                    type="submit"
+                                    disabled={isSaving}
+                                    className="flex-1 py-2.5 rounded-[6px] bg-slate-900 hover:bg-slate-800 text-white font-semibold text-[13px] disabled:opacity-70 transition-colors flex items-center justify-center gap-2"
+                                >
+                                    {isSaving ? <Loader2 size={16} className="animate-spin" /> : null}
+                                    {isSaving ? 'Kaydediliyor...' : 'Kaydet'}
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
             )}
         </div>
     );
-
 }

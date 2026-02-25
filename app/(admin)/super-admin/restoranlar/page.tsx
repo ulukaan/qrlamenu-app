@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from 'react';
-import { Search, Filter, MoreVertical, Edit, Trash2, Eye, Plus, Store, PlusCircle, Loader2 } from 'lucide-react';
+import { Search, Filter, MoreVertical, Edit, Trash2, Eye, Plus, Store, PlusCircle, Loader2, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SuperAdminRestoranlar() {
@@ -33,119 +33,129 @@ export default function SuperAdminRestoranlar() {
     );
 
     return (
-        <div className="p-8 md:p-12 lg:p-16 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header Area */}
-            <header className="mb-12 flex flex-col xl:flex-row justify-between items-start xl:items-end gap-8">
-                <div className="max-w-3xl">
-                    <h2 className="text-3xl md:text-4xl font-black text-gray-900 tracking-tight leading-tight">
-                        İşletme Portföy Yönetimi
-                    </h2>
-                    <p className="text-gray-500 mt-3 text-lg font-medium leading-relaxed">
-                        Platformdaki tüm kayıtlı restoranları, aktif abonelikleri ve deneme süreçlerini tek panelden yönetin.
-                    </p>
+            <header className="mb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div className="space-y-1.5">
+                    <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 uppercase tracking-[0.15em]">
+                        <span>PANEL</span>
+                        <ChevronRight size={8} className="text-slate-300" />
+                        <span className="text-slate-900">RESTORANLAR</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                        <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">
+                            İşletme Portföy Yönetimi
+                        </h1>
+                    </div>
+                    <p className="text-[13px] font-medium text-slate-500">Platformdaki tüm kayıtlı restoranları, aktif abonelikleri ve deneme süreçlerini tek panelden yönetin.</p>
                 </div>
-                <Link href="/super-admin/restoranlar/yeni" className="w-full xl:w-auto">
-                    <button className="w-full xl:w-auto bg-[#ea580c] text-white px-10 py-4 rounded-2xl font-black text-sm flex items-center justify-center gap-3 shadow-xl shadow-orange-500/20 hover:scale-[1.02] active:scale-95 transition-all uppercase tracking-widest">
-                        <PlusCircle size={20} strokeWidth={3} /> Yeni İşletme Kaydı
-                    </button>
-                </Link>
+                <div className="flex items-center gap-4">
+                    <Link href="/super-admin/restoranlar/yeni" className="w-full md:w-auto">
+                        <button className="h-9 w-full md:w-auto bg-slate-900 text-white px-4 rounded-[6px] text-[13px] font-semibold hover:bg-slate-800 transition-all shadow-sm flex items-center justify-center gap-2">
+                            <PlusCircle size={16} />
+                            Yeni İşletme Kaydı
+                        </button>
+                    </Link>
+                </div>
             </header>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-12 items-start">
+            <div className="h-px bg-slate-200/60 w-full mb-10" />
+
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start">
                 {/* Main Table Column */}
-                <div className="flex flex-col gap-10 min-w-0">
-                    <section className="bg-white rounded-[40px] shadow-sm border border-gray-100 overflow-hidden">
-                        <div className="px-10 py-8 border-b border-gray-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 bg-gray-50/50">
-                            <h3 className="text-xl font-black text-gray-900 tracking-tight">
-                                Kayıtlı İşletmeler <span className="text-[#ea580c] ml-3 text-xs bg-white border border-orange-100 px-3 py-1 rounded-full shadow-sm">({filteredTenants.length} Toplam)</span>
+                <div className="flex flex-col gap-6 min-w-0">
+                    <section className="bg-white rounded-[6px] shadow-sm border border-slate-200/60 overflow-hidden">
+                        <div className="px-6 py-5 border-b border-slate-50 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 bg-white">
+                            <h3 className="text-[15px] font-bold text-slate-900 tracking-tight flex items-center gap-3">
+                                Kayıtlı İşletmeler <span className="text-slate-500 text-[12px] bg-slate-100 px-2 py-0.5 rounded-[4px] font-semibold">{filteredTenants.length} Toplam</span>
                             </h3>
-                            <div className="relative w-full md:w-96 group">
-                                <Search size={20} className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-[#ea580c] transition-colors" />
+                            <div className="relative w-full md:w-80 group">
+                                <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-slate-600 transition-colors" />
                                 <input
                                     type="text"
                                     placeholder="İşletme adı veya sahip ara..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="w-full pl-14 pr-6 py-4 rounded-2xl border-2 border-gray-100 bg-white text-sm font-bold text-gray-700 outline-none focus:border-[#ea580c] focus:ring-4 focus:ring-orange-600/10 transition-all placeholder:text-gray-400"
+                                    className="w-full pl-9 pr-4 h-9 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-700 outline-none focus:border-slate-300 focus:ring-1 focus:ring-slate-300 transition-all placeholder:text-slate-400"
                                 />
                             </div>
                         </div>
 
                         <div className="overflow-x-auto">
                             <table className="w-full border-collapse">
-                                <thead className="bg-gray-50/50">
+                                <thead className="bg-[#f8fafc] border-b border-slate-200/60">
                                     <tr>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">İşletme Profili</th>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Mülkiyet & İletişim</th>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Durum</th>
-                                        <th className="px-10 py-6 text-left text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Plan</th>
-                                        <th className="px-10 py-6 text-right text-[10px] font-black text-gray-400 uppercase tracking-[0.2em] border-b border-gray-100">Yönetim</th>
+                                        <th className="px-6 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">İşletme Profili</th>
+                                        <th className="px-6 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Mülkiyet & İletişim</th>
+                                        <th className="px-6 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Durum</th>
+                                        <th className="px-6 py-3 text-left text-[11px] font-bold text-slate-500 uppercase tracking-wider">Plan</th>
+                                        <th className="px-6 py-3 text-right text-[11px] font-bold text-slate-500 uppercase tracking-wider">Yönetim</th>
                                     </tr>
                                 </thead>
-                                <tbody className="divide-y divide-gray-50">
+                                <tbody className="divide-y divide-slate-100">
                                     {loading ? (
                                         <tr>
-                                            <td colSpan={5} className="py-40 text-center">
-                                                <div className="flex flex-col items-center gap-6">
-                                                    <Loader2 size={56} className="animate-spin text-[#ea580c]" />
-                                                    <span className="text-gray-400 font-bold uppercase text-[10px] tracking-widest">Veriler Senkronize Ediliyor...</span>
+                                            <td colSpan={5} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-4">
+                                                    <Loader2 size={32} className="animate-spin text-slate-400" />
+                                                    <span className="text-slate-500 font-semibold text-[13px]">Veriler Yükleniyor...</span>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : filteredTenants.length === 0 ? (
                                         <tr>
-                                            <td colSpan={5} className="py-40 text-center">
-                                                <div className="flex flex-col items-center gap-8">
-                                                    <div className="w-24 h-24 bg-gray-50 rounded-[32px] flex items-center justify-center text-gray-200 border-2 border-gray-100 shadow-inner">
-                                                        <Store size={48} strokeWidth={1} />
+                                            <td colSpan={5} className="py-20 text-center">
+                                                <div className="flex flex-col items-center gap-4">
+                                                    <div className="w-16 h-16 bg-slate-50 rounded-[6px] flex items-center justify-center text-slate-300 border border-slate-100">
+                                                        <Store size={24} strokeWidth={1.5} />
                                                     </div>
-                                                    <span className="text-lg font-black text-gray-900 uppercase tracking-wider">Kayıt Bulunamadı</span>
+                                                    <span className="text-[14px] font-bold text-slate-600">Kayıt Bulunamadı</span>
                                                 </div>
                                             </td>
                                         </tr>
                                     ) : filteredTenants.map((item) => (
-                                        <tr key={item.id} className="hover:bg-gray-50/50 transition-all group">
-                                            <td className="px-10 py-8">
-                                                <div className="flex items-center gap-5">
-                                                    <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-gray-300 overflow-hidden border-2 border-gray-50 shadow-sm group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
-                                                        {item.logoUrl ? <img src={item.logoUrl} alt="" className="w-full h-full object-cover" /> : <Store size={28} />}
+                                        <tr key={item.id} className="hover:bg-slate-50 transition-colors group">
+                                            <td className="px-6 py-4">
+                                                <div className="flex items-center gap-4">
+                                                    <div className="w-10 h-10 bg-white rounded-[6px] flex items-center justify-center text-slate-400 overflow-hidden border border-slate-200 shadow-sm">
+                                                        {item.logoUrl ? <img src={item.logoUrl} alt="" className="w-full h-full object-cover" /> : <Store size={20} />}
                                                     </div>
                                                     <div>
-                                                        <p className="font-black text-gray-900 text-lg leading-tight group-hover:text-[#ea580c] transition-colors">{item.name}</p>
-                                                        <p className="mt-2 text-[10px] text-gray-400 font-black bg-gray-100/50 px-2 py-0.5 rounded-md inline-block tracking-widest uppercase">ID: {item.id.substring(0, 8).toUpperCase()}</p>
+                                                        <p className="font-semibold text-slate-900 text-[14px]">{item.name}</p>
+                                                        <p className="mt-1 text-[11px] text-slate-500 font-medium">ID: {item.id.substring(0, 8).toUpperCase()}</p>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-8">
-                                                <p className="text-sm font-black text-gray-900 uppercase tracking-tight">{item.ownerEmail.split('@')[0]}</p>
-                                                <p className="mt-1 text-xs text-gray-400 font-bold">{item.ownerEmail}</p>
+                                            <td className="px-6 py-4">
+                                                <p className="text-[13px] font-semibold text-slate-900 uppercase">{item.ownerEmail.split('@')[0]}</p>
+                                                <p className="text-[12px] text-slate-500 mt-0.5">{item.ownerEmail}</p>
                                             </td>
-                                            <td className="px-10 py-8">
+                                            <td className="px-6 py-4">
                                                 <div className={`
-                                                    inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[10px] font-black border-2
-                                                    ${item.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100 shadow-sm shadow-emerald-500/10' :
-                                                        item.status === 'TRIAL' ? 'bg-orange-50 text-orange-600 border-orange-100 shadow-sm shadow-orange-500/10' :
-                                                            'bg-gray-50 text-gray-400 border-gray-100'}
+                                                    inline-flex items-center gap-1.5 px-2.5 py-1 rounded-[4px] text-[11px] font-semibold border
+                                                    ${item.status === 'ACTIVE' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
+                                                        item.status === 'TRIAL' ? 'bg-amber-50 text-amber-600 border-amber-100' :
+                                                            'bg-slate-50 text-slate-500 border-slate-200'}
                                                 `}>
                                                     <div className={`w-1.5 h-1.5 rounded-full bg-current ${item.status === 'ACTIVE' ? 'animate-pulse' : ''}`}></div>
                                                     {item.status === 'ACTIVE' ? 'AKTİF' : item.status === 'TRIAL' ? 'DENEME' : 'PASİF'}
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-8">
+                                            <td className="px-6 py-4">
                                                 <div className="flex flex-col">
-                                                    <span className="text-sm font-black text-gray-900 uppercase tracking-tight">{item.plan?.name || 'STANDART'}</span>
-                                                    <span className="text-[10px] text-gray-400 font-black mt-1 uppercase tracking-widest">Premium Kurumsal</span>
+                                                    <span className="text-[13px] font-semibold text-slate-900 uppercase">{item.plan?.name || 'STANDART'}</span>
+                                                    <span className="text-[11px] text-slate-400 font-medium mt-0.5">Premium Kurumsal</span>
                                                 </div>
                                             </td>
-                                            <td className="px-10 py-8 text-right">
-                                                <div className="flex justify-end gap-3 opacity-0 group-hover:opacity-100 translate-x-2 group-hover:translate-x-0 transition-all duration-300">
+                                            <td className="px-6 py-4 text-right">
+                                                <div className="flex justify-end gap-2">
                                                     <Link href={`/super-admin/restoranlar/${item.id}`}>
-                                                        <button className="h-12 px-6 rounded-xl border-2 border-gray-100 bg-white text-gray-700 text-[10px] font-black flex items-center gap-3 hover:border-orange-200 hover:text-[#ea580c] shadow-sm transition-all uppercase tracking-widest">
-                                                            <Edit size={16} strokeWidth={3} /> Detay
+                                                        <button className="h-8 px-3 rounded-[4px] border border-slate-200 bg-white text-slate-600 text-[12px] font-semibold flex items-center gap-2 hover:border-slate-300 hover:text-slate-900 shadow-sm transition-all">
+                                                            <Edit size={14} /> Detay
                                                         </button>
                                                     </Link>
-                                                    <button className="w-12 h-12 rounded-xl bg-rose-50 text-rose-500 flex items-center justify-center hover:bg-rose-500 hover:text-white border-2 border-rose-50 hover:border-rose-500 shadow-sm transition-all">
-                                                        <Trash2 size={20} strokeWidth={2.5} />
+                                                    <button className="w-8 h-8 rounded-[4px] bg-white text-rose-500 flex items-center justify-center hover:bg-rose-50 border border-slate-200 hover:border-rose-200 shadow-sm transition-all">
+                                                        <Trash2 size={16} />
                                                     </button>
                                                 </div>
                                             </td>
@@ -158,18 +168,18 @@ export default function SuperAdminRestoranlar() {
                 </div>
 
                 {/* Right Sidebar Column */}
-                <aside className="flex flex-col gap-10 xl:sticky xl:top-8 h-fit">
-                    <div className="bg-white rounded-[40px] p-10 shadow-sm border-2 border-gray-50 border-l-[6px] border-l-[#ea580c] group">
-                        <div className="flex items-center gap-4 mb-10">
-                            <div className="bg-orange-50 text-[#ea580c] p-4 rounded-2xl border-2 border-orange-100 group-hover:rotate-12 transition-transform">
-                                <Filter size={24} strokeWidth={2.5} />
+                <aside className="flex flex-col gap-6 xl:sticky xl:top-8 h-fit">
+                    <div className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-200/60">
+                        <div className="flex items-center gap-3 mb-6 border-b border-slate-50 pb-4">
+                            <div className="w-8 h-8 bg-slate-50 text-slate-600 rounded-[4px] border border-slate-100 flex items-center justify-center">
+                                <Filter size={16} />
                             </div>
-                            <h3 className="text-xs font-black uppercase tracking-[0.3em] text-gray-900">Akıllı Filtreleme</h3>
+                            <h3 className="text-[14px] font-bold text-slate-900 tracking-tight">Akıllı Filtreleme</h3>
                         </div>
-                        <div className="flex flex-col gap-8">
+                        <div className="flex flex-col gap-5">
                             <div>
-                                <label className="block mb-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-1">Operasyonel Durum</label>
-                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all cursor-pointer shadow-sm">
+                                <label className="block mb-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Operasyonel Durum</label>
+                                <select className="w-full px-3 h-9 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-700 outline-none focus:border-slate-300 transition-all cursor-pointer shadow-sm appearance-none">
                                     <option>Tüm İşletmeler</option>
                                     <option>Sadece Aktifler</option>
                                     <option>Deneme Sürümü</option>
@@ -177,8 +187,8 @@ export default function SuperAdminRestoranlar() {
                                 </select>
                             </div>
                             <div>
-                                <label className="block mb-3 text-[10px] font-black text-gray-400 uppercase tracking-[0.25em] ml-1">Abonelik Paketi</label>
-                                <select className="w-full px-6 py-4 rounded-2xl border-2 border-gray-50 bg-gray-50 text-xs font-black text-gray-900 outline-none focus:bg-white focus:border-[#ea580c] transition-all cursor-pointer shadow-sm">
+                                <label className="block mb-2 text-[11px] font-bold text-slate-500 uppercase tracking-wider">Abonelik Paketi</label>
+                                <select className="w-full px-3 h-9 rounded-[6px] border border-slate-200 bg-white text-[13px] font-semibold text-slate-700 outline-none focus:border-slate-300 transition-all cursor-pointer shadow-sm appearance-none">
                                     <option>Tüm Paketler</option>
                                     <option>Başlangıç</option>
                                     <option>Profesyonel</option>
@@ -186,32 +196,29 @@ export default function SuperAdminRestoranlar() {
                                     <option>Enterprise</option>
                                 </select>
                             </div>
-                            <button className="w-full py-5 bg-gray-900 text-white rounded-2xl text-xs font-black uppercase tracking-[0.2em] shadow-2xl shadow-gray-900/20 hover:bg-[#ea580c] hover:shadow-orange-500/40 hover:-translate-y-1 transition-all mt-2">
+                            <button className="w-full h-9 bg-slate-100 text-slate-700 rounded-[6px] text-[13px] font-bold border border-slate-200 hover:bg-slate-200 transition-all mt-2">
                                 Filtreleri Uygula
                             </button>
                         </div>
                     </div>
 
-                    <div className="bg-[#0f172a] rounded-[40px] p-10 text-white shadow-2xl relative overflow-hidden group border border-white/5">
-                        <div className="absolute -right-10 -top-10 w-48 h-48 bg-orange-600/10 rounded-full blur-[60px] group-hover:scale-150 transition-transform duration-1000"></div>
-                        <div className="flex items-center gap-4 mb-10 relative">
-                            <div className="w-2 h-10 bg-emerald-400 rounded-full shadow-[0_0_20px_#10b981]"></div>
-                            <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Ekosistem Analizi</h3>
+                    <div className="bg-slate-900 rounded-[6px] p-6 text-white shadow-sm border border-slate-800">
+                        <div className="flex items-center gap-3 mb-6 border-b border-slate-800 pb-4">
+                            <h3 className="text-[13px] font-semibold uppercase tracking-tight text-white">Ekosistem Analizi</h3>
                         </div>
-                        <div className="flex flex-col gap-8 relative">
-                            <div className="flex justify-between items-end">
-                                <span className="text-[10px] text-slate-500 font-black uppercase tracking-widest">Toplam Restoran</span>
-                                <span className="text-5xl font-black tracking-tighter leading-none">{tenants.length}</span>
+                        <div className="flex flex-col gap-6">
+                            <div className="flex justify-between items-center">
+                                <span className="text-[12px] text-slate-400 font-medium tracking-wide">Toplam Restoran</span>
+                                <span className="text-2xl font-bold">{tenants.length}</span>
                             </div>
-                            <div className="h-px bg-white/10 w-full"></div>
-                            <div className="space-y-4">
-                                <div className="flex justify-between items-center bg-white/5 p-5 rounded-[24px] border border-white/5 hover:bg-white/10 transition-colors group/stat">
-                                    <span className="text-emerald-400 text-[10px] font-black uppercase tracking-[0.2em]">Aktif Lisanslar</span>
-                                    <span className="text-xl font-black group-hover/stat:scale-110 transition-transform">{tenants.filter(t => t.status === 'ACTIVE').length}</span>
+                            <div className="space-y-3">
+                                <div className="flex justify-between items-center bg-white/5 px-4 py-3 rounded-[6px] border border-white/10">
+                                    <span className="text-emerald-400 text-[11px] font-bold tracking-wider">Aktif Lisanslar</span>
+                                    <span className="text-[14px] font-bold">{tenants.filter(t => t.status === 'ACTIVE').length}</span>
                                 </div>
-                                <div className="flex justify-between items-center bg-white/5 p-5 rounded-[24px] border border-white/5 hover:bg-white/10 transition-colors group/stat">
-                                    <span className="text-[#ea580c] text-[10px] font-black uppercase tracking-[0.2em]">Deneme Süreci</span>
-                                    <span className="text-xl font-black group-hover/stat:scale-110 transition-transform">{tenants.filter(t => t.status === 'TRIAL').length}</span>
+                                <div className="flex justify-between items-center bg-white/5 px-4 py-3 rounded-[6px] border border-white/10">
+                                    <span className="text-amber-400 text-[11px] font-bold tracking-wider">Deneme Süreci</span>
+                                    <span className="text-[14px] font-bold">{tenants.filter(t => t.status === 'TRIAL').length}</span>
                                 </div>
                             </div>
                         </div>

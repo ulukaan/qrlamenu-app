@@ -51,54 +51,54 @@ export default function SecuritySettingsPage() {
     );
 
     return (
-        <div className="p-4 md:p-8 lg:p-12 w-full max-w-full">
+        <div className="px-6 py-8 w-full max-w-full">
             {/* Page Header Area */}
-            <div className="mb-8 md:mb-12 flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6">
-                <div className="max-w-3xl">
-                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Güvenlik & Erişim Kontrolü</h2>
-                    <p className="text-gray-500 mt-1 text-sm md:text-base font-medium">Platform genelinde kimlik doğrulama, IP kısıtlamaları ve siber güvenlik politikalarını yapılandırın.</p>
+            <div className="mb-8 flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4">
+                <div>
+                    <h1 className="text-[20px] font-semibold text-slate-900 tracking-tight leading-none uppercase">Güvenlik & Erişim Kontrolü</h1>
+                    <p className="text-[13px] text-slate-500 mt-1 font-medium">Platform genelinde kimlik doğrulama, IP kısıtlamaları ve siber güvenlik politikalarını yapılandırın.</p>
                 </div>
                 <div className="flex items-center gap-4 w-full lg:w-auto">
-                    <div className="flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-emerald-500 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-emerald-500/20 border border-emerald-400/20">
-                        <Shield size={18} strokeWidth={2.5} /> SİSTEM DURUMU: GÜVENLİ
+                    <div className="flex items-center gap-2 px-3 py-1.5 rounded-[4px] bg-emerald-50 text-emerald-600 text-[11px] font-bold uppercase tracking-widest border border-emerald-200">
+                        <Shield size={14} /> Sistem Durumu: Güvenli
                     </div>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 xl:grid-cols-[1fr_340px] gap-8 items-start">
-                <div className="space-y-8">
+            <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start">
+                <div className="space-y-6">
                     {/* General Security Layers */}
-                    <div className="bg-white rounded-[40px] p-8 md:p-10 shadow-sm border border-slate-100">
-                        <div className="flex items-center gap-4 mb-10">
-                            <div className="bg-sky-50 text-sky-500 p-3.5 rounded-2xl border-2 border-sky-100/50">
-                                <Lock size={28} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-200">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-sky-50 text-sky-600 p-2 rounded-[4px] border border-sky-100">
+                                <Lock size={20} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Zırhlı Erişim Katmanları</h3>
-                                <p className="text-sm font-bold text-slate-400 italic">Aktif güvenlik duvarları ve doğrulama metodları.</p>
+                                <h3 className="text-[15px] font-semibold text-gray-900 tracking-tight">Zırhlı Erişim Katmanları</h3>
+                                <p className="text-[12px] text-slate-500 font-medium mt-0.5">Aktif güvenlik duvarları ve doğrulama metodları.</p>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 gap-4">
+                        <div className="grid grid-cols-1 gap-3">
                             {[
-                                { id: 'twoFA', title: 'Çift Faktörlü Doğrulama (2FA)', desc: 'Tüm admin ve süper admin hesapları için zorunlu kılındığında oturum güvenliğini maksimize eder.', icon: <Smartphone size={22} />, active: settings?.twoFA },
-                                { id: 'ipWhitelist', title: 'IP Beyaz Liste Filtresi', desc: 'Sadece yetkilendirilmiş statik IP adreslerinden gelen talepleri kabul ederek dış saldırıları engeller.', icon: <Globe size={22} />, active: settings?.ipWhitelist },
-                                { id: 'sessionTimeout', title: 'Akıllı Oturum Yönetimi', desc: `İnaktiflik durumunda ${settings?.sessionTimeout || 30} dakika sonra oturumu otomatik olarak sonlandırır.`, icon: <Clock size={22} />, active: true, persistent: true },
+                                { id: 'twoFA', title: 'Çift Faktörlü Doğrulama (2FA)', desc: 'Tüm admin hesapları için zorunlu kılındığında oturum güvenliğini maksimize eder.', icon: <Smartphone size={18} />, active: settings?.twoFA },
+                                { id: 'ipWhitelist', title: 'IP Beyaz Liste Filtresi', desc: 'Sadece yetkilendirilmiş IP adreslerinden gelen talepleri kabul ederek dış saldırıları engeller.', icon: <Globe size={18} />, active: settings?.ipWhitelist },
+                                { id: 'sessionTimeout', title: 'Akıllı Oturum Yönetimi', desc: `İnaktiflik durumunda ${settings?.sessionTimeout || 30} dakika sonra oturumu otomatik olarak sonlandırır.`, icon: <Clock size={18} />, active: true, persistent: true },
                             ].map((s, i) => (
-                                <div key={i} className={`flex flex-col sm:flex-row sm:items-center gap-6 p-6 rounded-[32px] border-2 transition-all duration-500 ${s.active ? 'bg-slate-50 border-slate-100 shadow-sm' : 'bg-white border-slate-50/50 opacity-60'} ${saving ? 'animate-pulse pointer-events-none' : ''}`}>
-                                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-all duration-500 ${s.active ? 'bg-slate-900 text-white shadow-xl shadow-slate-900/20 rotate-0' : 'bg-slate-100 text-slate-400 rotate-3'}`}>
-                                        {React.cloneElement(s.icon as React.ReactElement, { strokeWidth: 2.5 })}
+                                <div key={i} className={`flex flex-col sm:flex-row sm:items-center gap-4 p-4 rounded-[6px] border transition-colors ${s.active ? 'bg-slate-50 border-slate-200' : 'bg-white border-slate-100 opacity-70'} ${saving ? 'animate-pulse pointer-events-none' : ''}`}>
+                                    <div className={`w-10 h-10 rounded-[4px] flex items-center justify-center shrink-0 transition-colors ${s.active ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-400'}`}>
+                                        {s.icon}
                                     </div>
                                     <div className="flex-1">
-                                        <p className="font-black text-gray-900 text-lg tracking-tight">{s.title}</p>
-                                        <p className="text-xs font-bold text-slate-400 mt-1 leading-relaxed max-w-xl">{s.desc}</p>
+                                        <p className="font-semibold text-gray-900 text-[14px] leading-tight">{s.title}</p>
+                                        <p className="text-[12px] text-slate-500 mt-0.5 leading-relaxed">{s.desc}</p>
                                     </div>
                                     {!s.persistent && (
                                         <button
                                             onClick={() => toggleSetting(s.id)}
-                                            className={`relative w-14 h-8 rounded-full transition-all duration-500 focus:outline-none ${s.active ? 'bg-[#ea580c] shadow-lg shadow-orange-500/30' : 'bg-slate-200'}`}
+                                            className={`relative w-10 h-5 rounded-full transition-colors focus:outline-none ${s.active ? 'bg-indigo-600' : 'bg-slate-200'}`}
                                         >
-                                            <div className={`absolute top-1 left-1 w-6 h-6 bg-white rounded-full transition-transform duration-500 shadow-sm ${s.active ? 'translate-x-6' : 'translate-x-0'}`} />
+                                            <div className={`absolute top-0.5 left-0.5 w-4 h-4 bg-white rounded-full transition-transform ${s.active ? 'translate-x-5' : 'translate-x-0'}`} />
                                         </button>
                                     )}
                                 </div>
@@ -107,39 +107,39 @@ export default function SecuritySettingsPage() {
                     </div>
 
                     {/* Password Policy */}
-                    <div className="bg-white rounded-[40px] p-8 md:p-10 shadow-sm border border-slate-100">
-                        <div className="flex items-center gap-4 mb-10">
-                            <div className="bg-indigo-50 text-indigo-500 p-3.5 rounded-2xl border-2 border-indigo-100/50">
-                                <Key size={28} strokeWidth={2.5} />
+                    <div className="bg-white rounded-[6px] p-6 shadow-sm border border-slate-200">
+                        <div className="flex items-center gap-3 mb-6">
+                            <div className="bg-indigo-50 text-indigo-600 p-2 rounded-[4px] border border-indigo-100">
+                                <Key size={20} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-black text-gray-900 tracking-tight">Karmaşıklık Politikası</h3>
-                                <p className="text-sm font-bold text-slate-400 italic">Şifre kriterleri ve rotasyon kuralları.</p>
+                                <h3 className="text-[15px] font-semibold text-gray-900 tracking-tight">Karmaşıklık Politikası</h3>
+                                <p className="text-[12px] text-slate-500 font-medium mt-0.5">Şifre kriterleri ve rotasyon kuralları.</p>
                             </div>
                         </div>
 
-                        <div className="space-y-8">
-                            <div className="p-8 rounded-[32px] bg-slate-50 border-2 border-slate-100">
-                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
-                                    <span className="text-sm font-black text-gray-900 tracking-tight">Minimum Karakter Uzunluğu</span>
-                                    <span className="text-2xl font-black text-[#ea580c] tabular-nums">{settings?.minPasswordLength || 12} Bit/Karakter</span>
+                        <div className="space-y-6">
+                            <div className="p-5 rounded-[6px] bg-slate-50 border border-slate-200">
+                                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
+                                    <span className="text-[13px] font-semibold text-gray-900">Minimum Karakter Uzunluğu</span>
+                                    <span className="text-[16px] font-bold text-indigo-600 tabular-nums">{settings?.minPasswordLength || 12} Karakter</span>
                                 </div>
-                                <div className="h-3 w-full bg-slate-200 rounded-full overflow-hidden">
-                                    <div className="h-full bg-gradient-to-r from-[#ea580c] to-orange-400 shadow-[0_0_15px_rgba(255,122,33,0.3)] w-3/4 animate-pulse"></div>
+                                <div className="h-1.5 w-full bg-slate-200 rounded-full overflow-hidden">
+                                    <div className="h-full bg-indigo-500 w-3/4"></div>
                                 </div>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-white rounded-2xl border-2 border-slate-100">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
-                                        <span className="text-xs font-black text-slate-600 uppercase tracking-widest">Büyük/Küçük Harf</span>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-5">
+                                    <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-[4px] border border-slate-200">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                        <span className="text-[11px] font-bold text-slate-600 uppercase tracking-widest">Büyük/Küçük Harf</span>
                                     </div>
-                                    <div className="flex items-center gap-3 px-6 py-4 bg-white rounded-2xl border-2 border-slate-100">
-                                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></div>
-                                        <span className="text-xs font-black text-slate-600 uppercase tracking-widest">Özel Karakterler</span>
+                                    <div className="flex items-center gap-2 px-3 py-2 bg-white rounded-[4px] border border-slate-200">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>
+                                        <span className="text-[11px] font-bold text-slate-600 uppercase tracking-widest">Özel Karakterler</span>
                                     </div>
                                 </div>
                             </div>
-                            <button className="px-10 py-4 rounded-2xl bg-slate-900 text-white text-xs font-black uppercase tracking-widest shadow-xl shadow-slate-900/20 hover:bg-[#ea580c] transition-all active:scale-95">
-                                GÜVENLİK POLİTİKASINI GÜNCELLE
+                            <button className="h-9 px-4 rounded-[6px] bg-slate-900 text-white font-semibold text-[13px] hover:bg-slate-800 transition-colors w-full sm:w-auto">
+                                Politikayı Güncelle
                             </button>
                         </div>
                     </div>
@@ -148,44 +148,40 @@ export default function SecuritySettingsPage() {
                 {/* Right Sidebar */}
                 <div className="xl:sticky xl:top-8 flex flex-col gap-6">
                     {/* Critical Actions */}
-                    <div className="bg-rose-950 rounded-[40px] p-8 text-white shadow-2xl shadow-rose-900/20 relative overflow-hidden group">
-                        <div className="absolute -right-10 -top-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl transition-transform duration-1000 group-hover:scale-125"></div>
-
-                        <div className="relative z-10">
-                            <div className="flex items-center gap-4 mb-8">
-                                <div className="bg-rose-500/10 p-3 rounded-2xl border border-rose-500/20">
-                                    <AlertTriangle size={24} className="text-rose-500" strokeWidth={3} />
-                                </div>
-                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-300">Kritik Müdahale</h3>
+                    <div className="bg-rose-50 rounded-[6px] p-5 shadow-sm border border-rose-200">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-white p-1.5 rounded-[4px] border border-rose-100">
+                                <AlertTriangle size={16} className="text-rose-600" />
                             </div>
+                            <h3 className="text-[12px] font-bold uppercase tracking-widest text-rose-700">Kritik Müdahale</h3>
+                        </div>
 
-                            <p className="text-sm font-medium text-rose-200/60 leading-relaxed mb-10 italic">
-                                Bu alandaki işlemler platformun tüm erişim trafiğini ve <span className="text-white font-bold">veri güvenliğini</span> anlık olarak etkiler.
-                            </p>
+                        <p className="text-[12px] font-medium text-rose-700/80 leading-relaxed mb-5">
+                            Bu alandaki işlemler platformun tüm erişim trafiğini ve <span className="text-rose-800 font-bold">veri güvenliğini</span> anlık olarak etkiler.
+                        </p>
 
-                            <div className="space-y-4">
-                                <button className="w-full bg-white/5 hover:bg-rose-500/10 border border-white/10 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all">
-                                    Tüm Oturumları Sonlandır
-                                </button>
-                                <button className="w-full bg-rose-600 hover:bg-rose-500 p-4 rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-xl shadow-rose-900/40 transition-all active:scale-95">
-                                    Güvenlik Kilidini Aktif Et
-                                </button>
-                            </div>
+                        <div className="space-y-2.5">
+                            <button className="w-full h-8 bg-white hover:bg-rose-100 border border-rose-200 text-rose-700 rounded-[4px] text-[11px] font-bold uppercase tracking-widest transition-colors">
+                                Tüm Oturumları Sonlandır
+                            </button>
+                            <button className="w-full h-8 bg-rose-600 hover:bg-rose-700 text-white rounded-[4px] text-[11px] font-bold uppercase tracking-widest transition-colors">
+                                Güvenlik Kilidi Aktif
+                            </button>
                         </div>
                     </div>
 
-                    <div className="bg-white rounded-[40px] p-8 shadow-sm border border-slate-100">
-                        <h4 className="text-[10px] font-black text-gray-900 uppercase tracking-widest mb-6">Sistem Sağlık Endeksi</h4>
-                        <div className="space-y-4">
+                    <div className="bg-white rounded-[6px] p-5 shadow-sm border border-slate-200">
+                        <h4 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-4">Sistem Sağlık Endeksi</h4>
+                        <div className="space-y-3">
                             {[
                                 { label: 'SSL Sertifikası', value: 'Aktif', status: 'success' },
                                 { label: 'DDoS Koruması', value: '7/24 Devrede', status: 'success' },
                                 { label: 'WAF Filtreleri', value: 'Optimize', status: 'info' },
                                 { label: 'Data Şifreleme', value: 'AES-256', status: 'primary' }
                             ].map((item, idx) => (
-                                <div key={idx} className="flex justify-between items-center py-3 border-b border-slate-50 last:border-0">
-                                    <span className="text-[11px] font-bold text-slate-400">{item.label}</span>
-                                    <span className={`text-[10px] font-black px-3 py-1 rounded-lg border uppercase tracking-widest ${item.status === 'success' ? 'bg-emerald-50 text-emerald-500 border-emerald-100' : item.status === 'info' ? 'bg-sky-50 text-sky-500 border-sky-100' : 'bg-indigo-50 text-indigo-500 border-indigo-100'}`}>
+                                <div key={idx} className="flex justify-between items-center py-2 border-b border-slate-100 last:border-0">
+                                    <span className="text-[12px] font-medium text-slate-600">{item.label}</span>
+                                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-[4px] border uppercase tracking-widest ${item.status === 'success' ? 'bg-emerald-50 text-emerald-600 border-emerald-200' : item.status === 'info' ? 'bg-sky-50 text-sky-600 border-sky-200' : 'bg-indigo-50 text-indigo-600 border-indigo-200'}`}>
                                         {item.value}
                                     </span>
                                 </div>

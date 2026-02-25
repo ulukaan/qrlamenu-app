@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 
 import { MobileMenuToggle, ProfileDropdown } from '@/components/HeaderActions';
+import { formatDate, formatTime, formatDateTime, formatSmartDate } from '@/lib/date-utils';
 
 interface OrderItem {
     name: string;
@@ -358,7 +359,9 @@ export default function OrdersClient() {
                                                 </div>
                                                 <div className="flex items-center gap-1.5">
                                                     <Clock size={11} className="text-slate-400" />
-                                                    <span className="text-[11px] font-bold text-slate-600 tracking-tight">{getElapsedTime(order.createdAt)}</span>
+                                                    <span className="text-[11px] font-bold text-slate-600 tracking-tight">
+                                                        {getElapsedTime(order.createdAt)} ({formatTime(order.createdAt)})
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -472,7 +475,9 @@ export default function OrdersClient() {
 
                                 <div className="flex items-center justify-center gap-1.5 mb-8 bg-rose-50/50 py-2 px-4 rounded-[4px] border border-rose-100 inline-flex mx-auto">
                                     <Clock size={12} className="text-rose-500 animate-pulse" />
-                                    <span className="text-[10px] font-bold text-rose-600 tracking-tight uppercase">{getElapsedTime(call.createdAt)}</span>
+                                    <span className="text-[10px] font-bold text-rose-600 tracking-tight uppercase">
+                                        {getElapsedTime(call.createdAt)} ({formatTime(call.createdAt)})
+                                    </span>
                                 </div>
 
                                 {call.status === 'PENDING' ? (
@@ -520,7 +525,7 @@ export default function OrdersClient() {
                                     <h2 className="text-xl font-bold tracking-tight mb-2 uppercase">MESA RESTORAN</h2>
                                     <div className="text-[10px] font-bold text-slate-400 space-y-1 uppercase tracking-widest">
                                         <div>Fiş No: #{(viewReceiptOrder.id || '').slice(-6).toUpperCase()}</div>
-                                        <div>Tarih: {new Date(viewReceiptOrder.createdAt).toLocaleString('tr-TR')}</div>
+                                        <div>Tarih: {formatDateTime(viewReceiptOrder.createdAt)}</div>
                                     </div>
                                     <div className="mt-6 bg-slate-900 text-white py-2 px-6 rounded-[4px] inline-block text-sm font-bold shadow-sm">
                                         {viewReceiptOrder.tableId ? `MASA ${viewReceiptOrder.tableId}` : 'PAKET SERVİS'}

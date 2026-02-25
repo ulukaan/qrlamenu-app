@@ -15,16 +15,78 @@ import {
     X,
     Megaphone,
     BarChart3,
-    Palette
+    Palette,
+    LifeBuoy
 } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from './Logo';
 import { useSidebar } from './SidebarContext';
+import { useState, useEffect } from 'react';
 
 const Sidebar = () => {
     const pathname = usePathname();
     const { isMobileOpen, closeMobileSidebar } = useSidebar();
+    const [ticketCount, setTicketCount] = useState<number>(0);
+    const [orderCount, setOrderCount] = useState<number>(0);
+    const [tenantId, setTenantId] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await fetch('/api/auth/me');
+                const data = await res.json();
+                if (data.user?.tenantId) {
+                    setTenantId(data.user.tenantId);
+                }
+            } catch (error) {
+                console.error('Error fetching user for sidebar:', error);
+            }
+        };
+        fetchUser();
+    }, []);
+
+    useEffect(() => {
+        const { getPusherClient } = require('@/lib/pusher-client');
+        const pusher = getPusherClient();
+
+        const fetchTicketCount = async () => {
+            try {
+                const res = await fetch('/api/restaurant/tickets/count');
+                const data = await res.json();
+                if (data.count !== undefined) {
+                    setTicketCount(data.count);
+                }
+            } catch (error) {
+                console.error('Error fetching ticket count:', error);
+            }
+        };
+
+        const fetchOrderCount = async () => {
+            try {
+                const res = await fetch('/api/restaurant/orders/count');
+                const data = await res.json();
+                if (data.count !== undefined) {
+                    setOrderCount(data.count);
+                }
+            } catch (error) {
+                console.error('Error fetching order count:', error);
+            }
+        };
+
+        fetchTicketCount();
+        fetchOrderCount();
+
+        if (pusher && tenantId) {
+            const channel = pusher.subscribe(`restaurant-${tenantId}`);
+            channel.bind('update-count', fetchTicketCount);
+            channel.bind('update-order-count', fetchOrderCount);
+
+            return () => {
+                pusher.unsubscribe(`restaurant-${tenantId}`);
+            };
+        }
+    }, [tenantId]);
 
     const menuGroups = [
         {
@@ -56,6 +118,7 @@ const Sidebar = () => {
             items: [
                 { name: 'Restoran Bilgileri', icon: <Store size={18} />, href: '/restoran-bilgileri' },
                 { name: 'Üyelik Planı', icon: <Zap size={18} />, href: '/uyelik-plan-ayarlari' },
+                { name: 'Destek Merkezi', icon: <LifeBuoy size={18} />, href: '/destek' },
                 { name: 'İşlem Geçmişi', icon: <FileText size={18} />, href: '/islemler' },
                 { name: 'Hesap Ayarları', icon: <Settings size={18} />, href: '/hesap-ayarlari' },
             ]
@@ -69,8 +132,8 @@ const Sidebar = () => {
             <Link
                 href={item.href}
                 className={`flex items-center gap-3 px-4 h-9 rounded-[6px] transition-all duration-200 group relative ${isActive
-                        ? 'bg-orange-500/10 text-orange-600'
-                        : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
+                    ? 'bg-orange-500/10 text-orange-600'
+                    : 'text-slate-500 hover:text-slate-900 hover:bg-slate-50'
                     }`}
                 style={{ textDecoration: 'none' }}
                 onClick={closeMobileSidebar}
@@ -81,6 +144,18 @@ const Sidebar = () => {
                 <span className={`text-[13px] font-bold tracking-tight ${isActive ? 'text-orange-600' : ''}`}>
                     {item.name}
                 </span>
+
+                {item.href === '/destek' && ticketCount > 0 && (
+                    <span className="ml-auto bg-orange-500 text-white text-[10px] font-black px-1.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
+                        {ticketCount > 99 ? '99+' : ticketCount}
+                    </span>
+                )}
+
+                {item.href === '/siparisler' && orderCount > 0 && (
+                    <span className="ml-auto bg-[#ff6e01] text-white text-[10px] font-black px-1.5 min-w-[18px] h-[18px] flex items-center justify-center rounded-full shadow-sm">
+                        {orderCount > 99 ? '99+' : orderCount}
+                    </span>
+                )}
             </Link>
         );
     };

@@ -6,7 +6,6 @@ generator client {
 datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
 }
 
 model SuperAdmin {
@@ -60,6 +59,7 @@ model Tenant {
   printAgents    PrintAgent[]
   campaigns      Campaign[]
   dailyStats     DailyStat[]
+  supportTickets SupportTicket[]
 
   @@index([slug])
 }
@@ -315,4 +315,52 @@ model DailyStat {
   @@unique([tenantId, date])
   @@index([tenantId])
   @@index([date])
+}
+
+model SupportTicket {
+  id        String          @id @default(cuid())
+  subject   String
+  status    TicketStatus    @default(OPEN)
+  priority  TicketPriority  @default(MEDIUM)
+  category  TicketCategory  @default(TECHNICAL)
+  tenantId  String
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+  tenant    Tenant          @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  messages  TicketMessage[]
+
+  @@index([tenantId])
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  message   String   @db.Text
+  isAdmin   Boolean  @default(false)
+  adminId   String?
+  createdAt DateTime @default(now())
+  ticket    SupportTicket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  @@index([ticketId])
+}
+
+enum TicketStatus {
+  OPEN
+  IN_PROGRESS
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum TicketCategory {
+  TECHNICAL
+  BILLING
+  FEATURE_REQUEST
+  GENERAL
 }

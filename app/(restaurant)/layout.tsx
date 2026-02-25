@@ -2,7 +2,6 @@ import React from "react";
 import Sidebar from "@/components/Sidebar";
 import VerificationBanner from "@/components/VerificationBanner";
 import ExpiryBanner from "@/components/admin/ExpiryBanner";
-import WhatsAppButton from "@/components/WhatsAppButton";
 import { SidebarProvider } from "@/components/SidebarContext";
 
 export default function RestaurantLayout({
@@ -23,7 +22,6 @@ export default function RestaurantLayout({
                     <div className="flex-1 overflow-y-auto relative z-0 w-full" id="main-scroll-area">
                         {children}
                     </div>
-                    <WhatsAppButton />
                 </main>
             </div>
         </SidebarProvider>

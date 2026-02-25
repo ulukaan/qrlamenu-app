@@ -1,0 +1,116 @@
+[
+  {
+    "id": "cmm1b871m0000ddmk01z7ni9r",
+    "name": "Ücretsiz",
+    "code": "free",
+    "price": 0,
+    "branchLimit": 1,
+    "tableLimit": 10,
+    "features": [
+      "Temel QR Menü",
+      "50 Ürün Limiti",
+      "Dijital Menü Görünümü",
+      "Standart Destek"
+    ],
+    "createdAt": "2026-02-25T00:42:25.834Z",
+    "updatedAt": "2026-02-25T00:42:25.834Z"
+  },
+  {
+    "id": "cmm1b888x0001ddmk3e6sm68t",
+    "name": "Başlangıç",
+    "code": "starter",
+    "price": 590,
+    "branchLimit": 1,
+    "tableLimit": 25,
+    "features": [
+      "QR Menü (Mobil Optimize)",
+      "Sınırsız Ürün Ekleme",
+      "Masa Bazlı Sipariş Takibi",
+      "Günlük Ciro Özeti",
+      "Basit Satış Raporu",
+      "1 Kullanıcı",
+      "Standart Tema (1 adet)"
+    ],
+    "createdAt": "2026-02-25T00:42:27.393Z",
+    "updatedAt": "2026-02-25T00:42:27.393Z"
+  },
+  {
+    "id": "cmm1b89fv0002ddmksmbbgyvx",
+    "name": "Profesyonel",
+    "code": "pro",
+    "price": 1290,
+    "branchLimit": 1,
+    "tableLimit": 100,
+    "features": [
+      "Tüm Başlangıç Özellikleri",
+      "Garson Çağrı Sistemi",
+      "Ürün Bazlı Satış Analizi",
+      "Saatlik Satış Grafiği",
+      "Masa Doluluk Raporu",
+      "Kampanya Banner Alanı",
+      "WhatsApp Sipariş Yönlendirme",
+      "6+ Premium Tema",
+      "5 Kullanıcı"
+    ],
+    "createdAt": "2026-02-25T00:42:28.940Z",
+    "updatedAt": "2026-02-25T00:42:28.940Z"
+  },
+  {
+    "id": "cmm1b8ani0003ddmkd945qfry",
+    "name": "Growth+",
+    "code": "growth",
+    "price": 1990,
+    "branchLimit": 3,
+    "tableLimit": 300,
+    "features": [
+      "Tüm Profesyonel Özellikleri",
+      "Stok Takibi (Ürün Düşümü)",
+      "Rol Bazlı Yetkilendirme",
+      "Çoklu Kasa Raporu",
+      "Şube Açmaya Hazır Altyapı",
+      "API Erişimi",
+      "POS Entegrasyon Altyapısı",
+      "Özel Kampanya Kurguları"
+    ],
+    "createdAt": "2026-02-25T00:42:30.510Z",
+    "updatedAt": "2026-02-25T00:42:30.510Z"
+  },
+  {
+    "id": "cmm1a9ltm0003ti9dbrdztbmj",
+    "name": "Premium",
+    "code": "premium",
+    "price": 2990,
+    "branchLimit": 10,
+    "tableLimit": 1000,
+    "features": [
+      "Tüm Growth+ Özellikleri",
+      "Gelişmiş Analitik Paneli",
+      "Özel Renk & Branding",
+      "Müşteri Sadakat Programı",
+      "Öncelikli 7/24 Destek",
+      "Gelişmiş Masa Yönetimi",
+      "Çoklu Dil Desteği"
+    ],
+    "createdAt": "2026-02-25T00:15:32.027Z",
+    "updatedAt": "2026-02-25T00:42:32.056Z"
+  },
+  {
+    "id": "cmm1b8d1f0005ddmksplra8bg",
+    "name": "Kurumsal / VIP",
+    "code": "enterprise",
+    "price": 5990,
+    "branchLimit": 999,
+    "tableLimit": 999,
+    "features": [
+      "Sınırsız Şube & Masa",
+      "Merkezi Yönetim Konsolu",
+      "Özel Domain (White Label)",
+      "ERP / Muhasebe Entegrasyonu",
+      "SLA Garantisi",
+      "Özel Müşteri Temsilcisi",
+      "Özel Geliştirme Talepleri"
+    ],
+    "createdAt": "2026-02-25T00:42:33.603Z",
+    "updatedAt": "2026-02-25T00:42:33.603Z"
+  }
+]

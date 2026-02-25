@@ -14,22 +14,12 @@ export async function POST(req: Request) {
             return NextResponse.json({ error: "Oturum bulunamadı" }, { status: 401 });
         }
 
-        const sessionResult = await validateSession(token);
-
-        // validateSession usually returns `any` but we know it has user or superAdmin properties
-        let userOrAdmin = null;
-        let isSuperAdmin = false;
-
-        if ((sessionResult as any).superAdmin) {
-            userOrAdmin = (sessionResult as any).superAdmin;
-            isSuperAdmin = true;
-        } else if ((sessionResult as any).user) {
-            userOrAdmin = (sessionResult as any).user;
-        }
-
+        const userOrAdmin = await validateSession(token);
         if (!userOrAdmin) {
             return NextResponse.json({ error: "Kullanıcı bilgileri eksik" }, { status: 401 });
         }
+
+        const isSuperAdmin = (userOrAdmin as any).role === 'SUPER_ADMIN';
 
         if (userOrAdmin.emailVerified) {
             return NextResponse.json({ error: "E-posta adresi zaten doğrulanmış" }, { status: 400 });
