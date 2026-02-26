@@ -1,6 +1,7 @@
 "use client";
 import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { QrCode, Eye, EyeOff, Loader2, MessageCircle, Mail, ShieldCheck, ChevronRight } from "lucide-react";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 import TrustLogos from "@/components/TrustLogos";
@@ -164,16 +165,16 @@ function LoginForm() {
                     </form>
 
                     <div className="mt-10 flex flex-col items-center gap-5 relative z-10">
-                        <a href="/sifremi-unuttum" className="text-slate-400 hover:text-orange-600 transition-all font-semibold text-[14px] flex items-center gap-1.5 group">
+                        <Link href="/sifremi-unuttum" className="text-slate-400 hover:text-orange-600 transition-all font-semibold text-[14px] flex items-center gap-1.5 group">
                             <span className="w-0 group-hover:w-1 h-[1px] bg-orange-600 transition-all" />
                             Parolanızı mı unuttunuz?
-                        </a>
+                        </Link>
                         <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-100 to-transparent"></div>
                         <p className="text-slate-500 font-semibold text-[15px]">
                             Henüz bize katılmadınız mı?{" "}
-                            <a href="/kayit-ol" className="text-orange-600 hover:text-orange-700 transition-colors font-bold underline decoration-orange-200 underline-offset-4 decoration-2">
+                            <Link href="/kayit-ol" className="text-orange-600 hover:text-orange-700 transition-colors font-bold underline decoration-orange-200 underline-offset-4 decoration-2">
                                 Yeni Hesap Oluşturun
-                            </a>
+                            </Link>
                         </p>
                     </div>
                 </div>
