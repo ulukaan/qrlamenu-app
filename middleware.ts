@@ -14,6 +14,7 @@ const PUBLIC_PREFIXES = [
     '/api/restaurant/orders',       // Müşteri sipariş
     '/api/restaurant/waiter-calls', // Garson çağır
     '/api/restaurant/campaigns/public', // Kampanyalar
+    '/rate-limit',                  // Rate limit hata sayfası
     '/favicon',
     '/sitemap',
     '/robots',
@@ -103,8 +104,17 @@ export function middleware(req: NextRequest) {
     }
 
     // ── 2. Rate Limiting Kontrolü (DDoS / Brute Force önlemi) ────────────────
-    if (!checkRateLimit(ip, pathname)) {
-        return new NextResponse('Çok Fazla İstek (Rate Limit Aşımı) - Lütfen bir dakika bekleyin', { status: 429 });
+    if (pathname !== '/rate-limit' && !checkRateLimit(ip, pathname)) {
+        // API istekleri için JSON hatası dön
+        if (pathname.startsWith('/api/')) {
+            return NextResponse.json(
+                { error: 'Çok Fazla İstek (Rate Limit Aşımı)', message: 'Lütfen bir dakika bekleyin.' },
+                { status: 429 }
+            );
+        }
+
+        // Browser istekleri için şık hata sayfasını göster (URL değişmez)
+        return NextResponse.rewrite(new URL('/rate-limit', req.url));
     }
 
     // ── Custom Domain Yönlendirmesi ──────────────────────────────────────────
