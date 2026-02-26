@@ -1,0 +1,18 @@
+version: 2
+updates:
+  # Enable npm vulnerability and version updates
+  - package-ecosystem: "npm"
+    # Look for a `package.json` and `package-lock.json` in the root
+    directory: "/"
+    # Check for updates daily
+    schedule:
+      interval: "daily"
+    # Assign reviewers to pull requests
+    reviewers:
+      - "ulukaan"
+    # Labels for Dependabot PRs
+    labels:
+      - "security"
+      - "dependencies"
+      - "bot"
+    open-pull-requests-limit: 10
