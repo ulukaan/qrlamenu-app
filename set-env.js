@@ -2,7 +2,7 @@ const { execSync } = require('child_process');
 
 try {
     const envs = [
-        { key: 'SMTP_PASSWORD', val: 'betda7-tohfer-tefVaj' },
+        { key: 'SMTP_PASSWORD', val: 'BURAYA_SMTP_SIFRENIZI_YAZIN' },
         { key: 'SMTP_USER', val: 'info@qrlamenu.com' },
         { key: 'SMTP_HOST', val: 'smtp.hostinger.com' },
         { key: 'SMTP_PORT', val: '465' },

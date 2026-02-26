@@ -14,10 +14,9 @@ const PUBLIC_PREFIXES = [
     '/api/restaurant/orders',       // Müşteri sipariş
     '/api/restaurant/waiter-calls', // Garson çağır
     '/api/restaurant/campaigns/public', // Kampanyalar
-    '/api/admin/seed',              // Kurulum için geçici açık yol
+    '/favicon',
     '/sitemap',
     '/robots',
-    '/favicon',
 ];
 
 // ── Super Admin Path'leri (özel kontrol) ─────────────────────────────────────
@@ -25,17 +24,23 @@ const SUPER_ADMIN_PREFIXES = ['/super-admin'];
 
 // ── Basit Edge Rate Limiter (Isolate başına) ───────────────────────────────
 const rateLimitMap = new Map<string, { count: number, resetTime: number }>();
-const MAX_REQUESTS = 200; // IP başına 1 dakikada maksimum limit
+const MAX_REQUESTS = 200; // Standart limit
+const SENSITIVE_LIMIT = 20; // Login/Auth gibi hassas yollar için limit (1 dk)
 const WINDOW_MS = 60 * 1000;
 
-function checkRateLimit(ip: string): boolean {
+function checkRateLimit(ip: string, pathname: string): boolean {
     const now = Date.now();
     const record = rateLimitMap.get(ip);
+
+    // Hassas path kontrolü
+    const isSensitive = pathname.includes('/login') || pathname.includes('/api/auth');
+    const limit = isSensitive ? SENSITIVE_LIMIT : MAX_REQUESTS;
+
     if (!record || now > record.resetTime) {
         rateLimitMap.set(ip, { count: 1, resetTime: now + WINDOW_MS });
         return true;
     }
-    if (record.count >= MAX_REQUESTS) return false;
+    if (record.count >= limit) return false;
     record.count++;
     return true;
 }
@@ -98,9 +103,8 @@ export function middleware(req: NextRequest) {
     }
 
     // ── 2. Rate Limiting Kontrolü (DDoS / Brute Force önlemi) ────────────────
-    // Statik dosyalarda limit uygulamamaya özen gösterilir, ancak matcher bunu zaten filtreliyor.
-    if (!checkRateLimit(ip)) {
-        return new NextResponse('Çok Fazla İstek (Rate Limit Aşımı)', { status: 429 });
+    if (!checkRateLimit(ip, pathname)) {
+        return new NextResponse('Çok Fazla İstek (Rate Limit Aşımı) - Lütfen bir dakika bekleyin', { status: 429 });
     }
 
     // ── Custom Domain Yönlendirmesi ──────────────────────────────────────────
@@ -154,8 +158,8 @@ export function middleware(req: NextRequest) {
         return NextResponse.next();
     }
 
-    // ── Debug API'leri production'da tamamen engelle ─────────────────────────
-    if (pathname.startsWith('/api/debug')) {
+    // ── Debug ve Seed API'lerini production'da tamamen engelle ───────────────
+    if (pathname.startsWith('/api/debug') || pathname.startsWith('/api/admin/seed')) {
         if (process.env.NODE_ENV === 'production') {
             return NextResponse.json({ error: 'Not found' }, { status: 404 });
         }
@@ -186,6 +190,28 @@ export function middleware(req: NextRequest) {
             path: '/',
         });
     }
+
+    // ── 4. Güvenlik Header'larını (CORS, CSP, XSS, Frame vb.) Enjekte Et ──────
+    // CSP: Sadece güvenli kaynaklara izin ver
+    const cspHeader = `
+        default-src 'self';
+        script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.pusher.com https://*.vercel-scripts.com;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        img-src 'self' blob: data: https://*.supabase.co https://*.googleusercontent.com;
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' https://*.supabase.co https://*.pusher.com wss://*.pusher.com;
+        frame-ancestors 'none';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+    `.replace(/\s{2,}/g, ' ').trim();
+
+    response.headers.set('Content-Security-Policy', cspHeader);
+    response.headers.set('X-Frame-Options', 'DENY');
+    response.headers.set('X-Content-Type-Options', 'nosniff');
+    response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+    response.headers.set('X-XSS-Protection', '1; mode=block');
+    response.headers.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), interest-cohort=()');
 
     return response;
 }

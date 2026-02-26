@@ -28,11 +28,12 @@ export async function GET() {
         });
 
         // 3. Create Super Admin
-        const adminHash = await hashPassword('betda7-tohfer-tefVaj');
+        const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'MesaAdmin123!';
+        const adminHash = await hashPassword(initialPassword);
         await prisma.superAdmin.create({
             data: {
                 email: 'sametdursun@yaani.com',
-                password: adminHash, // Hostinger şifrenizle aynı (güçlü ve bildiğiniz bir şifre)
+                password: adminHash,
                 name: 'Samet Dursun',
                 role: 'SUPER_ADMIN'
             }
