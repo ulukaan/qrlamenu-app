@@ -1,8 +1,24 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { LogLevel } from '@prisma/client';
+import { cookies } from 'next/headers';
+import { validateSession, isSuperAdmin } from '@/lib/auth';
+
+async function checkAuth() {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value;
+    if (!token) return null;
+    const session = await validateSession(token);
+    if (!isSuperAdmin(session)) return null;
+    return session;
+}
 
 export async function GET() {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         let logs = await prisma.systemLog.findMany({
             take: 50,
@@ -40,6 +56,11 @@ export async function GET() {
 }
 
 export async function DELETE(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         await prisma.systemLog.deleteMany({});
         return NextResponse.json({ success: true });

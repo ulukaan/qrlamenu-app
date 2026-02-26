@@ -92,3 +92,18 @@ export async function validateSession(token: string) {
 export async function destroySession(token: string) {
     await prisma.session.delete({ where: { token } }).catch(() => { });
 }
+
+/** 
+ * Rol bazlı yetkilendirme yardımcıları
+ */
+export function isSuperAdmin(session: any): boolean {
+    return session && session.role === 'SUPER_ADMIN';
+}
+
+export function isRestaurantAdmin(session: any): boolean {
+    return session && session.role === 'ADMIN';
+}
+
+export function hasRole(session: any, roles: string[]): boolean {
+    return session && roles.includes(session.role);
+}

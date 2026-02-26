@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
-import { validateSession } from '@/lib/auth';
+import { validateSession, isRestaurantAdmin } from '@/lib/auth';
 
 export async function GET(request: Request) {
     const cookieStore = cookies();
@@ -14,6 +14,11 @@ export async function GET(request: Request) {
     const sessionUser = await validateSession(token);
     if (!sessionUser) {
         return NextResponse.json({ error: 'Invalid session' }, { status: 401 });
+    }
+
+    // RBAC: Sadece Admin analitiği görebilir
+    if (!isRestaurantAdmin(sessionUser)) {
+        return NextResponse.json({ error: 'Bu işlem için Admin yetkisi gereklidir' }, { status: 403 });
     }
 
     const tenantId = (sessionUser as any).tenantId;

@@ -1,8 +1,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
-import { hashPassword } from '@/lib/auth';
+import { hashPassword, validateSession, isSuperAdmin } from '@/lib/auth';
+import { cookies } from 'next/headers';
+
+async function checkAuth() {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value;
+    if (!token) return null;
+    const session = await validateSession(token);
+    if (!isSuperAdmin(session)) return null;
+    return session;
+}
 
 export async function GET() {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const admins = await prisma.superAdmin.findMany({
             select: {
@@ -25,6 +40,11 @@ export async function GET() {
     }
 }
 export async function POST(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
         const { email, password, name, role } = body;
@@ -57,6 +77,11 @@ export async function POST(request: Request) {
 }
 
 export async function DELETE(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const { searchParams } = new URL(request.url);
         const id = searchParams.get('id');
@@ -71,6 +96,11 @@ export async function DELETE(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
         const { id, name, email, password, role } = body;

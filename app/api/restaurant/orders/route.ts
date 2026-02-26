@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
-import { validateSession } from '@/lib/auth';
+import { validateSession, isRestaurantAdmin } from '@/lib/auth';
 import { triggerRestaurantEvent } from '@/lib/pusher';
 import { checkTenantLimits, hasFeature } from '@/lib/limits';
 import { aggregateOrderStat } from '@/lib/aggregator';
@@ -144,6 +144,11 @@ export async function DELETE(request: Request) {
     const sessionUser = await validateSession(token);
     if (!sessionUser) {
         return NextResponse.json({ error: 'Session invalid' }, { status: 401 });
+    }
+
+    // RBAC: Sadece Admin sipariş silebilir
+    if (!isRestaurantAdmin(sessionUser)) {
+        return NextResponse.json({ error: 'Bu işlem için Admin yetkisi gereklidir' }, { status: 403 });
     }
 
     const tenantId = (sessionUser as any).tenantId;

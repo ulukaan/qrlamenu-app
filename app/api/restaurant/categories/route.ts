@@ -1,19 +1,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
-import { validateSession } from '@/lib/auth';
+import { validateSession, isRestaurantAdmin } from '@/lib/auth';
 
-async function getTenantId() {
+async function getSession() {
     const cookieStore = cookies();
     const token = cookieStore.get('auth-token')?.value;
     if (!token) return null;
-    const session = await validateSession(token);
+    return await validateSession(token);
+}
+
+async function getTenantId(session: any) {
     if (!session || !('tenantId' in session)) return null;
     return session.tenantId as string;
 }
 
 export async function GET(request: Request) {
-    const tenantId = await getTenantId();
+    const session = await getSession();
+    const tenantId = await getTenantId(session);
     if (!tenantId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -32,9 +36,15 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-    const tenantId = await getTenantId();
+    const session = await getSession();
+    const tenantId = await getTenantId(session);
     if (!tenantId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // RBAC: Sadece Admin kategori oluşturabilir
+    if (!isRestaurantAdmin(session)) {
+        return NextResponse.json({ error: 'Bu işlem için Admin yetkisi gereklidir' }, { status: 403 });
     }
 
     try {
@@ -63,9 +73,15 @@ export async function POST(request: Request) {
 }
 
 export async function PATCH(request: Request) {
-    const tenantId = await getTenantId();
+    const session = await getSession();
+    const tenantId = await getTenantId(session);
     if (!tenantId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // RBAC: Sadece Admin kategori güncelleyebilir
+    if (!isRestaurantAdmin(session)) {
+        return NextResponse.json({ error: 'Bu işlem için Admin yetkisi gereklidir' }, { status: 403 });
     }
 
     try {
@@ -99,9 +115,15 @@ export async function PATCH(request: Request) {
 }
 
 export async function DELETE(request: Request) {
-    const tenantId = await getTenantId();
+    const session = await getSession();
+    const tenantId = await getTenantId(session);
     if (!tenantId) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // RBAC: Sadece Admin kategori silebilir
+    if (!isRestaurantAdmin(session)) {
+        return NextResponse.json({ error: 'Bu işlem için Admin yetkisi gereklidir' }, { status: 403 });
     }
 
     try {

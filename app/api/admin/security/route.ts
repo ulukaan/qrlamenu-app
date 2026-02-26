@@ -1,7 +1,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { cookies } from 'next/headers';
+import { validateSession, isSuperAdmin } from '@/lib/auth';
+
+async function checkAuth() {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value;
+    if (!token) return null;
+    const session = await validateSession(token);
+    if (!isSuperAdmin(session)) return null;
+    return session;
+}
 
 export async function GET() {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const config = await prisma.systemConfig.findUnique({
             where: { key: 'security_settings' }
@@ -24,6 +40,11 @@ export async function GET() {
 }
 
 export async function POST(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
 

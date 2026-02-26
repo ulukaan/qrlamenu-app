@@ -1,7 +1,23 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { cookies } from 'next/headers';
+import { validateSession, isSuperAdmin } from '@/lib/auth';
+
+async function checkAuth() {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value;
+    if (!token) return null;
+    const session = await validateSession(token);
+    if (!isSuperAdmin(session)) return null;
+    return session;
+}
 
 export async function GET() {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         // 1. Toplam Restoran Sayısı
         const totalRestaurants = await prisma.tenant.count();

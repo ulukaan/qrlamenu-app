@@ -1,8 +1,24 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { LeadStatus } from '@prisma/client';
+import { cookies } from 'next/headers';
+import { validateSession, isSuperAdmin } from '@/lib/auth';
+
+async function checkAuth() {
+    const cookieStore = cookies();
+    const token = cookieStore.get('auth-token')?.value;
+    if (!token) return null;
+    const session = await validateSession(token);
+    if (!isSuperAdmin(session)) return null;
+    return session;
+}
 
 export async function GET(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const { searchParams } = new URL(request.url);
         const statusParam = searchParams.get('status');
@@ -34,6 +50,11 @@ export async function GET(request: Request) {
 }
 
 export async function PATCH(request: Request) {
+    const session = await checkAuth();
+    if (!session) {
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
     try {
         const body = await request.json();
         const { id, status } = body;
