@@ -4,10 +4,10 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import {
     ArrowRight, UtensilsCrossed, QrCode, BarChart3, ShieldCheck,
-    Bell, TrendingUp, Star, CheckCircle2,
+    Bell, TrendingUp, Star, CheckCircle2, Check,
     Globe, Smartphone, Users, Truck, Menu, X, ChevronRight
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
 
 /* ── Data ─────────────────────────────────────── */
 const NAV_LINKS = [
@@ -83,7 +83,7 @@ function Navbar({ branding }: { branding?: any }) {
     const LogoIcon = ICON_MAP[brand.logoIcon] || UtensilsCrossed;
 
     return (
-        <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-white/80 backdrop-blur-md border-b border-gray-100 py-3" : "bg-transparent py-5"}`}>
+        <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? "bg-white/60 backdrop-blur-xl border-b border-white/20 py-4 shadow-[0_8px_32px_-10px_rgba(0,0,0,0.1)]" : "bg-transparent py-6"}`}>
             <div className="max-w-7xl mx-auto px-6 lg:px-8 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2.5 group">
                     <div className="w-9 h-9 bg-black text-white rounded-xl flex items-center justify-center transition-transform group-hover:scale-105 overflow-hidden">
@@ -107,7 +107,7 @@ function Navbar({ branding }: { branding?: any }) {
                         <Link href="/iletisim" className="text-sm font-medium text-gray-900 hover:text-gray-600 transition-colors">
                             Bize Ulaşın
                         </Link>
-                        <Link href="/login" className="text-sm font-medium bg-black text-white px-5 py-2.5 rounded-full hover:bg-gray-800 transition-colors shadow-sm">
+                        <Link href="/login" className="text-sm font-bold bg-slate-900 text-white px-6 py-2.5 rounded-full hover:bg-black transition-all shadow-lg shadow-slate-900/10 active:scale-[0.98]">
                             Giriş Yap
                         </Link>
                     </div>
@@ -155,19 +155,51 @@ const ICON_MAP: Record<string, any> = {
 };
 
 function Hero({ data, onCtaClick }: { data: any, onCtaClick?: () => void }) {
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            setMousePos({
+                x: (e.clientX / window.innerWidth - 0.5) * 20,
+                y: (e.clientY / window.innerHeight - 0.5) * 20
+            });
+        };
+        window.addEventListener("mousemove", handleMouseMove);
+        return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+
     return (
-        <section className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden">
-            {/* Minimal pattern background */}
-            <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none"></div>
+        <section className="relative pt-40 pb-20 md:pt-52 md:pb-32 px-6 overflow-hidden bg-[#fafafa]">
+            {/* Ultra Premium Background Elements (Mesh Gradient) with Parallax */}
+            <div className="absolute inset-0 z-0">
+                <motion.div
+                    animate={{ x: mousePos.x, y: mousePos.y }}
+                    transition={{ type: "spring", damping: 50, stiffness: 200 }}
+                    className="absolute top-[-10%] right-[-10%] w-[60%] h-[60%] rounded-full bg-orange-100/30 blur-[130px]"
+                />
+                <motion.div
+                    animate={{ x: -mousePos.x, y: -mousePos.y }}
+                    transition={{ type: "spring", damping: 50, stiffness: 200 }}
+                    className="absolute bottom-[-10%] left-[-10%] w-[50%] h-[50%] rounded-full bg-slate-200/40 blur-[130px]"
+                />
+            </div>
+
+            {/* Minimal pattern background overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808006_1px,transparent_1px),linear-gradient(to_bottom,#80808006_1px,transparent_1px)] bg-[size:32px_32px] pointer-events-none opacity-50"></div>
 
             <div className="max-w-5xl mx-auto flex flex-col items-center text-center relative z-10">
-                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-gray-50 border border-gray-200 text-xs font-semibold text-gray-600 mb-8 shadow-sm">
-                    <span className="w-2 h-2 rounded-full bg-black animate-pulse"></span>
+                <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-100 text-[11px] font-bold text-slate-500 mb-8 shadow-sm backdrop-blur-sm">
+                    <span className="w-1.5 h-1.5 rounded-full bg-orange-500 animate-[pulse_2s_infinite]"></span>
                     Restoran Yönetiminde Yeni Dönem
                 </motion.div>
 
                 <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }} className="text-5xl md:text-7xl font-extrabold text-gray-900 tracking-tight leading-[1.1] mb-6 whitespace-pre-line">
-                    {data.title}
+                    {data.title.includes("Mükemmel restoran") ? (
+                        <>
+                            <span className="text-[#F97316]">Mükemmel restoran</span>,
+                            {"\n"}pürüzsüz işletme.
+                        </>
+                    ) : data.title}
                 </motion.h1>
 
                 <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.2 }} className="text-lg md:text-xl text-gray-500 mb-10 max-w-2xl mx-auto leading-relaxed">
@@ -175,11 +207,12 @@ function Hero({ data, onCtaClick }: { data: any, onCtaClick?: () => void }) {
                 </motion.p>
 
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.3 }} className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full sm:w-auto">
-                    <Link href="/kayit-ol" className="w-full sm:w-auto px-8 py-4 bg-black text-white rounded-full font-medium text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2 group shadow-lg shadow-black/10">
+                    <Link href="/kayit-ol" className="w-full sm:w-auto px-10 py-[18px] bg-slate-900 text-white rounded-2xl font-bold text-base hover:bg-black transition-all flex items-center justify-center gap-2.5 group shadow-2xl shadow-slate-900/10 active:scale-[0.98] relative overflow-hidden">
+                        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
                         {data.cta_primary}
-                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform relative z-10" />
                     </Link>
-                    <a href="#ozellikler" className="w-full sm:w-auto px-8 py-4 bg-white text-gray-900 border border-gray-200 rounded-full font-medium text-base hover:bg-gray-50 transition-all flex items-center justify-center">
+                    <a href="#ozellikler" className="w-full sm:w-auto px-10 py-[18px] bg-white text-slate-600 border border-slate-200 rounded-2xl font-bold text-base hover:bg-slate-50 hover:border-slate-300 transition-all flex items-center justify-center active:scale-[0.98]">
                         {data.cta_secondary}
                     </a>
                 </motion.div>
@@ -206,6 +239,43 @@ function Hero({ data, onCtaClick }: { data: any, onCtaClick?: () => void }) {
     );
 }
 
+function AnimatedNumber({ value }: { value: string }) {
+    const [displayValue, setDisplayValue] = useState(0);
+    const target = parseInt(value.replace(/[^0-9]/g, "")) || 0;
+    const suffix = value.replace(/[0-9.]/g, "");
+
+    return (
+        <motion.span
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            onViewportEnter={() => {
+                let start = 0;
+                const duration = 2000;
+                const startTime = performance.now();
+
+                const animate = (currentTime: number) => {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 4); // easeOutQuart
+
+                    const current = Math.floor(eased * target);
+                    setDisplayValue(current);
+
+                    if (progress < 1) {
+                        requestAnimationFrame(animate);
+                    } else {
+                        setDisplayValue(target);
+                    }
+                };
+                requestAnimationFrame(animate);
+            }}
+            viewport={{ once: true }}
+        >
+            {displayValue.toLocaleString()}{suffix}
+        </motion.span>
+    );
+}
+
 function Stats({ data }: { data?: any[] }) {
     const stats = data && data.length > 0 ? data : [
         { label: "Aktif Restoran", value: "5.000+" },
@@ -215,16 +285,86 @@ function Stats({ data }: { data?: any[] }) {
     ];
 
     return (
-        <section className="py-12 border-y border-gray-100 bg-gray-50/50">
-            <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8 lg:divide-x divide-gray-200 text-center">
+        <section className="py-16 md:py-20 relative z-10">
+            <div className="max-w-7xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
                 {stats.map((stat, i) => (
-                    <motion.div key={i} initial={{ opacity: 0, y: 10 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="px-4">
-                        <div className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">{stat.value}</div>
-                        <div className="text-xs font-semibold text-gray-500 uppercase tracking-widest">{stat.label}</div>
+                    <motion.div
+                        key={i}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                        className="p-8 rounded-[32px] bg-white border border-slate-100 shadow-[0_16px_40px_-12px_rgba(0,0,0,0.05)] flex flex-col items-center justify-center text-center group hover:-translate-y-1 transition-all duration-500 overflow-hidden relative"
+                    >
+                        <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+                        <div className="text-4xl md:text-5xl font-black text-slate-900 mb-3 tracking-tight group-hover:text-orange-600 transition-colors relative z-10">
+                            <AnimatedNumber value={stat.value} />
+                        </div>
+                        <div className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.3em] relative z-10">{stat.label}</div>
                     </motion.div>
                 ))}
             </div>
         </section>
+    );
+}
+
+function References() {
+    const refs = [
+        "STEAKHOUSE", "GURME RESTORAN", "DENİZ ÜRÜNLERİ", "KAFE AROMA", "BİSTRO 34", "TADIM SOFRASI"
+    ];
+
+    return (
+        <section className="py-20 relative overflow-hidden bg-white">
+            <div className="max-w-7xl mx-auto px-6">
+                <div className="flex flex-col items-center">
+                    <p className="text-[10px] font-black uppercase tracking-[0.4em] text-slate-400 mb-12 text-center">
+                        5.000'DEN FAZLA İŞLETME TARAFINDAN GÜVENİLİYOR
+                    </p>
+
+                    <div className="w-full flex flex-wrap justify-center items-center gap-x-16 gap-y-12 md:gap-x-24 opacity-30 grayscale hover:opacity-60 transition-all duration-700">
+                        {refs.map((ref, i) => (
+                            <div key={i} className="text-xl md:text-2xl font-black text-slate-900 tracking-tighter hover:text-orange-600 transition-colors cursor-default whitespace-nowrap">
+                                {ref}
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+            <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-slate-100 to-transparent"></div>
+        </section>
+    );
+}
+
+function TiltCard({ children, i }: { children: React.ReactNode, i: number }) {
+    const [rotate, setRotate] = useState({ x: 0, y: 0 });
+
+    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        setRotate({ x: y * 12, y: -x * 12 });
+    };
+
+    return (
+        <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-50px" }}
+            transition={{ duration: 0.8, delay: i * 0.1, ease: "easeOut" }}
+            onMouseMove={handleMouseMove}
+            onMouseLeave={() => setRotate({ x: 0, y: 0 })}
+            style={{
+                transformStyle: "preserve-3d",
+                perspective: "1000px"
+            }}
+            animate={{ rotateX: rotate.x, rotateY: rotate.y }}
+            className="p-10 rounded-[40px] bg-white border border-slate-100 hover:border-orange-100/50 hover:shadow-[0_32px_80px_-20px_rgba(249,115,22,0.08)] transition-all duration-300 group relative"
+        >
+            <div style={{ transform: "translateZ(50px)" }}>
+                {children}
+            </div>
+            <div className="absolute inset-x-0 bottom-0 h-1 bg-gradient-to-r from-transparent via-orange-500/0 group-hover:via-orange-500/20 to-transparent transition-all duration-500" />
+        </motion.div>
     );
 }
 
@@ -237,24 +377,17 @@ function Features({ data }: { data: any[] }) {
                 <p className="text-gray-500 text-lg">Karmaşık arayüzlerden kurtulun. Sezgisellikle tasarlanmış araçlarımız, restoranınızı minimum eforla maksimum verime ulaştırır.</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
                 {data.map((f, i) => {
                     const Icon = ICON_MAP[f.icon] || CheckCircle2;
                     return (
-                        <motion.div
-                            key={i}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: "-50px" }}
-                            transition={{ duration: 0.5, delay: i * 0.1 }}
-                            className="p-8 rounded-3xl bg-white border border-gray-100 hover:border-gray-200 shadow-[0_2px_10px_-3px_rgba(6,81,237,0.03)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.04)] transition-all duration-300"
-                        >
-                            <div className="w-12 h-12 bg-gray-50 rounded-2xl flex items-center justify-center mb-6 text-black">
-                                <Icon size={22} strokeWidth={2} />
+                        <TiltCard key={i} i={i}>
+                            <div className="w-16 h-16 bg-slate-50 rounded-[24px] flex items-center justify-center mb-8 text-slate-900 group-hover:bg-orange-50 group-hover:text-orange-600 transition-all duration-500 group-hover:rotate-6">
+                                <Icon size={28} strokeWidth={1.5} />
                             </div>
-                            <h4 className="text-lg font-bold text-gray-900 mb-3">{f.title}</h4>
-                            <p className="text-gray-500 leading-relaxed text-sm">{f.desc}</p>
-                        </motion.div>
+                            <h4 className="text-xl font-bold text-slate-900 mb-4 tracking-tight">{f.title}</h4>
+                            <p className="text-slate-500 leading-relaxed text-[15px]">{f.desc}</p>
+                        </TiltCard>
                     )
                 })}
             </div>
@@ -311,41 +444,52 @@ function HowItWorks() {
 function Pricing({ data }: { data: any[] }) {
     return (
         <section id="fiyatlar" className="py-24 md:py-32 px-6 max-w-7xl mx-auto">
-            <motion.div {...fadeInUp} className="text-center max-w-2xl mx-auto mb-16">
-                <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 tracking-tight">Şeffaf ve net fiyatlandırma</h2>
-                <p className="text-gray-500 text-lg">Sürpriz ücret yok, kullanım kısıtlaması yok. İhtiyacınıza uygun planı seçin.</p>
+            <motion.div {...fadeInUp} className="text-center max-w-3xl mx-auto mb-16">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-50 text-orange-600 text-[10px] font-black uppercase tracking-widest mb-4">
+                    Paketler & Ücretlendirme
+                </div>
+                <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">Şeffaf ve net fiyatlandırma</h2>
+                <p className="text-gray-500 text-[16px] font-medium max-w-xl mx-auto">Sürpriz ücret yok, kullanım kısıtlaması yok. İhtiyacınıza en uygun planı saniyeler içinde seçin.</p>
             </motion.div>
 
-            <div className="grid md:grid-cols-3 gap-8 items-center">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
                 {data.map((p, i) => (
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: i * 0.1, duration: 0.5 }}
-                        className={`p-8 rounded-[2rem] border ${p.highlight ? 'bg-black text-white border-black shadow-2xl scale-100 md:scale-105 z-10' : 'bg-white border-gray-100 text-gray-900 shadow-sm'}`}
+                        transition={{ delay: i * 0.1, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                        className={`p-8 rounded-[32px] border transition-all duration-500 group relative flex flex-col ${p.highlight ? 'bg-slate-900 text-white border-slate-800 shadow-[0_30px_70px_-20px_rgba(15,23,42,0.4)] scale-105 z-10' : 'bg-white border-slate-100 text-slate-900 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.04)] hover:shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] hover:-translate-y-1'}`}
                     >
-                        <div className="mb-8">
-                            <h3 className={`text-sm font-bold uppercase tracking-widest mb-4 ${p.highlight ? 'text-gray-400' : 'text-gray-500'}`}>{p.name}</h3>
-                            <div className="flex items-baseline gap-1">
-                                <span className={`text-4xl md:text-5xl font-extrabold tracking-tight ${p.price === 'Özel' ? 'text-3xl' : ''}`}>{p.price}</span>
-                                <span className={`text-sm font-medium ${p.highlight ? 'text-gray-400' : 'text-gray-500'}`}>{p.period}</span>
+                        {p.highlight && (
+                            <div className="absolute top-4 right-6">
+                                <span className="px-3 py-1 rounded-full bg-orange-500 text-white text-[9px] font-black uppercase tracking-widest shadow-lg shadow-orange-500/20">Popüler</span>
                             </div>
-                            <p className={`mt-4 text-sm font-medium ${p.highlight ? 'text-gray-400' : 'text-gray-500'}`}>{p.desc}</p>
+                        )}
+
+                        <div className="mb-8">
+                            <h3 className={`text-[10px] font-black uppercase tracking-[0.25em] mb-4 ${p.highlight ? 'text-orange-400' : 'text-slate-400'}`}>{p.name}</h3>
+                            <div className="flex items-baseline gap-1">
+                                <span className={`text-4xl font-black tracking-tight ${p.price === 'Özel' ? 'text-3xl' : ''}`}>{p.price}</span>
+                                <span className={`text-[13px] font-bold ${p.highlight ? 'text-slate-500' : 'text-slate-400'}`}>{p.period}</span>
+                            </div>
+                            <p className={`mt-4 text-[13px] font-medium leading-relaxed ${p.highlight ? 'text-slate-400' : 'text-slate-500'}`}>{p.desc}</p>
                         </div>
 
-                        <ul className="mb-10 space-y-4">
+                        <ul className="mb-10 space-y-4 flex-grow">
                             {p.features.map((f: string, j: number) => (
-                                <li key={j} className="flex items-start gap-3 text-sm font-medium">
-                                    <CheckCircle2 size={18} className={`shrink-0 ${p.highlight ? 'text-white' : 'text-black'}`} />
-                                    <span className={p.highlight ? 'text-gray-300' : 'text-gray-600'}>{f}</span>
+                                <li key={j} className="flex items-start gap-3 text-[12px] font-bold">
+                                    <div className={`mt-0.5 p-0.5 rounded-full ${p.highlight ? 'bg-orange-500/20 text-orange-400' : 'bg-orange-50 text-orange-500'}`}>
+                                        <Check size={12} strokeWidth={3} />
+                                    </div>
+                                    <span className={p.highlight ? 'text-slate-300' : 'text-slate-600'}>{f}</span>
                                 </li>
                             ))}
                         </ul>
 
-                        <Link href={p.name === 'Kurumsal' ? '/iletisim' : '/kayit-ol'} className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl font-bold text-sm transition-all ${p.highlight ? 'bg-white text-black hover:bg-gray-100' : 'bg-gray-50 text-black hover:bg-gray-100 border border-gray-200'}`}>
-                            {p.cta}
+                        <Link href={p.name === 'Kurumsal' ? '/iletisim' : '/kayit-ol'} className={`w-full py-4 rounded-2xl font-black text-[13px] transition-all flex items-center justify-center gap-2 group/btn ${p.highlight ? 'bg-white text-slate-900 hover:bg-orange-500 hover:text-white shadow-xl shadow-white/5' : 'bg-slate-50 text-slate-900 hover:bg-slate-900 hover:text-white border border-slate-100'}`}>
+                            {p.cta} <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
                         </Link>
                     </motion.div>
                 ))}
@@ -396,19 +540,31 @@ function Testimonials({ data }: { data: any[] }) {
 
 function CTA() {
     return (
-        <section className="py-24 px-6">
-            <motion.div {...fadeInUp} className="max-w-5xl mx-auto bg-gray-50 border border-gray-100 rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden">
-                <div className="absolute inset-x-0 top-0 h-1 bg-black"></div>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-gray-900 mb-6 tracking-tight">Gelecek bugünden itibaren masanızda.</h2>
-                <p className="text-lg text-gray-500 mb-10 max-w-xl mx-auto">Kredi kartı gerekmeden 14 gün ücretsiz deneyin. Farkı ilk günden hissedeceksiniz.</p>
-                <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Link href="/kayit-ol" className="px-8 py-4 bg-black text-white rounded-full font-bold text-base hover:bg-gray-800 transition-all flex items-center justify-center gap-2">
-                        Ücretsiz Başlayın <ArrowRight size={18} />
+        <section className="py-24 px-6 relative overflow-hidden">
+            {/* Background Decor */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-orange-100/20 rounded-full blur-[120px] -z-10" />
+
+            <motion.div {...fadeInUp} className="max-w-6xl mx-auto bg-slate-900 rounded-[64px] p-12 md:p-24 text-center relative overflow-hidden shadow-[0_40px_100px_-20px_rgba(15,23,42,0.3)] border border-slate-800">
+                <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-transparent via-orange-500 to-transparent opacity-50"></div>
+
+                <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight leading-tight">
+                    Gelecek bugünden itibaren <br className="hidden md:block" /> <span className="text-orange-500">masanızda.</span>
+                </h2>
+                <p className="text-lg md:text-xl text-slate-400 mb-12 max-w-2xl mx-auto leading-relaxed font-medium">
+                    Kredi kartı gerekmeden 14 gün ücretsiz deneyin. <br className="hidden sm:block" /> Restoranınızdaki değişimi ilk günden hissedeceksiniz.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-5">
+                    <Link href="/kayit-ol" className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-black text-lg hover:bg-slate-100 transition-all flex items-center justify-center gap-2.5 shadow-xl shadow-white/5 active:scale-[0.98]">
+                        Ücretsiz Başlayın <ArrowRight size={22} strokeWidth={2.5} />
                     </Link>
-                    <Link href="/iletisim" className="px-8 py-4 bg-white border border-gray-200 text-gray-900 rounded-full font-bold text-base hover:bg-gray-50 hover:border-gray-300 transition-all">
+                    <Link href="/iletisim" className="px-10 py-5 bg-transparent border-2 border-slate-700 text-white rounded-2xl font-black text-lg hover:bg-slate-800 hover:border-slate-600 transition-all active:scale-[0.98]">
                         Demo Talep Edin
                     </Link>
                 </div>
+
+                {/* Internal Decorative Rings */}
+                <div className="absolute -bottom-24 -right-24 w-64 h-64 border-8 border-white/5 rounded-full" />
+                <div className="absolute -top-12 -left-12 w-32 h-32 border-4 border-orange-500/10 rounded-full" />
             </motion.div>
         </section>
     );
@@ -434,22 +590,22 @@ function Footer({ branding }: { branding?: any }) {
                     </Link>
                     <p className="text-gray-500 text-sm max-w-xs">Restoranların yeni nesil dijital dönüşüm ortağı. Daha az efor, daha yüksek kazanç.</p>
                 </div>
-                <div className="grid grid-cols-2 lg:grid-cols-3 gap-8 md:gap-16">
-                    <div className="flex flex-col gap-3">
-                        <span className="font-bold text-gray-900 mb-2">Platform</span>
-                        <a href="#ozellikler" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Özellikler</a>
-                        <a href="#fiyatlar" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Fiyatlandırma</a>
-                        <a href="#nasil-calisir" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Nasıl Çalışır?</a>
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 md:gap-16">
+                    <div className="flex flex-col gap-4">
+                        <span className="font-black text-slate-900 uppercase tracking-[0.2em] text-[11px] mb-2">Platform</span>
+                        <a href="#ozellikler" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Özellikler</a>
+                        <a href="#fiyatlar" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Fiyatlandırma</a>
+                        <a href="#nasil-calisir" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Nasıl Çalışır?</a>
                     </div>
-                    <div className="flex flex-col gap-3">
-                        <span className="font-bold text-gray-900 mb-2">Şirket</span>
-                        <Link href="/hakkimizda" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Hakkımızda</Link>
-                        <Link href="/iletisim" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">İletişim</Link>
+                    <div className="flex flex-col gap-4">
+                        <span className="font-black text-slate-900 uppercase tracking-[0.2em] text-[11px] mb-2">Şirket</span>
+                        <Link href="/hakkimizda" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Hakkımızda</Link>
+                        <Link href="/iletisim" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">İletişim</Link>
                     </div>
-                    <div className="flex flex-col gap-3 col-span-2 lg:col-span-1">
-                        <span className="font-bold text-gray-900 mb-2">Yasal</span>
-                        <Link href="/gizlilik" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Gizlilik Politikası</Link>
-                        <Link href="/kullanim" className="text-sm font-medium text-gray-500 hover:text-black transition-colors">Kullanım Koşulları</Link>
+                    <div className="flex flex-col gap-4 col-span-2 lg:col-span-1 border-t md:border-t-0 pt-8 md:pt-0">
+                        <span className="font-black text-slate-900 uppercase tracking-[0.2em] text-[11px] mb-2">Yasal</span>
+                        <Link href="/gizlilik" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Gizlilik Politikası</Link>
+                        <Link href="/kullanim" className="text-[15px] font-bold text-slate-500 hover:text-orange-600 transition-colors">Kullanım Koşulları</Link>
                     </div>
                 </div>
             </div>
@@ -465,6 +621,12 @@ function Footer({ branding }: { branding?: any }) {
 
 export default function LandingPage() {
     const [content, setContent] = useState<any>(null);
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, {
+        stiffness: 100,
+        damping: 30,
+        restDelta: 0.001
+    });
 
     useEffect(() => {
         fetch("/api/super-admin/website-config")
@@ -590,10 +752,15 @@ export default function LandingPage() {
 
     return (
         <div className="min-h-screen bg-white text-gray-900 font-sans selection:bg-black selection:text-white">
+            <motion.div
+                className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-orange-400 to-orange-600 origin-left z-[100]"
+                style={{ scaleX }}
+            />
             <Navbar branding={content.branding} />
             <main>
                 <Hero data={content.hero} />
                 <Stats data={content.stats} />
+                <References />
                 <Features data={content.features} />
                 <HowItWorks />
                 <Pricing data={content.pricing} />

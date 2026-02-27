@@ -27,8 +27,8 @@ const SUPER_ADMIN_PREFIXES = ['/super-admin'];
 
 // ── Basit Edge Rate Limiter (Isolate başına) ───────────────────────────────
 const rateLimitMap = new Map<string, { count: number, resetTime: number }>();
-const MAX_REQUESTS = 200; // Standart limit
-const SENSITIVE_LIMIT = 20; // Login/Auth gibi hassas yollar için limit (1 dk)
+const MAX_REQUESTS = 1000; // Standart limit artırıldı (Test için)
+const SENSITIVE_LIMIT = 100; // Login/Auth hassas yollar için limit artırıldı
 const WINDOW_MS = 60 * 1000;
 
 function checkRateLimit(ip: string, pathname: string): boolean {

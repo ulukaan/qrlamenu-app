@@ -1,0 +1,142 @@
+  Ôû▓ Next.js 14.2.24
+  - Environments: .env.local, .env.production, .env
+
+   Creating an optimized production build ...
+(node:21084) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:11128) Warning: Setting the NODE_TLS_REJECT_UNAUTHORIZED environment variable to '0' makes TLS connections and HTTPS requests insecure by disabling certificate verification.
+(Use `node --trace-warnings ...` to show where the warning was created)
+ Ô£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/100) ...
+   Generating static pages (25/100) 
+   Generating static pages (50/100) 
+   Generating static pages (75/100) 
+ Ô£ô Generating static pages (100/100)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                       Size     First Load JS
+Ôöî Ôùï /                                             10.5 kB         146 kB
+Ôö£ Ôùï /_not-found                                   146 B          87.5 kB
+Ôö£ ãÆ /api/admin/admins                             0 B                0 B
+Ôö£ ãÆ /api/admin/admins/[id]                        0 B                0 B
+Ôö£ Ôùï /api/admin/audit                              0 B                0 B
+Ôö£ ãÆ /api/admin/crm                                0 B                0 B
+Ôö£ ãÆ /api/admin/logs                               0 B                0 B
+Ôö£ ãÆ /api/admin/payments                           0 B                0 B
+Ôö£ ãÆ /api/admin/plans                              0 B                0 B
+Ôö£ ãÆ /api/admin/plans/[id]                         0 B                0 B
+Ôö£ Ôùï /api/admin/print-agent                        0 B                0 B
+Ôö£ ãÆ /api/admin/security                           0 B                0 B
+Ôö£ Ôùï /api/admin/seed                               0 B                0 B
+Ôö£ ãÆ /api/admin/settings                           0 B                0 B
+Ôö£ ãÆ /api/admin/slug                               0 B                0 B
+Ôö£ ãÆ /api/admin/stats                              0 B                0 B
+Ôö£ ãÆ /api/admin/system                             0 B                0 B
+Ôö£ ãÆ /api/admin/tenants                            0 B                0 B
+Ôö£ ãÆ /api/admin/tenants/[id]                       0 B                0 B
+Ôö£ ãÆ /api/admin/tenants/[id]/reset-owner-password  0 B                0 B
+Ôö£ ãÆ /api/admin/tenants/count                      0 B                0 B
+Ôö£ ãÆ /api/admin/themes                             0 B                0 B
+Ôö£ ãÆ /api/admin/themes/[id]                        0 B                0 B
+Ôö£ ãÆ /api/admin/tickets                            0 B                0 B
+Ôö£ ãÆ /api/admin/tickets/[id]                       0 B                0 B
+Ôö£ ãÆ /api/admin/tickets/[id]/messages              0 B                0 B
+Ôö£ ãÆ /api/admin/tickets/count                      0 B                0 B
+Ôö£ ãÆ /api/admin/tickets/list                       0 B                0 B
+Ôö£ ãÆ /api/admin/trial                              0 B                0 B
+Ôö£ ãÆ /api/admin/version                            0 B                0 B
+Ôö£ ãÆ /api/auth/login                               0 B                0 B
+Ôö£ ãÆ /api/auth/logout                              0 B                0 B
+Ôö£ ãÆ /api/auth/me                                  0 B                0 B
+Ôö£ ãÆ /api/auth/register                            0 B                0 B
+Ôö£ ãÆ /api/auth/send-verification                   0 B                0 B
+Ôö£ ãÆ /api/auth/verify                              0 B                0 B
+Ôö£ Ôùï /api/debug/inspect-db                         0 B                0 B
+Ôö£ Ôùï /api/debug/seed                               0 B                0 B
+Ôö£ Ôùï /api/hello                                    0 B                0 B
+Ôö£ ãÆ /api/restaurant/account                       0 B                0 B
+Ôö£ ãÆ /api/restaurant/analytics                     0 B                0 B
+Ôö£ ãÆ /api/restaurant/analytics/export              0 B                0 B
+Ôö£ ãÆ /api/restaurant/campaigns                     0 B                0 B
+Ôö£ ãÆ /api/restaurant/campaigns/public              0 B                0 B
+Ôö£ ãÆ /api/restaurant/categories                    0 B                0 B
+Ôö£ ãÆ /api/restaurant/export/categories             0 B                0 B
+Ôö£ ãÆ /api/restaurant/export/products               0 B                0 B
+Ôö£ ãÆ /api/restaurant/orders                        0 B                0 B
+Ôö£ ãÆ /api/restaurant/orders/count                  0 B                0 B
+Ôö£ ãÆ /api/restaurant/products                      0 B                0 B
+Ôö£ ãÆ /api/restaurant/settings                      0 B                0 B
+Ôö£ ãÆ /api/restaurant/settings/theme                0 B                0 B
+Ôö£ ãÆ /api/restaurant/stats                         0 B                0 B
+Ôö£ ãÆ /api/restaurant/tickets                       0 B                0 B
+Ôö£ ãÆ /api/restaurant/tickets/[id]                  0 B                0 B
+Ôö£ ãÆ /api/restaurant/tickets/[id]/messages         0 B                0 B
+Ôö£ ãÆ /api/restaurant/tickets/count                 0 B                0 B
+Ôö£ ãÆ /api/restaurant/waiter-calls                  0 B                0 B
+Ôö£ ãÆ /api/super-admin/system-cleanup               0 B                0 B
+Ôö£ ãÆ /api/super-admin/website-config               0 B                0 B
+Ôö£ Ôùï /api/themes                                   0 B                0 B
+Ôö£ ãÆ /api/transactions                             0 B                0 B
+Ôö£ ãÆ /ayarlar/markalasma                           6 kB            145 kB
+Ôö£ ãÆ /dashboard                                    6.62 kB         163 kB
+Ôö£ ãÆ /dashboard/analytics                          122 kB          261 kB
+Ôö£ ãÆ /destek                                       7.02 kB         163 kB
+Ôö£ Ôùï /gizlilik                                     3.1 kB          139 kB
+Ôö£ Ôùï /hakkimizda                                   3.55 kB         139 kB
+Ôö£ ãÆ /hesap-ayarlari                               8.47 kB         147 kB
+Ôö£ Ôùï /iletisim                                     3.83 kB         140 kB
+Ôö£ ãÆ /import-export                                4.08 kB         143 kB
+Ôö£ ãÆ /islemler                                     6.21 kB         145 kB
+Ôö£ ãÆ /kampanyalar                                  9.69 kB         148 kB
+Ôö£ Ôùï /kayit-ol                                     7.75 kB         137 kB
+Ôö£ Ôùï /kullanim                                     3.08 kB         139 kB
+Ôö£ Ôùï /login                                        7.41 kB         143 kB
+Ôö£ Ôùï /logout                                       639 B            88 kB
+Ôö£ ãÆ /menu-ekle                                    9.33 kB         145 kB
+Ôö£ ãÆ /qr-olusturucu                                12.6 kB         151 kB
+Ôö£ ãÆ /r/[slug]                                     30.2 kB         162 kB
+Ôö£ Ôùï /rate-limit                                   5.76 kB         135 kB
+Ôö£ ãÆ /restoran-bilgileri                           8.82 kB         147 kB
+Ôö£ Ôùï /sifremi-unuttum                              6.21 kB         135 kB
+Ôö£ ãÆ /siparisler                                   7.73 kB         146 kB
+Ôö£ ãÆ /super-admin                                  6.13 kB         135 kB
+Ôö£ ãÆ /super-admin/adminler                         4.71 kB          92 kB
+Ôö£ ãÆ /super-admin/audit                            3.62 kB          91 kB
+Ôö£ ãÆ /super-admin/ayarlar                          4.94 kB        92.3 kB
+Ôö£ ãÆ /super-admin/bilet-yonetimi                   7.26 kB         154 kB
+Ôö£ ãÆ /super-admin/crm                              5.25 kB        92.6 kB
+Ôö£ ãÆ /super-admin/destek                           146 B          87.5 kB
+Ôö£ ãÆ /super-admin/guvenlik                         3.82 kB        91.2 kB
+Ôö£ ãÆ /super-admin/logs                             3.37 kB        90.7 kB
+Ôö£ ãÆ /super-admin/odemeler                         5.34 kB        92.7 kB
+Ôö£ ãÆ /super-admin/planlar                          4.94 kB        92.3 kB
+Ôö£ ãÆ /super-admin/print-agent                      3.67 kB          91 kB
+Ôö£ ãÆ /super-admin/restoranlar                      3.96 kB          98 kB
+Ôö£ ãÆ /super-admin/restoranlar/[id]                 7.9 kB         95.2 kB
+Ôö£ ãÆ /super-admin/restoranlar/slug                 8.37 kB        95.7 kB
+Ôö£ ãÆ /super-admin/restoranlar/yeni                 4.79 kB        92.1 kB
+Ôö£ ãÆ /super-admin/sistem-kontrol                   4.84 kB         134 kB
+Ôö£ ãÆ /super-admin/temalar                          3.85 kB        91.2 kB
+Ôö£ ãÆ /super-admin/temalar/[id]                     2.56 kB        89.9 kB
+Ôö£ ãÆ /super-admin/temalar/yeni                     2.53 kB        89.9 kB
+Ôö£ ãÆ /super-admin/trial                            4.55 kB        91.9 kB
+Ôö£ ãÆ /super-admin/versiyon                         3.34 kB        90.7 kB
+Ôö£ ãÆ /super-admin/website                          12.7 kB         142 kB
+Ôö£ Ôùï /test-dashboard                               12.4 kB         151 kB
+Ôö£ ãÆ /uyelik-plan-ayarlari                         4.78 kB         143 kB
+Ôöö ãÆ /whatsapp-siparisi                            5.45 kB         144 kB
++ First Load JS shared by all                     87.3 kB
+  Ôö£ chunks/2117-3d5433d0290d0d96.js               31.7 kB
+  Ôö£ chunks/fd9d1056-08c28c1f39be9001.js           53.6 kB
+  Ôöö other shared chunks (total)                   2.03 kB
+
+
+ãÆ Middleware                                      27.9 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+
