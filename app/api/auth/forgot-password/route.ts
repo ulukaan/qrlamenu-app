@@ -74,7 +74,12 @@ export async function POST(request: Request) {
             message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Link 1 saat geçerlidir. Gelen kutunuzu ve spam klasörünü kontrol edin.',
         }, { status: 200 });
     } catch (error) {
-        console.error('Şifremi unuttum hatası:', error);
+        console.error('[forgot-password] Hata:', error);
+        // Veritabanında passwordResetToken / lastPasswordResetRequestAt kolonları yoksa Prisma hata verir → production'da npx prisma db push çalıştırın
+        const msg = error instanceof Error ? error.message : String(error);
+        if (msg.includes('Unknown arg') || msg.includes('passwordResetToken') || msg.includes('column')) {
+            console.error('[forgot-password] Olası sebep: DB şeması güncel değil. Production\'da prisma db push veya migrate çalıştırın.');
+        }
         return NextResponse.json(
             { error: 'Bir hata oluştu. Lütfen daha sonra tekrar deneyin.' },
             { status: 500 }
