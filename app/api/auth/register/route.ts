@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword, createSession } from '@/lib/auth';
+import { sendWelcomeEmail } from '@/lib/mail';
 
 function slugify(text: string) {
     return text.toString().toLowerCase()
@@ -100,6 +101,11 @@ export async function POST(request: Request) {
         });
 
         const createdUser = newTenant.users[0];
+
+        // Hoş geldin e-postasını gönder (arka planda, yanıtı bekletmez)
+        sendWelcomeEmail(email, password, restaurantName).catch((e) =>
+            console.error('Hoş geldin e-postası gönderilemedi:', e)
+        );
 
         // Oturum aç ve Cookie set et (Direkt panele yönlendirme için)
         const session = await createSession(createdUser.id);

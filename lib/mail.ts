@@ -140,7 +140,8 @@ export const sendPasswordResetEmail = async (email: string, unhashedPassword: st
 };
 
 export const sendVerificationEmail = async (email: string, token: string) => {
-    const verifyUrl = process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}` : `https://qrlamenu.com/verify-email?token=${token}`;
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrlamenu.com';
+    const verifyUrl = `${baseUrl}/api/auth/verify?token=${token}`;
 
     const html = `
     <div style="font-family: Arial; padding: 20px;">

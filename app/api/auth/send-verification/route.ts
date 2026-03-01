@@ -50,12 +50,19 @@ export async function POST(req: Request) {
             });
         }
 
-        // Send Email via our Ethereal Mail utility
         const result = await sendVerificationEmail(userOrAdmin.email, verificationToken);
+
+        if (!result.success) {
+            console.error("Doğrulama e-postası gönderilemedi:", result.error);
+            return NextResponse.json(
+                { error: "E-posta gönderilemedi. SMTP ayarlarını kontrol edin veya daha sonra tekrar deneyin." },
+                { status: 500 }
+            );
+        }
 
         return NextResponse.json({
             success: true,
-            message: "Doğrulama e-postası başarıyla gönderildi"
+            message: "Doğrulama e-postası başarıyla gönderildi. Gelen kutunuzu ve spam klasörünü kontrol edin."
         }, { status: 200 });
 
     } catch (error) {

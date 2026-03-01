@@ -21,11 +21,24 @@ export default function ForgotPasswordPage() {
         }
 
         setLoading(true);
-        // Simüle edilmiş API isteği - arka planda gerçek logic ile bağlanabilir
-        setTimeout(() => {
+        try {
+            const res = await fetch("/api/auth/forgot-password", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email: email.trim() }),
+            });
+            const data = await res.json();
+
+            if (res.ok) {
+                setSuccess(true);
+            } else {
+                setError(data.error || "Bir hata oluştu. Lütfen tekrar deneyin.");
+            }
+        } catch {
+            setError("Bağlantı hatası. Lütfen tekrar deneyin.");
+        } finally {
             setLoading(false);
-            setSuccess(true);
-        }, 1500);
+        }
     };
 
     return (
