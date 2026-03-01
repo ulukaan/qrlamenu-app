@@ -65,19 +65,22 @@ model Tenant {
 }
 
 model User {
-  id                       String    @id @default(cuid())
-  email                    String    @unique
-  password                 String
-  name                     String?
-  role                     UserRole  @default(ADMIN)
-  tenantId                 String
-  emailVerified            DateTime?
-  verificationToken        String?   @unique
-  verificationTokenExpires DateTime?
-  createdAt                DateTime  @default(now())
-  updatedAt                DateTime  @updatedAt
-  tenant                   Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
-  sessions                 Session[]
+  id                           String    @id @default(cuid())
+  email                        String    @unique
+  password                     String
+  name                         String?
+  role                         UserRole  @default(ADMIN)
+  tenantId                     String
+  emailVerified                DateTime?
+  verificationToken            String?   @unique
+  verificationTokenExpires     DateTime?
+  passwordResetToken           String?   @unique
+  passwordResetTokenExpires    DateTime?
+  lastPasswordResetRequestAt   DateTime?
+  createdAt                    DateTime  @default(now())
+  updatedAt                    DateTime  @updatedAt
+  tenant                       Tenant    @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+  sessions                     Session[]
 
   @@index([tenantId])
 }

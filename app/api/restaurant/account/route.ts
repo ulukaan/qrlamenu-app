@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { cookies } from 'next/headers';
 import { validateSession, hashPassword } from '@/lib/auth';
+import { validatePassword } from '@/lib/password-policy';
 
 // GET: Fetch account settings
 export async function GET() {
@@ -92,8 +93,9 @@ export async function POST(request: Request) {
                 if (password !== confirmPassword) {
                     return NextResponse.json({ error: 'Şifreler eşleşmiyor' }, { status: 400 });
                 }
-                if (password.length < 4 || password.length > 20) {
-                    return NextResponse.json({ error: 'Şifre 4-20 karakter arası olmalı' }, { status: 400 });
+                const passwordCheck = validatePassword(password);
+                if (!passwordCheck.valid) {
+                    return NextResponse.json({ error: passwordCheck.error }, { status: 400 });
                 }
                 userUpdate.password = await hashPassword(password);
             }

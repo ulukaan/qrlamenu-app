@@ -1,17 +1,10 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import { prisma } from '@/lib/prisma';
-import { hashPassword } from '@/lib/auth';
-import { sendPasswordResetEmail } from '@/lib/mail';
+import { sendPasswordResetLinkEmail } from '@/lib/mail';
 
-/** Güvenli rastgele şifre üretir (okunaklı karakterler, 12 karakter) */
-function generateTemporaryPassword(): string {
-    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
-    const bytes = crypto.randomBytes(12);
-    let result = '';
-    for (let i = 0; i < 12; i++) result += chars[bytes[i]! % chars.length];
-    return result;
-}
+const RESET_LINK_VALIDITY_HOURS = 1;
+const RATE_LIMIT_HOURS = 1;
 
 export async function POST(request: Request) {
     try {
@@ -25,33 +18,51 @@ export async function POST(request: Request) {
             );
         }
 
-        // Sadece restoran kullanıcıları (User) — SuperAdmin şifremi unuttum ayrı akışta
         const user = await prisma.user.findUnique({
             where: { email },
             include: { tenant: true },
         });
 
-        // Güvenlik: E-posta bulunamasa bile aynı mesajı dön (kullanıcı enumeration engeli)
         if (!user) {
+            console.log('[forgot-password] Kayıtlı kullanıcı bulunamadı:', email);
             return NextResponse.json({
                 success: true,
                 message: 'Bu e-posta adresi kayıtlıysa, şifre sıfırlama bağlantısı gönderildi.',
             }, { status: 200 });
         }
 
-        const temporaryPassword = generateTemporaryPassword();
-        const hashedPassword = await hashPassword(temporaryPassword);
+        const now = new Date();
+        const rateLimitSince = new Date(now.getTime() - RATE_LIMIT_HOURS * 60 * 60 * 1000);
+        if (user.lastPasswordResetRequestAt && user.lastPasswordResetRequestAt > rateLimitSince) {
+            console.log('[forgot-password] Rate limit:', user.email);
+            return NextResponse.json({
+                success: true,
+                message: 'Bu e-posta adresi kayıtlıysa, şifre sıfırlama bağlantısı gönderildi.',
+            }, { status: 200 });
+        }
+
+        const token = crypto.randomBytes(32).toString('hex');
+        const expiresAt = new Date(now.getTime() + RESET_LINK_VALIDITY_HOURS * 60 * 60 * 1000);
 
         await prisma.user.update({
             where: { id: user.id },
-            data: { password: hashedPassword },
+            data: {
+                passwordResetToken: token,
+                passwordResetTokenExpires: expiresAt,
+                lastPasswordResetRequestAt: now,
+            },
         });
 
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrlamenu.com';
+        const resetLink = `${baseUrl}/sifre-sifirla?token=${token}`;
         const restaurantName = user.tenant?.name ?? 'Restoran';
-        const result = await sendPasswordResetEmail(user.email, temporaryPassword, restaurantName);
+
+        console.log('[forgot-password] E-posta gönderiliyor:', user.email);
+        const result = await sendPasswordResetLinkEmail(user.email, resetLink, restaurantName);
 
         if (!result.success) {
-            console.error('Şifremi unuttum e-postası gönderilemedi:', result.error);
+            const errMsg = result.error instanceof Error ? result.error.message : String(result.error);
+            console.error('[forgot-password] SMTP hatası:', errMsg);
             return NextResponse.json(
                 { error: 'E-posta gönderilemedi. Lütfen daha sonra tekrar deneyin veya destek ile iletişime geçin.' },
                 { status: 500 }
@@ -60,7 +71,7 @@ export async function POST(request: Request) {
 
         return NextResponse.json({
             success: true,
-            message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Gelen kutunuzu ve spam klasörünü kontrol edin.',
+            message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Link 1 saat geçerlidir. Gelen kutunuzu ve spam klasörünü kontrol edin.',
         }, { status: 200 });
     } catch (error) {
         console.error('Şifremi unuttum hatası:', error);

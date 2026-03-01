@@ -66,7 +66,7 @@ export async function POST(request: Request) {
         });
 
         // Hoş geldiniz e-postasını gönder (Arka planda çalışır, isteği bekletmez)
-        sendWelcomeEmail(data.ownerEmail || 'info@qrlamenu.com', unhashedPassword, data.name).catch(e => console.error('Welcome Email Error:', e));
+        sendWelcomeEmail(data.ownerEmail || 'info@qrlamenu.com', data.name, { tempPassword: unhashedPassword }).catch(e => console.error('Welcome Email Error:', e));
 
         // Trigger sidebar update for admin
         const { triggerEvent } = await import('@/lib/pusher');

@@ -7,16 +7,26 @@ import WhatsAppWidget from "@/components/WhatsAppWidget";
 import TrustLogos from "@/components/TrustLogos";
 import { motion, AnimatePresence } from "framer-motion";
 
+const VERIFY_ERROR_MESSAGES: Record<string, string> = {
+    MissingToken: "Doğrulama bağlantısı geçersiz (token eksik).",
+    InvalidToken: "Doğrulama bağlantısı geçersiz veya zaten kullanılmış.",
+    TokenExpired: "Doğrulama bağlantısının süresi doldu. Panelden 'Tekrar gönder' ile yeni link alabilirsiniz.",
+    VerificationFailed: "Doğrulama işlemi sırasında bir hata oluştu. Lütfen tekrar deneyin.",
+};
+
 function LoginForm() {
     const router = useRouter();
     const params = useSearchParams();
     const redirect = params.get("redirect") || "/dashboard";
+    const verified = params.get("verified") === "1";
+    const passwordReset = params.get("success") === "PasswordReset";
+    const verifyError = params.get("error") || null;
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [showPass, setShowPass] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
+    const [error, setError] = useState(verifyError ? VERIFY_ERROR_MESSAGES[verifyError] || "Doğrulama hatası." : "");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -87,6 +97,32 @@ function LoginForm() {
 
                     {/* Subtle internal glow */}
                     <div className="absolute -top-24 -right-24 w-48 h-48 bg-orange-50 rounded-full blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-500" />
+
+                    {/* E-posta doğrulama / Şifre sıfırlama sonucu */}
+                    <AnimatePresence mode="wait">
+                        {verified && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                className="mb-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[14px] font-semibold text-center flex items-center justify-center gap-2 relative z-10"
+                            >
+                                <ShieldCheck size={20} />
+                                E-postanız doğrulandı. Giriş yapabilirsiniz.
+                            </motion.div>
+                        )}
+                        {passwordReset && (
+                            <motion.div
+                                initial={{ opacity: 0, y: -8 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                className="mb-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-[14px] font-semibold text-center flex items-center justify-center gap-2 relative z-10"
+                            >
+                                <ShieldCheck size={20} />
+                                Şifreniz güncellendi. Giriş yapabilirsiniz.
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                     <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
                         <AnimatePresence mode="wait">

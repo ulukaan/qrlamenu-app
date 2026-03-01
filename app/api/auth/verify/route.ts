@@ -6,8 +6,11 @@ export async function GET(req: Request) {
         const { searchParams } = new URL(req.url);
         const token = searchParams.get('token');
 
+        const loginUrl = new URL('/login', req.url);
+
         if (!token) {
-            return NextResponse.redirect(new URL('/login?error=MissingToken', req.url));
+            loginUrl.searchParams.set('error', 'MissingToken');
+            return NextResponse.redirect(loginUrl);
         }
 
         const now = new Date();
@@ -31,16 +34,16 @@ export async function GET(req: Request) {
         }
 
         if (!userOrAdmin) {
-            // Token not found
-            return NextResponse.redirect(new URL('/dashboard?error=InvalidToken', req.url));
+            loginUrl.searchParams.set('error', 'InvalidToken');
+            return NextResponse.redirect(loginUrl);
         }
 
-        // Check token expiry
         if (
             !userOrAdmin.verificationTokenExpires ||
             new Date(userOrAdmin.verificationTokenExpires) < now
         ) {
-            return NextResponse.redirect(new URL('/dashboard?error=TokenExpired', req.url));
+            loginUrl.searchParams.set('error', 'TokenExpired');
+            return NextResponse.redirect(loginUrl);
         }
 
         // Mark as verified and remove token
@@ -64,11 +67,12 @@ export async function GET(req: Request) {
             });
         }
 
-        // Successfully verified, redirect to dashboard with success param
-        return NextResponse.redirect(new URL('/dashboard?success=EmailVerified', req.url));
-
+        loginUrl.searchParams.set('verified', '1');
+        return NextResponse.redirect(loginUrl);
     } catch (error) {
         console.error("Token verification error:", error);
-        return NextResponse.redirect(new URL('/dashboard?error=VerificationFailed', req.url));
+        const loginUrl = new URL('/login', req.url);
+        loginUrl.searchParams.set('error', 'VerificationFailed');
+        return NextResponse.redirect(loginUrl);
     }
 }

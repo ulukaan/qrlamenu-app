@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { hashPassword, createSession } from '@/lib/auth';
 import { sendWelcomeEmail } from '@/lib/mail';
+import { validatePassword } from '@/lib/password-policy';
 
 function slugify(text: string) {
     return text.toString().toLowerCase()
@@ -37,8 +38,9 @@ export async function POST(request: Request) {
         if (!restaurantName || !fullName || !email || !phone || !password) {
             return NextResponse.json({ error: 'Lütfen tüm alanları doldurun.' }, { status: 400 });
         }
-        if (password.length < 6) {
-            return NextResponse.json({ error: 'Şifreniz en az 6 karakter olmalıdır.' }, { status: 400 });
+        const passwordCheck = validatePassword(password);
+        if (!passwordCheck.valid) {
+            return NextResponse.json({ error: passwordCheck.error }, { status: 400 });
         }
 
         // Email kontrolü
@@ -102,8 +104,8 @@ export async function POST(request: Request) {
 
         const createdUser = newTenant.users[0];
 
-        // Hoş geldin e-postasını gönder (arka planda, yanıtı bekletmez)
-        sendWelcomeEmail(email, password, restaurantName).catch((e) =>
+        // Hoş geldin e-postası — şifre mailde yok (kullanıcı kendi belirledi)
+        sendWelcomeEmail(email, restaurantName).catch((e) =>
             console.error('Hoş geldin e-postası gönderilemedi:', e)
         );
 

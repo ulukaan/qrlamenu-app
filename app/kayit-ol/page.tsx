@@ -33,8 +33,12 @@ export default function SignUpPage() {
             return;
         }
 
-        if (formData.password.length < 6) {
-            setError("Şifreniz en az 6 karakter olmalıdır.");
+        if (formData.password.length < 8) {
+            setError("Şifre en az 8 karakter olmalı, büyük harf, küçük harf ve rakam içermelidir.");
+            return;
+        }
+        if (!/[A-Z]/.test(formData.password) || !/[a-z]/.test(formData.password) || !/[0-9]/.test(formData.password)) {
+            setError("Şifre en az bir büyük harf, bir küçük harf ve bir rakam içermelidir.");
             return;
         }
 
@@ -180,12 +184,17 @@ export default function SignUpPage() {
 
                                     <div className="group relative">
                                         <label className="text-[11px] font-bold text-slate-400 uppercase tracking-[0.2em] ml-1 mb-1.5 block group-focus-within:text-orange-600 transition-colors">Güvenli Parola</label>
+                                        <p className="text-[11px] text-slate-400 mb-1">En az 8 karakter, büyük harf, küçük harf ve rakam</p>
                                         <div className="relative">
                                             <input
                                                 type={showPass ? "text" : "password"}
-                                                required name="password" value={formData.password} onChange={handleChange}
+                                                required
+                                                minLength={8}
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleChange}
                                                 className="block w-full bg-white/60 rounded-2xl border border-slate-200/60 px-4 py-3.5 pr-12 text-slate-900 placeholder:text-slate-200 focus:bg-white focus:border-orange-500/50 focus:ring-4 focus:ring-orange-500/5 transition-all text-[16px] outline-none font-medium shadow-sm"
-                                                placeholder="Min. 6 Karakter"
+                                                placeholder="En az 8 karakter"
                                             />
                                             <button
                                                 type="button"

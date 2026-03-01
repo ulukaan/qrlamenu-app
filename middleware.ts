@@ -10,7 +10,8 @@ const PUBLIC_PREFIXES = [
     '/gizlilik',
     '/kullanim',
     '/kayit-ol',                    // Kayıt sayfası
-    '/sifremi-unuttum',             // Şifre sıfırlama
+    '/sifremi-unuttum',             // Şifre sıfırlama talebi
+    '/sifre-sifirla',               // Şifre sıfırlama (link ile gelen sayfa)
     '/r/',                          // Müşteri QR menüsü (prefix olarak)
     '/api/auth',                    // Auth endpoint'leri
     '/api/restaurant/orders',       // Müşteri sipariş
