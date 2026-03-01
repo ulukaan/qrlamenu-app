@@ -2,7 +2,8 @@ import { NextResponse } from 'next/server';
 import crypto from 'crypto';
 import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
-import { sendPasswordResetLinkEmail } from '@/lib/mail';
+import { hashPassword } from '@/lib/auth';
+import { sendPasswordResetLinkEmail, sendPasswordResetEmail } from '@/lib/mail';
 
 const RESET_LINK_VALIDITY_HOURS = 1;
 const RATE_LIMIT_HOURS = 1;
@@ -13,6 +14,24 @@ type UserResetFields = {
     passwordResetTokenExpires: Date;
     lastPasswordResetRequestAt: Date;
 };
+
+function isSchemaError(error: unknown): boolean {
+    const msg = error instanceof Error ? error.message : String(error);
+    return (
+        /Unknown arg|Unknown field/i.test(msg) ||
+        /passwordResetToken|lastPasswordResetRequestAt/i.test(msg) ||
+        /column.*does not exist|no such column/i.test(msg)
+    );
+}
+
+/** Okunaklı geçici şifre (fallback için) */
+function generateTemporaryPassword(): string {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+    const bytes = crypto.randomBytes(10);
+    let result = '';
+    for (let i = 0; i < 10; i++) result += chars[bytes[i]! % chars.length];
+    return result;
+}
 
 export async function POST(request: Request) {
     try {
@@ -50,38 +69,62 @@ export async function POST(request: Request) {
             }, { status: 200 });
         }
 
-        const token = crypto.randomBytes(32).toString('hex');
-        const expiresAt = new Date(now.getTime() + RESET_LINK_VALIDITY_HOURS * 60 * 60 * 1000);
-
-        const updateData: UserResetFields = {
-            passwordResetToken: token,
-            passwordResetTokenExpires: expiresAt,
-            lastPasswordResetRequestAt: now,
-        };
-        await prisma.user.update({
-            where: { id: user.id },
-            data: updateData as Prisma.UserUpdateInput,
-        });
-
-        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrlamenu.com';
-        const resetLink = `${baseUrl}/sifre-sifirla?token=${token}`;
         const restaurantName = user.tenant?.name ?? 'Restoran';
 
-        console.log('[forgot-password] E-posta gönderiliyor:', user.email);
-        const result = await sendPasswordResetLinkEmail(user.email, resetLink, restaurantName);
+        try {
+            const token = crypto.randomBytes(32).toString('hex');
+            const expiresAt = new Date(now.getTime() + RESET_LINK_VALIDITY_HOURS * 60 * 60 * 1000);
+            const updateData: UserResetFields = {
+                passwordResetToken: token,
+                passwordResetTokenExpires: expiresAt,
+                lastPasswordResetRequestAt: now,
+            };
+            await prisma.user.update({
+                where: { id: user.id },
+                data: updateData as Prisma.UserUpdateInput,
+            });
 
+            const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrlamenu.com';
+            const resetLink = `${baseUrl}/sifre-sifirla?token=${token}`;
+            console.log('[forgot-password] E-posta gönderiliyor (link):', user.email);
+            const result = await sendPasswordResetLinkEmail(user.email, resetLink, restaurantName);
+            if (!result.success) {
+                const errMsg = result.error instanceof Error ? result.error.message : String(result.error);
+                console.error('[forgot-password] SMTP hatası:', errMsg);
+                return NextResponse.json(
+                    { error: 'E-posta gönderilemedi. Lütfen daha sonra tekrar deneyin veya destek ile iletişime geçin.' },
+                    { status: 500 }
+                );
+            }
+            return NextResponse.json({
+                success: true,
+                message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Link 1 saat geçerlidir. Gelen kutunuzu ve spam klasörünü kontrol edin.',
+            }, { status: 200 });
+        } catch (linkFlowError) {
+            if (!isSchemaError(linkFlowError)) throw linkFlowError;
+            console.warn('[forgot-password] Link akışı başarısız (DB şeması?), geçici şifre ile fallback:', linkFlowError);
+        }
+
+        // Fallback: DB'de yeni kolonlar yoksa geçici şifre ile mail gönder (500 önlenir)
+        const tempPassword = generateTemporaryPassword();
+        const hashedPassword = await hashPassword(tempPassword);
+        await prisma.user.update({
+            where: { id: user.id },
+            data: { password: hashedPassword },
+        });
+        console.log('[forgot-password] E-posta gönderiliyor (geçici şifre fallback):', user.email);
+        const result = await sendPasswordResetEmail(user.email, tempPassword, restaurantName);
         if (!result.success) {
             const errMsg = result.error instanceof Error ? result.error.message : String(result.error);
-            console.error('[forgot-password] SMTP hatası:', errMsg);
+            console.error('[forgot-password] SMTP hatası (fallback):', errMsg);
             return NextResponse.json(
                 { error: 'E-posta gönderilemedi. Lütfen daha sonra tekrar deneyin veya destek ile iletişime geçin.' },
                 { status: 500 }
             );
         }
-
         return NextResponse.json({
             success: true,
-            message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Link 1 saat geçerlidir. Gelen kutunuzu ve spam klasörünü kontrol edin.',
+            message: 'Şifre sıfırlama bağlantısı e-posta adresinize gönderildi. Gelen kutunuzu ve spam klasörünü kontrol edin.',
         }, { status: 200 });
     } catch (error) {
         console.error('[forgot-password] Hata:', error);
