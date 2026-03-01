@@ -1,10 +1,18 @@
 import { NextResponse } from 'next/server';
 import crypto from 'crypto';
+import type { Prisma } from '@prisma/client';
 import { prisma } from '@/lib/prisma';
 import { sendPasswordResetLinkEmail } from '@/lib/mail';
 
 const RESET_LINK_VALIDITY_HOURS = 1;
 const RATE_LIMIT_HOURS = 1;
+
+/** Şema güncelken Prisma client tipleri gecikmeli güncellenebildiği için update verisi için tip. */
+type UserResetFields = {
+    passwordResetToken: string;
+    passwordResetTokenExpires: Date;
+    lastPasswordResetRequestAt: Date;
+};
 
 export async function POST(request: Request) {
     try {
@@ -33,7 +41,8 @@ export async function POST(request: Request) {
 
         const now = new Date();
         const rateLimitSince = new Date(now.getTime() - RATE_LIMIT_HOURS * 60 * 60 * 1000);
-        if (user.lastPasswordResetRequestAt && user.lastPasswordResetRequestAt > rateLimitSince) {
+        const lastRequest = (user as unknown as { lastPasswordResetRequestAt?: Date | null }).lastPasswordResetRequestAt;
+        if (lastRequest && lastRequest > rateLimitSince) {
             console.log('[forgot-password] Rate limit:', user.email);
             return NextResponse.json({
                 success: true,
@@ -44,13 +53,14 @@ export async function POST(request: Request) {
         const token = crypto.randomBytes(32).toString('hex');
         const expiresAt = new Date(now.getTime() + RESET_LINK_VALIDITY_HOURS * 60 * 60 * 1000);
 
+        const updateData: UserResetFields = {
+            passwordResetToken: token,
+            passwordResetTokenExpires: expiresAt,
+            lastPasswordResetRequestAt: now,
+        };
         await prisma.user.update({
             where: { id: user.id },
-            data: {
-                passwordResetToken: token,
-                passwordResetTokenExpires: expiresAt,
-                lastPasswordResetRequestAt: now,
-            },
+            data: updateData as Prisma.UserUpdateInput,
         });
 
         const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'https://qrlamenu.com';
